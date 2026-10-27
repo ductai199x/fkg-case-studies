@@ -1,0 +1,28 @@
+% Architecture of the proposal: the FKG record joined to four context layers by shared identifiers.
+\begin{tikzpicture}[
+  font=\footnotesize, >=Stealth,
+  box/.style={draw=black!55, rounded corners=3pt, minimum width=3.9cm, align=flush left, inner sep=5pt, text width=3.5cm, font=\footnotesize},
+  main/.style={box, draw=fkgblue, fill=fkgblue!10, line width=1pt},
+  head/.style={font=\small\bfseries},
+  std/.style={font=\footnotesize\color{black!65}},
+  key/.style={font=\footnotesize\color{black!70}, align=center},
+  link/.style={<->, draw=black!55, thick}]
+  \node[main, minimum height=4.6cm] (fkg) at (0,0) {{\small\bfseries FKG forensic record}\\[3pt]
+    Image and its regions\\[2pt] Source: camera model\\ or AI generator\\[2pt] Post-processing chain,\\ compression, content\\[2pt] Record and conclusion};
+  \node[box, minimum height=2.2cm] (dis) at (-5.6, 1.3) {{\small\bfseries Dissemination}\\ {\footnotesize\color{black!65}Activity Streams 2.0}\\[1pt] posts, accounts, times, platforms, reach};
+  \node[box, minimum height=2.2cm] (cla) at (-5.6,-1.3) {{\small\bfseries Claims, fact-checks}\\ {\footnotesize\color{black!65}schema.org Claim, ClaimReview}\\[1pt] what is said, about whom};
+  \node[box, minimum height=2.2cm] (cre) at ( 5.6, 1.3) {{\small\bfseries Credentials}\\ {\footnotesize\color{black!65}C2PA manifests, IPTC digital source type}\\[1pt] what the source asserts};
+  \node[box, minimum height=2.2cm] (pro) at ( 5.6,-1.3) {{\small\bfseries Analysis provenance}\\ {\footnotesize\color{black!65}PROV-O detector runs, versions, known issues}\\[1pt] which tool said what};
+  \draw[link] (dis.east) -- node[key, above] {image IRI} (dis.east -| fkg.west);
+  \draw[link] (cla.east) -- node[key, above] {post and\\entity IRI} (cla.east -| fkg.west);
+  \draw[link] (cre.west) -- node[key, above] {image IRI} (cre.west -| fkg.east);
+  \draw[link] (pro.west) -- node[key, above] {detector\\run} (pro.west -| fkg.east);
+  \begin{scope}[on background layer]
+    \node[draw=black!35, fill=black!3, rounded corners=5pt, inner sep=7pt, fit=(dis)(cla)(cre)(pro)(fkg), yshift=8pt, minimum height=5.6cm] (ds) {};
+  \end{scope}
+  \node[font=\footnotesize\bfseries, anchor=north west] at ([xshift=4pt,yshift=-3pt]ds.north west) {One RDF dataset; named graphs keep who asserted what apart};
+  \node[box, text width=6.4cm, minimum width=6.8cm, minimum height=1.5cm, anchor=north west] (q) at ([yshift=-0.9cm]ds.south west) {{\small\bfseries Investigative query}\\ SPARQL SELECT or CONSTRUCT, written by an analyst or by an LLM agent from the schema};
+  \node[box, text width=6.4cm, minimum width=6.8cm, minimum height=1.5cm, anchor=north east] (a) at ([yshift=-0.9cm]ds.south east) {{\small\bfseries Answer with an evidence trail}\\ every hit links back to the records, runs and posts that support it};
+  \draw[->, draw=black!55, thick] (q.north |- ds.south) -- (q.north);
+  \draw[->, draw=black!55, thick] (q.east) -- (a.west);
+\end{tikzpicture}

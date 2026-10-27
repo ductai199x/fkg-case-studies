@@ -1,0 +1,52 @@
+% Shared preamble for report.tex and summary.tex (pdflatex, single column, US letter).
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage[final]{microtype}
+\usepackage{amsmath, amssymb}
+\usepackage{textcomp}
+\usepackage{newunicodechar}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{·}{\textperiodcentered}
+\newunicodechar{⁷}{\textsuperscript{7}}
+\newunicodechar{⁸}{\textsuperscript{8}}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\definecolor{fkgblue}{HTML}{2F6FBF}
+\usepackage{booktabs, array, tabularx, xltabular, makecell}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\tabcolsep}{5pt}
+\usepackage{enumitem}
+\setlist{itemsep=2pt, topsep=4pt, leftmargin=1.4em}
+\usepackage[font=small, labelfont=bf, margin=0pt]{caption}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, fit, backgrounds, calc}
+\usepackage{listings}
+\lstdefinestyle{base}{basicstyle=\ttfamily\footnotesize, columns=fullflexible, keepspaces=true, breaklines=true,
+  breakatwhitespace=false, frame=single, rulecolor=\color{black!25},
+  framesep=4pt, xleftmargin=4pt, xrightmargin=4pt, aboveskip=6pt, belowskip=6pt, upquote=true, showstringspaces=false,
+  commentstyle=\color{black!55}}
+\lstdefinestyle{shell}{style=base, morecomment=[l]{\#}}
+\lstdefinestyle{sparql}{style=base, morecomment=[l]{\#}}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{colorlinks=true, linkcolor=fkgblue, urlcolor=fkgblue, citecolor=fkgblue}
+\usepackage{xurl}
+\newcommand{\code}[1]{\texttt{#1}}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{}{0pt}{}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\usepackage{tcolorbox}
+\newtcolorbox{notebox}{colback=fkgblue!5, colframe=fkgblue!60, boxrule=0.6pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt, fontupper=\small}
+\setcounter{topnumber}{3}\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.9}\renewcommand{\textfraction}{0.1}\renewcommand{\floatpagefraction}{0.75}
+\raggedbottom
+\setlength{\LTpre}{6pt}\setlength{\LTpost}{8pt}

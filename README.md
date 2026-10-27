@@ -36,6 +36,7 @@ truth, not how a detector performs on real media.
 | `agent_eval/` | 12 natural-language questions, the data notes agents read, every agent's answer set, scorer, scores (`preleak/` = scores before the leak fix) |
 | `coordinated-campaign/` | CS4: its own ontology copy and shapes (`ontology/`), simulator (`sim/`), queries, evaluation and stress tests (`eval/`), LLM investigator runs (`agent/`), results |
 | `scripts/make_figures.py`, `figures/` | the figures above, drawn from stored results |
+| `docs/` | LaTeX sources and PDFs of the full report and executive summary (`make docs`; vector figures from `scripts/make_paper_figures.py`) |
 
 CS1 to CS3 share one encoding (`_shared/`); CS4 was built in parallel with a slightly different one (per-producer named
 graphs, `ni:` image IRIs, `fkg:FullySynthetic`). The differences are listed in the report as open questions.

@@ -1,6 +1,6 @@
 # Reproduce every result in the report. Each target regenerates its synthetic world from a fixed seed, then runs and scores the queries.
 PY ?= uv run python
-.PHONY: all setup check validate cs1 cs2 cs3 catalog sweep audit agents campaign campaign-agents campaign-stress figures clean
+.PHONY: all setup check validate cs1 cs2 cs3 catalog sweep audit agents campaign campaign-agents campaign-stress figures docs clean
 all: validate cs1 cs2 cs3 catalog campaign figures
 
 setup:            ## create .venv with the locked dependencies (uv.lock)
@@ -37,6 +37,9 @@ check:            ## audit every SPARQL query and check the reported numbers (uv
 	uv run pytest -q
 figures:          ## redraw figures/ from the stored results
 	$(PY) scripts/make_figures.py
+docs:             ## vector figures plus docs/report.pdf and docs/summary.pdf (needs a TeX Live install with latexmk)
+	$(PY) scripts/make_paper_figures.py
+	cd docs && latexmk -pdf -interaction=nonstopmode report.tex summary.tex && latexmk -c report.tex summary.tex
 clean:
 	find . -name __pycache__ -prune -exec rm -rf {} +; rm -rf .stress_worlds
 help:
