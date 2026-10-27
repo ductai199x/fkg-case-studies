@@ -1,0 +1,29 @@
+# Q3.1 (cs3) - fact-checking triage queue, most shared first.
+# Reasoning / data checks:
+# - Claim-bearing post: object of schema:appearance of a schema:Claim; the claim's subject is schema:about.
+# - AI-altered + material: some reliable AI region of the attached image has ctx:depictsEntity equal to the
+#   claim's schema:about. Reliable = AI confidence >= 0.7 (org policy) and not the isolated false-positive
+#   pattern (non-object content, fkg:hasObjectedness false, at moderate confidence < 0.8; the 0.73 "sky" hits on
+#   img0081-0083, which in any case do not depict the claim entity). Low-confidence entity regions
+#   (0.637-0.679 on img0094-0096, two of them news-outlet posts) are excluded by policy.
+# - No disclosure of any kind: no ctx:hasDisclosure on the post and no content credential for the image whose
+#   ctx:digitalSourceType declares AI (trainedAlgorithmicMedia / compositeWithTrainedAlgorithmicMedia). Posts
+#   with a validly signed *digitalCapture* credential (img0184-0189) stay in the queue: their credential does
+#   not disclose AI (it even contradicts the forensics, see Q3.2).
+# - Not satire/art: poster's ctx:accountGenre is not ctx:SatireAccount / ctx:ArtAccount.
+# - v1.1 detector's known issue concerns only the generator label, not AI-vs-camera, so v1.1 posts are kept.
+# - Ordered by ctx:shareCount descending (post IRI as tie-breaker for a stable order).
+SELECT DISTINCT ?post ?shares WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; schema:about ?entity .
+  ?post as:attachment ?img ; ctx:shareCount ?shares .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s ; fkg:depict ?d .
+  ?s a fkg:AIGenerator ; fkg:hasConfidence ?conf .
+  ?d ctx:depictsEntity ?entity ; fkg:hasObjectedness ?obj .
+  FILTER(?conf >= 0.7 && !(?obj = false && ?conf < 0.8))
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?disclosure }
+  FILTER NOT EXISTS { ?cred ctx:credentialFor ?img ; ctx:digitalSourceType ?dst .
+                      FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) }
+  FILTER NOT EXISTS { ?post as:attributedTo ?acct . ?acct ctx:accountGenre ?genre .
+                      FILTER(?genre IN (ctx:SatireAccount, ctx:ArtAccount)) }
+}
+ORDER BY DESC(?shares) ?post

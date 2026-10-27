@@ -1,0 +1,24 @@
+# CQ2.2 (rule 1 of 2) Materialize candidate derivation edges. ?p can be the parent of ?c iff ?p is an earlier
+# instance in the same cluster and three forensic constraints hold:
+#  (i) monotonicity: every reliable AI region of ?p (generator + content) is still present in ?c;
+#  (ii) resolution never increases along a derivation (platforms downscale, never upscale);
+#  (iii) if ?c sits on a pass-through platform and introduces no new AI region, its camera-region JPEG quality
+#        must equal ?p's (pass-through keeps bytes).
+CONSTRUCT { ?c ctx:candidateParent ?p . ?c ctx:editCandidate ?pe } WHERE {
+  ?c ctx:inCluster ?cl ; ctx:pixelLongEdge ?ec . ?p ctx:inCluster ?cl ; ctx:pixelLongEdge ?ep . FILTER(?p != ?c)
+  ?pc as:attachment ?c ; as:published ?tc ; ctx:onPlatform ?plat . ?pp as:attachment ?p ; as:published ?tp . FILTER(?tp < ?tc)
+  FILTER(?ec <= ?ep)
+  FILTER NOT EXISTS {
+    ?p fkg:hasRegion ?rp . ?rp fkg:produced_by ?sp ; fkg:depict/fkg:hasObjectDescription ?d .
+    ?sp a fkg:AIGenerator ; fkg:hasGeneratorModel ?g ; fkg:hasConfidence ?cp . FILTER(?cp >= 0.7)
+    FILTER NOT EXISTS { ?c fkg:hasRegion ?rc . ?rc fkg:produced_by ?sc ; fkg:depict/fkg:hasObjectDescription ?d . ?sc a fkg:AIGenerator ; fkg:hasGeneratorModel ?g }
+  }
+  BIND(EXISTS { ?c fkg:hasRegion ?rn . ?rn fkg:produced_by ?sn ; fkg:depict/fkg:hasObjectDescription ?dn .
+                ?sn a fkg:AIGenerator ; fkg:hasGeneratorModel ?gn ; fkg:hasConfidence ?cn . FILTER(?cn >= 0.7)
+                FILTER NOT EXISTS { ?p fkg:hasRegion ?ro . ?ro fkg:produced_by ?so ; fkg:depict/fkg:hasObjectDescription ?dn . ?so a fkg:AIGenerator ; fkg:hasGeneratorModel ?gn } } AS ?introduces)
+  ?plat ctx:passthrough ?pt .
+  ?c fkg:hasRegion ?rcc . ?rcc fkg:produced_by/rdf:type fkg:CameraModel ; fkg:compress_by/fkg:hasCompressionFactor ?qc .
+  ?p fkg:hasRegion ?rpc . ?rpc fkg:produced_by/rdf:type fkg:CameraModel ; fkg:compress_by/fkg:hasCompressionFactor ?qp .
+  FILTER(!?pt || ?introduces || ABS(?qc - ?qp) < 0.02)
+  BIND(IF(?introduces, ?p, ?noEdit) AS ?pe)   # ?noEdit is never bound, so the edit triple is emitted only for edits
+}

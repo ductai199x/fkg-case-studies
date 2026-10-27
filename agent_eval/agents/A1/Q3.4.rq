@@ -1,0 +1,45 @@
+# Q3.4  Anachronistic generator attributions.
+# Reasoning: a post's image has an AI attribution (fkg:AIGenerator source on a region) linked to a ctx:GeneratorModel
+# (ctx:generatorEntity; fallback: match the fkg:hasGeneratorModel literal to the model entity's schema:name/rdfs:label)
+# whose schema:datePublished (release) is AFTER the post's as:published date - an impossible attribution, pointing to a
+# detector error or a misdated post. Only attributions the org would rely on are reported (confidence >= 0.7, or
+# 0.5-0.7 when heavily recompressed / corroborated by a near-duplicate); unreliable low-confidence attributions are
+# noise under the stated policy. Dates are compared on the calendar day (release may be xsd:date, published is
+# xsd:dateTime): published day strictly before release day. Same-day counts as released.
+SELECT DISTINCT ?post WHERE {
+  ?post as:attachment ?img ;
+        as:published ?pub .
+  ?img (fkg:hasRegion|^fkg:contained_in) ?rA .
+    ?rA fkg:produced_by ?srcA .
+    ?srcA a fkg:AIGenerator ; fkg:hasConfidence ?confA .
+    FILTER( ?confA >= "0.7"^^xsd:float
+         || ( ?confA >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clA . ?oA ctx:inCluster ?clA .
+          ?oA (fkg:hasRegion|^fkg:contained_in) ?orA .
+          ?orA fkg:produced_by ?osA .
+          ?osA a fkg:AIGenerator ; fkg:hasConfidence ?ocA .
+          FILTER(?oA != ?img && ?ocA >= "0.7"^^xsd:float)
+          ?rA fkg:depict ?ctA . ?orA fkg:depict ?octA .
+          { ?ctA fkg:hasObjectDescription ?dA . ?octA fkg:hasObjectDescription ?odA .
+            FILTER(LCASE(STR(?dA)) = LCASE(STR(?odA))) }
+          UNION
+          { ?ctA ctx:depictsEntity ?eA . ?octA ctx:depictsEntity ?eA . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kA .
+          { ?kA a fkg:ReCompressed } UNION { ?kA fkg:hasReCompressed true }
+          OPTIONAL { ?kA fkg:hasCompressionFactor ?fA }
+          FILTER(!BOUND(?fA) || ?fA <= "0.75"^^xsd:float)
+        } ) ) )
+  {
+    ?srcA ctx:generatorEntity ?model .
+  } UNION {
+    ?srcA fkg:hasGeneratorModel ?genLit .
+    ?model a ctx:GeneratorModel ;
+           (schema:name|rdfs:label) ?modelName .
+    FILTER(LCASE(STR(?modelName)) = LCASE(STR(?genLit)))
+  }
+  ?model schema:datePublished ?released .
+  FILTER(SUBSTR(STR(?pub), 1, 10) < SUBSTR(STR(?released), 1, 10))
+}

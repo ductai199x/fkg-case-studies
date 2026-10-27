@@ -1,0 +1,14 @@
+# 22: Per claim: matched posts, authors, young authors (<=60d old at first post), reposts received by matched posts, manipulated originals, derived copies -- is the tap-water rumor coordinated too?
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX schema: <https://schema.org/>
+SELECT ?claim (COUNT(DISTINCT ?n) AS ?posts) (COUNT(DISTINCT ?a) AS ?authors) (COUNT(DISTINCT ?young) AS ?youngAuthors) (COUNT(DISTINCT ?rp) AS ?repostsReceived) (COUNT(DISTINCT ?mo) AS ?manipOriginals) (COUNT(DISTINCT ?dc) AS ?derivedCopies) (MIN(?t) AS ?first) (MAX(?t) AS ?last) WHERE {
+ GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?n ; schema:text ?claim }
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a ; as:published ?t . ?a as:published ?cr . OPTIONAL { ?rp a as:Announce ; as:object ?n } OPTIONAL { ?n as:attachment ?i } }
+ { SELECT ?a (MIN(?tt) AS ?fp) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?p as:attributedTo ?a ; as:published ?tt } } GROUP BY ?a }
+ BIND(IF(?fp - ?cr <= "P60D"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>, ?a, ?u) AS ?young)
+ OPTIONAL { FILTER(BOUND(?i)) GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?i2 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } FILTER(?i2 = ?i)
+            BIND(IF(EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?i2 prov:wasDerivedFrom ?z } }, ?u, ?i2) AS ?mo)
+            BIND(IF(EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?i2 prov:wasDerivedFrom ?z2 } }, ?i2, ?u) AS ?dc) }
+} GROUP BY ?claim ORDER BY DESC(?youngAuthors)

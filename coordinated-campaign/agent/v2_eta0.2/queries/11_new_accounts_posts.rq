@@ -1,0 +1,16 @@
+# 11: every post by accounts created within 30 days before the first post in the dataset, with image verdict, generator(s) and op types (text-only posts shown with no image)
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?user ?t ?verdict ?gens ?chain ?rating (SUBSTR(STR(?content),1,60) AS ?txt) WHERE {
+  { SELECT (MIN(?t0) AS ?firstPost) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n0 a as:Note ; as:published ?t0 } } }
+  GRAPH <https://example.org/cc/graph/platform> { ?a a as:Person ; as:preferredUsername ?user ; as:published ?created .
+     ?note a as:Note ; as:attributedTo ?a ; as:published ?t ; as:content ?content . OPTIONAL { ?note as:attachment ?img } }
+  FILTER(?firstPost - ?created <= "P30D"^^xsd:dayTimeDuration)
+  OPTIONAL { { SELECT ?fimg ?verdict (GROUP_CONCAT(DISTINCT ?g;separator="|") AS ?gens) (GROUP_CONCAT(DISTINCT ?ot;separator=",") AS ?chain) WHERE {
+     GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?fimg ; fkg:hasConclusion/fkg:verdict ?v . BIND(STRAFTER(STR(?v),"#") AS ?verdict)
+       ?r fkg:contained_in ?fimg ; fkg:produced_by ?s . OPTIONAL { ?s fkg:hasGeneratorModel ?g0 } BIND(COALESCE(?g0,"camera") AS ?g)
+       ?r fkg:modified_by ?o . ?o a ?ott . BIND(STRAFTER(STR(?ott),"#") AS ?ot) } } GROUP BY ?fimg ?verdict } FILTER(?fimg = ?img) }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?note . ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:alternateName ?rating } }
+} ORDER BY ?user ?t

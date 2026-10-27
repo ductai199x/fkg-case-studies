@@ -1,0 +1,12 @@
+# CQ1.3 Classify every image-bearing claim post: synthetic, manipulated, recycled out of context, or
+# no problem found (authentic and consistent with the claimed event).
+SELECT ?post ?label WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?evStart . ?post as:attachment ?img .
+  BIND(EXISTS { ?img fkg:hasRegion/fkg:produced_by ?g . ?g a fkg:AIGenerator ; fkg:hasConfidence ?gc . FILTER(?gc >= 0.7) } AS ?hasAI)
+  BIND(EXISTS { ?img fkg:hasRegion/fkg:produced_by ?c . ?c a fkg:CameraModel } AS ?hasCam)
+  BIND(EXISTS { ?img fkg:hasRegion/fkg:produced_by/fkg:hasCameraModel ?cam ; ctx:inCluster ?cl .
+                ?prior ctx:inCluster ?cl ; fkg:hasRegion/fkg:produced_by/fkg:hasCameraModel ?cam .
+                ?pp as:attachment ?prior ; as:published ?pt . FILTER(?pt < ?evStart) } AS ?predates)
+  BIND(IF(?hasAI && !?hasCam, "synthetic", IF(?hasAI, "manipulated", IF(?predates, "recycled_ooc", "no_problem_found"))) AS ?label)
+}

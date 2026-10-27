@@ -1,0 +1,85 @@
+# Q2.3  Posts that credit a news outlet but show an AI insertion the outlet never published.
+# Reasoning: ?post ctx:creditsSource ?outlet where the outlet account has ctx:accountGenre ctx:NewsOutlet. The post's
+# image carries a genuine AI insertion (AI region >= 0.5 with a description that some cluster instance shows reliably,
+# excluding the isolated false region on the cluster's original - same rule as Q2.1). Because the crawl is open-world,
+# "the outlet never published it" is only asserted when we have POSITIVE evidence of what the outlet did publish: a post
+# by the outlet in the same cluster, of the same photograph (camera-model guard against merged clusters), and NO post by
+# the outlet whose image carries an AI region with that description (at any confidence).
+# Outlets credited but absent from the crawl are deliberately not reported (cannot distinguish "never published" from
+# "not crawled").
+SELECT DISTINCT ?post WHERE {
+  ?post ctx:creditsSource ?outlet ;
+        as:attachment ?img .
+  ?outlet ctx:accountGenre ctx:NewsOutlet .
+  ?img ctx:inCluster ?cl .
+  ?img (fkg:hasRegion|^fkg:contained_in) ?r .
+  ?r fkg:produced_by ?s .
+  ?s a fkg:AIGenerator ; fkg:hasConfidence ?c .
+  FILTER(?c >= "0.5"^^xsd:float)
+  ?r fkg:depict/fkg:hasObjectDescription ?d0 .
+  BIND(LCASE(STR(?d0)) AS ?desc)
+  FILTER EXISTS {
+      ?hiG ctx:inCluster ?cl .
+      ?hiG (fkg:hasRegion|^fkg:contained_in) ?rHG .
+    ?rHG fkg:produced_by ?srcHG .
+    ?srcHG a fkg:AIGenerator ; fkg:hasConfidence ?confHG .
+    FILTER( ?confHG >= "0.7"^^xsd:float
+         || ( ?confHG >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?hiG ctx:inCluster ?clHG . ?oHG ctx:inCluster ?clHG .
+          ?oHG (fkg:hasRegion|^fkg:contained_in) ?orHG .
+          ?orHG fkg:produced_by ?osHG .
+          ?osHG a fkg:AIGenerator ; fkg:hasConfidence ?ocHG .
+          FILTER(?oHG != ?hiG && ?ocHG >= "0.7"^^xsd:float)
+          ?rHG fkg:depict ?ctHG . ?orHG fkg:depict ?octHG .
+          { ?ctHG fkg:hasObjectDescription ?dHG . ?octHG fkg:hasObjectDescription ?odHG .
+            FILTER(LCASE(STR(?dHG)) = LCASE(STR(?odHG))) }
+          UNION
+          { ?ctHG ctx:depictsEntity ?eHG . ?octHG ctx:depictsEntity ?eHG . }
+        }
+                || EXISTS {
+          ?hiG (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kHG .
+          { ?kHG a fkg:ReCompressed } UNION { ?kHG fkg:hasReCompressed true }
+          OPTIONAL { ?kHG fkg:hasCompressionFactor ?fHG }
+          FILTER(!BOUND(?fHG) || ?fHG <= "0.75"^^xsd:float)
+        } ) ) )
+      ?rHG fkg:depict/fkg:hasObjectDescription ?hdG .
+      FILTER(LCASE(STR(?hdG)) = ?desc)
+    }
+    FILTER( EXISTS {
+              ?otG ctx:inCluster ?cl . FILTER(?otG != ?img)
+              ?otG (fkg:hasRegion|^fkg:contained_in) ?otrG . ?otrG fkg:produced_by ?otsG . ?otsG a fkg:AIGenerator .
+              ?otrG fkg:depict/fkg:hasObjectDescription ?otdG .
+              FILTER(LCASE(STR(?otdG)) = ?desc)
+            }
+         || EXISTS {
+              ?eaG ctx:inCluster ?cl . ?eapG as:attachment ?eaG ; as:published ?eatG .
+              ?impG as:attachment ?img ; as:published ?imtG .
+              FILTER(COALESCE(?eatG < ?imtG, STR(?eatG) < STR(?imtG)))
+              FILTER ( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xaWG . ?xaWG a fkg:CameraModel ; fkg:hasCameraModel ?xmaWG }
+       || NOT EXISTS { ?eaG (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xbWG . ?xbWG a fkg:CameraModel ; fkg:hasCameraModel ?xmbWG }
+       || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xcWG . ?xcWG a fkg:CameraModel ; fkg:hasCameraModel ?xmcWG .
+                   ?eaG (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xdWG . ?xdWG a fkg:CameraModel ; fkg:hasCameraModel ?xmdWG .
+                   FILTER(LCASE(STR(?xmcWG)) = LCASE(STR(?xmdWG))) } )
+            } )
+
+  # positive evidence of the outlet's own version of this photograph
+  ?outletPost as:attributedTo ?outlet ;
+              as:attachment ?oimg .
+  ?oimg ctx:inCluster ?cl .
+  FILTER ( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xaO . ?xaO a fkg:CameraModel ; fkg:hasCameraModel ?xmaO }
+       || NOT EXISTS { ?oimg (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xbO . ?xbO a fkg:CameraModel ; fkg:hasCameraModel ?xmbO }
+       || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xcO . ?xcO a fkg:CameraModel ; fkg:hasCameraModel ?xmcO .
+                   ?oimg (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xdO . ?xdO a fkg:CameraModel ; fkg:hasCameraModel ?xmdO .
+                   FILTER(LCASE(STR(?xmcO)) = LCASE(STR(?xmdO))) } )
+
+  # ... and the outlet never carried this insertion
+  FILTER NOT EXISTS {
+    ?op2 as:attributedTo ?outlet ;
+         as:attachment ?oimg2 .
+    ?oimg2 (fkg:hasRegion|^fkg:contained_in) ?or2 .
+    ?or2 fkg:produced_by ?os2 . ?os2 a fkg:AIGenerator .
+    ?or2 fkg:depict/fkg:hasObjectDescription ?od2 .
+    FILTER(LCASE(STR(?od2)) = ?desc)
+  }
+}

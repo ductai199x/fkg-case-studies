@@ -1,0 +1,10 @@
+# 19: For reposters of the 10 core accounts: reposts of core posts, how many within 6h, total reposts overall
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?ruser ?rc (COUNT(DISTINCT ?ann) AS ?nRepCore) (SUM(?isFast) AS ?nFast6h) (SAMPLE(?tot) AS ?nRepTotal) WHERE {
+  VALUES ?core { "lazy_patriot930" "mellow_ranger534" "true_river921" "quiet_atlas278" "north_ember718" "local_fox863" "lazy_pixel298" "true_ranger65" "real_atlas225" "blue_otter565" }
+  GRAPH <https://example.org/cc/graph/platform> {
+    ?a as:preferredUsername ?core . ?note as:attributedTo ?a ; as:published ?tn . ?ann a as:Announce ; as:object ?note ; as:actor ?r ; as:published ?tr .
+    ?r as:preferredUsername ?ruser ; as:published ?rc .
+    BIND(IF(?tr - ?tn <= "PT6H"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>, 1, 0) AS ?isFast)
+    { SELECT ?r (COUNT(?x) AS ?tot) WHERE { ?x a as:Announce ; as:actor ?r } GROUP BY ?r }
+  } } GROUP BY ?ruser ?rc ORDER BY DESC(?nRepCore)

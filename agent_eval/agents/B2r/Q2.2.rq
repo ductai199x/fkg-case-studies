@@ -1,0 +1,96 @@
+# Q2.2 (cs2) - immediate parent of every image instance except the first of its cluster.
+# Model of the spread (checked against the data): each copy is made from an earlier instance in the same cluster;
+# a transcoding platform downsizes to its ctx:maxLongEdge (recorded as fkg:Resampling with parameter scaleFactor)
+# and re-encodes at its quality; a pass-through platform (FringeBoard) keeps the file byte-for-byte; editor accounts
+# re-save the file with a new AI insertion. Hard constraints for a candidate parent P of child C:
+#  1. same ctx:inCluster, P published strictly before C;
+#  2. size: if C's regions carry scaleFactor f then P.pixelLongEdge * f = C.pixelLongEdge (+/-2 px; e.g. 0.4 =
+#     4000->1600, 0.32 = 4000->1280, 0.512 = 4000->2048, 0.781 = 2048->1600, 0.625 = 2048->1280, 0.8 = 1600->1280),
+#     otherwise P has the same pixelLongEdge;
+#  3. insertions are inherited, never removed: every genuine insertion of P is in C, and C carries no genuine
+#     insertion P lacks unless C is that insertion's first carrier (edit master). Genuine insertion = (cluster,
+#     generator, description) with an edit-master signature (see Q2.1); the cluster_5 MJ "fire" and cluster_1
+#     GPT "sky" detector false positives are ignored (false regions do not follow lineage);
+#  4. a pass-through child that is not an edit master is byte-identical to its parent, so the parent's effective
+#     last platform must equal the child's hidden source (Q2.4 profile match: quality within 0.01, size <= max);
+#     an instance's effective platform is its own platform if transcoding, else its hidden source ("none" for
+#     editor re-saves).
+# Result: every non-first instance has >= 1 feasible parent (the 8 cluster originals have none), but many have
+# several. Tie-break ("most likely"): the MOST RECENT feasible candidate. Checked by likelihood of the observed
+# transform constraints under parent-choice models: recency-weighted choice (decay ~1 day) fits better (~12 log-likelihood units over 233 children) than
+# uniform or shareCount-weighted choice, so temporal proximity is the best available prior. Remaining ambiguity is
+# inherent (e.g. NewsWire original vs. a byte-identical FringeBoard copy of it).
+# Implementation: genuine-insertion keys per image are computed in grouped subqueries; an image's insertion set is
+# compared via (count, min key, max key), exact for the <= 2 insertions an image can carry here. The child's
+# inherited set excludes the key it is first carrier (master) of. Verified identical (233/233) to a slower
+# formulation with nested EXISTS checks and to an independent recomputation of the constraints.
+SELECT ?child ?parent WHERE {
+  {
+    SELECT ?child (MAX(CONCAT(STR(?ppub), "|", STR(?par))) AS ?best) WHERE {
+      # ---- child attributes (incl. inherited genuine insertion set and master flag)
+      {
+        SELECT ?child ?cl ?cpub ?cpt ?cpx ?f ?ceff ?isMaster ?cn ?cmin ?cmax WHERE {
+          { SELECT ?child ?cl ?cpub ?cplat ?cpt ?cpx (AVG(?cf) AS ?q) (MAX(?sf) AS ?f) WHERE {
+              ?cpost as:attachment ?child ; as:published ?cpub ; ctx:onPlatform ?cplat . ?cplat ctx:passthrough ?cpt .
+              ?child ctx:inCluster ?cl ; ctx:pixelLongEdge ?cpx ; fkg:hasRegion ?r . ?r fkg:compress_by/fkg:hasCompressionFactor ?cf .
+              OPTIONAL { ?r fkg:modified_by/fkg:hasParameter ?pp . ?pp fkg:hasParameterName "scaleFactor" ; fkg:hasParameterValue ?sf }
+            } GROUP BY ?child ?cl ?cpub ?cplat ?cpt ?cpx }
+          OPTIONAL { FILTER(?cpt) ?src a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?tq ; ctx:maxLongEdge ?mx .
+                     FILTER(ABS(?q - ?tq) <= 0.01 && ?cpx <= ?mx) }
+          BIND(IF(?cpt, COALESCE(STR(?src), "none"), STR(?cplat)) AS ?ceff)
+          OPTIONAL { SELECT ?child (MAX(?first) AS ?isMaster)
+                            (SUM(IF(?first, 0, 1)) AS ?cn)
+                            (MIN(IF(?first, "~", ?key)) AS ?cmin) (MAX(IF(?first, "", ?key)) AS ?cmax) WHERE {
+              { SELECT ?cluster ?gm ?desc WHERE {
+                  ?m ctx:inCluster ?cluster ; fkg:hasRegion ?ra , ?rc .
+                  ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm . ?ra fkg:depict/fkg:hasObjectDescription ?desc .
+                  FILTER NOT EXISTS { ?ra fkg:compress_by ?ca . ?ca a fkg:ReCompressed }
+                  ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel . ?rc fkg:compress_by ?cc . ?cc a fkg:ReCompressed .
+                } GROUP BY ?cluster ?gm ?desc }
+              ?child ctx:inCluster ?cluster ; fkg:hasRegion ?gr . ?gr fkg:produced_by ?gs . ?gs a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm .
+              ?gr fkg:depict/fkg:hasObjectDescription ?desc . ?gp as:attachment ?child ; as:published ?gpub .
+              BIND(CONCAT(?gm, "/", ?desc) AS ?key)
+              BIND(NOT EXISTS {
+                ?e ctx:inCluster ?cluster ; fkg:hasRegion ?er . ?er fkg:produced_by ?es . ?es a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm .
+                ?er fkg:depict/fkg:hasObjectDescription ?desc . ?ep as:attachment ?e ; as:published ?epub . FILTER(?epub < ?gpub)
+              } AS ?first)
+            } GROUP BY ?child }
+        }
+      }
+      # ---- candidate parent attributes (incl. full genuine insertion set)
+      {
+        SELECT ?par ?pcl ?ppub ?ppx ?peff ?pn ?pmin ?pmax WHERE {
+          { SELECT ?par ?pcl ?ppub ?pplat ?ppt ?ppx (AVG(?cf2) AS ?q2) WHERE {
+              ?ppost as:attachment ?par ; as:published ?ppub ; ctx:onPlatform ?pplat . ?pplat ctx:passthrough ?ppt .
+              ?par ctx:inCluster ?pcl ; ctx:pixelLongEdge ?ppx ; fkg:hasRegion ?r2 . ?r2 fkg:compress_by/fkg:hasCompressionFactor ?cf2 .
+            } GROUP BY ?par ?pcl ?ppub ?pplat ?ppt ?ppx }
+          OPTIONAL { FILTER(?ppt) ?src2 a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?tq2 ; ctx:maxLongEdge ?mx2 .
+                     FILTER(ABS(?q2 - ?tq2) <= 0.01 && ?ppx <= ?mx2) }
+          BIND(IF(?ppt, COALESCE(STR(?src2), "none"), STR(?pplat)) AS ?peff)
+          OPTIONAL { SELECT ?par (COUNT(DISTINCT ?pkey) AS ?pn) (MIN(?pkey) AS ?pmin) (MAX(?pkey) AS ?pmax) WHERE {
+              { SELECT ?cluster ?gm ?desc WHERE {
+                  ?m ctx:inCluster ?cluster ; fkg:hasRegion ?ra , ?rc .
+                  ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm . ?ra fkg:depict/fkg:hasObjectDescription ?desc .
+                  FILTER NOT EXISTS { ?ra fkg:compress_by ?ca . ?ca a fkg:ReCompressed }
+                  ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel . ?rc fkg:compress_by ?cc . ?cc a fkg:ReCompressed .
+                } GROUP BY ?cluster ?gm ?desc }
+              ?par ctx:inCluster ?cluster ; fkg:hasRegion ?gr . ?gr fkg:produced_by ?gs . ?gs a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm .
+              ?gr fkg:depict/fkg:hasObjectDescription ?desc .
+              BIND(CONCAT(?gm, "/", ?desc) AS ?pkey)
+            } GROUP BY ?par }
+        }
+      }
+      # 1. same cluster, earlier
+      FILTER(?pcl = ?cl && ?ppub < ?cpub)
+      # 2. size consistent with recorded resampling
+      FILTER(IF(BOUND(?f), ABS(?ppx * ?f - ?cpx) <= 2, ?ppx = ?cpx))
+      # 3. parent's genuine insertion set == child's inherited (non-master) set
+      BIND(COALESCE(?cn, 0) AS ?cn0) BIND(COALESCE(?pn, 0) AS ?pn0)
+      FILTER(?cn0 = ?pn0 && (?cn0 = 0 || (?cmin = ?pmin && ?cmax = ?pmax)))
+      # 4. pass-through copy (not an edit master) keeps the parent's bytes
+      FILTER(!?cpt || COALESCE(?isMaster, false) || ?ceff = ?peff)
+    } GROUP BY ?child
+  }
+  BIND(IRI(STRAFTER(?best, "|")) AS ?parent)
+}
+ORDER BY ?child

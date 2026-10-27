@@ -1,0 +1,45 @@
+# SHACL shapes for the case-study worlds: FKG Appendix A cardinalities/axioms that are checkable on instance data,
+# plus context-extension constraints. Axiom 1 (pixel partition) and Axiom 4 (causal order) need pixel masks /
+# operation timing that the records do not carry, so they are not checked here.
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix fkg: <https://example.org/fkg#> .
+@prefix ctx: <https://example.org/fkg/context#> .
+@prefix as: <https://www.w3.org/ns/activitystreams#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+ctx:ImageShape a sh:NodeShape ; sh:targetClass fkg:Image ;
+  sh:property [ sh:path fkg:hasRegion ; sh:minCount 1 ; sh:class fkg:Region ] .          # Axiom 1 (existence part)
+ctx:RegionShape a sh:NodeShape ; sh:targetClass fkg:Region ;
+  sh:property [ sh:path fkg:contained_in ; sh:minCount 1 ; sh:maxCount 1 ; sh:class fkg:Image ] ;
+  sh:property [ sh:path fkg:produced_by ; sh:minCount 1 ; sh:maxCount 1 ] ;               # Axiom 2
+  sh:property [ sh:path fkg:compress_by ; sh:maxCount 1 ] ;
+  sh:property [ sh:path fkg:depict ; sh:minCount 1 ; sh:maxCount 1 ; sh:class fkg:Content ] .
+ctx:SourceShape a sh:NodeShape ; sh:targetObjectsOf fkg:produced_by ;
+  sh:xone ( [ sh:class fkg:CameraModel ] [ sh:class fkg:AIGenerator ] ) ;                  # Axiom 3 (with explicit typing)
+  sh:property [ sh:path fkg:hasConfidence ; sh:maxCount 1 ; sh:datatype xsd:float ; sh:minInclusive 0 ; sh:maxInclusive 1 ] .
+ctx:CameraShape a sh:NodeShape ; sh:targetClass fkg:CameraModel ;
+  sh:property [ sh:path fkg:hasCameraModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+ctx:GeneratorShape a sh:NodeShape ; sh:targetClass fkg:AIGenerator ;
+  sh:property [ sh:path fkg:hasGeneratorModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+ctx:LastCompressedShape a sh:NodeShape ; sh:targetClass fkg:LastCompressed ;
+  sh:property [ sh:path fkg:hasCompressionFactor ; sh:maxCount 1 ; sh:datatype xsd:float ; sh:minInclusive 0 ; sh:maxInclusive 1 ] .
+ctx:RecordShape a sh:NodeShape ; sh:targetClass fkg:ForensicRecord ;
+  sh:property [ sh:path fkg:aboutImage ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path prov:wasGeneratedBy ; sh:minCount 1 ] .
+ctx:ConclusionShape a sh:NodeShape ; sh:targetClass fkg:ForensicConclusion ;
+  sh:property [ sh:path fkg:verdict ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path fkg:evidenceStatus ; sh:minCount 1 ] .
+ctx:PostShape a sh:NodeShape ; sh:targetClass as:Note ;
+  sh:property [ sh:path as:attributedTo ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path as:published ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] ;
+  sh:property [ sh:path as:attachment ; sh:minCount 1 ; sh:class fkg:Image ] .
+ctx:ClaimShape a sh:NodeShape ; sh:targetClass schema:Claim ;
+  sh:property [ sh:path schema:appearance ; sh:minCount 1 ; sh:class as:Note ] .
+ctx:CredentialShape a sh:NodeShape ; sh:targetClass ctx:ContentCredential ;
+  sh:property [ sh:path ctx:credentialFor ; sh:minCount 1 ; sh:maxCount 1 ; sh:class fkg:Image ] ;
+  sh:property [ sh:path ctx:digitalSourceType ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+ctx:IntentShape a sh:NodeShape ; sh:targetClass ctx:IntentAssessment ;
+  sh:property [ sh:path fkg:evidenceStatus ; sh:hasValue fkg:Inferred ] ;                  # intent is never asserted as observed
+  sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ] .

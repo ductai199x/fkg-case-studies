@@ -1,0 +1,10 @@
+# 06: Daily volume of posts, image posts, manipulated-image posts and false-claim matches (timeline of the event)
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?day (COUNT(DISTINCT ?n) AS ?posts) (COUNT(DISTINCT ?i) AS ?imgPosts) (COUNT(DISTINCT ?mi) AS ?manip) (COUNT(DISTINCT ?fn) AS ?falseMatched) WHERE {
+ GRAPH <https://example.org/cc/graph/platform> { ?n a as:Note ; as:published ?t . OPTIONAL { ?n as:attachment ?i } }
+ BIND(SUBSTR(STR(?t),1,10) AS ?day)
+ OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?mi ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } FILTER(?mi = ?i) }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?fn0 . ?rev schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?rv FILTER(?rv <= 2) } FILTER(?fn0 = ?n) BIND(?fn0 AS ?fn) }
+} GROUP BY ?day ORDER BY ?day

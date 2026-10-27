@@ -1,0 +1,16 @@
+# UC13 Toolkit fingerprinting. CQ: which accounts apply the same generator + post-processing recipe
+# (ordered operation classes and parameter values) to AI-generated regions, across different images?
+# A shared recipe is a tool/technique signature (TTP) that can link operators.
+SELECT ?generator ?recipe (COUNT(DISTINCT ?account) AS ?accounts) (COUNT(DISTINCT ?img) AS ?images) WHERE {
+  # GROUP_CONCAT has no defined order in SPARQL 1.1, so each position is aggregated separately (up to 4 steps)
+  { SELECT ?region (CONCAT(MAX(IF(?pos = 0, ?step, "")), MAX(IF(?pos = 1, CONCAT(" > ", ?step), "")),
+                           MAX(IF(?pos = 2, CONCAT(" > ", ?step), "")), MAX(IF(?pos = 3, CONCAT(" > ", ?step), ""))) AS ?recipe) WHERE {
+      ?region fkg:modified_by ?op . ?op a ?cls . FILTER(?cls != fkg:NoPostProc)
+      OPTIONAL { ?op fkg:hasParameter [ fkg:hasParameterName ?pn ; fkg:hasParameterValue ?pv ] }
+      # position = number of predecessors in the hasNext chain, so the recipe is order-preserving
+      { SELECT ?op (COUNT(?pre) AS ?pos) WHERE { ?r2 fkg:modified_by ?op . OPTIONAL { ?pre fkg:hasNext+ ?op } } GROUP BY ?op }
+      BIND(CONCAT(STRAFTER(STR(?cls), "#"), COALESCE(CONCAT("(", ?pn, "=", STR(ROUND(?pv * 10) / 10), ")"), "")) AS ?step)
+    } GROUP BY ?region }
+  ?region fkg:produced_by ?src ; fkg:contained_in ?img . ?src a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7)
+  ?post as:attachment ?img ; as:attributedTo ?account .
+} GROUP BY ?generator ?recipe HAVING (COUNT(DISTINCT ?account) >= 2) ORDER BY DESC(?accounts)

@@ -1,0 +1,239 @@
+{
+ "CQ3.1 triage queue (integrated)": {
+  "tp": 31,
+  "fp": 0,
+  "fn": 3,
+  "precision": 1.0,
+  "recall": 0.912,
+  "f1": 0.954,
+  "precision_at_10": 1.0,
+  "seconds": 0.0,
+  "note": "3 material alterations have AI confidence < 0.7 (detector misses); recall ceiling 31/34"
+ },
+ "Baseline queue: forensic only": {
+  "tp": 31,
+  "fp": 78,
+  "fn": 3,
+  "precision": 0.284,
+  "recall": 0.912,
+  "f1": 0.434,
+  "seconds": 0.0
+ },
+ "Baseline queue: context only": {
+  "tp": 34,
+  "fp": 47,
+  "fn": 0,
+  "precision": 0.42,
+  "recall": 1.0,
+  "f1": 0.591,
+  "seconds": 0.0
+ },
+ "Ablation queue: no materiality join": {
+  "tp": 31,
+  "fp": 17,
+  "fn": 3,
+  "precision": 0.646,
+  "recall": 0.912,
+  "f1": 0.756,
+  "seconds": 0.0
+ },
+ "CQ3.2 credential contradictions": {
+  "tp": 8,
+  "fp": 0,
+  "fn": 0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "seconds": 0.0
+ },
+ "CQ3.3 intent rule (integrated)": {
+  "accuracy": 0.971,
+  "macro_f1": 0.97,
+  "per_class": {
+   "NoAlteration": {
+    "tp": 92,
+    "fp": 3,
+    "fn": 3,
+    "precision": 0.968,
+    "recall": 0.968,
+    "f1": 0.968
+   },
+   "UndisclosedMaterialAlteration": {
+    "tp": 31,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.912,
+    "f1": 0.954
+   },
+   "UndisclosedPeripheralAlteration": {
+    "tp": 20,
+    "fp": 3,
+    "fn": 0,
+    "precision": 0.87,
+    "recall": 1.0,
+    "f1": 0.93
+   },
+   "DisclosedSynthetic": {
+    "tp": 30,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "SatireOrArt": {
+    "tp": 25,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   }
+  },
+  "confusion": {
+   "DisclosedSynthetic -> DisclosedSynthetic": 30,
+   "NoAlteration -> NoAlteration": 92,
+   "NoAlteration -> UndisclosedPeripheralAlteration": 3,
+   "SatireOrArt -> SatireOrArt": 25,
+   "UndisclosedMaterialAlteration -> NoAlteration": 3,
+   "UndisclosedMaterialAlteration -> UndisclosedMaterialAlteration": 31,
+   "UndisclosedPeripheralAlteration -> UndisclosedPeripheralAlteration": 20
+  },
+  "triples": 1632,
+  "seconds": 0.09
+ },
+ "Baseline labels: forensic only": {
+  "accuracy": 0.603,
+  "macro_f1": 0.28,
+  "per_class": {
+   "NoAlteration": {
+    "tp": 92,
+    "fp": 3,
+    "fn": 3,
+    "precision": 0.968,
+    "recall": 0.968,
+    "f1": 0.968
+   },
+   "UndisclosedMaterialAlteration": {
+    "tp": 31,
+    "fp": 78,
+    "fn": 3,
+    "precision": 0.284,
+    "recall": 0.912,
+    "f1": 0.434
+   },
+   "UndisclosedPeripheralAlteration": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 20,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "DisclosedSynthetic": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 30,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "SatireOrArt": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 25,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   }
+  },
+  "confusion": {
+   "DisclosedSynthetic -> UndisclosedMaterialAlteration": 30,
+   "NoAlteration -> NoAlteration": 92,
+   "NoAlteration -> UndisclosedMaterialAlteration": 3,
+   "SatireOrArt -> UndisclosedMaterialAlteration": 25,
+   "UndisclosedMaterialAlteration -> NoAlteration": 3,
+   "UndisclosedMaterialAlteration -> UndisclosedMaterialAlteration": 31,
+   "UndisclosedPeripheralAlteration -> UndisclosedMaterialAlteration": 20
+  },
+  "seconds": 0.03
+ },
+ "Baseline labels: context only": {
+  "accuracy": 0.74,
+  "macro_f1": 0.67,
+  "per_class": {
+   "NoAlteration": {
+    "tp": 62,
+    "fp": 6,
+    "fn": 33,
+    "precision": 0.912,
+    "recall": 0.653,
+    "f1": 0.761
+   },
+   "UndisclosedMaterialAlteration": {
+    "tp": 34,
+    "fp": 47,
+    "fn": 0,
+    "precision": 0.42,
+    "recall": 1.0,
+    "f1": 0.591
+   },
+   "UndisclosedPeripheralAlteration": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 20,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "DisclosedSynthetic": {
+    "tp": 30,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "SatireOrArt": {
+    "tp": 25,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   }
+  },
+  "confusion": {
+   "DisclosedSynthetic -> DisclosedSynthetic": 30,
+   "NoAlteration -> NoAlteration": 62,
+   "NoAlteration -> UndisclosedMaterialAlteration": 33,
+   "SatireOrArt -> SatireOrArt": 25,
+   "UndisclosedMaterialAlteration -> UndisclosedMaterialAlteration": 34,
+   "UndisclosedPeripheralAlteration -> NoAlteration": 6,
+   "UndisclosedPeripheralAlteration -> UndisclosedMaterialAlteration": 14
+  },
+  "seconds": 0.0
+ },
+ "CQ3.4 anachronistic attributions": {
+  "tp": 3,
+  "fp": 0,
+  "fn": 0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "versions": [
+   "detector_1_1"
+  ],
+  "seconds": 0.0
+ },
+ "CQ3.5 retraction impact": {
+  "tp": 5,
+  "fp": 0,
+  "fn": 0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "seconds": 0.0
+ }
+}

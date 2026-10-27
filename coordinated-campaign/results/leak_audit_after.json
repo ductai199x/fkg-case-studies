@@ -1,0 +1,58 @@
+{
+ "r_all@eta0.0": {
+  "images": {
+   "n_regions": 0.586,
+   "any_obj_false": 0.586,
+   "descs": 0.819,
+   "compression": 0.604,
+   "synth_conf_bin": 0.615,
+   "cam_conf_bin": 0.559,
+   "n_ops": 0.761
+  },
+  "accounts": {
+   "posts": 0.843,
+   "imgs": 0.693,
+   "announces": 0.811,
+   "created_year": 0.934,
+   "username_len": 0.406,
+   "any_2region_img": 0.686,
+   "any_obj_false_img": 0.686,
+   "ann_index_decile": 0.679,
+   "first_word": 0.5
+  },
+  "n": {
+   "img_pos": 122,
+   "img": 4326,
+   "acct_pos": 36,
+   "acct": 1440
+  }
+ },
+ "r_all@eta0.3": {
+  "images": {
+   "n_regions": 0.572,
+   "any_obj_false": 0.572,
+   "descs": 0.824,
+   "compression": 0.604,
+   "synth_conf_bin": 0.522,
+   "cam_conf_bin": 0.544,
+   "n_ops": 0.726
+  },
+  "accounts": {
+   "posts": 0.843,
+   "imgs": 0.693,
+   "announces": 0.811,
+   "created_year": 0.934,
+   "username_len": 0.406,
+   "any_2region_img": 0.678,
+   "any_obj_false_img": 0.678,
+   "ann_index_decile": 0.679,
+   "first_word": 0.5
+  },
+  "n": {
+   "img_pos": 122,
+   "img": 4326,
+   "acct_pos": 36,
+   "acct": 1440
+  }
+ }
+}

@@ -1,0 +1,10 @@
+# 12: All notes of the young reposter accounts u20363c2b, u653f610d and u20efe1df (created in same window) with attachment verdicts and claim matches
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?a ?t ?content ?img ?verdict ?rating WHERE {
+ VALUES ?a { <https://example.org/cc/actor/u20363c2b> <https://example.org/cc/actor/u653f610d> <https://example.org/cc/actor/u20efe1df> }
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a ; as:published ?t ; as:content ?content . }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img } GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:verdict ?verdict } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n . ?rev schema:itemReviewed ?cl ; schema:reviewRating/schema:alternateName ?rating } }
+} ORDER BY ?a ?t

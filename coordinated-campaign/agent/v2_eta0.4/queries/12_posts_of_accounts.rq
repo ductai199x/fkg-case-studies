@@ -1,0 +1,12 @@
+# 12: Post content + image verdict/type + claim match for new-cohort amplifiers and for older accounts that used the 3-step chain
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?t ?content ?verdict ?claimShort WHERE {
+  VALUES ?user { "mellow_comet121" "local_patriot982" "rusty_harbor678" "wild_ranger624" "true_patriot7" "rusty_ranger777" "real_river38" "lazy_river856" }
+  GRAPH <https://example.org/cc/graph/platform> { ?a as:preferredUsername ?user . ?note as:attributedTo ?a ; as:published ?t ; as:content ?content . }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img } GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion ?c . ?c fkg:verdict ?v . OPTIONAL { ?c fkg:manipulationType ?mt } } }
+  BIND(COALESCE(STRAFTER(STR(?mt),"#"), STRAFTER(STR(?v),"#"), "-") AS ?verdict)
+  OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?note ; schema:text ?ct } }
+  BIND(SUBSTR(COALESCE(?ct,""),1,25) AS ?claimShort)
+} ORDER BY ?user ?t

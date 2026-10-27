@@ -1,0 +1,21 @@
+# Q3.5 (cs3) - fact-check reviews that rest on forensic records affected by a known detector defect.
+# Reasoning / data checks:
+# - Reference graph: ctx:KnownIssue issue_v1_1_generatorID, ctx:affectsVersion detector_1_1,
+#   ctx:affectsProperty "https://example.org/fkg#hasGeneratorModel"^^xsd:anyURI (a literal, so it is compared
+#   to predicate IRIs via STR()). Kept generic: any known issue / version / property.
+# - Each schema:ClaimReview has schema:isBasedOn a fkg:ForensicRecord; the record prov:wasGeneratedBy a
+#   ctx:DetectorRun that prov:wasAssociatedWith the detector version.
+# - "Containing the affected property": the record's own named graph (urn:g:fkg/<image>) holds at least one
+#   triple whose predicate is the affected property. v1.1 also produced camera-only records (img0199-0204) with no
+#   generator label - those are not affected; review0002-0052/0100-0108 rest on v1.0 records.
+# - The issue's publication date (2026-10-15) does not matter: the defect is a property of the version, so
+#   earlier records from it are equally suspect.
+SELECT DISTINCT ?review WHERE {
+  ?issue a ctx:KnownIssue ; ctx:affectsVersion ?version ; ctx:affectsProperty ?affected .
+  ?review a schema:ClaimReview ; schema:isBasedOn ?record .
+  ?record a fkg:ForensicRecord ; prov:wasGeneratedBy ?run .
+  ?run prov:wasAssociatedWith ?version .
+  GRAPH ?g { ?record a fkg:ForensicRecord . ?x ?p ?o . }
+  FILTER(STR(?p) = STR(?affected))
+}
+ORDER BY ?review

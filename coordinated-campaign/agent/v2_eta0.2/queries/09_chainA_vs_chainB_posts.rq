@@ -1,0 +1,13 @@
+# 09: for images carrying Resampling-first chains, classify by second op (Blur vs Sharpening) and list posting accounts, account age, claim rating matched, post text
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT DISTINCT ?sig ?user ?created ?t ?rating (SUBSTR(STR(?content),1,90) AS ?txt) WHERE {
+  GRAPH <https://example.org/cc/graph/forensics> {
+    ?r fkg:contained_in ?img ; fkg:modified_by ?o1 . ?o1 a fkg:Resampling . FILTER NOT EXISTS { ?px fkg:hasNext ?o1 }
+    ?o1 fkg:hasNext ?o2 . ?o2 a ?t2 . FILTER(?t2 IN (fkg:GaussianBlur, fkg:Sharpening))
+  }
+  BIND(STRAFTER(STR(?t2),"#") AS ?sig)
+  GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img ; as:attributedTo ?a ; as:published ?t ; as:content ?content . ?a as:preferredUsername ?user ; as:published ?created }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?note . ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:alternateName ?rating } }
+} ORDER BY ?sig ?t

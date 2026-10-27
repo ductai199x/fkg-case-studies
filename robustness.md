@@ -1,0 +1,151 @@
+Headline metric (mean ± std, [min, max]) over 5 seeds per noise rate eta (CS1, CS3) and 10 seeds (CS2). Synthetic worlds; ground truth planted.
+
+
+## cs1_recycled_media eta=0.05
+
+| query | headline | other |
+|---|---|---|
+| CQ1.1 recycled out-of-context (integrated) | 0.972 ± 0.016 [0.939, 0.98] | precision 0.984±0.020, recall 0.960±0.025 |
+| CQ1.2 earliest appearance | 1.000 ± 0.000 [1.0, 1.0] |  |
+| CQ1.3 classification (integrated) | 0.983 ± 0.009 [0.971, 0.992] | accuracy 0.982±0.009 |
+| Baseline: forensic layer only | 0.692 ± 0.008 [0.679, 0.7] | accuracy 0.754±0.007 |
+| Baseline: context layer only | 0.394 ± 0.008 [0.384, 0.408] | accuracy 0.672±0.013 |
+| Ablation: no camera-agreement guard | 0.959 ± 0.017 [0.943, 0.985] | accuracy 0.950±0.019 |
+| Ablation: no confidence threshold | 0.984 ± 0.011 [0.972, 1.0] | accuracy 0.983±0.011 |
+
+## cs1_recycled_media eta=0.1
+
+| query | headline | other |
+|---|---|---|
+| CQ1.1 recycled out-of-context (integrated) | 0.915 ± 0.059 [0.826, 0.98] | precision 0.964±0.044, recall 0.872±0.082 |
+| CQ1.2 earliest appearance | 1.000 ± 0.000 [1.0, 1.0] |  |
+| CQ1.3 classification (integrated) | 0.953 ± 0.021 [0.924, 0.982] | accuracy 0.952±0.021 |
+| Baseline: forensic layer only | 0.681 ± 0.009 [0.667, 0.69] | accuracy 0.745±0.007 |
+| Baseline: context layer only | 0.370 ± 0.015 [0.355, 0.396] | accuracy 0.638±0.022 |
+| Ablation: no camera-agreement guard | 0.919 ± 0.021 [0.898, 0.96] | accuracy 0.907±0.023 |
+| Ablation: no confidence threshold | 0.953 ± 0.013 [0.93, 0.972] | accuracy 0.948±0.015 |
+
+## cs1_recycled_media eta=0.2
+
+| query | headline | other |
+|---|---|---|
+| CQ1.1 recycled out-of-context (integrated) | 0.858 ± 0.059 [0.762, 0.941] | precision 0.916±0.055, recall 0.816±0.103 |
+| CQ1.2 earliest appearance | 1.000 ± 0.000 [1.0, 1.0] |  |
+| CQ1.3 classification (integrated) | 0.911 ± 0.029 [0.878, 0.95] | accuracy 0.916±0.026 |
+| Baseline: forensic layer only | 0.655 ± 0.027 [0.623, 0.69] | accuracy 0.722±0.024 |
+| Baseline: context layer only | 0.345 ± 0.016 [0.316, 0.361] | accuracy 0.598±0.020 |
+| Ablation: no camera-agreement guard | 0.861 ± 0.029 [0.825, 0.907] | accuracy 0.846±0.027 |
+| Ablation: no confidence threshold | 0.920 ± 0.018 [0.903, 0.953] | accuracy 0.914±0.021 |
+
+## cs1_recycled_media eta=0.3
+
+| query | headline | other |
+|---|---|---|
+| CQ1.1 recycled out-of-context (integrated) | 0.825 ± 0.052 [0.756, 0.894] | precision 0.905±0.041, recall 0.760±0.072 |
+| CQ1.2 earliest appearance | 1.000 ± 0.000 [1.0, 1.0] |  |
+| CQ1.3 classification (integrated) | 0.873 ± 0.031 [0.847, 0.933] | accuracy 0.882±0.028 |
+| Baseline: forensic layer only | 0.630 ± 0.025 [0.604, 0.669] | accuracy 0.701±0.019 |
+| Baseline: context layer only | 0.310 ± 0.011 [0.293, 0.326] | accuracy 0.539±0.016 |
+| Ablation: no camera-agreement guard | 0.795 ± 0.030 [0.769, 0.853] | accuracy 0.766±0.027 |
+| Ablation: no confidence threshold | 0.869 ± 0.035 [0.822, 0.929] | accuracy 0.855±0.040 |
+
+## cs1_recycled_media eta=0.5
+
+| query | headline | other |
+|---|---|---|
+| CQ1.1 recycled out-of-context (integrated) | 0.657 ± 0.043 [0.585, 0.698] | precision 0.816±0.069, recall 0.552±0.047 |
+| CQ1.2 earliest appearance | 1.000 ± 0.000 [1.0, 1.0] |  |
+| CQ1.3 classification (integrated) | 0.786 ± 0.033 [0.736, 0.816] | accuracy 0.804±0.023 |
+| Baseline: forensic layer only | 0.594 ± 0.027 [0.547, 0.626] | accuracy 0.672±0.020 |
+| Baseline: context layer only | 0.227 ± 0.011 [0.206, 0.239] | accuracy 0.400±0.020 |
+| Ablation: no camera-agreement guard | 0.670 ± 0.022 [0.633, 0.697] | accuracy 0.615±0.020 |
+| Ablation: no confidence threshold | 0.776 ± 0.014 [0.764, 0.803] | accuracy 0.751±0.015 |
+
+## cs2_lineage_laundering
+
+| query | headline | other |
+|---|---|---|
+| CQ2.1 patient zero (integrated, corroborated) | 0.560 ± 0.174 [0.25, 0.833] | precision 0.905±0.117, recall 0.438±0.176 |
+| Ablation: no corroboration | 0.878 ± 0.062 [0.769, 1.0] | precision 0.806±0.079, recall 0.969±0.062 |
+| Baseline: earliest post in cluster (context only) | 0.000 ± 0.000 [0.0, 0.0] | precision 0.000±0.000, recall 0.000±0.000 |
+| CQ2.2 lineage (FKG-constrained rule) | 0.994 ± 0.008 [0.979, 1.0] | exact_parent 0.297±0.021, edit_steps_f1 0.910±0.054 |
+| Baseline: lineage by timestamp only | 0.897 ± 0.043 [0.798, 0.95] | exact_parent 0.162±0.027 |
+| CQ2.3 laundering (integrated) | 0.960 ± 0.057 [0.8, 1.0] | precision 0.980±0.060, recall 0.941±0.060 |
+| Baseline: all outlet-crediting posts | 0.249 ± 0.085 [0.114, 0.39] | precision 0.145±0.056, recall 1.000±0.000 |
+| CQ2.4 hidden platform hop (integrated) | 1.000 ± 0.000 [1.0, 1.0] |  |
+| Baseline: previous post's platform | 0.322 ± 0.060 [0.224, 0.395] |  |
+
+## cs3_intent_materiality eta=0.05
+
+| query | headline | other |
+|---|---|---|
+| CQ3.1 triage queue (integrated) | 0.991 ± 0.007 [0.985, 1.0] | precision 1.000±0.000, recall 0.983±0.014 |
+| Baseline queue: forensic only | 0.458 ± 0.008 [0.452, 0.469] | precision 0.299±0.005, recall 0.983±0.014 |
+| Baseline queue: context only | 0.607 ± 0.000 [0.607, 0.607] | precision 0.436±0.000, recall 1.000±0.000 |
+| Ablation queue: no materiality join | 0.797 ± 0.018 [0.776, 0.829] | precision 0.671±0.020, recall 0.983±0.014 |
+| CQ3.2 credential contradictions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.3 intent rule (integrated) | 0.978 ± 0.006 [0.973, 0.988] | accuracy 0.980±0.006 |
+| Baseline labels: forensic only | 0.287 ± 0.003 [0.285, 0.292] | accuracy 0.607±0.006 |
+| Baseline labels: context only | 0.676 ± 0.000 [0.676, 0.676] | accuracy 0.751±0.000 |
+| CQ3.4 anachronistic attributions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.5 retraction impact | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+
+## cs3_intent_materiality eta=0.1
+
+| query | headline | other |
+|---|---|---|
+| CQ3.1 triage queue (integrated) | 0.979 ± 0.018 [0.954, 1.0] | precision 1.000±0.000, recall 0.959±0.035 |
+| Baseline queue: forensic only | 0.446 ± 0.014 [0.431, 0.466] | precision 0.291±0.009, recall 0.959±0.035 |
+| Baseline queue: context only | 0.607 ± 0.000 [0.607, 0.607] | precision 0.436±0.000, recall 1.000±0.000 |
+| Ablation queue: no materiality join | 0.785 ± 0.027 [0.756, 0.829] | precision 0.666±0.024, recall 0.959±0.035 |
+| CQ3.2 credential contradictions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.3 intent rule (integrated) | 0.969 ± 0.008 [0.959, 0.983] | accuracy 0.970±0.009 |
+| Baseline labels: forensic only | 0.283 ± 0.005 [0.278, 0.29] | accuracy 0.597±0.009 |
+| Baseline labels: context only | 0.676 ± 0.000 [0.676, 0.676] | accuracy 0.751±0.000 |
+| CQ3.4 anachronistic attributions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.5 retraction impact | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+
+## cs3_intent_materiality eta=0.2
+
+| query | headline | other |
+|---|---|---|
+| CQ3.1 triage queue (integrated) | 0.895 ± 0.041 [0.828, 0.938] | precision 1.000±0.000, recall 0.812±0.066 |
+| Baseline queue: forensic only | 0.373 ± 0.024 [0.345, 0.405] | precision 0.243±0.014, recall 0.812±0.066 |
+| Baseline queue: context only | 0.607 ± 0.000 [0.607, 0.607] | precision 0.436±0.000, recall 1.000±0.000 |
+| Ablation queue: no materiality join | 0.674 ± 0.036 [0.632, 0.732] | precision 0.578±0.028, recall 0.812±0.066 |
+| CQ3.2 credential contradictions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.3 intent rule (integrated) | 0.917 ± 0.014 [0.894, 0.936] | accuracy 0.913±0.017 |
+| Baseline labels: forensic only | 0.255 ± 0.007 [0.245, 0.266] | accuracy 0.540±0.017 |
+| Baseline labels: context only | 0.676 ± 0.000 [0.676, 0.676] | accuracy 0.751±0.000 |
+| CQ3.4 anachronistic attributions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.5 retraction impact | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+
+## cs3_intent_materiality eta=0.3
+
+| query | headline | other |
+|---|---|---|
+| CQ3.1 triage queue (integrated) | 0.881 ± 0.030 [0.847, 0.921] | precision 1.000±0.000, recall 0.788±0.047 |
+| Baseline queue: forensic only | 0.347 ± 0.015 [0.323, 0.367] | precision 0.223±0.010, recall 0.788±0.047 |
+| Baseline queue: context only | 0.607 ± 0.000 [0.607, 0.607] | precision 0.436±0.000, recall 1.000±0.000 |
+| Ablation queue: no materiality join | 0.629 ± 0.023 [0.602, 0.659] | precision 0.524±0.021, recall 0.788±0.047 |
+| CQ3.2 credential contradictions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.3 intent rule (integrated) | 0.883 ± 0.013 [0.866, 0.904] | accuracy 0.872±0.017 |
+| Baseline labels: forensic only | 0.240 ± 0.006 [0.23, 0.247] | accuracy 0.498±0.017 |
+| Baseline labels: context only | 0.676 ± 0.000 [0.676, 0.676] | accuracy 0.751±0.000 |
+| CQ3.4 anachronistic attributions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.5 retraction impact | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+
+## cs3_intent_materiality eta=0.5
+
+| query | headline | other |
+|---|---|---|
+| CQ3.1 triage queue (integrated) | 0.798 ± 0.028 [0.764, 0.847] | precision 1.000±0.000, recall 0.665±0.040 |
+| Baseline queue: forensic only | 0.280 ± 0.012 [0.268, 0.301] | precision 0.177±0.007, recall 0.665±0.040 |
+| Baseline queue: context only | 0.607 ± 0.000 [0.607, 0.607] | precision 0.436±0.000, recall 1.000±0.000 |
+| Ablation queue: no materiality join | 0.526 ± 0.023 [0.494, 0.556] | precision 0.435±0.020, recall 0.665±0.040 |
+| CQ3.2 credential contradictions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.3 intent rule (integrated) | 0.825 ± 0.008 [0.812, 0.835] | accuracy 0.796±0.013 |
+| Baseline labels: forensic only | 0.206 ± 0.005 [0.198, 0.212] | accuracy 0.423±0.013 |
+| Baseline labels: context only | 0.676 ± 0.000 [0.676, 0.676] | accuracy 0.751±0.000 |
+| CQ3.4 anachronistic attributions | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |
+| CQ3.5 retraction impact | 1.000 ± 0.000 [1.0, 1.0] | precision 1.000±0.000, recall 1.000±0.000 |

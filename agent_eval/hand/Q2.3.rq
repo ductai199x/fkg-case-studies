@@ -1,0 +1,12 @@
+# CQ2.3 Which posts credit a news outlet as their source while showing a corroborated AI-generated region that
+# never appears in any instance that outlet itself posted in the cluster?
+SELECT DISTINCT ?post WHERE {
+  ?post ctx:creditsSource ?outlet ; as:attachment ?img . ?img ctx:inCluster ?cl ; fkg:hasRegion ?r .
+  ?r fkg:produced_by ?s ; fkg:depict/fkg:hasObjectDescription ?d . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?c . FILTER(?c >= 0.5)
+  { SELECT ?cl ?generator ?d WHERE {
+      ?x ctx:inCluster ?cl ; fkg:hasRegion ?rx . ?rx fkg:produced_by ?sx ; fkg:depict/fkg:hasObjectDescription ?d .
+      ?sx a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?cx . FILTER(?cx >= 0.7)
+    } GROUP BY ?cl ?generator ?d HAVING (COUNT(DISTINCT ?x) >= 3) }
+  FILTER NOT EXISTS { ?op as:attributedTo ?outlet ; as:attachment ?oi . ?oi ctx:inCluster ?cl ; fkg:hasRegion/fkg:produced_by ?os .
+                      ?os a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator }
+}

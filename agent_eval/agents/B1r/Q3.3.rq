@@ -1,0 +1,34 @@
+# Q3.3 (cs3) One presentation category per image post (every as:Note with an attachment; 204 posts).
+# Precedence as asked: NoAlteration > DisclosedSynthetic > SatireOrArt > UndisclosedMaterialAlteration >
+# UndisclosedPeripheralAlteration.
+# Reasoning / checks against the data:
+# - "Reliable AI region" = region produced_by fkg:AIGenerator with fkg:hasConfidence >= 0.7 (org policy). In cs3
+#   every region is compressed at q=0.85 (no heavy recompression), so the three sub-0.7 regions (0.637-0.679) are
+#   not recompression-degraded genuine edits; those posts fall in NoAlteration. Detector v1.1's known issue
+#   concerns the generator name only ("AI vs camera is unaffected"), so v1.1 AI regions still count.
+# - Disclosure = any ctx:hasDisclosure (PlatformAILabel / CaptionAIDisclosure) OR a content credential for the
+#   image whose ctx:digitalSourceType is an AI IPTC code (trainedAlgorithmicMedia, compositeWithTrainedAlgorithmicMedia,
+#   also algorithmicMedia / compositeSynthetic for robustness). A digitalCapture credential is NOT a disclosure.
+# - Satire/art = poster's ctx:accountGenre is ctx:SatireAccount or ctx:ArtAccount.
+# - Material = a reliable AI region's content ctx:depictsEntity equals the schema:about of a claim on the post
+#   (fallback: the AI content's description equals the entity's rdfs:label, since the crawl is open-world; checked:
+#   every entity-named content node does carry ctx:depictsEntity, so the fallback changes nothing here).
+#   AI regions showing "sky"/"foliage"/"background crowd"/"street sign" next to the claimed entity are peripheral.
+SELECT DISTINCT ?post ?category WHERE {
+  ?post a as:Note ; as:attachment ?img ; as:attributedTo ?acct .
+  BIND(EXISTS { ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?cf . FILTER(?cf >= 0.7) } AS ?ai)
+  BIND(EXISTS { ?post ctx:hasDisclosure ?dis } ||
+       EXISTS { ?cc ctx:credentialFor ?img ; ctx:digitalSourceType ?dst .
+                FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia,
+                                iptc:algorithmicMedia, iptc:compositeSynthetic)) } AS ?disclosed)
+  BIND(EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) } AS ?satart)
+  BIND(EXISTS { ?claim schema:appearance ?post ; schema:about ?ent .
+                ?r2 fkg:contained_in ?img ; fkg:produced_by ?s2 ; fkg:depict ?d2 .
+                ?s2 a fkg:AIGenerator ; fkg:hasConfidence ?cf2 . FILTER(?cf2 >= 0.7)
+                { ?d2 ctx:depictsEntity ?ent } UNION { ?d2 fkg:hasObjectDescription ?desc2 . ?ent rdfs:label ?lab . FILTER(STR(?desc2) = STR(?lab)) } } AS ?material)
+  BIND(IF(!?ai, ctx:NoAlteration,
+       IF(?disclosed, ctx:DisclosedSynthetic,
+       IF(?satart, ctx:SatireOrArt,
+       IF(?material, ctx:UndisclosedMaterialAlteration, ctx:UndisclosedPeripheralAlteration)))) AS ?category)
+}
+ORDER BY ?post

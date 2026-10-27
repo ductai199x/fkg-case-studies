@@ -1,0 +1,32 @@
+# 25: sensitivity - detector criterion B (new-account in-group amplification) alone
+# detector.rq - accounts in a coordinated effort that uses manipulated media to push false claims.
+# An account is flagged if it meets criterion A (shared forensic TTP fingerprint) OR criterion B (new-account in-group amplification).
+#  A: >= 2 of its own posts are matched to a claim rated in the bottom quarter of the rating scale AND carry an image the FKG
+#     calls Manipulated, and the post-processing of those images shares >= 2 parameterised operation types (same parameter
+#     name, values within 15% relative) with such false-claim manipulated images posted by >= 3 OTHER accounts.
+#  B: the account was created <= 30 days before the first post in the dataset, made >= 3 reposts, >= 80% of its reposts target
+#     posts by other accounts created in that same window, and >= 2 of the posts it authored or reposted are matched to
+#     bottom-quarter-rated claims.
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?account WHERE {
+  {
+    # ---------- Criterion B: freshly created accounts that amplify each other and false claims ----------
+    SELECT ?account WHERE {
+      { SELECT (MIN(?t0) AS ?firstPost) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n0 a as:Note ; as:published ?t0 } } }
+      GRAPH <https://example.org/cc/graph/platform> { ?account a as:Person ; as:published ?created .
+        ?ann a as:Announce ; as:actor ?account ; as:object ?rnote . ?rnote as:attributedTo ?author . ?author as:published ?authorCreated }
+      FILTER(?firstPost - ?created <= "P30D"^^xsd:dayTimeDuration && ?author != ?account)
+      BIND(IF(?firstPost - ?authorCreated <= "P30D"^^xsd:dayTimeDuration, 1, 0) AS ?inGroup)
+      { SELECT ?account (COUNT(DISTINCT ?fn) AS ?nFalseTouched) WHERE {
+          GRAPH <https://example.org/cc/graph/platform> { { ?fn as:attributedTo ?account } UNION { ?fa a as:Announce ; as:actor ?account ; as:object ?fn } }
+          GRAPH <https://example.org/cc/graph/factcheck> { ?fc schema:appearance ?fn . ?frv schema:itemReviewed ?fc ; schema:reviewRating ?frt .
+            ?frt schema:ratingValue ?fv ; schema:worstRating ?fw ; schema:bestRating ?fb . FILTER(?fv <= ?fw + (?fb - ?fw) * 0.25) }
+        } GROUP BY ?account }
+      FILTER(?nFalseTouched >= 2)
+    } GROUP BY ?account HAVING (COUNT(DISTINCT ?ann) >= 3 && SUM(?inGroup) >= 0.8 * COUNT(DISTINCT ?ann))
+  }
+}
+ORDER BY ?account

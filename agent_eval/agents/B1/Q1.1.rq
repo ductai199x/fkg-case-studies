@@ -1,0 +1,29 @@
+# Q1.1 (cs1) Recycled out-of-context photographs.
+# Reasoning / data checks:
+# - Each post has exactly one attachment, one claim, one asserted event (checked cardinalities).
+# - "Camera-authentic, no reliable AI region": the image has a fkg:CameraModel region and NO fkg:AIGenerator region
+#   with confidence >= 0.7 (org policy). The detector's own fkg:verdict is NOT used: clusters 1-4 carry isolated
+#   "texture patch" AI regions at ~0.56 (verdict Manipulated) which are the known false-positive pattern.
+# - "Same photograph": perceptual clusters sometimes merge two different photos of a similar scene (e.g. cluster_5:
+#   Canon EOS R6 in 2021 vs Galaxy S24 in 2026; cluster_6, cluster_7 similar). So an earlier copy only counts if it is in
+#   the same cluster AND carries a camera region attributed to the same camera model.
+# - Recycled = some copy of that photograph was published strictly before the claimed event's schema:startDate.
+#   Posts claiming older events (storm2019, rally2021, flood2023) whose earliest copy appears after the event start are
+#   correctly NOT flagged.
+SELECT DISTINCT ?post WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?start .
+  ?post as:attachment ?img .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by ?cs . ?cs a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+  FILTER NOT EXISTS {
+    ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?as . ?as a fkg:AIGenerator ; fkg:hasConfidence ?ac .
+    FILTER(?ac >= 0.7)
+  }
+  ?img ctx:inCluster ?cl .
+  ?img2 ctx:inCluster ?cl .
+  FILTER(?img2 != ?img)
+  ?img2 fkg:hasRegion ?r2 . ?r2 fkg:produced_by ?cs2 . ?cs2 a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+  ?post2 as:attachment ?img2 ; as:published ?pub2 .
+  FILTER(?pub2 < ?start)
+}
+ORDER BY ?post

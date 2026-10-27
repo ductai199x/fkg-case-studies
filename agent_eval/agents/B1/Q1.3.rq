@@ -1,0 +1,29 @@
+# Q1.3 (cs1) One label per claim-bearing post (105 claims, one post each, one attachment each - checked).
+# Precedence: synthetic > manipulated > recycled_ooc > no_problem_found.
+# - "Reliable" AI region = fkg:AIGenerator source with fkg:hasConfidence >= 0.7 (org policy). The detector verdict
+#   is not trusted directly: clusters 1-4 have verdict fkg:Manipulated because of isolated "texture patch" AI regions
+#   at ~0.555-0.577 (known false-positive pattern) -> treated as camera-authentic.
+#   img0201 (0.677) and img0204 (0.67) have blurred "floodwater"/"crowd" AI regions just under 0.7 on images that are
+#   NOT heavily recompressed (compression factor = platform quality, no ReCompressed flag), so the recompression
+#   excuse does not apply; by policy they are not labelled manipulated (they fall to no_problem_found). Borderline.
+# - synthetic: no fkg:CameraModel region at all and a reliable AI region (all synthetic images here are single-region,
+#   0.75-0.98, verdict ctx:SyntheticImage).
+# - manipulated: a camera region plus a reliable AI region.
+# - recycled_ooc: same logic as Q1.1 (same cluster AND same camera model, published before the claimed event start).
+SELECT DISTINCT ?post ?label WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?start .
+  ?post as:attachment ?img .
+  BIND(EXISTS { ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?as . ?as a fkg:AIGenerator ; fkg:hasConfidence ?ac . FILTER(?ac >= 0.7) } AS ?reliableAI)
+  BIND(EXISTS { ?img fkg:hasRegion ?rc . ?rc fkg:produced_by ?csc . ?csc a fkg:CameraModel } AS ?hasCam)
+  BIND(EXISTS {
+      ?img fkg:hasRegion ?r . ?r fkg:produced_by ?cs . ?cs a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+      ?img ctx:inCluster ?cl . ?img2 ctx:inCluster ?cl . FILTER(?img2 != ?img)
+      ?img2 fkg:hasRegion ?r2 . ?r2 fkg:produced_by ?cs2 . ?cs2 a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+      ?post2 as:attachment ?img2 ; as:published ?pub2 . FILTER(?pub2 < ?start)
+  } AS ?earlierCopy)
+  BIND(IF(?reliableAI && !?hasCam, "synthetic",
+       IF(?reliableAI && ?hasCam, "manipulated",
+       IF(?hasCam && ?earlierCopy, "recycled_ooc", "no_problem_found"))) AS ?label)
+}
+ORDER BY ?post

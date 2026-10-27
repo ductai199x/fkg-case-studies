@@ -1,0 +1,7 @@
+# Baseline (forensic layer only, per attached image): label from FKG verdict-style logic; no claim/time context.
+SELECT ?post ?label WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post . ?post as:attachment ?img .
+  BIND(EXISTS { ?img fkg:hasRegion/fkg:produced_by ?g . ?g a fkg:AIGenerator ; fkg:hasConfidence ?gc . FILTER(?gc >= 0.7) } AS ?hasAI)
+  BIND(EXISTS { ?img fkg:hasRegion/fkg:produced_by ?c . ?c a fkg:CameraModel } AS ?hasCam)
+  BIND(IF(?hasAI && !?hasCam, "synthetic", IF(?hasAI, "manipulated", "no_problem_found")) AS ?label)
+}

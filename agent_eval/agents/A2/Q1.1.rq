@@ -1,0 +1,54 @@
+# Q1.1 - recycled out-of-context photographs (cs1).
+# Reasoning: a claim (schema:appearance -> post) asserts the post's image depicts an event; the image is
+# camera-authentic (camera-sourced regions, no RELIABLE AI region) and the same photograph was published
+# by some other post strictly before the event's schema:startDate.
+# Assumptions / caveats handled:
+# - "Reliable AI region" = AI attribution with confidence >= 0.7 (org policy). A region at 0.45-0.7 is
+#   also treated as reliable when another member of the same near-duplicate cluster shows an AI region
+#   with the same content (heavy recompression lowers a genuine region's confidence; the detector's
+#   false regions are isolated, i.e. not repeated across copies).
+# - Regions may be linked either way (fkg:hasRegion or fkg:contained_in); no inference, so both are matched.
+# - Near-duplicate clusters can merge two different photographs of a similar scene, so an earlier
+#   cluster member only counts as "the same photograph" if, when both carry camera-model attributions,
+#   they share a camera model.
+# - startDate may be xsd:date or xsd:dateTime; it is normalised to midnight UTC for dates. If a typed
+#   dateTime comparison is undefined (timezone mismatch) we fall back to lexical comparison.
+SELECT DISTINCT ?post WHERE {
+    ?claim_a schema:appearance ?post ;
+           ctx:assertsDepictionOf ?event_a .
+    ?event_a schema:startDate ?start_a .
+    BIND(IF(DATATYPE(?start_a) = xsd:date,
+            xsd:dateTime(CONCAT(SUBSTR(STR(?start_a), 1, 10), "T00:00:00Z")),
+            xsd:dateTime(STR(?start_a))) AS ?startDT_a)
+    ?post as:attachment ?img .
+    # camera-authentic: has camera-sourced regions and no reliable AI region
+    FILTER EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?cam_ac . ?cam_ac a fkg:CameraModel }
+    FILTER NOT EXISTS {
+    ?img (fkg:hasRegion|^fkg:contained_in) ?ar_a .
+    ?ar_a fkg:produced_by ?as_a .
+    ?as_a a fkg:AIGenerator ;
+        fkg:hasConfidence ?ac_a .
+    FILTER( xsd:double(STR(?ac_a)) >= 0.7
+         || ( xsd:double(STR(?ac_a)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_ar . ?o_ar ctx:inCluster ?k_ar . FILTER(?o_ar != ?img)
+                ?o_ar (fkg:hasRegion|^fkg:contained_in) ?r2_ar .
+                ?r2_ar fkg:produced_by ?s2_ar .
+                ?s2_ar a fkg:AIGenerator ; fkg:hasConfidence ?c2_ar .
+                FILTER(xsd:double(STR(?c2_ar)) >= 0.45)
+                ?ar_a fkg:depict ?d1_ar . ?r2_ar fkg:depict ?d2_ar .
+                { ?d1_ar fkg:hasObjectDescription ?t1_ar . ?d2_ar fkg:hasObjectDescription ?t2_ar .
+                  FILTER(LCASE(STR(?t1_ar)) = LCASE(STR(?t2_ar))) }
+                UNION { ?d1_ar ctx:depictsEntity ?e_ar . ?d2_ar ctx:depictsEntity ?e_ar }
+              } ) )
+    }
+    # the same photograph (same image, or a cluster member that passes the camera-model guard)
+    ?img (ctx:inCluster/^ctx:inCluster)? ?img0_a .
+    FILTER( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?ma_ag }
+         || NOT EXISTS { ?img0_a (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mb_ag }
+         || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mc_ag . ?img0_a (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?md_ag .
+                     FILTER(LCASE(STR(?mc_ag)) = LCASE(STR(?md_ag))) } )
+    ?post0_a as:attachment ?img0_a ;
+              as:published ?t0_a .
+    FILTER(?post0_a != ?post)
+    FILTER(COALESCE(xsd:dateTime(?t0_a) < ?startDT_a, STR(?t0_a) < STR(?startDT_a)))
+}

@@ -1,0 +1,13 @@
+# 15: Amplifier test - accounts with >=1 false-claim post that repost >=2 distinct seed accounts (seed list from query 14 results); compare account age at first post, repost speed, share of false posts, and reciprocity
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?created ?firstPost (COUNT(DISTINCT ?s) AS ?seedsReposted) (MIN(?delay) AS ?fastest) ?posts ?falsePosts ?repostedBySeeds WHERE {
+ VALUES ?su { "real_atlas225" "mellow_ranger534" "lazy_patriot930" "lazy_pixel298" "blue_otter565" "true_ranger65" "quiet_atlas278" "local_fox863" "true_river921" "north_ember718" }
+ GRAPH <https://example.org/cc/graph/platform> { ?s as:preferredUsername ?su . ?x a as:Announce ; as:actor ?a ; as:object ?n ; as:published ?tr . ?n as:attributedTo ?s ; as:published ?tn . ?a as:preferredUsername ?user ; as:published ?created }
+ BIND(?tr - ?tn AS ?delay)
+ { SELECT ?a (COUNT(DISTINCT ?p) AS ?posts) (MIN(?tp) AS ?firstPost) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?p as:attributedTo ?a ; as:published ?tp } } GROUP BY ?a }
+ OPTIONAL { SELECT ?a (COUNT(DISTINCT ?p) AS ?falsePosts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?p as:attributedTo ?a } GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?p . ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?v FILTER(?v <= 2) } } GROUP BY ?a }
+ OPTIONAL { SELECT ?a (COUNT(?y) AS ?repostedBySeeds) WHERE { VALUES ?su2 { "real_atlas225" "mellow_ranger534" "lazy_patriot930" "lazy_pixel298" "blue_otter565" "true_ranger65" "quiet_atlas278" "local_fox863" "true_river921" "north_ember718" }
+    GRAPH <https://example.org/cc/graph/platform> { ?s2 as:preferredUsername ?su2 . ?y a as:Announce ; as:actor ?s2 ; as:object ?m . ?m as:attributedTo ?a } } GROUP BY ?a }
+ FILTER NOT EXISTS { VALUES ?su3 { "real_atlas225" "mellow_ranger534" "lazy_patriot930" "lazy_pixel298" "blue_otter565" "true_ranger65" "quiet_atlas278" "local_fox863" "true_river921" "north_ember718" } ?a as:preferredUsername ?su3 }
+} GROUP BY ?user ?created ?firstPost ?posts ?falsePosts ?repostedBySeeds ORDER BY DESC(?seedsReposted)

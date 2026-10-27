@@ -1,0 +1,9 @@
+# 16: per False claim - posters, whether the matched post carries an image, its FKG verdict, and number of reposts the post received (to compare the claims' spread patterns)
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?claimText (COUNT(DISTINCT ?note) AS ?nPosts) (COUNT(DISTINCT ?a) AS ?nAcc) (COUNT(DISTINCT ?img) AS ?nWithImg) (COUNT(DISTINCT ?mimg) AS ?nManipImg) (COUNT(DISTINCT ?ann) AS ?nRepostsRecv) (MIN(?t) AS ?first) (MAX(?t) AS ?last) WHERE {
+  GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?note ; schema:text ?claimText . ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?v }
+  GRAPH <https://example.org/cc/graph/platform> { ?note as:attributedTo ?a ; as:published ?t . OPTIONAL { ?note as:attachment ?img } OPTIONAL { ?ann a as:Announce ; as:object ?note } }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?mimg ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } FILTER(?mimg = ?img) }
+} GROUP BY ?claimText

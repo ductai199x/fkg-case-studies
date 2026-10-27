@@ -1,0 +1,25 @@
+agents/B1r Q1.1 0.936 0.03
+agents/B1r Q1.2 1.0 2.47
+agents/B1r Q1.3 0.954 1.62
+agents/B1r Q2.1 1.0 0.01
+agents/B1r Q2.2 1.0 9.56
+agents/B1r Q2.3 1.0 0.01
+agents/B1r Q2.4 1.0 0.11
+agents/B1r Q3.1 0.954 0.01
+agents/B1r Q3.2 1.0 0.01
+agents/B1r Q3.3 0.97 0.17
+agents/B1r Q3.4 1.0 0.01
+agents/B1r Q3.5 1.0 0.0
+Q          B1r
+Q1.1     0.936
+Q1.2     1.000
+Q1.3     0.954
+Q2.1     1.000
+Q2.2     1.000
+Q2.3     1.000
+Q2.4     1.000
+Q3.1     0.954
+Q3.2     1.000
+Q3.3     0.970
+Q3.4     1.000
+Q3.5     1.000

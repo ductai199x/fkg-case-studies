@@ -1,0 +1,6 @@
+# Baseline labels (context only): disclosure, genre and claims, without forensic evidence.
+SELECT ?post ?cat WHERE { ?post a as:Note ; as:attachment ?img ; as:attributedTo ?acct .
+  BIND(EXISTS { ?post ctx:hasDisclosure ?d } || EXISTS { ?cr ctx:credentialFor ?img ; ctx:digitalSourceType ?t . FILTER(?t IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) } AS ?disc)
+  BIND(EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) } AS ?sat)
+  BIND(EXISTS { ?cl schema:appearance ?post } AS ?claimed)
+  BIND(IF(?disc, ctx:DisclosedSynthetic, IF(?sat, ctx:SatireOrArt, IF(?claimed, ctx:UndisclosedMaterialAlteration, ctx:NoAlteration))) AS ?cat) }

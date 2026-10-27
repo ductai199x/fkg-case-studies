@@ -1,0 +1,4 @@
+# 16: Is the same image IRI attached to posts of more than one account (exact re-use)?
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?img (COUNT(DISTINCT ?a) AS ?nAcc) (GROUP_CONCAT(DISTINCT ?user; separator=",") AS ?users) WHERE { GRAPH <https://example.org/cc/graph/platform> {
+  ?note as:attachment ?img ; as:attributedTo ?a . ?a as:preferredUsername ?user } } GROUP BY ?img HAVING (COUNT(DISTINCT ?note) > 1)

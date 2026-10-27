@@ -1,0 +1,12 @@
+# CQ3.1 Fact-checker triage queue: posts that present AI-altered content as factual, without any disclosure,
+# where the altered region depicts the very entity the post's claim is about; most-shared first.
+SELECT ?post ?shares WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; schema:about ?entity .
+  ?post as:attachment ?img ; as:attributedTo ?acct ; ctx:shareCount ?shares .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s ; fkg:depict/ctx:depictsEntity ?entity .        # materiality join
+  ?s a fkg:AIGenerator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7)
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?d }
+  FILTER NOT EXISTS { ?cr ctx:credentialFor ?img ; ctx:signatureValid true ; ctx:digitalSourceType ?t .
+                      FILTER(?t IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) }
+  FILTER NOT EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) }
+} ORDER BY DESC(?shares)

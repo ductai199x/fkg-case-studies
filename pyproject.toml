@@ -1,0 +1,21 @@
+[project]
+name = "fkg-case-studies"
+version = "0.1.0"
+description = "Synthetic case studies for investigative SPARQL queries over Forensic Knowledge Graphs (FKG)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pyoxigraph==0.5.13",
+    "rdflib==7.6.0",
+    "pyshacl==0.40.1",
+    "matplotlib>=3.8",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

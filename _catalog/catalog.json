@@ -1,0 +1,323 @@
+[
+ {
+  "id": "UC1",
+  "name": "Recycled / out-of-context media",
+  "status": "case study CS1",
+  "cq": "Which posts present a camera-authentic photograph as showing an event although the same photograph was public before the event began?",
+  "fkg": [
+   "Image",
+   "Region",
+   "Source/CameraModel",
+   "Compression",
+   "hasConfidence"
+  ],
+  "linked": [
+   "schema:Claim",
+   "schema:Event (startDate)",
+   "as:Note (published, attachment)",
+   "ctx:NearDuplicateCluster"
+  ],
+  "sketch": "../cs1_recycled_media/queries/q1_recycled.rq",
+  "world": "cs1_recycled_media"
+ },
+ {
+  "id": "UC2",
+  "name": "Earliest known appearance",
+  "status": "case study CS1",
+  "cq": "For a given image, which post is its earliest known public appearance, and on which platform and account?",
+  "fkg": [
+   "Image",
+   "Source/CameraModel"
+  ],
+  "linked": [
+   "as:Note",
+   "ctx:NearDuplicateCluster"
+  ],
+  "sketch": "../cs1_recycled_media/queries/q2_earliest_appearance.rq",
+  "world": "cs1_recycled_media"
+ },
+ {
+  "id": "UC3",
+  "name": "Patient zero of a manipulation",
+  "status": "case study CS2",
+  "cq": "For each distinct AI-generated insertion in a near-duplicate cluster, which post and account first carried it?",
+  "fkg": [
+   "Region",
+   "Source/AIGenerator",
+   "Content",
+   "hasConfidence"
+  ],
+  "linked": [
+   "as:Note",
+   "as:Person/Organization",
+   "ctx:NearDuplicateCluster"
+  ],
+  "sketch": "../cs2_lineage_laundering/queries/q1_patient_zero.rq",
+  "world": "cs2_lineage_laundering"
+ },
+ {
+  "id": "UC4",
+  "name": "Lineage / derivation reconstruction",
+  "status": "case study CS2",
+  "cq": "For every instance of an image, what is its most likely immediate parent, and which steps introduced synthetic content?",
+  "fkg": [
+   "Region",
+   "Source",
+   "PostProcessing/Resampling",
+   "Compression (factor, recompressed)"
+  ],
+  "linked": [
+   "prov:wasDerivedFrom",
+   "as:Note",
+   "ctx:Platform (transcode profile)"
+  ],
+  "sketch": "../cs2_lineage_laundering/queries/q2a_candidate_parents.rq",
+  "world": "cs2_lineage_laundering"
+ },
+ {
+  "id": "UC5",
+  "name": "Source laundering",
+  "status": "case study CS2",
+  "cq": "Which posts credit a reputable outlet while carrying an AI insertion that the outlet never published?",
+  "fkg": [
+   "Region",
+   "Source/AIGenerator",
+   "Content"
+  ],
+  "linked": [
+   "ctx:creditsSource",
+   "ctx:accountGenre",
+   "as:Note"
+  ],
+  "sketch": "../cs2_lineage_laundering/queries/q3_laundering.rq",
+  "world": "cs2_lineage_laundering"
+ },
+ {
+  "id": "UC6",
+  "name": "Hidden platform hop",
+  "status": "case study CS2",
+  "cq": "For a file uploaded to a pass-through platform, which platform did it most recently pass through?",
+  "fkg": [
+   "Compression (algorithm, factor)"
+  ],
+  "linked": [
+   "ctx:Platform (transcodeQuality, passthrough)",
+   "as:Note"
+  ],
+  "sketch": "../cs2_lineage_laundering/queries/q4_hidden_hop.rq",
+  "world": "cs2_lineage_laundering"
+ },
+ {
+  "id": "UC7",
+  "name": "Materiality-aware fact-check triage",
+  "status": "case study CS3",
+  "cq": "Which undisclosed AI-altered posts alter the very entity their claim is about, ranked by reach?",
+  "fkg": [
+   "Region",
+   "Source/AIGenerator",
+   "Content",
+   "hasConfidence"
+  ],
+  "linked": [
+   "schema:Claim (about)",
+   "ctx:depictsEntity",
+   "ctx:hasDisclosure",
+   "ctx:ContentCredential",
+   "ctx:accountGenre",
+   "ctx:shareCount"
+  ],
+  "sketch": "../cs3_intent_materiality/queries/q1_material_undisclosed.rq",
+  "world": "cs3_intent_materiality"
+ },
+ {
+  "id": "UC8",
+  "name": "Content-credential contradiction",
+  "status": "case study CS3",
+  "cq": "Which validly signed content credentials assert a capture (or a capture device) that the forensic evidence contradicts?",
+  "fkg": [
+   "Source/CameraModel",
+   "Source/AIGenerator",
+   "hasConfidence"
+  ],
+  "linked": [
+   "C2PA (summarised as ctx:ContentCredential)",
+   "IPTC Digital Source Type"
+  ],
+  "sketch": "../cs3_intent_materiality/queries/q2_credential_contradiction.rq",
+  "world": "cs3_intent_materiality"
+ },
+ {
+  "id": "UC9",
+  "name": "Presentation intent and disclosure",
+  "status": "case study CS3",
+  "cq": "Into which presentation category (disclosed synthetic, satire/art, undisclosed material, undisclosed peripheral, unaltered) does each post fall, with provenance for the inference?",
+  "fkg": [
+   "Region",
+   "Source",
+   "Content",
+   "ForensicConclusion",
+   "evidenceStatus"
+  ],
+  "linked": [
+   "ctx:IntentAssessment",
+   "prov:wasDerivedFrom",
+   "ctx:hasDisclosure",
+   "ctx:accountGenre",
+   "schema:Claim"
+  ],
+  "sketch": "../cs3_intent_materiality/queries/q3_intent_rule.rq",
+  "world": "cs3_intent_materiality"
+ },
+ {
+  "id": "UC10",
+  "name": "Temporal anachronism",
+  "status": "case study CS3",
+  "cq": "Which AI attributions name a generator that was not yet released when the post was published?",
+  "fkg": [
+   "Source/AIGenerator (hasGeneratorModel)"
+  ],
+  "linked": [
+   "ctx:GeneratorModel (schema:datePublished)",
+   "as:published"
+  ],
+  "sketch": "../cs3_intent_materiality/queries/q4_anachronism.rq",
+  "world": "cs3_intent_materiality"
+ },
+ {
+  "id": "UC11",
+  "name": "Retraction / recall impact",
+  "status": "case study CS3",
+  "cq": "Given a known issue in one detector version, which published fact-checks rest on records from that version that contain the affected property?",
+  "fkg": [
+   "ForensicRecord",
+   "ForensicConclusion"
+  ],
+  "linked": [
+   "prov:wasGeneratedBy / wasAssociatedWith",
+   "ctx:KnownIssue",
+   "schema:ClaimReview (isBasedOn)"
+  ],
+  "sketch": "../cs3_intent_materiality/queries/q5_retraction_impact.rq",
+  "world": "cs3_intent_materiality"
+ },
+ {
+  "id": "UC12",
+  "name": "Coordinated campaign detection",
+  "status": "sibling task (coordinated-campaign/)",
+  "cq": "Which accounts share forensic TTPs (generator, post-processing recipe) and push the same narrative within a short window?",
+  "fkg": [
+   "Source/AIGenerator",
+   "PostProcessing",
+   "Parameter"
+  ],
+  "linked": [
+   "as:Note",
+   "schema:Claim",
+   "DISARM/STIX (TTP vocabularies)"
+  ],
+  "sketch": null,
+  "world": null
+ },
+ {
+  "id": "UC13",
+  "name": "Toolkit fingerprinting",
+  "status": "sketch",
+  "cq": "Which accounts apply the same generator and ordered post-processing recipe (operation classes and parameter values) to AI regions across different images?",
+  "fkg": [
+   "Source/AIGenerator",
+   "PostProcessing (hasNext chain)",
+   "Parameter"
+  ],
+  "linked": [
+   "as:Note (attributedTo)"
+  ],
+  "sketch": "uc13_toolkit_fingerprint.rq",
+  "world": "cs1_recycled_media"
+ },
+ {
+  "id": "UC14",
+  "name": "Shared-device (sock puppet) linking",
+  "status": "sketch",
+  "cq": "Which account pairs post first-generation originals from the same rare camera model?",
+  "fkg": [
+   "Source/CameraModel",
+   "Compression (LastCompressed vs ReCompressed)"
+  ],
+  "linked": [
+   "as:Note (attributedTo)"
+  ],
+  "sketch": "uc14_device_linking.rq",
+  "world": "cs1_recycled_media"
+ },
+ {
+  "id": "UC15",
+  "name": "Detector-error triage by cross-instance consistency",
+  "status": "sketch",
+  "cq": "Which reliable AI attributions on the earliest known instance of an image are reproduced by none of its later copies, flagging a likely detector false positive?",
+  "fkg": [
+   "Region",
+   "Source/AIGenerator",
+   "Content",
+   "hasConfidence"
+  ],
+  "linked": [
+   "ctx:NearDuplicateCluster",
+   "as:published"
+  ],
+  "sketch": "uc15_detector_consistency.rq",
+  "world": "cs2_lineage_laundering"
+ },
+ {
+  "id": "UC16",
+  "name": "Explainable audit trail",
+  "status": "sketch",
+  "cq": "For a fact-check, what is the chain from claim and post to forensic record, detector version, regions, sources, confidences and depicted entities?",
+  "fkg": [
+   "ForensicRecord",
+   "ForensicConclusion",
+   "Region",
+   "Source",
+   "Content",
+   "evidenceStatus"
+  ],
+  "linked": [
+   "schema:ClaimReview",
+   "prov:wasGeneratedBy",
+   "ctx:DetectorVersion"
+  ],
+  "sketch": "uc16_explain_conclusion.rq",
+  "world": "cs3_intent_materiality"
+ },
+ {
+  "id": "UC17",
+  "name": "Generator exposure by entity",
+  "status": "sketch",
+  "cq": "For each public entity, how many reliably AI-altered posts depict it, by generator and month, and with what reach?",
+  "fkg": [
+   "Source/AIGenerator",
+   "Content"
+  ],
+  "linked": [
+   "ctx:depictsEntity",
+   "as:published",
+   "ctx:shareCount"
+  ],
+  "sketch": "uc17_generator_exposure.rq",
+  "world": "cs3_intent_materiality"
+ },
+ {
+  "id": "UC18",
+  "name": "Reported-versus-inferred evidence audit",
+  "status": "sketch",
+  "cq": "Which images rest only on a source-reported assertion (a content credential) with no independent forensic corroboration?",
+  "fkg": [
+   "ForensicConclusion (verdict, evidenceStatus)"
+  ],
+  "linked": [
+   "ctx:ContentCredential",
+   "IPTC Digital Source Type"
+  ],
+  "sketch": "uc18_reported_vs_inferred.rq",
+  "world": "cs3_intent_materiality"
+ }
+]

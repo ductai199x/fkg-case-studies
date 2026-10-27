@@ -1,0 +1,29 @@
+# Q1.1 (cs1) - recycled out-of-context photos.
+# Reasoning / checks done against the data:
+# - Claim-bearing post = ?claim schema:appearance ?post; the claimed event is ctx:assertsDepictionOf -> schema:startDate
+#   (xsd:dateTime, comparable with as:published).
+# - "Camera-authentic, no reliable AI region": the attached image has a fkg:CameraModel region and NO fkg:AIGenerator
+#   region with confidence >= 0.7 (org policy: < 0.7 is unreliable). Several claim posts carry moderate-confidence
+#   (0.57-0.68) AI regions (e.g. recurring "texture patch" false positives); these are ignored per policy.
+# - "Same photograph": near-duplicate clusters are known to sometimes merge different photos of a similar scene.
+#   In cs1, clusters 5, 6 and 7 each contain an old copy shot on a DIFFERENT camera model than the claimed image
+#   (e.g. 2021 Canon EOS R6 vs Galaxy S24); these are false merges, not earlier appearances. So an earlier copy
+#   must be in the same cluster AND share the camera-model attribution of the claimed image.
+# - "Already public before the event began": some earlier copy's as:published < event schema:startDate.
+#   Claims about the 2019/2021/2023 events whose earliest copy is after the event start are correctly excluded.
+SELECT DISTINCT ?post WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?evStart .
+  ?post as:attachment ?img .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by ?cam . ?cam a fkg:CameraModel ; fkg:hasCameraModel ?model .
+  FILTER NOT EXISTS {
+    ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?ai . ?ai a fkg:AIGenerator ; fkg:hasConfidence ?aiConf .
+    FILTER(?aiConf >= 0.7)
+  }
+  ?img ctx:inCluster ?cl .
+  ?img2 ctx:inCluster ?cl ; fkg:hasRegion ?r2 . FILTER(?img2 != ?img)
+  ?r2 fkg:produced_by ?cam2 . ?cam2 a fkg:CameraModel ; fkg:hasCameraModel ?model .
+  ?post2 as:attachment ?img2 ; as:published ?pub2 .
+  FILTER(?pub2 < ?evStart)
+}
+ORDER BY ?post

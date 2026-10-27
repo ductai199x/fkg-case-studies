@@ -1,0 +1,17 @@
+{
+ "../cs1_recycled_media/data/world.trig": {
+  "triples": 10203,
+  "conforms": true,
+  "violations": 0
+ },
+ "../cs2_lineage_laundering/data/world.trig": {
+  "triples": 11081,
+  "conforms": true,
+  "violations": 0
+ },
+ "../cs3_intent_materiality/data/world.trig": {
+  "triples": 12263,
+  "conforms": true,
+  "violations": 0
+ }
+}

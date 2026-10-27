@@ -1,0 +1,13 @@
+# 21: Non-core, non-cohort accounts whose posts were matched to False claims: content, image verdict, source, op chain - are they organic believers/sharers or hidden members?
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?created ?t ?content ?verdict (GROUP_CONCAT(DISTINCT ?opd; separator=" ") AS ?ops) WHERE {
+  GRAPH <https://example.org/cc/graph/factcheck> { ?rev schema:itemReviewed ?claim ; schema:reviewRating/schema:alternateName "False" . ?claim schema:appearance ?note }
+  GRAPH <https://example.org/cc/graph/platform> { ?note as:attributedTo ?a ; as:published ?t ; as:content ?content . ?a as:preferredUsername ?user ; as:published ?created }
+  FILTER(?created < "2026-09-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>)
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img } GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion ?c . ?c fkg:verdict ?v . OPTIONAL { ?c fkg:manipulationType ?mt }
+     ?rg fkg:contained_in ?img ; fkg:modified_by ?op ; fkg:produced_by ?s . ?op a ?ot . OPTIONAL { ?op fkg:hasParameter/fkg:hasParameterValue ?pv } OPTIONAL { ?s fkg:hasGeneratorModel|fkg:hasCameraModel ?sm } }
+     BIND(CONCAT(?sm, ":", STRAFTER(STR(?ot),"#"), COALESCE(CONCAT("=",STR(?pv)),"")) AS ?opd) }
+  BIND(COALESCE(STRAFTER(STR(?mt),"#"), STRAFTER(STR(?v),"#"), "-") AS ?verdict)
+} GROUP BY ?user ?created ?t ?content ?verdict ORDER BY ?user ?t

@@ -1,0 +1,5 @@
+# 19: Parameter spread of each op type on regions carrying the 3-op Noise+Blur+Resampling chain, split by region source kind (generator vs camera), plus compression
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?kind ?opType (COUNT(*) AS ?n) (MIN(?v) AS ?min) (AVG(?v) AS ?avg) (MAX(?v) AS ?max) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+ ?rg fkg:modified_by ?o1, ?o2, ?o3 . ?o1 a fkg:GaussianNoise . ?o2 a fkg:GaussianBlur . ?o3 a fkg:Resampling .
+ ?rg fkg:produced_by ?s . ?s a ?kind . ?rg fkg:modified_by ?op . ?op a ?opType ; fkg:hasParameter/fkg:hasParameterValue ?v } } GROUP BY ?kind ?opType ORDER BY ?kind ?opType

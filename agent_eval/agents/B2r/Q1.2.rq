@@ -1,0 +1,35 @@
+# Q1.2 (cs1) - earliest known public appearance of each recycled photograph from Q1.1.
+# Reasoning: re-derive the Q1.1 set (claim post, camera image, no AI region >= 0.7 confidence, a same-photo copy
+# published before the claimed event start). "Same photograph" = same near-duplicate cluster AND same camera-model
+# attribution, because clusters 5/6/7 merge different photos shot on different cameras (false merges).
+# The earliest appearance is the copy (incl. the post itself) with the minimum as:published among same-photo copies.
+# Checked: every Q1.1 cluster has a single earliest post (no ties); earliest posts are newswire outlet posts from
+# 2019/2021/2023, i.e. around the older events, as expected for recycled photos. Open-world caveat: "earliest known".
+SELECT DISTINCT ?post ?earliestPost WHERE {
+  {
+    SELECT ?post ?model ?cl WHERE {
+      ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+      ?event schema:startDate ?evStart .
+      ?post as:attachment ?img .
+      ?img fkg:hasRegion ?r . ?r fkg:produced_by ?cam . ?cam a fkg:CameraModel ; fkg:hasCameraModel ?model .
+      FILTER NOT EXISTS {
+        ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?ai . ?ai a fkg:AIGenerator ; fkg:hasConfidence ?aiConf .
+        FILTER(?aiConf >= 0.7)
+      }
+      ?img ctx:inCluster ?cl .
+      ?img2 ctx:inCluster ?cl ; fkg:hasRegion ?r2 . FILTER(?img2 != ?img)
+      ?r2 fkg:produced_by ?cam2 . ?cam2 a fkg:CameraModel ; fkg:hasCameraModel ?model .
+      ?post2 as:attachment ?img2 ; as:published ?pub2 .
+      FILTER(?pub2 < ?evStart)
+    }
+  }
+  # candidate earliest copy: same cluster, same camera model
+  ?eImg ctx:inCluster ?cl ; fkg:hasRegion ?er . ?er fkg:produced_by ?ecam . ?ecam a fkg:CameraModel ; fkg:hasCameraModel ?model .
+  ?earliestPost as:attachment ?eImg ; as:published ?ePub .
+  FILTER NOT EXISTS {
+    ?oImg ctx:inCluster ?cl ; fkg:hasRegion ?or . ?or fkg:produced_by ?ocam . ?ocam a fkg:CameraModel ; fkg:hasCameraModel ?model .
+    ?oPost as:attachment ?oImg ; as:published ?oPub .
+    FILTER(?oPub < ?ePub)
+  }
+}
+ORDER BY ?post

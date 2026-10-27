@@ -1,0 +1,30 @@
+# Q3.2 (cs3) - posts whose image has a VALIDLY signed content credential (ctx:signatureValid true) asserting
+# something the forensic record contradicts. Credentials are SourceReported claims, the forensic record is the test.
+# Contradictions checked (all 22 credentials inspected):
+#  (a) how it was made: digitalSourceType = iptc:digitalCapture (pure camera capture) while the image has a
+#      reliable AI region (fkg:AIGenerator, confidence >= 0.7)                      -> img0184-0189;
+#      (the reverse - an AI-declaring credential on an image with no reliable AI region - does not occur);
+#  (b) by which device: claimedCaptureDevice differs from every fkg:hasCameraModel the detector attributes to the
+#      image's camera regions                                                       -> img0190 (Nikon Z9 vs Canon
+#      EOS R5), img0191 (Nikon Z9 vs Pixel 8).
+# Not counted: fully-synthetic credentials (trainedAlgorithmicMedia) that also name a device. Those images have no
+# camera region at all, so there is no detected camera model to contradict (absence of a camera fingerprint is
+# not positive evidence of another device), and their source type agrees with the forensics. Composite
+# credentials all name the same camera model the detector finds.
+SELECT DISTINCT ?post WHERE {
+  ?post a as:Note ; as:attachment ?img .
+  ?cred ctx:credentialFor ?img ; ctx:signatureValid true .
+  {
+    ?cred ctx:digitalSourceType iptc:digitalCapture .
+    ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?conf .
+    FILTER(?conf >= 0.7)
+  } UNION {
+    ?cred ctx:claimedCaptureDevice ?dev .
+    ?img fkg:hasRegion ?rc . ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel ; fkg:hasCameraModel ?model .
+    FILTER NOT EXISTS {
+      ?img fkg:hasRegion ?rc2 . ?rc2 fkg:produced_by ?sc2 . ?sc2 a fkg:CameraModel ; fkg:hasCameraModel ?model2 .
+      FILTER(LCASE(STR(?model2)) = LCASE(STR(?dev)))
+    }
+  }
+}
+ORDER BY ?post

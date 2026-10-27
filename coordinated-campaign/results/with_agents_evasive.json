@@ -1,0 +1,8509 @@
+[
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.030632972717285156,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.48723936080932617,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.26911401748657227,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.5579869747161865,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.5579869747161865,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.5564351081848145,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 8.876145839691162,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.41315340995788574,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 5.821780443191528,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.027002334594726562,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.2988128662109375,
+  "precision": 0.5263157894736842,
+  "recall": 0.8333333333333334,
+  "f1": 0.6451612903225806,
+  "tp": 10,
+  "fp": 9,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer",
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.2942342758178711,
+  "precision": 0.5263157894736842,
+  "recall": 0.8333333333333334,
+  "f1": 0.6451612903225806,
+  "tp": 10,
+  "fp": 9,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer",
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.5202906131744385,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.5202906131744385,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.487912654876709,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 6.5307981967926025,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.4041461944580078,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 4.769747495651245,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.02269458770751953,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.3064239025115967,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.2285318374633789,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.44194626808166504,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.44194626808166504,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.4528529644012451,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 7.0965752601623535,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.3933398723602295,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 3.505749464035034,
+  "precision": 0.8571428571428571,
+  "recall": 1.0,
+  "f1": 0.923076923076923,
+  "tp": 12,
+  "fp": 2,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_reuploader"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.01928257942199707,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.29163289070129395,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.2608473300933838,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.4864943027496338,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.4864943027496338,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.503732442855835,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 8.243364572525024,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.4087865352630615,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 5.484954595565796,
+  "precision": 0.9230769230769231,
+  "recall": 1.0,
+  "f1": 0.9600000000000001,
+  "tp": 12,
+  "fp": 1,
+  "fn": 0,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.01805734634399414,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.25273942947387695,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.3428161144256592,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.48479151725769043,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.48479151725769043,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.5002179145812988,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 8.020676136016846,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.4460179805755615,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.0,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 5.352765083312988,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.01717662811279297,
+  "precision": 0.2608695652173913,
+  "recall": 1.0,
+  "f1": 0.41379310344827586,
+  "tp": 12,
+  "fp": 34,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.4275534152984619,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.2784719467163086,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.548163890838623,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.548163890838623,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.5155308246612549,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 8.061121702194214,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.4345874786376953,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 4.940603733062744,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.016579389572143555,
+  "precision": 0.2553191489361702,
+  "recall": 1.0,
+  "f1": 0.4067796610169491,
+  "tp": 12,
+  "fp": 35,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.2004096508026123,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.2320878505706787,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.355914831161499,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.355914831161499,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.35846638679504395,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 7.436269521713257,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.4245588779449463,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 3.9832754135131836,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.019042015075683594,
+  "precision": 0.2553191489361702,
+  "recall": 1.0,
+  "f1": 0.4067796610169491,
+  "tp": 12,
+  "fp": 35,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.2876279354095459,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.2117784023284912,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.3610825538635254,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.3610825538635254,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.4495277404785156,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 7.248889684677124,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.3338630199432373,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 2.7659802436828613,
+  "precision": 0.9230769230769231,
+  "recall": 1.0,
+  "f1": 0.9600000000000001,
+  "tp": 12,
+  "fp": 1,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.019934654235839844,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.26939821243286133,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.2898430824279785,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.4347412586212158,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.4347412586212158,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.42908620834350586,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 7.750096082687378,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.3767883777618408,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 4.253176212310791,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.01816701889038086,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.27874135971069336,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.26552557945251465,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.39100050926208496,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.39100050926208496,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.4570498466491699,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 7.137084484100342,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.47281599044799805,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.1,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 4.31304144859314,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.017286300659179688,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.25412869453430176,
+  "precision": 0.45454545454545453,
+  "recall": 0.8333333333333334,
+  "f1": 0.5882352941176471,
+  "tp": 10,
+  "fp": 12,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic",
+   "organic",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.23369979858398438,
+  "precision": 0.5555555555555556,
+  "recall": 0.8333333333333334,
+  "f1": 0.6666666666666667,
+  "tp": 10,
+  "fp": 8,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.3225274085998535,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.3225274085998535,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.34694361686706543,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 7.218140125274658,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.5487830638885498,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 3.94905686378479,
+  "precision": 0.9230769230769231,
+  "recall": 1.0,
+  "f1": 0.9600000000000001,
+  "tp": 12,
+  "fp": 1,
+  "fn": 0,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.015612602233886719,
+  "precision": 0.2608695652173913,
+  "recall": 1.0,
+  "f1": 0.41379310344827586,
+  "tp": 12,
+  "fp": 34,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.18759870529174805,
+  "precision": 0.47619047619047616,
+  "recall": 0.8333333333333334,
+  "f1": 0.6060606060606061,
+  "tp": 10,
+  "fp": 11,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.20646166801452637,
+  "precision": 0.5263157894736842,
+  "recall": 0.8333333333333334,
+  "f1": 0.6451612903225806,
+  "tp": 10,
+  "fp": 9,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer",
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.43952178955078125,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.43952178955078125,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.35960936546325684,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 8.166175603866577,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.41454505920410156,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 3.3759920597076416,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.016377925872802734,
+  "precision": 0.2391304347826087,
+  "recall": 0.9166666666666666,
+  "f1": 0.3793103448275862,
+  "tp": 11,
+  "fp": 35,
+  "fn": 1,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.17620277404785156,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.22187137603759766,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.34589362144470215,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.34589362144470215,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.2972066402435303,
+  "precision": 0.6,
+  "recall": 0.75,
+  "f1": 0.6666666666666665,
+  "tp": 9,
+  "fp": 6,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 6.958726644515991,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.2987785339355469,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 2.2421889305114746,
+  "precision": 0.9166666666666666,
+  "recall": 0.9166666666666666,
+  "f1": 0.9166666666666666,
+  "tp": 11,
+  "fp": 1,
+  "fn": 1,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.0167081356048584,
+  "precision": 0.2553191489361702,
+  "recall": 1.0,
+  "f1": 0.4067796610169491,
+  "tp": 12,
+  "fp": 35,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.20073437690734863,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.1870887279510498,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.46826863288879395,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.46826863288879395,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.47676849365234375,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 7.754890203475952,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.4262514114379883,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 2.9890148639678955,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.01315760612487793,
+  "precision": 0.26666666666666666,
+  "recall": 1.0,
+  "f1": 0.4210526315789474,
+  "tp": 12,
+  "fp": 33,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.1892387866973877,
+  "precision": 0.5263157894736842,
+  "recall": 0.8333333333333334,
+  "f1": 0.6451612903225806,
+  "tp": 10,
+  "fp": 9,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.21865391731262207,
+  "precision": 0.5555555555555556,
+  "recall": 0.8333333333333334,
+  "f1": 0.6666666666666667,
+  "tp": 10,
+  "fp": 8,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.356034517288208,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.356034517288208,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.3219754695892334,
+  "precision": 0.7142857142857143,
+  "recall": 0.8333333333333334,
+  "f1": 0.7692307692307692,
+  "tp": 10,
+  "fp": 4,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 5.071967124938965,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.35253453254699707,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.2,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 3.007406711578369,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.01164865493774414,
+  "precision": 0.2727272727272727,
+  "recall": 1.0,
+  "f1": 0.42857142857142855,
+  "tp": 12,
+  "fp": 32,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.16130447387695312,
+  "precision": 0.5263157894736842,
+  "recall": 0.8333333333333334,
+  "f1": 0.6451612903225806,
+  "tp": 10,
+  "fp": 9,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.1589655876159668,
+  "precision": 0.5555555555555556,
+  "recall": 0.8333333333333334,
+  "f1": 0.6666666666666667,
+  "tp": 10,
+  "fp": 8,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.2965536117553711,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.2965536117553711,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.283069372177124,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 7.2606589794158936,
+  "precision": 1.0,
+  "recall": 0.5833333333333334,
+  "f1": 0.7368421052631579,
+  "tp": 7,
+  "fp": 0,
+  "fn": 5,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.4718656539916992,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 2.8461198806762695,
+  "precision": 0.9230769230769231,
+  "recall": 1.0,
+  "f1": 0.9600000000000001,
+  "tp": 12,
+  "fp": 1,
+  "fn": 0,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.01470637321472168,
+  "precision": 0.24444444444444444,
+  "recall": 0.9166666666666666,
+  "f1": 0.3859649122807018,
+  "tp": 11,
+  "fp": 34,
+  "fn": 1,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.17507672309875488,
+  "precision": 0.5,
+  "recall": 0.8333333333333334,
+  "f1": 0.625,
+  "tp": 10,
+  "fp": 10,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.14468002319335938,
+  "precision": 0.5,
+  "recall": 0.8333333333333334,
+  "f1": 0.625,
+  "tp": 10,
+  "fp": 10,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.2523648738861084,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.2523648738861084,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.3352799415588379,
+  "precision": 0.6428571428571429,
+  "recall": 0.75,
+  "f1": 0.6923076923076924,
+  "tp": 9,
+  "fp": 5,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 7.388939619064331,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.41548776626586914,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 1.794079303741455,
+  "precision": 1.0,
+  "recall": 0.9166666666666666,
+  "f1": 0.9565217391304348,
+  "tp": 11,
+  "fp": 0,
+  "fn": 1,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.01604938507080078,
+  "precision": 0.26666666666666666,
+  "recall": 1.0,
+  "f1": 0.4210526315789474,
+  "tp": 12,
+  "fp": 33,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.17159366607666016,
+  "precision": 0.5625,
+  "recall": 0.75,
+  "f1": 0.6428571428571429,
+  "tp": 9,
+  "fp": 7,
+  "fn": 3,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.13405585289001465,
+  "precision": 0.5625,
+  "recall": 0.75,
+  "f1": 0.6428571428571429,
+  "tp": 9,
+  "fp": 7,
+  "fn": 3,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.1918325424194336,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.1918325424194336,
+  "precision": 0.8181818181818182,
+  "recall": 0.75,
+  "f1": 0.7826086956521738,
+  "tp": 9,
+  "fp": 2,
+  "fn": 3,
+  "fp_roles": [
+   "organic_believer",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.2355644702911377,
+  "precision": 0.6923076923076923,
+  "recall": 0.75,
+  "f1": 0.7199999999999999,
+  "tp": 9,
+  "fp": 4,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 6.681088924407959,
+  "precision": 1.0,
+  "recall": 0.4166666666666667,
+  "f1": 0.5882352941176471,
+  "tp": 5,
+  "fp": 0,
+  "fn": 7,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.5493264198303223,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 1.61277437210083,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.015772342681884766,
+  "precision": 0.25,
+  "recall": 1.0,
+  "f1": 0.4,
+  "tp": 12,
+  "fp": 36,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.1781001091003418,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.15020370483398438,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.24376916885375977,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.24376916885375977,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.3132600784301758,
+  "precision": 0.7142857142857143,
+  "recall": 0.8333333333333334,
+  "f1": 0.7692307692307692,
+  "tp": 10,
+  "fp": 4,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 7.473410367965698,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.37225341796875,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 2.7854347229003906,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.0201265811920166,
+  "precision": 0.27906976744186046,
+  "recall": 1.0,
+  "f1": 0.43636363636363634,
+  "tp": 12,
+  "fp": 31,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.14929795265197754,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.11623764038085938,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.19046354293823242,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.19046354293823242,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.18660640716552734,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 6.245732069015503,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.39602041244506836,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.3,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 1.9797394275665283,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.01082158088684082,
+  "precision": 0.2727272727272727,
+  "recall": 1.0,
+  "f1": 0.42857142857142855,
+  "tp": 12,
+  "fp": 32,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.1654961109161377,
+  "precision": 0.5263157894736842,
+  "recall": 0.8333333333333334,
+  "f1": 0.6451612903225806,
+  "tp": 10,
+  "fp": 9,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.19332575798034668,
+  "precision": 0.5555555555555556,
+  "recall": 0.8333333333333334,
+  "f1": 0.6666666666666667,
+  "tp": 10,
+  "fp": 8,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.3021824359893799,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.3021824359893799,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.2562448978424072,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 7.122857332229614,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.48891711235046387,
+  "precision": 0.8888888888888888,
+  "recall": 0.6666666666666666,
+  "f1": 0.761904761904762,
+  "tp": 8,
+  "fp": 1,
+  "fn": 4,
+  "fp_roles": [
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 1.9470641613006592,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.013247251510620117,
+  "precision": 0.2727272727272727,
+  "recall": 1.0,
+  "f1": 0.42857142857142855,
+  "tp": 12,
+  "fp": 32,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.13139581680297852,
+  "precision": 0.5263157894736842,
+  "recall": 0.8333333333333334,
+  "f1": 0.6451612903225806,
+  "tp": 10,
+  "fp": 9,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer",
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.1772620677947998,
+  "precision": 0.5555555555555556,
+  "recall": 0.8333333333333334,
+  "f1": 0.6666666666666667,
+  "tp": 10,
+  "fp": 8,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.2301342487335205,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.2301342487335205,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.20972752571105957,
+  "precision": 0.75,
+  "recall": 0.75,
+  "f1": 0.75,
+  "tp": 9,
+  "fp": 3,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 7.549434661865234,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.4476816654205322,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 1.6960258483886719,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.01991724967956543,
+  "precision": 0.2857142857142857,
+  "recall": 1.0,
+  "f1": 0.4444444444444445,
+  "tp": 12,
+  "fp": 30,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.2359459400177002,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.2357931137084961,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.34061574935913086,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.34061574935913086,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.22943472862243652,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 6.680561065673828,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.44755077362060547,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 1.8367843627929688,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.021719694137573242,
+  "precision": 0.2926829268292683,
+  "recall": 1.0,
+  "f1": 0.45283018867924524,
+  "tp": 12,
+  "fp": 29,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.178924560546875,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.1483936309814453,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.3151278495788574,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.3151278495788574,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.3593575954437256,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 7.433925628662109,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.36820030212402344,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 1.8087258338928223,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.013870716094970703,
+  "precision": 0.27906976744186046,
+  "recall": 1.0,
+  "f1": 0.43636363636363634,
+  "tp": 12,
+  "fp": 31,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.10146522521972656,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.10125613212585449,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.14137005805969238,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.14137005805969238,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.1756134033203125,
+  "precision": 0.7142857142857143,
+  "recall": 0.8333333333333334,
+  "f1": 0.7692307692307692,
+  "tp": 10,
+  "fp": 4,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 6.438394784927368,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.3296322822570801,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.4,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 1.5511023998260498,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.013900995254516602,
+  "precision": 0.2619047619047619,
+  "recall": 0.9166666666666666,
+  "f1": 0.4074074074074074,
+  "tp": 11,
+  "fp": 31,
+  "fn": 1,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.12521839141845703,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.1409592628479004,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.19905591011047363,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.19905591011047363,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.1728687286376953,
+  "precision": 0.75,
+  "recall": 0.75,
+  "f1": 0.75,
+  "tp": 9,
+  "fp": 3,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 5.101468324661255,
+  "precision": 1.0,
+  "recall": 0.3333333333333333,
+  "f1": 0.5,
+  "tp": 4,
+  "fp": 0,
+  "fn": 8,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.3215653896331787,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "tp": 8,
+  "fp": 0,
+  "fn": 4,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 1.2690021991729736,
+  "precision": 0.9166666666666666,
+  "recall": 0.9166666666666666,
+  "f1": 0.9166666666666666,
+  "tp": 11,
+  "fp": 1,
+  "fn": 1,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.011093378067016602,
+  "precision": 0.275,
+  "recall": 0.9166666666666666,
+  "f1": 0.4230769230769231,
+  "tp": 11,
+  "fp": 29,
+  "fn": 1,
+  "fp_roles": [
+   "organic",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.1253068447113037,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.14179182052612305,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.2302839756011963,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.2302839756011963,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.19793391227722168,
+  "precision": 0.75,
+  "recall": 0.75,
+  "f1": 0.75,
+  "tp": 9,
+  "fp": 3,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 6.93012809753418,
+  "precision": 1.0,
+  "recall": 0.3333333333333333,
+  "f1": 0.5,
+  "tp": 4,
+  "fp": 0,
+  "fn": 8,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.2483196258544922,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 1.0706486701965332,
+  "precision": 1.0,
+  "recall": 0.9166666666666666,
+  "f1": 0.9565217391304348,
+  "tp": 11,
+  "fp": 0,
+  "fn": 1,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.022017717361450195,
+  "precision": 0.24489795918367346,
+  "recall": 1.0,
+  "f1": 0.39344262295081966,
+  "tp": 12,
+  "fp": 37,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.14405322074890137,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.16106438636779785,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.26959681510925293,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.26959681510925293,
+  "precision": 0.7142857142857143,
+  "recall": 0.8333333333333334,
+  "f1": 0.7692307692307692,
+  "tp": 10,
+  "fp": 4,
+  "fn": 2,
+  "fp_roles": [
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.1672682762145996,
+  "precision": 0.7142857142857143,
+  "recall": 0.8333333333333334,
+  "f1": 0.7692307692307692,
+  "tp": 10,
+  "fp": 4,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 6.030491590499878,
+  "precision": 1.0,
+  "recall": 0.4166666666666667,
+  "f1": 0.5882352941176471,
+  "tp": 5,
+  "fp": 0,
+  "fn": 7,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.2484729290008545,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 0.9201278686523438,
+  "precision": 0.9230769230769231,
+  "recall": 1.0,
+  "f1": 0.9600000000000001,
+  "tp": 12,
+  "fp": 1,
+  "fn": 0,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.011410236358642578,
+  "precision": 0.2727272727272727,
+  "recall": 1.0,
+  "f1": 0.42857142857142855,
+  "tp": 12,
+  "fp": 32,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.11141610145568848,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.1367480754852295,
+  "precision": 0.6666666666666666,
+  "recall": 0.8333333333333334,
+  "f1": 0.7407407407407408,
+  "tp": 10,
+  "fp": 5,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.18222856521606445,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.18222856521606445,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.15984630584716797,
+  "precision": 0.7142857142857143,
+  "recall": 0.8333333333333334,
+  "f1": 0.7692307692307692,
+  "tp": 10,
+  "fp": 4,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 6.834095239639282,
+  "precision": 1.0,
+  "recall": 0.75,
+  "f1": 0.8571428571428571,
+  "tp": 9,
+  "fp": 0,
+  "fn": 3,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.28729796409606934,
+  "precision": 1.0,
+  "recall": 0.5833333333333334,
+  "f1": 0.7368421052631579,
+  "tp": 7,
+  "fp": 0,
+  "fn": 5,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 1.0638914108276367,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.008823156356811523,
+  "precision": 0.32432432432432434,
+  "recall": 1.0,
+  "f1": 0.489795918367347,
+  "tp": 12,
+  "fp": 25,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.09125590324401855,
+  "precision": 0.5882352941176471,
+  "recall": 0.8333333333333334,
+  "f1": 0.6896551724137931,
+  "tp": 10,
+  "fp": 7,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.09118986129760742,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.12407064437866211,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.12407064437866211,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.12352871894836426,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 5.697216033935547,
+  "precision": 1.0,
+  "recall": 0.25,
+  "f1": 0.4,
+  "tp": 3,
+  "fp": 0,
+  "fn": 9,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.24351811408996582,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.5,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 0.962177038192749,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.012362480163574219,
+  "precision": 0.2926829268292683,
+  "recall": 1.0,
+  "f1": 0.45283018867924524,
+  "tp": 12,
+  "fp": 29,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic",
+   "organic",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.11841058731079102,
+  "precision": 0.6153846153846154,
+  "recall": 0.6666666666666666,
+  "f1": 0.64,
+  "tp": 8,
+  "fp": 5,
+  "fn": 4,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.09756851196289062,
+  "precision": 0.6153846153846154,
+  "recall": 0.6666666666666666,
+  "f1": 0.64,
+  "tp": 8,
+  "fp": 5,
+  "fn": 4,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.0932002067565918,
+  "precision": 0.8888888888888888,
+  "recall": 0.6666666666666666,
+  "f1": 0.761904761904762,
+  "tp": 8,
+  "fp": 1,
+  "fn": 4,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.0932002067565918,
+  "precision": 0.8888888888888888,
+  "recall": 0.6666666666666666,
+  "f1": 0.761904761904762,
+  "tp": 8,
+  "fp": 1,
+  "fn": 4,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.09559440612792969,
+  "precision": 0.8,
+  "recall": 0.6666666666666666,
+  "f1": 0.7272727272727272,
+  "tp": 8,
+  "fp": 2,
+  "fn": 4,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 4.699614524841309,
+  "precision": 1.0,
+  "recall": 0.16666666666666666,
+  "f1": 0.2857142857142857,
+  "tp": 2,
+  "fp": 0,
+  "fn": 10,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.2720789909362793,
+  "precision": 1.0,
+  "recall": 0.25,
+  "f1": 0.4,
+  "tp": 3,
+  "fp": 0,
+  "fn": 9,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 0.7266802787780762,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.010696887969970703,
+  "precision": 0.28205128205128205,
+  "recall": 0.9166666666666666,
+  "f1": 0.4313725490196078,
+  "tp": 11,
+  "fp": 28,
+  "fn": 1,
+  "fp_roles": [
+   "organic",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.09221839904785156,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.0791172981262207,
+  "precision": 0.625,
+  "recall": 0.8333333333333334,
+  "f1": 0.7142857142857143,
+  "tp": 10,
+  "fp": 6,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand",
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.126082181930542,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.126082181930542,
+  "precision": 0.9,
+  "recall": 0.75,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 1,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.09732651710510254,
+  "precision": 0.8181818181818182,
+  "recall": 0.75,
+  "f1": 0.7826086956521738,
+  "tp": 9,
+  "fp": 2,
+  "fn": 3,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 6.2664406299591064,
+  "precision": 1.0,
+  "recall": 0.25,
+  "f1": 0.4,
+  "tp": 3,
+  "fp": 0,
+  "fn": 9,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.2638380527496338,
+  "precision": 1.0,
+  "recall": 0.4166666666666667,
+  "f1": 0.5882352941176471,
+  "tp": 5,
+  "fp": 0,
+  "fn": 7,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 0.7683923244476318,
+  "precision": 1.0,
+  "recall": 0.9166666666666666,
+  "f1": 0.9565217391304348,
+  "tp": 11,
+  "fp": 0,
+  "fn": 1,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.014251708984375,
+  "precision": 0.3076923076923077,
+  "recall": 1.0,
+  "f1": 0.47058823529411764,
+  "tp": 12,
+  "fp": 27,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.10658454895019531,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.08400583267211914,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.09181332588195801,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.09181332588195801,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_believer"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.11224746704101562,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 6.041376829147339,
+  "precision": 1.0,
+  "recall": 0.16666666666666666,
+  "f1": 0.2857142857142857,
+  "tp": 2,
+  "fp": 0,
+  "fn": 10,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.20608091354370117,
+  "precision": 1.0,
+  "recall": 0.25,
+  "f1": 0.4,
+  "tp": 3,
+  "fp": 0,
+  "fn": 9,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 0.6013069152832031,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.012127161026000977,
+  "precision": 0.24444444444444444,
+  "recall": 0.9166666666666666,
+  "f1": 0.3859649122807018,
+  "tp": 11,
+  "fp": 34,
+  "fn": 1,
+  "fp_roles": [
+   "organic",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.14868426322937012,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.0850377082824707,
+  "precision": 0.7692307692307693,
+  "recall": 0.8333333333333334,
+  "f1": 0.8,
+  "tp": 10,
+  "fp": 3,
+  "fn": 2,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.09949541091918945,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.09949541091918945,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.10657358169555664,
+  "precision": 0.9090909090909091,
+  "recall": 0.8333333333333334,
+  "f1": 0.8695652173913043,
+  "tp": 10,
+  "fp": 1,
+  "fn": 2,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 6.500941753387451,
+  "precision": 1.0,
+  "recall": 0.25,
+  "f1": 0.4,
+  "tp": 3,
+  "fp": 0,
+  "fn": 9,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.2561311721801758,
+  "precision": 1.0,
+  "recall": 0.5833333333333334,
+  "f1": 0.7368421052631579,
+  "tp": 7,
+  "fp": 0,
+  "fn": 5,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 1.2024054527282715,
+  "precision": 1.0,
+  "recall": 0.9166666666666666,
+  "f1": 0.9565217391304348,
+  "tp": 11,
+  "fp": 0,
+  "fn": 1,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.011931657791137695,
+  "precision": 0.27906976744186046,
+  "recall": 1.0,
+  "f1": 0.43636363636363634,
+  "tp": 12,
+  "fp": 31,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.07942366600036621,
+  "precision": 0.6363636363636364,
+  "recall": 0.5833333333333334,
+  "f1": 0.6086956521739131,
+  "tp": 7,
+  "fp": 4,
+  "fn": 5,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.07673382759094238,
+  "precision": 0.6363636363636364,
+  "recall": 0.5833333333333334,
+  "f1": 0.6086956521739131,
+  "tp": 7,
+  "fp": 4,
+  "fn": 5,
+  "fp_roles": [
+   "brand",
+   "brand",
+   "brand",
+   "brand"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.09862804412841797,
+  "precision": 1.0,
+  "recall": 0.5833333333333334,
+  "f1": 0.7368421052631579,
+  "tp": 7,
+  "fp": 0,
+  "fn": 5,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.09862804412841797,
+  "precision": 1.0,
+  "recall": 0.5833333333333334,
+  "f1": 0.7368421052631579,
+  "tp": 7,
+  "fp": 0,
+  "fn": 5,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.11714744567871094,
+  "precision": 0.7777777777777778,
+  "recall": 0.5833333333333334,
+  "f1": 0.6666666666666666,
+  "tp": 7,
+  "fp": 2,
+  "fn": 5,
+  "fp_roles": [
+   "organic_reuploader",
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 4.7170960903167725,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.2545597553253174,
+  "precision": 1.0,
+  "recall": 0.5833333333333334,
+  "f1": 0.7368421052631579,
+  "tp": 7,
+  "fp": 0,
+  "fn": 5,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 0.7,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 0.9005193710327148,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 12,
+  "fp": 0,
+  "fn": 0,
+  "fp_roles": [],
+  "fn_roles": []
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "context_only",
+  "seconds": 0.006640195846557617,
+  "precision": 0.4,
+  "recall": 1.0,
+  "f1": 0.5714285714285715,
+  "tp": 12,
+  "fp": 18,
+  "fn": 0,
+  "fp_roles": [
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "forensic_only",
+  "seconds": 0.060503482818603516,
+  "precision": 0.8333333333333334,
+  "recall": 0.4166666666666667,
+  "f1": 0.5555555555555556,
+  "tp": 5,
+  "fp": 1,
+  "fn": 7,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "forensic_time",
+  "seconds": 0.06181001663208008,
+  "precision": 0.8333333333333334,
+  "recall": 0.4166666666666667,
+  "f1": 0.5555555555555556,
+  "tp": 5,
+  "fp": 1,
+  "fn": 7,
+  "fp_roles": [
+   "organic_reuploader"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "full",
+  "seconds": 0.07161211967468262,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "full+amplifiers",
+  "seconds": 0.07161211967468262,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "full_no_provenance",
+  "seconds": 0.06400084495544434,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "agent_eta0.0",
+  "seconds": 4.914205551147461,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "agent_eta0.2",
+  "seconds": 0.24478578567504883,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 0,
+  "query": "agent_eta0.4",
+  "seconds": 0.6355934143066406,
+  "precision": 1.0,
+  "recall": 0.8333333333333334,
+  "f1": 0.9090909090909091,
+  "tp": 10,
+  "fp": 0,
+  "fn": 2,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "context_only",
+  "seconds": 0.008641481399536133,
+  "precision": 0.3333333333333333,
+  "recall": 1.0,
+  "f1": 0.5,
+  "tp": 12,
+  "fp": 24,
+  "fn": 0,
+  "fp_roles": [
+   "organic",
+   "organic",
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": []
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "forensic_only",
+  "seconds": 0.0674436092376709,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "forensic_time",
+  "seconds": 0.06384444236755371,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "full",
+  "seconds": 0.060668230056762695,
+  "precision": 1.0,
+  "recall": 0.3333333333333333,
+  "f1": 0.5,
+  "tp": 4,
+  "fp": 0,
+  "fn": 8,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "full+amplifiers",
+  "seconds": 0.060668230056762695,
+  "precision": 1.0,
+  "recall": 0.3333333333333333,
+  "f1": 0.5,
+  "tp": 4,
+  "fp": 0,
+  "fn": 8,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "full_no_provenance",
+  "seconds": 0.05888199806213379,
+  "precision": 1.0,
+  "recall": 0.3333333333333333,
+  "f1": 0.5,
+  "tp": 4,
+  "fp": 0,
+  "fn": 8,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "agent_eta0.0",
+  "seconds": 4.567650318145752,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "agent_eta0.2",
+  "seconds": 0.311190128326416,
+  "precision": 1.0,
+  "recall": 0.16666666666666666,
+  "f1": 0.2857142857142857,
+  "tp": 2,
+  "fp": 0,
+  "fn": 10,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 1,
+  "query": "agent_eta0.4",
+  "seconds": 0.5685992240905762,
+  "precision": 1.0,
+  "recall": 0.9166666666666666,
+  "f1": 0.9565217391304348,
+  "tp": 11,
+  "fp": 0,
+  "fn": 1,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "context_only",
+  "seconds": 0.010571718215942383,
+  "precision": 0.3125,
+  "recall": 0.8333333333333334,
+  "f1": 0.45454545454545453,
+  "tp": 10,
+  "fp": 22,
+  "fn": 2,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "forensic_only",
+  "seconds": 0.06775903701782227,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "forensic_time",
+  "seconds": 0.04555225372314453,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "full",
+  "seconds": 0.06289529800415039,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "full+amplifiers",
+  "seconds": 0.06289529800415039,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "full_no_provenance",
+  "seconds": 0.07742142677307129,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "agent_eta0.0",
+  "seconds": 4.419254302978516,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "agent_eta0.2",
+  "seconds": 0.21976971626281738,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 2,
+  "query": "agent_eta0.4",
+  "seconds": 0.3189976215362549,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "context_only",
+  "seconds": 0.00652003288269043,
+  "precision": 0.3225806451612903,
+  "recall": 0.8333333333333334,
+  "f1": 0.4651162790697674,
+  "tp": 10,
+  "fp": 21,
+  "fn": 2,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "forensic_only",
+  "seconds": 0.05471324920654297,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "forensic_time",
+  "seconds": 0.0535275936126709,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "full",
+  "seconds": 0.06104278564453125,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "full+amplifiers",
+  "seconds": 0.06104278564453125,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "full_no_provenance",
+  "seconds": 0.08033609390258789,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "agent_eta0.0",
+  "seconds": 5.182144641876221,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "agent_eta0.2",
+  "seconds": 0.3371553421020508,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 3,
+  "query": "agent_eta0.4",
+  "seconds": 0.5124087333679199,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "context_only",
+  "seconds": 0.007692575454711914,
+  "precision": 0.2903225806451613,
+  "recall": 0.75,
+  "f1": 0.4186046511627908,
+  "tp": 9,
+  "fp": 22,
+  "fn": 3,
+  "fp_roles": [
+   "organic",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_believer",
+   "organic_reuploader",
+   "organic_reuploader",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor",
+   "organic_rumor"
+  ],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "forensic_only",
+  "seconds": 0.05403709411621094,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "forensic_time",
+  "seconds": 0.056023597717285156,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "full",
+  "seconds": 0.061150550842285156,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "full+amplifiers",
+  "seconds": 0.061150550842285156,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "full_no_provenance",
+  "seconds": 0.06574368476867676,
+  "precision": 1.0,
+  "recall": 0.5,
+  "f1": 0.6666666666666666,
+  "tp": 6,
+  "fp": 0,
+  "fn": 6,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "agent_eta0.0",
+  "seconds": 4.055148124694824,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1": 0.0,
+  "tp": 0,
+  "fp": 0,
+  "fn": 12,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "agent_eta0.2",
+  "seconds": 0.19197535514831543,
+  "precision": 1.0,
+  "recall": 0.08333333333333333,
+  "f1": 0.15384615384615385,
+  "tp": 1,
+  "fp": 0,
+  "fn": 11,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ },
+ {
+  "eta": 1.0,
+  "seed": 4,
+  "query": "agent_eta0.4",
+  "seconds": 0.45310544967651367,
+  "precision": 1.0,
+  "recall": 0.5833333333333334,
+  "f1": 0.7368421052631579,
+  "tp": 7,
+  "fp": 0,
+  "fn": 5,
+  "fp_roles": [],
+  "fn_roles": [
+   "campaign_amplifier",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core",
+   "campaign_core"
+  ]
+ }
+]

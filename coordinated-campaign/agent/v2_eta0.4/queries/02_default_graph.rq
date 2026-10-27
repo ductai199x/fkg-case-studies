@@ -1,0 +1,2 @@
+# 02: What does the default graph say about the named graphs?
+SELECT ?s ?p ?o WHERE { ?s ?p ?o }

@@ -1,0 +1,87 @@
+# Q3.2  Validly signed content credentials that contradict the forensic evidence.
+# Reasoning: ctx:ContentCredential ctx:credentialFor ?img with ctx:signatureValid true. A valid signature proves who
+# signed the assertion, not that it is true, so we test the assertion against the forensic record. Contradictions:
+#  (1) digitalSourceType = iptc:digitalCapture but the image has a RELIABLE AI region (>= 0.7, or 0.5-0.7 when heavily
+#      recompressed or corroborated by a near-duplicate);
+#  (2) digitalSourceType = iptc:trainedAlgorithmicMedia (fully synthetic) but the detector attributes a region to a
+#      camera with confidence >= 0.7;
+#  (3) claimedCaptureDevice names a device, the detector attributes a region to a camera model with confidence >= 0.7,
+#      and no camera-attributed region matches the claimed device (case/punctuation-insensitive containment either way);
+#  (4) claimedCaptureDevice is given but the image has no camera-attributed region at all and a reliable AI region.
+# Not treated as contradictions: a composite/AI declaration where the detector simply finds nothing (detectors miss AI
+# content; absence is not evidence in an open world).
+SELECT DISTINCT ?post WHERE {
+  ?post as:attachment ?img .
+  ?cc ctx:credentialFor ?img ;
+      ctx:signatureValid ?sv .
+  FILTER(?sv = true)
+  {
+    ?cc ctx:digitalSourceType iptc:digitalCapture .
+    ?img (fkg:hasRegion|^fkg:contained_in) ?rA .
+    ?rA fkg:produced_by ?srcA .
+    ?srcA a fkg:AIGenerator ; fkg:hasConfidence ?confA .
+    FILTER( ?confA >= "0.7"^^xsd:float
+         || ( ?confA >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clA . ?oA ctx:inCluster ?clA .
+          ?oA (fkg:hasRegion|^fkg:contained_in) ?orA .
+          ?orA fkg:produced_by ?osA .
+          ?osA a fkg:AIGenerator ; fkg:hasConfidence ?ocA .
+          FILTER(?oA != ?img && ?ocA >= "0.7"^^xsd:float)
+          ?rA fkg:depict ?ctA . ?orA fkg:depict ?octA .
+          { ?ctA fkg:hasObjectDescription ?dA . ?octA fkg:hasObjectDescription ?odA .
+            FILTER(LCASE(STR(?dA)) = LCASE(STR(?odA))) }
+          UNION
+          { ?ctA ctx:depictsEntity ?eA . ?octA ctx:depictsEntity ?eA . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kA .
+          { ?kA a fkg:ReCompressed } UNION { ?kA fkg:hasReCompressed true }
+          OPTIONAL { ?kA fkg:hasCompressionFactor ?fA }
+          FILTER(!BOUND(?fA) || ?fA <= "0.75"^^xsd:float)
+        } ) ) )
+  } UNION {
+    ?cc ctx:digitalSourceType iptc:trainedAlgorithmicMedia .
+    ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?camB .
+    ?camB a fkg:CameraModel .
+    OPTIONAL { ?camB fkg:hasConfidence ?camBc }
+    FILTER(!BOUND(?camBc) || ?camBc >= "0.7"^^xsd:float)
+  } UNION {
+    ?cc ctx:claimedCaptureDevice ?dev .
+    ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?camC .
+    ?camC a fkg:CameraModel ; fkg:hasCameraModel ?modelC .
+    OPTIONAL { ?camC fkg:hasConfidence ?camCc }
+    FILTER(!BOUND(?camCc) || ?camCc >= "0.7"^^xsd:float)
+    FILTER NOT EXISTS {
+      ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?camD .
+      ?camD a fkg:CameraModel ; fkg:hasCameraModel ?modelD .
+      FILTER(CONTAINS(REPLACE(LCASE(STR(?dev)), "[^a-z0-9]", ""), REPLACE(LCASE(STR(?modelD)), "[^a-z0-9]", "")) || CONTAINS(REPLACE(LCASE(STR(?modelD)), "[^a-z0-9]", ""), REPLACE(LCASE(STR(?dev)), "[^a-z0-9]", "")))
+    }
+  } UNION {
+    ?cc ctx:claimedCaptureDevice ?dev2 .
+    FILTER NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?camE . ?camE a fkg:CameraModel . }
+    ?img (fkg:hasRegion|^fkg:contained_in) ?rE .
+    ?rE fkg:produced_by ?srcE .
+    ?srcE a fkg:AIGenerator ; fkg:hasConfidence ?confE .
+    FILTER( ?confE >= "0.7"^^xsd:float
+         || ( ?confE >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clE . ?oE ctx:inCluster ?clE .
+          ?oE (fkg:hasRegion|^fkg:contained_in) ?orE .
+          ?orE fkg:produced_by ?osE .
+          ?osE a fkg:AIGenerator ; fkg:hasConfidence ?ocE .
+          FILTER(?oE != ?img && ?ocE >= "0.7"^^xsd:float)
+          ?rE fkg:depict ?ctE . ?orE fkg:depict ?octE .
+          { ?ctE fkg:hasObjectDescription ?dE . ?octE fkg:hasObjectDescription ?odE .
+            FILTER(LCASE(STR(?dE)) = LCASE(STR(?odE))) }
+          UNION
+          { ?ctE ctx:depictsEntity ?eE . ?octE ctx:depictsEntity ?eE . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kE .
+          { ?kE a fkg:ReCompressed } UNION { ?kE fkg:hasReCompressed true }
+          OPTIONAL { ?kE fkg:hasCompressionFactor ?fE }
+          FILTER(!BOUND(?fE) || ?fE <= "0.75"^^xsd:float)
+        } ) ) )
+  }
+}

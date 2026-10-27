@@ -1,0 +1,7 @@
+# 13: Identical note texts shared by >=2 distinct accounts that are matched (on at least one copy) to a False-rated claim; lists accounts using each text
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?content (COUNT(DISTINCT ?a) AS ?nAcc) (GROUP_CONCAT(DISTINCT STRAFTER(STR(?a),"actor/"); separator=",") AS ?accs) WHERE {
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:content ?content ; as:attributedTo ?a }
+ FILTER EXISTS { GRAPH <https://example.org/cc/graph/platform> { ?n2 as:content ?content } GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n2 . ?rev schema:itemReviewed ?cl ; schema:reviewRating/schema:ratingValue ?v FILTER(?v<=2) } }
+} GROUP BY ?content HAVING(COUNT(DISTINCT ?a) >= 1) ORDER BY DESC(?nAcc)

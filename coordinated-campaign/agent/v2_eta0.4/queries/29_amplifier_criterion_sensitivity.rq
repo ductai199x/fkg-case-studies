@@ -1,0 +1,13 @@
+# 29: Sensitivity of AMPLIFIER criterion - accounts reposting >=1 core account within 6h: #distinct cores fast-reposted, whether any false-claim post is a verbatim copy of core text, account creation
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?user ?created (COUNT(DISTINCT ?core) AS ?nFastCores) (SAMPLE(?verb) AS ?verbatimCopy) WHERE {
+  VALUES ?coreName { "lazy_patriot930" "mellow_ranger534" "true_river921" "quiet_atlas278" "north_ember718" "local_fox863" "lazy_pixel298" "true_ranger65" "real_atlas225" "blue_otter565" }
+  GRAPH <https://example.org/cc/graph/platform> { ?core as:preferredUsername ?coreName . ?cn as:attributedTo ?core ; as:published ?tc .
+    ?ann a as:Announce ; as:object ?cn ; as:actor ?account ; as:published ?ta . ?account as:preferredUsername ?user ; as:published ?created }
+  FILTER(?ta - ?tc <= "PT6H"^^xsd:dayTimeDuration)
+  BIND(EXISTS { GRAPH <https://example.org/cc/graph/factcheck> { ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue 1 . ?c schema:appearance ?fn }
+                GRAPH <https://example.org/cc/graph/platform> { ?fn as:attributedTo ?account ; as:content ?txt . ?x as:content ?txt ; as:attributedTo ?y . ?y as:preferredUsername ?yn }
+                FILTER(?yn IN ("lazy_patriot930","mellow_ranger534","true_river921","quiet_atlas278","north_ember718","local_fox863","lazy_pixel298","true_ranger65","real_atlas225","blue_otter565") && ?y != ?account) } AS ?verb)
+} GROUP BY ?user ?created ORDER BY DESC(?nFastCores)

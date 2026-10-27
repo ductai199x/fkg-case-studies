@@ -1,0 +1,115 @@
+# detector.rq -- generic detector for a coordinated effort that pushes low-rated (false) claims with manipulated media.
+# Returns ?account (role = "core" or "amplifier"). No IRIs, texts, generator names, dates or parameter values are hard-coded.
+#
+# CORE (shared forensic TTP fingerprint + false claims):
+#   - the account posted >= 3 ORIGINAL images (not provenance-derived copies) judged fkg:Manipulated, each with a region whose
+#     post-processing chain has >= 2 parameterised operations, and
+#   - each such chain matches the chain of an original image posted by a DIFFERENT account: same number of operations, every
+#     operation has a same-typed counterpart whose parameter value is within 10% (order-insensitive, tolerant of estimation error), and
+#   - those matching images span >= 2 other accounts (a shared toolchain, not one person's habit), and
+#   - >= 1 of the account's fingerprint-bearing notes is matched to a ClaimReview rated in the bottom quarter of its scale (False).
+# AMPLIFIER (coordination-only accounts that push the same false claims without media):
+#   - not core; made >= 3 reposts, >= 80% of them reposting core accounts;
+#   - account created within 7 days of some core account's creation (batch-created infrastructure);
+#   - >= 1 of its own notes is matched to a bottom-quarter-rated claim.
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?account ?role WHERE {
+ {
+  { SELECT ?coreA WHERE {
+   { SELECT ?r1 ?r2 WHERE {
+     { SELECT ?r1 (COUNT(DISTINCT ?x1) AS ?k1) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:modified_by ?x1 . ?x1 fkg:hasParameter ?xp1 } } GROUP BY ?r1 HAVING(COUNT(DISTINCT ?x1) >= 2) }
+     { SELECT ?r2 (COUNT(DISTINCT ?x2) AS ?k2) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r2 fkg:modified_by ?x2 . ?x2 fkg:hasParameter ?xp2 } } GROUP BY ?r2 HAVING(COUNT(DISTINCT ?x2) >= 2) }
+     FILTER(?k1 = ?k2 && ?r1 != ?r2)
+     GRAPH <https://example.org/cc/graph/forensics> {
+       ?r1 fkg:modified_by ?o1 . ?o1 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v1 .
+       ?r2 fkg:modified_by ?o2 . ?o2 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v2 .
+       FILTER(ABS(?v1 - ?v2) <= 0.10 * ABS(?v1)) }
+   } GROUP BY ?r1 ?r2 ?k1 HAVING(COUNT(DISTINCT ?o1) = ?k1) }
+   GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:contained_in ?img1 . ?r2 fkg:contained_in ?img2 . FILTER(?img1 != ?img2)
+     ?rec1 fkg:aboutImage ?img1 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img1 prov:wasDerivedFrom ?d1 } }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?d2 } }
+   GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?img1 ; as:attributedTo ?coreA . ?n2 as:attachment ?img2 ; as:attributedTo ?peer . FILTER(?peer != ?coreA) }
+   OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n1 . ?rev schema:itemReviewed ?cl ; schema:reviewRating ?rt .
+       ?rt schema:ratingValue ?rv ; schema:bestRating ?best ; schema:worstRating ?worst . FILTER((?rv - ?worst) <= 0.25 * (?best - ?worst)) }
+     BIND(?n1 AS ?falseNote) }
+ } GROUP BY ?coreA HAVING(COUNT(DISTINCT ?img1) >= 3 && COUNT(DISTINCT ?peer) >= 2 && COUNT(DISTINCT ?falseNote) >= 1) }
+  BIND(?coreA AS ?account) BIND("core" AS ?role)
+ } UNION {
+  { SELECT ?coreB WHERE {
+   { SELECT ?r1 ?r2 WHERE {
+     { SELECT ?r1 (COUNT(DISTINCT ?x1) AS ?k1) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:modified_by ?x1 . ?x1 fkg:hasParameter ?xp1 } } GROUP BY ?r1 HAVING(COUNT(DISTINCT ?x1) >= 2) }
+     { SELECT ?r2 (COUNT(DISTINCT ?x2) AS ?k2) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r2 fkg:modified_by ?x2 . ?x2 fkg:hasParameter ?xp2 } } GROUP BY ?r2 HAVING(COUNT(DISTINCT ?x2) >= 2) }
+     FILTER(?k1 = ?k2 && ?r1 != ?r2)
+     GRAPH <https://example.org/cc/graph/forensics> {
+       ?r1 fkg:modified_by ?o1 . ?o1 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v1 .
+       ?r2 fkg:modified_by ?o2 . ?o2 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v2 .
+       FILTER(ABS(?v1 - ?v2) <= 0.10 * ABS(?v1)) }
+   } GROUP BY ?r1 ?r2 ?k1 HAVING(COUNT(DISTINCT ?o1) = ?k1) }
+   GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:contained_in ?img1 . ?r2 fkg:contained_in ?img2 . FILTER(?img1 != ?img2)
+     ?rec1 fkg:aboutImage ?img1 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img1 prov:wasDerivedFrom ?d1 } }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?d2 } }
+   GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?img1 ; as:attributedTo ?coreB . ?n2 as:attachment ?img2 ; as:attributedTo ?peer . FILTER(?peer != ?coreB) }
+   OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n1 . ?rev schema:itemReviewed ?cl ; schema:reviewRating ?rt .
+       ?rt schema:ratingValue ?rv ; schema:bestRating ?best ; schema:worstRating ?worst . FILTER((?rv - ?worst) <= 0.25 * (?best - ?worst)) }
+     BIND(?n1 AS ?falseNote) }
+ } GROUP BY ?coreB HAVING(COUNT(DISTINCT ?img1) >= 3 && COUNT(DISTINCT ?peer) >= 2 && COUNT(DISTINCT ?falseNote) >= 1) }
+  GRAPH <https://example.org/cc/graph/platform> {
+    ?coreB as:published ?coreCreated .
+    ?amp a as:Person ; as:published ?ampCreated .
+    FILTER(?amp != ?coreB)
+    FILTER(?ampCreated - ?coreCreated <= "P7D"^^xsd:dayTimeDuration && ?coreCreated - ?ampCreated <= "P7D"^^xsd:dayTimeDuration)
+  }
+  { SELECT ?amp (COUNT(DISTINCT ?ann) AS ?totalReposts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?ann a as:Announce ; as:actor ?amp } } GROUP BY ?amp }
+  { SELECT ?amp (COUNT(DISTINCT ?ann2) AS ?coreReposts) WHERE {
+      { SELECT ?coreC WHERE {
+   { SELECT ?r1 ?r2 WHERE {
+     { SELECT ?r1 (COUNT(DISTINCT ?x1) AS ?k1) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:modified_by ?x1 . ?x1 fkg:hasParameter ?xp1 } } GROUP BY ?r1 HAVING(COUNT(DISTINCT ?x1) >= 2) }
+     { SELECT ?r2 (COUNT(DISTINCT ?x2) AS ?k2) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r2 fkg:modified_by ?x2 . ?x2 fkg:hasParameter ?xp2 } } GROUP BY ?r2 HAVING(COUNT(DISTINCT ?x2) >= 2) }
+     FILTER(?k1 = ?k2 && ?r1 != ?r2)
+     GRAPH <https://example.org/cc/graph/forensics> {
+       ?r1 fkg:modified_by ?o1 . ?o1 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v1 .
+       ?r2 fkg:modified_by ?o2 . ?o2 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v2 .
+       FILTER(ABS(?v1 - ?v2) <= 0.10 * ABS(?v1)) }
+   } GROUP BY ?r1 ?r2 ?k1 HAVING(COUNT(DISTINCT ?o1) = ?k1) }
+   GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:contained_in ?img1 . ?r2 fkg:contained_in ?img2 . FILTER(?img1 != ?img2)
+     ?rec1 fkg:aboutImage ?img1 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img1 prov:wasDerivedFrom ?d1 } }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?d2 } }
+   GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?img1 ; as:attributedTo ?coreC . ?n2 as:attachment ?img2 ; as:attributedTo ?peer . FILTER(?peer != ?coreC) }
+   OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n1 . ?rev schema:itemReviewed ?cl ; schema:reviewRating ?rt .
+       ?rt schema:ratingValue ?rv ; schema:bestRating ?best ; schema:worstRating ?worst . FILTER((?rv - ?worst) <= 0.25 * (?best - ?worst)) }
+     BIND(?n1 AS ?falseNote) }
+ } GROUP BY ?coreC HAVING(COUNT(DISTINCT ?img1) >= 3 && COUNT(DISTINCT ?peer) >= 2 && COUNT(DISTINCT ?falseNote) >= 1) }
+      GRAPH <https://example.org/cc/graph/platform> { ?ann2 a as:Announce ; as:actor ?amp ; as:object ?obj . ?obj as:attributedTo ?coreC } } GROUP BY ?amp }
+  FILTER(?totalReposts >= 3 && ?coreReposts >= 0.8 * ?totalReposts)
+  FILTER EXISTS { GRAPH <https://example.org/cc/graph/platform> { ?an as:attributedTo ?amp }
+    GRAPH <https://example.org/cc/graph/factcheck> { ?acl schema:appearance ?an . ?arev schema:itemReviewed ?acl ; schema:reviewRating ?art .
+      ?art schema:ratingValue ?arv ; schema:bestRating ?abest ; schema:worstRating ?aworst . FILTER((?arv - ?aworst) <= 0.25 * (?abest - ?aworst)) } }
+  MINUS { { SELECT ?coreD WHERE {
+   { SELECT ?r1 ?r2 WHERE {
+     { SELECT ?r1 (COUNT(DISTINCT ?x1) AS ?k1) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:modified_by ?x1 . ?x1 fkg:hasParameter ?xp1 } } GROUP BY ?r1 HAVING(COUNT(DISTINCT ?x1) >= 2) }
+     { SELECT ?r2 (COUNT(DISTINCT ?x2) AS ?k2) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r2 fkg:modified_by ?x2 . ?x2 fkg:hasParameter ?xp2 } } GROUP BY ?r2 HAVING(COUNT(DISTINCT ?x2) >= 2) }
+     FILTER(?k1 = ?k2 && ?r1 != ?r2)
+     GRAPH <https://example.org/cc/graph/forensics> {
+       ?r1 fkg:modified_by ?o1 . ?o1 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v1 .
+       ?r2 fkg:modified_by ?o2 . ?o2 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v2 .
+       FILTER(ABS(?v1 - ?v2) <= 0.10 * ABS(?v1)) }
+   } GROUP BY ?r1 ?r2 ?k1 HAVING(COUNT(DISTINCT ?o1) = ?k1) }
+   GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:contained_in ?img1 . ?r2 fkg:contained_in ?img2 . FILTER(?img1 != ?img2)
+     ?rec1 fkg:aboutImage ?img1 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img1 prov:wasDerivedFrom ?d1 } }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?d2 } }
+   GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?img1 ; as:attributedTo ?coreD . ?n2 as:attachment ?img2 ; as:attributedTo ?peer . FILTER(?peer != ?coreD) }
+   OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n1 . ?rev schema:itemReviewed ?cl ; schema:reviewRating ?rt .
+       ?rt schema:ratingValue ?rv ; schema:bestRating ?best ; schema:worstRating ?worst . FILTER((?rv - ?worst) <= 0.25 * (?best - ?worst)) }
+     BIND(?n1 AS ?falseNote) }
+ } GROUP BY ?coreD HAVING(COUNT(DISTINCT ?img1) >= 3 && COUNT(DISTINCT ?peer) >= 2 && COUNT(DISTINCT ?falseNote) >= 1) } BIND(?coreD AS ?amp) }
+  BIND(?amp AS ?account) BIND("amplifier" AS ?role)
+ }
+} ORDER BY ?role ?account

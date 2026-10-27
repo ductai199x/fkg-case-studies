@@ -1,0 +1,40 @@
+# Q1.3 (cs1) - one label per claim-bearing post.
+# Reasoning / data checks:
+# - Claim-bearing post = schema:appearance of a schema:Claim (105 claims, 105 distinct posts; no post has 2 claims).
+# - Reliable AI region = fkg:AIGenerator source with fkg:hasConfidence >= 0.7 (org policy), not counting the
+#   isolated false-positive pattern (non-object content, fkg:hasObjectedness false, below 0.8 - here the
+#   "texture patch" hits, already < 0.7; the same rule is used for cs2/cs3). The detector's own
+#   fkg:verdict is NOT used: it marks images "Manipulated" even for the isolated ~0.56 "texture patch" false
+#   positives (cluster_1..4), which policy treats as unreliable.
+# - synthetic: image has a reliable AI region and no fkg:CameraModel-sourced region at all (15 images; these are
+#   exactly the ones the detector called ctx:SyntheticImage).
+# - manipulated: image has a camera-sourced region AND a reliable AI region (the blurred insertions in
+#   cluster_76..90; two insertions there score 0.67/0.677 and therefore fall to the next test by policy).
+# - recycled_ooc: camera image, no reliable AI region, and the same photograph (same cluster AND same camera
+#   model, since pHash clusters 5/6/7 merge different shots) was published before the claimed event's startDate.
+# - no_problem_found: everything else (includes photos that correctly show old events, e.g. 2019/2021/2023 crowd
+#   photos first published after those events began).
+# Precedence synthetic > manipulated > recycled_ooc > no_problem_found gives exactly one label per post.
+SELECT DISTINCT ?post ?label WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post .
+  ?post as:attachment ?img .
+  BIND(EXISTS {
+    ?img fkg:hasRegion ?r1 . ?r1 fkg:produced_by ?s1 ; fkg:depict ?d1 . ?s1 a fkg:AIGenerator ; fkg:hasConfidence ?c1 .
+    ?d1 fkg:hasObjectedness ?o1 .
+    FILTER(?c1 >= 0.7 && !(?o1 = false && ?c1 < 0.8))
+  } AS ?hasReliableAI)
+  BIND(EXISTS {
+    ?img fkg:hasRegion ?r2 . ?r2 fkg:produced_by ?s2 . ?s2 a fkg:CameraModel .
+  } AS ?hasCamera)
+  BIND(EXISTS {
+    ?claim ctx:assertsDepictionOf ?event . ?event schema:startDate ?start .
+    ?img ctx:inCluster ?cluster ; fkg:hasRegion ?r3 . ?r3 fkg:produced_by ?s3 . ?s3 a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+    ?twin ctx:inCluster ?cluster ; fkg:hasRegion ?r4 . ?r4 fkg:produced_by ?s4 . ?s4 a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+    ?twinPost as:attachment ?twin ; as:published ?twinPub .
+    FILTER(?twinPub < ?start)
+  } AS ?seenBefore)
+  BIND(IF(?hasReliableAI && !?hasCamera, "synthetic",
+       IF(?hasReliableAI && ?hasCamera, "manipulated",
+       IF(?hasCamera && ?seenBefore, "recycled_ooc", "no_problem_found"))) AS ?label)
+}
+ORDER BY ?post

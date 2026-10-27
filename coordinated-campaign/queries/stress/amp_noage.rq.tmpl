@@ -1,0 +1,21 @@
+# amp_noage: second hop seeded from a detector's accounts (VALUES ?core), no account-age condition
+PREFIX fkg:    <https://example.org/fkg#>
+PREFIX as:     <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov:   <http://www.w3.org/ns/prov#>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX cc:     <https://example.org/cc/>
+PREFIX g:      <https://example.org/cc/graph/>
+
+SELECT ?account (COUNT(DISTINCT ?note) AS ?reposts) WHERE {
+  VALUES ?core { %CORE% }
+  GRAPH g:platform { ?ann a as:Announce ; as:actor ?account ; as:object ?note . ?note as:attributedTo ?core . ?own as:attributedTo ?account . }
+  FILTER(?account NOT IN (%CORE%))
+  GRAPH g:factcheck {
+    ?claim schema:appearance ?own .
+    FILTER NOT EXISTS { ?review schema:itemReviewed ?claim ; schema:reviewRating ?rating . ?rating schema:ratingValue ?score . FILTER(?score >= 3) }
+    FILTER NOT EXISTS { ?own cc:stance cc:Refutes }
+  }
+}
+GROUP BY ?account
+HAVING (COUNT(DISTINCT ?note) >= 4 && COUNT(DISTINCT ?core) >= 2)

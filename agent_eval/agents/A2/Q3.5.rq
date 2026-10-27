@@ -1,0 +1,26 @@
+# Q3.5 - fact-checks resting on records produced by a detector version with a known issue (cs3).
+# Reasoning: ctx:KnownIssue -> ctx:affectsVersion ?ver and ctx:affectsProperty (an IRI string, turned into
+# an IRI with IRI(STR(.))). A forensic record was produced by ?ver either directly
+# (record prov:wasAssociatedWith ?ver) or via its run (record prov:wasGeneratedBy ?run, run
+# prov:wasAssociatedWith ?ver). The record must CONTAIN the affected property: it is used on the record
+# itself, on its conclusion/observation nodes, anywhere in the forensic structure of the record's image
+# (regions -> source/post-processing/compression/content), or anywhere in the record's named graph when
+# that graph holds only this one record. A schema:ClaimReview rests on the record via schema:isBasedOn
+# (directly or via the record's fkg:hasConclusion node).
+# Records by the affected version that do NOT contain the property (e.g. camera-only images when the
+# defect is in the generator-attribution head) are not reported.
+SELECT DISTINCT ?review WHERE {
+  ?issue ctx:affectsVersion ?ver ;
+         ctx:affectsProperty ?propStr .
+  BIND(IRI(STR(?propStr)) AS ?prop)
+  ?rec (prov:wasAssociatedWith|prov:wasGeneratedBy/prov:wasAssociatedWith) ?ver .
+  ?review schema:isBasedOn/(^fkg:hasConclusion)? ?rec .
+  FILTER( EXISTS { ?rec ?prop ?o1 }
+       || EXISTS { ?rec (fkg:hasConclusion|fkg:basedOnObservation|fkg:aboutRegion)+ ?n2 . ?n2 ?prop ?o2 }
+       || EXISTS { ?rec fkg:aboutImage ?img .
+                   ?img (fkg:hasRegion|^fkg:contained_in) ?reg .
+                   ?reg (fkg:produced_by|fkg:modified_by|fkg:compress_by|fkg:depict|fkg:hasNext|fkg:hasParameter)* ?n3 .
+                   ?n3 ?prop ?o3 }
+       || EXISTS { GRAPH ?g { ?rec ?anyP ?anyO . ?s4 ?prop ?o4 .
+                              FILTER NOT EXISTS { ?rec2 a fkg:ForensicRecord . FILTER(?rec2 != ?rec) } } } )
+}

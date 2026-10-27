@@ -1,0 +1,37 @@
+# Q1.2 (cs1) Earliest known public appearance of each recycled photograph found in Q1.1.
+# Reasoning / data checks:
+# - Re-derives the Q1.1 set (claim-bearing post, camera region, no AI region with confidence >= 0.7, a copy of the
+#   same photograph published before the claimed event's start).
+# - "Same photograph" = same near-duplicate cluster AND same attributed camera model, because perceptual clusters
+#   sometimes merge different photos (cluster_5/6/7 mix e.g. Galaxy S24 and Pixel 8 shots). Without the camera
+#   check, a merged older photo could be reported as the "earliest appearance".
+# - Earliest = the copy with the minimum as:published among those copies (open world: earliest *known* appearance).
+#   In the data the earliest copy is always a NewsOutlet post on NewsWire published around the original event.
+SELECT DISTINCT ?post ?earliestPost WHERE {
+  {
+    SELECT ?post ?img ?cam ?cl (MIN(?pubX) AS ?minPub) WHERE {
+      ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+      ?event schema:startDate ?start .
+      ?post as:attachment ?img .
+      ?img fkg:hasRegion ?r . ?r fkg:produced_by ?cs . ?cs a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+      FILTER NOT EXISTS {
+        ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?as . ?as a fkg:AIGenerator ; fkg:hasConfidence ?ac .
+        FILTER(?ac >= 0.7)
+      }
+      ?img ctx:inCluster ?cl .
+      ?imgX ctx:inCluster ?cl .
+      ?imgX fkg:hasRegion ?rX . ?rX fkg:produced_by ?csX . ?csX a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+      ?postX as:attachment ?imgX ; as:published ?pubX .
+      # keep only Q1.1 posts: an earlier same-photo copy exists before the event start
+      FILTER EXISTS {
+        ?img2 ctx:inCluster ?cl . FILTER(?img2 != ?img)
+        ?img2 fkg:hasRegion ?r2 . ?r2 fkg:produced_by ?cs2 . ?cs2 a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+        ?post2 as:attachment ?img2 ; as:published ?pub2 . FILTER(?pub2 < ?start)
+      }
+    } GROUP BY ?post ?img ?cam ?cl
+  }
+  ?imgE ctx:inCluster ?cl .
+  ?imgE fkg:hasRegion ?rE . ?rE fkg:produced_by ?csE . ?csE a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+  ?earliestPost as:attachment ?imgE ; as:published ?minPub .
+}
+ORDER BY ?post

@@ -1,0 +1,37 @@
+# Q2.1 (cs2) First carrier of each distinct AI-generated insertion per near-duplicate cluster.
+# Reasoning / data checks:
+# - An "insertion" is identified by (cluster, depicted object description) of an fkg:AIGenerator region. Every camera
+#   region depicts "street scene"; AI regions depict armed man / crowd / flag / fire / sky. Generator labels are
+#   consistent within an insertion here, but I key on the description because generator attribution can drift under
+#   recompression (cs1 showed varying labels for the same region).
+# - Cluster originals (NewsWire, first post in each cluster) of cluster_1 and cluster_5 carry a "sky" AI region at 0.72
+#   that NO later copy in the cluster carries. A real insertion in the original would be inherited by every copy, so this
+#   is the documented isolated false AI region -> the original is unaltered and is not reported.
+#   Rule: drop an insertion whose earliest carrier is the cluster's earliest instance while some cluster member lacks it.
+# - Confidence: an insertion is accepted if at least one carrier reaches >= 0.7 (org threshold). Copies on heavily
+#   recompressed MsgApp (q=0.70) drop to 0.665/0.748 but are corroborated by high-confidence carriers.
+# - First carrier = carrier post with the minimum as:published; account = its as:attributedTo.
+#   Result: 6 insertions, all first posted on FringeBoard by "fringe_editor" accounts.
+SELECT DISTINCT ?cluster ?post ?account WHERE {
+  {
+    SELECT ?cluster ?d (MIN(?pub) AS ?firstPub) WHERE {
+      ?img ctx:inCluster ?cluster ; fkg:hasRegion ?r .
+      ?r fkg:produced_by ?s ; fkg:depict/fkg:hasObjectDescription ?d . ?s a fkg:AIGenerator .
+      ?p as:attachment ?img ; as:published ?pub .
+    } GROUP BY ?cluster ?d
+  }
+  # corroboration: some carrier at or above the reliability threshold
+  FILTER EXISTS {
+    ?imgH ctx:inCluster ?cluster ; fkg:hasRegion ?rH . ?rH fkg:produced_by ?sH ; fkg:depict/fkg:hasObjectDescription ?d .
+    ?sH a fkg:AIGenerator ; fkg:hasConfidence ?cH . FILTER(?cH >= 0.7)
+  }
+  ?img1 ctx:inCluster ?cluster ; fkg:hasRegion ?r1 . ?r1 fkg:produced_by ?s1 ; fkg:depict/fkg:hasObjectDescription ?d . ?s1 a fkg:AIGenerator .
+  ?post as:attachment ?img1 ; as:published ?firstPub ; as:attributedTo ?account .
+  # exclude the original's non-inherited (spurious) AI region
+  FILTER NOT EXISTS {
+    FILTER NOT EXISTS { ?o ctx:inCluster ?cluster . ?po as:attachment ?o ; as:published ?to . FILTER(?to < ?firstPub) }
+    ?m ctx:inCluster ?cluster .
+    FILTER NOT EXISTS { ?m fkg:hasRegion ?rm . ?rm fkg:produced_by ?sm ; fkg:depict/fkg:hasObjectDescription ?d . ?sm a fkg:AIGenerator }
+  }
+}
+ORDER BY ?cluster ?post

@@ -1,0 +1,87 @@
+# Q2.2 (cs2) Spread reconstruction: immediate parent image instance of every non-first instance in a cluster.
+# Output ?child ?parent are fkg:Image IRIs (each post has exactly one attached image).
+# Forensic compatibility constraints (all checked against the data):
+#  1. Same near-duplicate cluster (all copies in a cluster share one camera attribution, so no merged-photo issue
+#     here) and the parent was published strictly earlier.
+#  2. Resolution: the child's camera region carries fkg:Resampling with scaleFactor = childEdge/parentEdge
+#     (0.32=1280/4000, 0.4=1600/4000, 0.512=2048/4000, 0.625=1280/2048, 0.781=1600/2048, 0.8=1280/1600);
+#     fkg:NoPostProc means the parent had the same ctx:pixelLongEdge. Require |parentEdge*scale - childEdge| <= 2.
+#  3. Insertions are inherited: a child carries exactly its parent's genuine insertion, except the first carrier
+#     of an insertion, whose parent must be clean. Genuine insertion = (cluster, generator, description) with
+#     splice evidence (AI region not fkg:ReCompressed vs. fkg:ReCompressed background, conf >= 0.7), see Q2.1.
+#     Content-triggered false regions (cluster_5 Midjourney "fire", cluster_1 lone GPT-Image-1 "sky") are ignored,
+#     as they need not be inherited.
+#  4. Pass-through child (FringeBoard stores files byte-for-byte): its file's JPEG quality identifies the last
+#     transcoder, so the parent's file must fall in the same quality class (nearest non-pass-through
+#     transcodeQuality). Not applied to a splice origin, whose file the editor re-saved (q~0.95).
+# Choosing among several compatible candidates (the crawl gives no explicit derivation link, so this is a
+# likelihood judgement): prefer the cluster's original (outlet post) whenever it is compatible, else the most
+# recent compatible earlier instance. Rationale: in the data, children that need a full-resolution (4000 px)
+# parent are over-represented (63 observed vs. ~52 expected if parents were picked uniformly), consistent with
+# copying preferentially from the outlet original, and a mild recency effect fits the edge-type evidence better
+# than uniform choice. Every non-first instance has at least one compatible candidate.
+SELECT ?child ?parent WHERE {
+  {
+    SELECT ?c_img (MAX(?score) AS ?best) WHERE {
+{ SELECT ?c_img ?c_cl ?c_pub ?c_edge ?c_scale ?c_cf ?c_pt ?c_ins ?c_origin ?c_cls ?c_isRoot WHERE {
+  ?c_post as:attachment ?c_img ; as:published ?c_pub ; ctx:onPlatform ?c_plat . ?c_plat ctx:passthrough ?c_pt .
+  ?c_img ctx:inCluster ?c_cl ; ctx:pixelLongEdge ?c_edge .
+  ?c_cr fkg:contained_in ?c_img ; fkg:produced_by ?c_cam ; fkg:compress_by ?c_cc . ?c_cam a fkg:CameraModel . ?c_cc fkg:hasCompressionFactor ?c_cf .
+  OPTIONAL { ?c_cr fkg:modified_by ?c_cm . ?c_cm fkg:hasParameter ?c_cpa . ?c_cpa fkg:hasParameterName "scaleFactor" ; fkg:hasParameterValue ?c_sf0 }
+  BIND(COALESCE(xsd:double(?c_sf0), 1.0) AS ?c_scale)
+  OPTIONAL {
+    { SELECT DISTINCT ?c_cl ?c_gm ?c_desc WHERE {
+        ?c_ai a fkg:AIGenerator ; fkg:hasGeneratorModel ?c_gm ; fkg:hasConfidence ?c_conf .
+        ?c_r fkg:produced_by ?c_ai ; fkg:contained_in ?c_gimg ; fkg:depict ?c_d ; fkg:compress_by ?c_c .
+        ?c_d fkg:hasObjectDescription ?c_desc . ?c_gimg ctx:inCluster ?c_cl .
+        FILTER(?c_conf >= 0.7) FILTER NOT EXISTS { ?c_c a fkg:ReCompressed }
+        ?c_grc fkg:contained_in ?c_gimg ; fkg:produced_by ?c_gcam ; fkg:compress_by ?c_gcc . ?c_gcam a fkg:CameraModel . ?c_gcc a fkg:ReCompressed . } }
+    ?c_ar fkg:contained_in ?c_img ; fkg:produced_by ?c_aai ; fkg:depict ?c_ad . ?c_aai a fkg:AIGenerator ; fkg:hasGeneratorModel ?c_gm . ?c_ad fkg:hasObjectDescription ?c_desc .
+  }
+  BIND(IF(BOUND(?c_gm), CONCAT(?c_gm, " / ", ?c_desc), "") AS ?c_ins)
+  BIND(?c_ins != "" && NOT EXISTS {
+      ?c_ep as:attachment ?c_eimg ; as:published ?c_epub . ?c_eimg ctx:inCluster ?c_cl .
+      ?c_er fkg:contained_in ?c_eimg ; fkg:produced_by ?c_eai ; fkg:depict ?c_ed . ?c_eai a fkg:AIGenerator ; fkg:hasGeneratorModel ?c_gm . ?c_ed fkg:hasObjectDescription ?c_desc .
+      FILTER(?c_epub < ?c_pub) } AS ?c_origin)
+  ?c_clsP a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?c_clsQ .
+  FILTER NOT EXISTS { ?c_o2 a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?c_oq . FILTER(ABS(?c_oq - ?c_cf) < ABS(?c_clsQ - ?c_cf)) }
+  BIND(?c_clsP AS ?c_cls)
+  BIND(NOT EXISTS { ?c_rp as:attachment ?c_rimg ; as:published ?c_rpub . ?c_rimg ctx:inCluster ?c_cl . FILTER(?c_rpub < ?c_pub) } AS ?c_isRoot)
+} }
+      FILTER(!?c_isRoot)
+{ SELECT ?p_img ?p_cl ?p_pub ?p_edge ?p_scale ?p_cf ?p_pt ?p_ins ?p_origin ?p_cls ?p_isRoot WHERE {
+  ?p_post as:attachment ?p_img ; as:published ?p_pub ; ctx:onPlatform ?p_plat . ?p_plat ctx:passthrough ?p_pt .
+  ?p_img ctx:inCluster ?p_cl ; ctx:pixelLongEdge ?p_edge .
+  ?p_cr fkg:contained_in ?p_img ; fkg:produced_by ?p_cam ; fkg:compress_by ?p_cc . ?p_cam a fkg:CameraModel . ?p_cc fkg:hasCompressionFactor ?p_cf .
+  OPTIONAL { ?p_cr fkg:modified_by ?p_cm . ?p_cm fkg:hasParameter ?p_cpa . ?p_cpa fkg:hasParameterName "scaleFactor" ; fkg:hasParameterValue ?p_sf0 }
+  BIND(COALESCE(xsd:double(?p_sf0), 1.0) AS ?p_scale)
+  OPTIONAL {
+    { SELECT DISTINCT ?p_cl ?p_gm ?p_desc WHERE {
+        ?p_ai a fkg:AIGenerator ; fkg:hasGeneratorModel ?p_gm ; fkg:hasConfidence ?p_conf .
+        ?p_r fkg:produced_by ?p_ai ; fkg:contained_in ?p_gimg ; fkg:depict ?p_d ; fkg:compress_by ?p_c .
+        ?p_d fkg:hasObjectDescription ?p_desc . ?p_gimg ctx:inCluster ?p_cl .
+        FILTER(?p_conf >= 0.7) FILTER NOT EXISTS { ?p_c a fkg:ReCompressed }
+        ?p_grc fkg:contained_in ?p_gimg ; fkg:produced_by ?p_gcam ; fkg:compress_by ?p_gcc . ?p_gcam a fkg:CameraModel . ?p_gcc a fkg:ReCompressed . } }
+    ?p_ar fkg:contained_in ?p_img ; fkg:produced_by ?p_aai ; fkg:depict ?p_ad . ?p_aai a fkg:AIGenerator ; fkg:hasGeneratorModel ?p_gm . ?p_ad fkg:hasObjectDescription ?p_desc .
+  }
+  BIND(IF(BOUND(?p_gm), CONCAT(?p_gm, " / ", ?p_desc), "") AS ?p_ins)
+  BIND(?p_ins != "" && NOT EXISTS {
+      ?p_ep as:attachment ?p_eimg ; as:published ?p_epub . ?p_eimg ctx:inCluster ?p_cl .
+      ?p_er fkg:contained_in ?p_eimg ; fkg:produced_by ?p_eai ; fkg:depict ?p_ed . ?p_eai a fkg:AIGenerator ; fkg:hasGeneratorModel ?p_gm . ?p_ed fkg:hasObjectDescription ?p_desc .
+      FILTER(?p_epub < ?p_pub) } AS ?p_origin)
+  ?p_clsP a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?p_clsQ .
+  FILTER NOT EXISTS { ?p_o2 a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?p_oq . FILTER(ABS(?p_oq - ?p_cf) < ABS(?p_clsQ - ?p_cf)) }
+  BIND(?p_clsP AS ?p_cls)
+  BIND(NOT EXISTS { ?p_rp as:attachment ?p_rimg ; as:published ?p_rpub . ?p_rimg ctx:inCluster ?p_cl . FILTER(?p_rpub < ?p_pub) } AS ?p_isRoot)
+} }
+      FILTER(?p_cl = ?c_cl && ?p_pub < ?c_pub)
+      FILTER(ABS(?p_edge * ?c_scale - ?c_edge) <= 2)
+      FILTER(IF(?c_origin, ?p_ins = "", ?p_ins = ?c_ins))
+      FILTER(IF(?c_pt && !?c_origin, ?p_cls = ?c_cls, true))
+      BIND(CONCAT(IF(?p_isRoot, "1", "0"), STR(?p_pub), "|", STR(?p_img)) AS ?score)
+    } GROUP BY ?c_img
+  }
+  BIND(?c_img AS ?child)
+  BIND(IRI(STRAFTER(?best, "|")) AS ?parent)
+}
+ORDER BY ?child

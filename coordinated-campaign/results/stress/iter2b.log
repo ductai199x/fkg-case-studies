@@ -1,0 +1,6 @@
+scale_30 eta=0.3 seed=1 quads=750273 context_only:0.02 forensic_only:0.03 full:0.51 full+amplifiers:0.41 full_self_consistent:0.86 agent_eta0.2:0.77 corepost:0.03
+scale_30 eta=0.3 seed=2 quads=740803 context_only:0.02 forensic_only:0.03 full:0.51 full+amplifiers:0.36 full_self_consistent:0.80 agent_eta0.2:0.91 corepost:0.02
+camps_5_scale10 eta=0.3 seed=1 quads=266874 context_only:0.27 forensic_only:0.37 full:0.84 full+amplifiers:0.90 full_self_consistent:0.78 agent_eta0.2:0.96 corepost:0.30
+camps_5_scale10 eta=0.3 seed=2 quads=263876 context_only:0.27 forensic_only:0.38 full:0.87 full+amplifiers:0.96 full_self_consistent:0.81 agent_eta0.2:0.97 corepost:0.24
+big_campaign_scale10 eta=0.3 seed=1 quads=283456 context_only:0.42 forensic_only:0.52 full:0.90 full+amplifiers:0.98 full_self_consistent:0.87 agent_eta0.2:0.99 corepost:0.33
+big_campaign_scale10 eta=0.3 seed=2 quads=279216 context_only:0.42 forensic_only:0.54 full:0.88 full+amplifiers:0.96 full_self_consistent:0.83 agent_eta0.2:0.96 corepost:0.32

@@ -1,0 +1,56 @@
+# Q3.2 - validly signed content credentials that contradict the forensic evidence (cs3).
+# Reasoning: credential (ctx:credentialFor image) with ctx:signatureValid true, and one of:
+#  (a) ctx:digitalSourceType iptc:digitalCapture (a plain capture) but the image has a reliable AI region;
+#  (b) declares fully AI-made media (iptc:trainedAlgorithmicMedia / algorithmicMedia) but forensics finds
+#      camera-sourced regions and no reliable AI region;
+#  (c) ctx:claimedCaptureDevice names a device, the image has a camera attribution (conf >= 0.5) to a
+#      different model, and no camera region is attributed to the claimed device (names compared after
+#      lower-casing and stripping non-alphanumerics, either containing the other counts as a match);
+#  (d) ctx:claimedCaptureDevice is asserted but the image has no camera-sourced region at all and a
+#      reliable AI region (no device captured it).
+# "Reliable" AI = conf >= 0.7, or 0.45-0.7 corroborated across near-duplicate copies.
+# A composite-with-AI declaration on an image where no AI is found is NOT treated as a contradiction
+# (a detector miss is not proof of absence; over-declaring AI is not a deceptive claim).
+SELECT DISTINCT ?post WHERE {
+  ?post as:attachment ?img .
+  ?cc ctx:credentialFor ?img ;
+      ctx:signatureValid ?sig .
+  FILTER(?sig = true)
+  OPTIONAL { ?cc ctx:digitalSourceType ?dst }
+  OPTIONAL { ?cc ctx:claimedCaptureDevice ?dev }
+  BIND(EXISTS {
+    ?img (fkg:hasRegion|^fkg:contained_in) ?ra .
+    ?ra fkg:produced_by ?sa .
+    ?sa a fkg:AIGenerator ;
+        fkg:hasConfidence ?ca .
+    FILTER( xsd:double(STR(?ca)) >= 0.7
+         || ( xsd:double(STR(?ca)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_a . ?o_a ctx:inCluster ?k_a . FILTER(?o_a != ?img)
+                ?o_a (fkg:hasRegion|^fkg:contained_in) ?r2_a .
+                ?r2_a fkg:produced_by ?s2_a .
+                ?s2_a a fkg:AIGenerator ; fkg:hasConfidence ?c2_a .
+                FILTER(xsd:double(STR(?c2_a)) >= 0.45)
+                ?ra fkg:depict ?d1_a . ?r2_a fkg:depict ?d2_a .
+                { ?d1_a fkg:hasObjectDescription ?t1_a . ?d2_a fkg:hasObjectDescription ?t2_a .
+                  FILTER(LCASE(STR(?t1_a)) = LCASE(STR(?t2_a))) }
+                UNION { ?d1_a ctx:depictsEntity ?e_a . ?d2_a ctx:depictsEntity ?e_a }
+              } ) )
+  } AS ?hasAI)
+  BIND(EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?cam_k . ?cam_k a fkg:CameraModel } AS ?hasCam)
+  FILTER(
+       ( BOUND(?dst) && ?dst = iptc:digitalCapture && ?hasAI )
+    || ( BOUND(?dst) && ?dst IN (iptc:trainedAlgorithmicMedia, iptc:algorithmicMedia) && ?hasCam && !?hasAI )
+    || ( BOUND(?dev) && !?hasCam && ?hasAI )
+    || ( BOUND(?dev) && EXISTS {
+           ?img (fkg:hasRegion|^fkg:contained_in) ?rm . ?rm fkg:produced_by ?cm .
+           ?cm a fkg:CameraModel ; fkg:hasCameraModel ?model .
+           OPTIONAL { ?cm fkg:hasConfidence ?cmc }
+           FILTER(!BOUND(?cmc) || xsd:double(STR(?cmc)) >= 0.5)
+           FILTER(!(CONTAINS(REPLACE(LCASE(STR(?model)), "[^a-z0-9]", ""), REPLACE(LCASE(STR(?dev)), "[^a-z0-9]", "")) || CONTAINS(REPLACE(LCASE(STR(?dev)), "[^a-z0-9]", ""), REPLACE(LCASE(STR(?model)), "[^a-z0-9]", ""))))
+         }
+         && NOT EXISTS {
+           ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?model2 .
+           FILTER(CONTAINS(REPLACE(LCASE(STR(?model2)), "[^a-z0-9]", ""), REPLACE(LCASE(STR(?dev)), "[^a-z0-9]", "")) || CONTAINS(REPLACE(LCASE(STR(?dev)), "[^a-z0-9]", ""), REPLACE(LCASE(STR(?model2)), "[^a-z0-9]", "")))
+         } )
+  )
+}

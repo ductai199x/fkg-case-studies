@@ -1,0 +1,35 @@
+# Q1.1 (cs1) - recycled out-of-context photographs.
+# Reasoning / data checks:
+# - Claim-bearing post = object of schema:appearance of a schema:Claim; the claimed event comes from
+#   ctx:assertsDepictionOf -> schema:Event with schema:startDate (all xsd:dateTime, no timezone, comparable).
+# - "Camera-authentic, no reliable AI region": the image has a fkg:CameraModel-sourced region and no
+#   fkg:AIGenerator region with confidence >= 0.7 (org policy: < 0.7 is unreliable). This keeps cluster_1/2/3/4
+#   style images, whose only AI region is an isolated ~0.56 "texture patch" (the known false-positive pattern;
+#   such hits have fkg:hasObjectedness false, so non-object hits below 0.8 are also discounted, as in cs2/cs3).
+# - "Same photograph": near-duplicate cluster membership is undirected and the notes warn that pHash clustering
+#   sometimes merges two different photographs of a similar scene. In the data, cluster_5/6/7 each mix a
+#   different camera model (e.g. an old Galaxy S24 shot with a new Pixel 8 shot). So a cluster mate only counts as
+#   the same photograph if its camera region reports the same fkg:hasCameraModel.
+# - "Already public before the event began": some same-photograph instance (any post, including the claim post
+#   itself) has as:published strictly earlier than the claimed event's startDate. Posts whose photo first
+#   appeared after the claimed (possibly old) event started are correctly attributed and are not returned.
+SELECT DISTINCT ?post WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?start .
+  ?post as:attachment ?img .
+  ?img fkg:hasRegion ?camRegion .
+  ?camRegion fkg:produced_by ?camSrc .
+  ?camSrc a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+  FILTER NOT EXISTS {
+    ?img fkg:hasRegion ?aiRegion . ?aiRegion fkg:produced_by ?aiSrc ; fkg:depict ?aiContent .
+    ?aiSrc a fkg:AIGenerator ; fkg:hasConfidence ?aiConf . ?aiContent fkg:hasObjectedness ?aiObj .
+    FILTER(?aiConf >= 0.7 && !(?aiObj = false && ?aiConf < 0.8))
+  }
+  ?img ctx:inCluster ?cluster .
+  ?twin ctx:inCluster ?cluster ; fkg:hasRegion ?twinRegion .
+  ?twinRegion fkg:produced_by ?twinSrc .
+  ?twinSrc a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+  ?twinPost as:attachment ?twin ; as:published ?twinPub .
+  FILTER(?twinPub < ?start)
+}
+ORDER BY ?post

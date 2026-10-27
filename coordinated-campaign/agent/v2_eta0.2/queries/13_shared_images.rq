@@ -1,0 +1,5 @@
+# 13: the same image IRI attached to notes by 2+ different accounts (direct re-use of an identical file)
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?img (COUNT(DISTINCT ?a) AS ?nAcc) (GROUP_CONCAT(DISTINCT ?u;separator=",") AS ?users) WHERE {
+  GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img ; as:attributedTo ?a . ?a as:preferredUsername ?u }
+} GROUP BY ?img HAVING (COUNT(DISTINCT ?a) >= 2)

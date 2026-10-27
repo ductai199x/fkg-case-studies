@@ -1,0 +1,254 @@
+{
+ "CQ1.1 recycled out-of-context (integrated)": {
+  "tp": 22,
+  "fp": 0,
+  "fn": 3,
+  "precision": 1.0,
+  "recall": 0.88,
+  "f1": 0.936,
+  "seconds": 0.01,
+  "note": "3 of 25 recycled posts have no pre-event instance in the crawl; recall ceiling is 22/25 = 0.88"
+ },
+ "CQ1.2 earliest appearance": {
+  "correct": 22,
+  "of": 22,
+  "spurious": 0,
+  "seconds": 0.04
+ },
+ "CQ1.3 classification (integrated)": {
+  "accuracy": 0.952,
+  "macro_f1": 0.954,
+  "per_class": {
+   "synthetic": {
+    "tp": 15,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "manipulated": {
+    "tp": 13,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.867,
+    "f1": 0.929
+   },
+   "recycled_ooc": {
+    "tp": 22,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.88,
+    "f1": 0.936
+   },
+   "no_problem_found": {
+    "tp": 50,
+    "fp": 5,
+    "fn": 0,
+    "precision": 0.909,
+    "recall": 1.0,
+    "f1": 0.952
+   }
+  },
+  "confusion": {
+   "manipulated -> manipulated": 13,
+   "manipulated -> no_problem_found": 2,
+   "no_problem_found -> no_problem_found": 50,
+   "recycled_ooc -> no_problem_found": 3,
+   "recycled_ooc -> recycled_ooc": 22,
+   "synthetic -> synthetic": 15
+  },
+  "seconds": 0.2
+ },
+ "Baseline: forensic layer only": {
+  "accuracy": 0.743,
+  "macro_f1": 0.679,
+  "per_class": {
+   "synthetic": {
+    "tp": 15,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "manipulated": {
+    "tp": 13,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.867,
+    "f1": 0.929
+   },
+   "recycled_ooc": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 25,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "no_problem_found": {
+    "tp": 50,
+    "fp": 27,
+    "fn": 0,
+    "precision": 0.649,
+    "recall": 1.0,
+    "f1": 0.787
+   }
+  },
+  "confusion": {
+   "manipulated -> manipulated": 13,
+   "manipulated -> no_problem_found": 2,
+   "no_problem_found -> no_problem_found": 50,
+   "recycled_ooc -> no_problem_found": 25,
+   "synthetic -> synthetic": 15
+  },
+  "seconds": 0.02
+ },
+ "Baseline: context layer only": {
+  "accuracy": 0.657,
+  "macro_f1": 0.382,
+  "per_class": {
+   "synthetic": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 15,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "manipulated": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 15,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "recycled_ooc": {
+    "tp": 22,
+    "fp": 11,
+    "fn": 3,
+    "precision": 0.667,
+    "recall": 0.88,
+    "f1": 0.759
+   },
+   "no_problem_found": {
+    "tp": 47,
+    "fp": 25,
+    "fn": 3,
+    "precision": 0.653,
+    "recall": 0.94,
+    "f1": 0.77
+   }
+  },
+  "confusion": {
+   "manipulated -> no_problem_found": 7,
+   "manipulated -> recycled_ooc": 8,
+   "no_problem_found -> no_problem_found": 47,
+   "no_problem_found -> recycled_ooc": 3,
+   "recycled_ooc -> no_problem_found": 3,
+   "recycled_ooc -> recycled_ooc": 22,
+   "synthetic -> no_problem_found": 15
+  },
+  "seconds": 0.03
+ },
+ "Ablation: no camera-agreement guard": {
+  "accuracy": 0.924,
+  "macro_f1": 0.933,
+  "per_class": {
+   "synthetic": {
+    "tp": 15,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "manipulated": {
+    "tp": 13,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.867,
+    "f1": 0.929
+   },
+   "recycled_ooc": {
+    "tp": 22,
+    "fp": 3,
+    "fn": 3,
+    "precision": 0.88,
+    "recall": 0.88,
+    "f1": 0.88
+   },
+   "no_problem_found": {
+    "tp": 47,
+    "fp": 5,
+    "fn": 3,
+    "precision": 0.904,
+    "recall": 0.94,
+    "f1": 0.922
+   }
+  },
+  "confusion": {
+   "manipulated -> manipulated": 13,
+   "manipulated -> no_problem_found": 2,
+   "no_problem_found -> no_problem_found": 47,
+   "no_problem_found -> recycled_ooc": 3,
+   "recycled_ooc -> no_problem_found": 3,
+   "recycled_ooc -> recycled_ooc": 22,
+   "synthetic -> synthetic": 15
+  },
+  "seconds": 0.06
+ },
+ "Ablation: no confidence threshold": {
+  "accuracy": 0.943,
+  "macro_f1": 0.946,
+  "per_class": {
+   "synthetic": {
+    "tp": 15,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "manipulated": {
+    "tp": 15,
+    "fp": 3,
+    "fn": 0,
+    "precision": 0.833,
+    "recall": 1.0,
+    "f1": 0.909
+   },
+   "recycled_ooc": {
+    "tp": 22,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.88,
+    "f1": 0.936
+   },
+   "no_problem_found": {
+    "tp": 47,
+    "fp": 3,
+    "fn": 3,
+    "precision": 0.94,
+    "recall": 0.94,
+    "f1": 0.94
+   }
+  },
+  "confusion": {
+   "manipulated -> manipulated": 15,
+   "no_problem_found -> manipulated": 3,
+   "no_problem_found -> no_problem_found": 47,
+   "recycled_ooc -> no_problem_found": 3,
+   "recycled_ooc -> recycled_ooc": 22,
+   "synthetic -> synthetic": 15
+  },
+  "seconds": 0.11
+ }
+}

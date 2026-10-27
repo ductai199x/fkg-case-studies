@@ -1,0 +1,11 @@
+# 07: Canonical ordered op chain (op1>op2>op3>op4) per region, counted by source type, model, and verdict
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?srcType ?verdict ?chain (COUNT(DISTINCT ?r) AS ?n) (GROUP_CONCAT(DISTINCT ?model; separator="|") AS ?models) WHERE {
+  GRAPH <https://example.org/cc/graph/forensics> {
+    ?r fkg:modified_by ?o1 . FILTER NOT EXISTS { ?x fkg:hasNext ?o1 } ?o1 a ?t1 .
+    OPTIONAL { ?o1 fkg:hasNext ?o2 . ?o2 a ?t2 . OPTIONAL { ?o2 fkg:hasNext ?o3 . ?o3 a ?t3 . OPTIONAL { ?o3 fkg:hasNext ?o4 . ?o4 a ?t4 } } }
+    ?r fkg:produced_by ?s . ?s a ?st . OPTIONAL { ?s fkg:hasGeneratorModel|fkg:hasCameraModel ?model }
+    ?r fkg:contained_in ?img . ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:verdict ?v }
+  BIND(CONCAT(STRAFTER(STR(?t1),"#"), COALESCE(CONCAT(">",STRAFTER(STR(?t2),"#")),""), COALESCE(CONCAT(">",STRAFTER(STR(?t3),"#")),""), COALESCE(CONCAT(">",STRAFTER(STR(?t4),"#")),"")) AS ?chain)
+  BIND(STRAFTER(STR(?st),"#") AS ?srcType) BIND(STRAFTER(STR(?v),"#") AS ?verdict)
+} GROUP BY ?srcType ?verdict ?chain ORDER BY DESC(?n)

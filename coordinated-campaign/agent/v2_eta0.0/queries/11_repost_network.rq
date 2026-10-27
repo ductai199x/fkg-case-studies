@@ -1,0 +1,7 @@
+# 11: Repost edges (reposter -> original author) for reposters created within the young-account window seen in 10, with whether the reposted note is false-claim-matched
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?r ?author (COUNT(*) AS ?n) (SUM(IF(BOUND(?cl),1,0)) AS ?nFalse) WHERE {
+ GRAPH <https://example.org/cc/graph/platform> { ?ann a as:Announce ; as:actor ?r ; as:object ?note . ?note as:attributedTo ?author . ?r as:published ?c . FILTER(?c >= "2026-09-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>) }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?note . ?rev schema:itemReviewed ?cl ; schema:reviewRating/schema:ratingValue 1 } }
+} GROUP BY ?r ?author ORDER BY ?r

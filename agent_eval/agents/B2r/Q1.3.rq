@@ -1,0 +1,34 @@
+# Q1.3 (cs1) - one label per claim-bearing post (105 posts, one claim each; checked no post has 2 claims).
+# Precedence follows the definitions (they are mutually exclusive in that order):
+#   synthetic       : image has no fkg:CameraModel region and has an AI region with confidence >= 0.7
+#                     (all 15 fully-AI images in cs1 have conf 0.75-0.98, verdict ctx:SyntheticImage).
+#   manipulated     : camera image with a RELIABLE AI region (fkg:AIGenerator, hasConfidence >= 0.7).
+#                     Moderate-confidence AI regions (0.57-0.68, e.g. the recurring "texture patch" on all copies of
+#                     cluster_4, img0201/img0204 which are not even heavily recompressed) are unreliable -> ignored,
+#                     even though the detector's own fkg:verdict says Manipulated for them.
+#   recycled_ooc    : authentic camera photo (no reliable AI region) whose same photograph (same cluster AND same
+#                     camera-model attribution - clusters 5/6/7 are false merges of different cameras) was published
+#                     before the claimed event's schema:startDate.
+#   no_problem_found: everything else (incl. claims about 2019/2021/2023 events that are correctly dated).
+# Result checked: 15 synthetic, 13 manipulated, 22 recycled_ooc, 55 no_problem_found = 105. Note some of the 13 manipulated
+# posts in clusters 76-83 also reuse older photos, but "manipulated" takes precedence (not an authentic photo).
+SELECT DISTINCT ?post ?label WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?evStart .
+  ?post as:attachment ?img .
+  BIND(EXISTS { ?img fkg:hasRegion ?rc . ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel } AS ?hasCam)
+  BIND(EXISTS { ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasConfidence ?ca .
+                FILTER(?ca >= 0.7) } AS ?hasReliableAI)
+  BIND(EXISTS {
+         ?img fkg:hasRegion ?r . ?r fkg:produced_by ?cam . ?cam a fkg:CameraModel ; fkg:hasCameraModel ?model .
+         ?img ctx:inCluster ?cl .
+         ?img2 ctx:inCluster ?cl ; fkg:hasRegion ?r2 . FILTER(?img2 != ?img)
+         ?r2 fkg:produced_by ?cam2 . ?cam2 a fkg:CameraModel ; fkg:hasCameraModel ?model .
+         ?post2 as:attachment ?img2 ; as:published ?pub2 .
+         FILTER(?pub2 < ?evStart)
+       } AS ?earlierCopy)
+  BIND(IF(!?hasCam && ?hasReliableAI, "synthetic",
+       IF(?hasCam && ?hasReliableAI, "manipulated",
+       IF(?hasCam && ?earlierCopy, "recycled_ooc", "no_problem_found"))) AS ?label)
+}
+ORDER BY ?post

@@ -1,0 +1,9 @@
+cluster,post,account
+https://example.org/fkg/cs2#cluster_4,https://example.org/fkg/cs2#post_p0122,https://example.org/fkg/cs2#acct_outlet0
+https://example.org/fkg/cs2#cluster_7,https://example.org/fkg/cs2#post_p0215,https://example.org/fkg/cs2#acct_outlet3
+https://example.org/fkg/cs2#cluster_6,https://example.org/fkg/cs2#post_p0186,https://example.org/fkg/cs2#acct_outlet2
+https://example.org/fkg/cs2#cluster_5,https://example.org/fkg/cs2#post_p0155,https://example.org/fkg/cs2#acct_outlet1
+https://example.org/fkg/cs2#cluster_2,https://example.org/fkg/cs2#post_p0057,https://example.org/fkg/cs2#acct_outlet2
+https://example.org/fkg/cs2#cluster_1,https://example.org/fkg/cs2#post_p0028,https://example.org/fkg/cs2#acct_outlet1
+https://example.org/fkg/cs2#cluster_3,https://example.org/fkg/cs2#post_p0089,https://example.org/fkg/cs2#acct_outlet3
+https://example.org/fkg/cs2#cluster_0,https://example.org/fkg/cs2#post_p0001,https://example.org/fkg/cs2#acct_outlet0

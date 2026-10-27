@@ -1,0 +1,6 @@
+# Baseline (context only): the platform of the most recent earlier post in the cluster.
+SELECT ?post ?hiddenSource WHERE {
+  ?post ctx:onPlatform ?here ; as:attachment ?img ; as:published ?t . ?here ctx:passthrough true . ?img ctx:inCluster ?cl .
+  ?prev ctx:onPlatform ?hiddenSource ; as:attachment ?pi ; as:published ?tp . ?pi ctx:inCluster ?cl . FILTER(?tp < ?t)
+  FILTER NOT EXISTS { ?prev2 as:attachment ?pi2 ; as:published ?tp2 . ?pi2 ctx:inCluster ?cl . FILTER(?tp2 > ?tp && ?tp2 < ?t) }
+}

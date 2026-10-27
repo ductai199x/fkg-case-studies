@@ -1,0 +1,25 @@
+# 17: generic TTP-fingerprint test - for each account, how many OTHER accounts posted a False-claim manipulated image whose post-processing shares >=2 op types with parameters within 15% (relative)
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?a1 ?u1 (COUNT(DISTINCT ?a2) AS ?nPeerAccounts) (COUNT(DISTINCT ?n1) AS ?nOwnPostsMatched) WHERE {
+  { SELECT DISTINCT ?r1 ?r2 ?n1 ?a1 ?a2 WHERE {
+    { SELECT DISTINCT ?r1 ?n1 ?a1 WHERE {
+       GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?n1 . ?rv schema:itemReviewed ?c ; schema:reviewRating ?rt . ?rt schema:ratingValue ?v ; schema:worstRating ?w ; schema:bestRating ?b FILTER(?v <= ?w + (?b - ?w) * 0.25) }
+       GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attributedTo ?a1 ; as:attachment ?i1 }
+       GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?i1 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . ?r1 fkg:contained_in ?i1 } } }
+    { SELECT DISTINCT ?r2 ?a2 WHERE {
+       GRAPH <https://example.org/cc/graph/factcheck> { ?c2 schema:appearance ?n2 . ?rv2 schema:itemReviewed ?c2 ; schema:reviewRating ?rt2 . ?rt2 schema:ratingValue ?v2 ; schema:worstRating ?w2 ; schema:bestRating ?b2 FILTER(?v2 <= ?w2 + (?b2 - ?w2) * 0.25) }
+       GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attributedTo ?a2 ; as:attachment ?i2 }
+       GRAPH <https://example.org/cc/graph/forensics> { ?rec2 fkg:aboutImage ?i2 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . ?r2 fkg:contained_in ?i2 } } }
+    FILTER(?a1 != ?a2)
+    { SELECT ?r1 ?r2 (COUNT(DISTINCT ?T) AS ?nShared) WHERE {
+       GRAPH <https://example.org/cc/graph/forensics> {
+         ?r1 fkg:modified_by ?o1 . ?o1 a ?T ; fkg:hasParameter ?p1 . ?p1 fkg:hasParameterName ?pn ; fkg:hasParameterValue ?x1 .
+         ?r2 fkg:modified_by ?o2 . ?o2 a ?T ; fkg:hasParameter ?p2 . ?p2 fkg:hasParameterName ?pn ; fkg:hasParameterValue ?x2 .
+         FILTER(?r1 != ?r2 && ?T != fkg:NoPostProc)
+         FILTER(ABS(?x1 - ?x2) <= 0.15 * IF(ABS(?x1) > ABS(?x2), ABS(?x1), ABS(?x2)))
+       } } GROUP BY ?r1 ?r2 HAVING (COUNT(DISTINCT ?T) >= 2) }
+  } }
+  GRAPH <https://example.org/cc/graph/platform> { ?a1 as:preferredUsername ?u1 }
+} GROUP BY ?a1 ?u1 ORDER BY DESC(?nPeerAccounts)

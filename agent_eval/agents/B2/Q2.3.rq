@@ -1,0 +1,41 @@
+# Q2.3 (cs2) - posts that credit a news outlet but show an AI insertion the credited outlet never published.
+# Reasoning / data checks:
+# - ctx:creditsSource is the poster's own claim ("via @outlet"), not provenance. 73 posts credit one of
+#   acct_outlet0..3, all of which have ctx:accountGenre ctx:NewsOutlet (checked explicitly in the query).
+# - The post must show a genuine AI insertion: an AI region identified by (description, generator) in its cluster
+#   that is reliable somewhere (max confidence >= 0.7 over carriers; copies through MsgApp drop to ~0.67-0.75 and
+#   are still matched) and that is not the isolated 0.72 "sky" hit that appears only on an outlet original and in
+#   no copy (documented false-positive pattern). Without that exclusion nothing changes here anyway, because the
+#   outlet itself published that original.
+# - "Never published by the credited outlet": no post attributed to the credited account carries a region with the
+#   same description and generator (checked across all of the outlet's posts, any cluster). Open world: this is
+#   "not in the crawl", which is the strongest evidence available.
+SELECT DISTINCT ?post WHERE {
+  ?post ctx:creditsSource ?outlet ; as:attachment ?img .
+  ?outlet ctx:accountGenre ctx:NewsOutlet .
+  ?img ctx:inCluster ?cluster ; fkg:hasRegion ?r .
+  ?r fkg:produced_by ?s ; fkg:depict ?d .
+  ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+  ?d fkg:hasObjectDescription ?desc .
+  # the insertion is reliable on at least one carrier in the cluster
+  FILTER EXISTS {
+    ?k ctx:inCluster ?cluster ; fkg:hasRegion ?kr . ?kr fkg:produced_by ?ks ; fkg:depict ?kd .
+    ?ks a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen ; fkg:hasConfidence ?kc . ?kd fkg:hasObjectDescription ?desc .
+    FILTER(?kc >= 0.7)
+  }
+  # not an isolated hit that exists only on the cluster original
+  FILTER NOT EXISTS {
+    FILTER NOT EXISTS { ?e ctx:inCluster ?cluster . ?eP as:attachment ?e ; as:published ?epub .
+                        ?post as:published ?ppub . FILTER(?epub < ?ppub) }
+    FILTER NOT EXISTS { ?o ctx:inCluster ?cluster ; fkg:hasRegion ?or . FILTER(?o != ?img)
+                        ?or fkg:produced_by ?os ; fkg:depict ?od . ?os a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+                        ?od fkg:hasObjectDescription ?desc . }
+  }
+  # the credited outlet never published that insertion
+  FILTER NOT EXISTS {
+    ?op as:attributedTo ?outlet ; as:attachment ?oimg .
+    ?oimg fkg:hasRegion ?oir . ?oir fkg:produced_by ?ois ; fkg:depict ?oid .
+    ?ois a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen . ?oid fkg:hasObjectDescription ?desc .
+  }
+}
+ORDER BY ?post

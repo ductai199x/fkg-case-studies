@@ -1,0 +1,35 @@
+# Q2.3 (cs2) Posts that credit a news outlet but show an AI insertion the outlet never published.
+# Reasoning / data checks:
+# - ctx:creditsSource is a claim by the poster ("via @outlet"), not provenance. 73 posts credit an account; all credited
+#   accounts are ctx:NewsOutlet (outlet0-3), but the genre is checked explicitly.
+# - "Shows an AI-generated insertion": the attached image has an fkg:AIGenerator region whose description is a genuine
+#   insertion in that cluster, i.e. (a) corroborated by some carrier with confidence >= 0.7 in the cluster, and
+#   (b) not the original's isolated false region (cluster originals of cluster_1/cluster_5 have a 0.72 "sky" region that
+#   no copy inherits). Low-confidence copies on recompressed MsgApp would still count if they credited an outlet.
+# - "Never published by the credited outlet": no post attributed to the credited account (in the crawl - open world)
+#   whose image in the same cluster carries an AI region with that description. The outlets' own posts are the
+#   unaltered originals.
+SELECT DISTINCT ?post WHERE {
+  ?post ctx:creditsSource ?outlet ; as:attachment ?img .
+  ?outlet ctx:accountGenre ctx:NewsOutlet .
+  ?img ctx:inCluster ?cl ; fkg:hasRegion ?r . ?r fkg:produced_by ?s ; fkg:depict/fkg:hasObjectDescription ?d . ?s a fkg:AIGenerator .
+  # (a) corroborated insertion
+  FILTER EXISTS {
+    ?imgH ctx:inCluster ?cl ; fkg:hasRegion ?rH . ?rH fkg:produced_by ?sH ; fkg:depict/fkg:hasObjectDescription ?d .
+    ?sH a fkg:AIGenerator ; fkg:hasConfidence ?cH . FILTER(?cH >= 0.7)
+  }
+  # (b) not the original's spurious, non-inherited region
+  FILTER NOT EXISTS {
+    ?orig ctx:inCluster ?cl ; fkg:hasRegion ?ro . ?ro fkg:produced_by ?so ; fkg:depict/fkg:hasObjectDescription ?d . ?so a fkg:AIGenerator .
+    ?porig as:attachment ?orig ; as:published ?torig .
+    FILTER NOT EXISTS { ?x ctx:inCluster ?cl . ?px as:attachment ?x ; as:published ?tx . FILTER(?tx < ?torig) }
+    ?m ctx:inCluster ?cl .
+    FILTER NOT EXISTS { ?m fkg:hasRegion ?rm . ?rm fkg:produced_by ?sm ; fkg:depict/fkg:hasObjectDescription ?d . ?sm a fkg:AIGenerator }
+  }
+  # the credited outlet never published this insertion
+  FILTER NOT EXISTS {
+    ?op as:attributedTo ?outlet ; as:attachment ?oimg .
+    ?oimg ctx:inCluster ?cl ; fkg:hasRegion ?or . ?or fkg:produced_by ?os ; fkg:depict/fkg:hasObjectDescription ?d . ?os a fkg:AIGenerator .
+  }
+}
+ORDER BY ?post

@@ -1,0 +1,20 @@
+# Q3.4 (cs3) - posts carrying an AI attribution to a generator not yet released when the post was published.
+# Reasoning / checks:
+# - Attribution = fkg:AIGenerator region source linked via ctx:generatorEntity to a ctx:GeneratorModel with
+#   schema:datePublished (xsd:date); compared with the post's as:published (xsd:dateTime) via its date part.
+#   Only reliable attributions (confidence >= 0.7) are considered (no low-confidence case is affected).
+# - Release dates: Pixa-XL 2025-02-17, Lumen-2 2025-11-03, Dreamforge-7 2026-04-28, Nova-3 2026-10-10. All posts are
+#   from Sep-Oct 2026, so only Nova-3 attributions on posts before 2026-10-10 qualify: post_p0196/0197/0198.
+# - Analyst caveat: all three attributions were produced by detector v1.1, which has a published ctx:KnownIssue on
+#   fkg:hasGeneratorModel ("generator-identification head mislabels some attributions; AI-vs-camera unaffected").
+#   The anachronism is therefore most likely a symptom of that defect, not evidence of a leaked model; the posts
+#   are still AI-altered. They are returned because they literally carry such an attribution (the question asks
+#   which posts carry one); no attribution from the unaffected v1.0 detector is anachronistic.
+SELECT DISTINCT ?post WHERE {
+  ?post a as:Note ; as:attachment ?img ; as:published ?pub .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?conf ; ctx:generatorEntity ?gen .
+  FILTER(?conf >= 0.7)
+  ?gen schema:datePublished ?rel .
+  FILTER(xsd:date(SUBSTR(STR(?pub), 1, 10)) < ?rel)
+}
+ORDER BY ?post

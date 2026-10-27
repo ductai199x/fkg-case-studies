@@ -1,0 +1,400 @@
+{
+ "UC1": {
+  "query": "../cs1_recycled_media/queries/q1_recycled.rq",
+  "world": "cs1_recycled_media",
+  "rows": 22,
+  "seconds": 0.01,
+  "sample": [
+   {
+    "post": "https://example.org/fkg/cs1#post_post0153",
+    "event": "https://example.org/fkg/cs1#event_flood2026"
+   },
+   {
+    "post": "https://example.org/fkg/cs1#post_post0149",
+    "event": "https://example.org/fkg/cs1#event_rally2026"
+   },
+   {
+    "post": "https://example.org/fkg/cs1#post_post0147",
+    "event": "https://example.org/fkg/cs1#event_flood2026"
+   }
+  ]
+ },
+ "UC2": {
+  "query": "../cs1_recycled_media/queries/q2_earliest_appearance.rq",
+  "world": "cs1_recycled_media",
+  "rows": 22,
+  "seconds": 0.04,
+  "sample": [
+   {
+    "post": "https://example.org/fkg/cs1#post_post0153",
+    "earliestPost": "https://example.org/fkg/cs1#post_post0150",
+    "platform": "https://example.org/fkg/cs1#platform_newswire",
+    "earliestTime": "2019-08-04T08:37:22"
+   },
+   {
+    "post": "https://example.org/fkg/cs1#post_post0104",
+    "earliestPost": "https://example.org/fkg/cs1#post_post0101",
+    "platform": "https://example.org/fkg/cs1#platform_newswire",
+    "earliestTime": "2023-03-21T08:59:24"
+   },
+   {
+    "post": "https://example.org/fkg/cs1#post_post0141",
+    "earliestPost": "https://example.org/fkg/cs1#post_post0139",
+    "platform": "https://example.org/fkg/cs1#platform_newswire",
+    "earliestTime": "2023-03-21T10:41:28"
+   }
+  ]
+ },
+ "UC3": {
+  "query": "../cs2_lineage_laundering/queries/q1_patient_zero.rq",
+  "world": "cs2_lineage_laundering",
+  "rows": 4,
+  "seconds": 0.01,
+  "sample": [
+   {
+    "cluster": "https://example.org/fkg/cs2#cluster_4",
+    "generator": "GPT-Image-1",
+    "post": "https://example.org/fkg/cs2#post_p0140",
+    "account": "https://example.org/fkg/cs2#acct_fringe_editor2",
+    "firstSeen": "2026-09-19T01:47:22"
+   },
+   {
+    "cluster": "https://example.org/fkg/cs2#cluster_5",
+    "generator": "SDXL",
+    "post": "https://example.org/fkg/cs2#post_p0172",
+    "account": "https://example.org/fkg/cs2#acct_fringe_editor3",
+    "firstSeen": "2026-09-22T21:21:09"
+   },
+   {
+    "cluster": "https://example.org/fkg/cs2#cluster_1",
+    "generator": "FLUX.1",
+    "post": "https://example.org/fkg/cs2#post_p0046",
+    "account": "https://example.org/fkg/cs2#acct_fringe_editor3",
+    "firstSeen": "2026-09-07T06:12:07"
+   }
+  ]
+ },
+ "UC4": {
+  "query": "../cs2_lineage_laundering/queries/q2a_candidate_parents.rq",
+  "world": "cs2_lineage_laundering",
+  "rows": 2956,
+  "seconds": 3.65,
+  "sample": [
+   {
+    "s": "https://example.org/fkg/cs2#img0185",
+    "p": "https://example.org/fkg/context#candidateParent",
+    "o": "https://example.org/fkg/cs2#img0179"
+   },
+   {
+    "s": "https://example.org/fkg/cs2#img0185",
+    "p": "https://example.org/fkg/context#candidateParent",
+    "o": "https://example.org/fkg/cs2#img0177"
+   },
+   {
+    "s": "https://example.org/fkg/cs2#img0185",
+    "p": "https://example.org/fkg/context#editCandidate",
+    "o": "https://example.org/fkg/cs2#img0160"
+   }
+  ]
+ },
+ "UC5": {
+  "query": "../cs2_lineage_laundering/queries/q3_laundering.rq",
+  "world": "cs2_lineage_laundering",
+  "rows": 10,
+  "seconds": 0.01,
+  "sample": [
+   {
+    "post": "https://example.org/fkg/cs2#post_p0185",
+    "outlet": "https://example.org/fkg/cs2#acct_outlet1",
+    "generator": "SDXL"
+   },
+   {
+    "post": "https://example.org/fkg/cs2#post_p0180",
+    "outlet": "https://example.org/fkg/cs2#acct_outlet1",
+    "generator": "SDXL"
+   },
+   {
+    "post": "https://example.org/fkg/cs2#post_p0173",
+    "outlet": "https://example.org/fkg/cs2#acct_outlet1",
+    "generator": "SDXL"
+   }
+  ]
+ },
+ "UC6": {
+  "query": "../cs2_lineage_laundering/queries/q4_hidden_hop.rq",
+  "world": "cs2_lineage_laundering",
+  "rows": 56,
+  "seconds": 0.0,
+  "sample": [
+   {
+    "post": "https://example.org/fkg/cs2#post_p0241",
+    "hiddenSource": "https://example.org/fkg/cs2#platform_newswire"
+   },
+   {
+    "post": "https://example.org/fkg/cs2#post_p0240",
+    "hiddenSource": "https://example.org/fkg/cs2#platform_newswire"
+   },
+   {
+    "post": "https://example.org/fkg/cs2#post_p0239",
+    "hiddenSource": "https://example.org/fkg/cs2#platform_chirp"
+   }
+  ]
+ },
+ "UC7": {
+  "query": "../cs3_intent_materiality/queries/q1_material_undisclosed.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 31,
+  "seconds": 0.0,
+  "sample": [
+   {
+    "post": "https://example.org/fkg/cs3#post_p0090",
+    "entity": "https://example.org/fkg/cs3#ent_Stadium",
+    "shares": "9616"
+   },
+   {
+    "post": "https://example.org/fkg/cs3#post_p0105",
+    "entity": "https://example.org/fkg/cs3#ent_SenatorOkafor",
+    "shares": "1677"
+   },
+   {
+    "post": "https://example.org/fkg/cs3#post_p0086",
+    "entity": "https://example.org/fkg/cs3#ent_SenatorOkafor",
+    "shares": "1135"
+   }
+  ]
+ },
+ "UC8": {
+  "query": "../cs3_intent_materiality/queries/q2_credential_contradiction.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 8,
+  "seconds": 0.0,
+  "sample": [
+   {
+    "post": "https://example.org/fkg/cs3#post_p0190",
+    "reason": "credential capture device differs from forensic camera attribution"
+   },
+   {
+    "post": "https://example.org/fkg/cs3#post_p0191",
+    "reason": "credential capture device differs from forensic camera attribution"
+   },
+   {
+    "post": "https://example.org/fkg/cs3#post_p0184",
+    "reason": "credential asserts digital capture; forensic AI-generated region"
+   }
+  ]
+ },
+ "UC9": {
+  "query": "../cs3_intent_materiality/queries/q3_intent_rule.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 1632,
+  "seconds": 0.09,
+  "sample": [
+   {
+    "s": "https://example.org/fkg/cs3#post_p0198_intent",
+    "p": "https://example.org/fkg#limitationNote",
+    "o": "Presentation-level hypothesis from forensic, disclosure, genre and claim signals; does not establish the poster's state of mind."
+   },
+   {
+    "s": "https://example.org/fkg/cs3#post_p0198_intent",
+    "p": "http://www.w3.org/ns/prov#wasDerivedFrom",
+    "o": "https://example.org/fkg/cs3#img0198_record"
+   },
+   {
+    "s": "https://example.org/fkg/cs3#post_p0198_intent",
+    "p": "http://www.w3.org/ns/prov#wasDerivedFrom",
+    "o": "https://example.org/fkg/cs3#post_p0198"
+   }
+  ]
+ },
+ "UC10": {
+  "query": "../cs3_intent_materiality/queries/q4_anachronism.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 3,
+  "seconds": 0.0,
+  "sample": [
+   {
+    "post": "https://example.org/fkg/cs3#post_p0198",
+    "generator": "Nova-3",
+    "released": "2026-10-10",
+    "published": "2026-09-26T00:00:00",
+    "version": "https://example.org/fkg/cs3#detector_1_1"
+   },
+   {
+    "post": "https://example.org/fkg/cs3#post_p0197",
+    "generator": "Nova-3",
+    "released": "2026-10-10",
+    "published": "2026-09-23T00:00:00",
+    "version": "https://example.org/fkg/cs3#detector_1_1"
+   },
+   {
+    "post": "https://example.org/fkg/cs3#post_p0196",
+    "generator": "Nova-3",
+    "released": "2026-10-10",
+    "published": "2026-09-20T00:00:00",
+    "version": "https://example.org/fkg/cs3#detector_1_1"
+   }
+  ]
+ },
+ "UC11": {
+  "query": "../cs3_intent_materiality/queries/q5_retraction_impact.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 5,
+  "seconds": 0.0,
+  "sample": [
+   {
+    "review": "https://example.org/fkg/cs3#review0088",
+    "claim": "https://example.org/fkg/cs3#claim0088",
+    "record": "https://example.org/fkg/cs3#img0088_record",
+    "version": "https://example.org/fkg/cs3#detector_1_1"
+   },
+   {
+    "review": "https://example.org/fkg/cs3#review0196",
+    "claim": "https://example.org/fkg/cs3#claim0196",
+    "record": "https://example.org/fkg/cs3#img0196_record",
+    "version": "https://example.org/fkg/cs3#detector_1_1"
+   },
+   {
+    "review": "https://example.org/fkg/cs3#review0084",
+    "claim": "https://example.org/fkg/cs3#claim0084",
+    "record": "https://example.org/fkg/cs3#img0084_record",
+    "version": "https://example.org/fkg/cs3#detector_1_1"
+   }
+  ]
+ },
+ "UC13": {
+  "query": "uc13_toolkit_fingerprint.rq",
+  "world": "cs1_recycled_media",
+  "rows": 0,
+  "seconds": 0.0,
+  "sample": []
+ },
+ "UC14": {
+  "query": "uc14_device_linking.rq",
+  "world": "cs1_recycled_media",
+  "rows": 25,
+  "seconds": 0.02,
+  "sample": [
+   {
+    "model": "Galaxy S24",
+    "a1": "https://example.org/fkg/cs1#acct_outlet1",
+    "a2": "https://example.org/fkg/cs1#acct_outlet2",
+    "pairs": "40"
+   },
+   {
+    "model": "Galaxy S24",
+    "a1": "https://example.org/fkg/cs1#acct_outlet0",
+    "a2": "https://example.org/fkg/cs1#acct_outlet2",
+    "pairs": "24"
+   },
+   {
+    "model": "Sony A7 IV",
+    "a1": "https://example.org/fkg/cs1#acct_outlet0",
+    "a2": "https://example.org/fkg/cs1#acct_outlet1",
+    "pairs": "24"
+   }
+  ]
+ },
+ "UC15": {
+  "query": "uc15_detector_consistency.rq",
+  "world": "cs2_lineage_laundering",
+  "rows": 0,
+  "seconds": 2.02,
+  "sample": []
+ },
+ "UC16": {
+  "query": "uc16_explain_conclusion.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 20,
+  "seconds": 0.0,
+  "sample": [
+   {
+    "review": "https://example.org/fkg/cs3#review0002",
+    "post": "https://example.org/fkg/cs3#post_p0002",
+    "record": "https://example.org/fkg/cs3#img0002_record",
+    "version": "1.0",
+    "region": "https://example.org/fkg/cs3#img0002_r1",
+    "sourceKind": "camera",
+    "model": "iPhone 15 Pro",
+    "conf": "0.806",
+    "depicts": "Senator Okafor",
+    "evidenceStatus": "https://example.org/fkg#Inferred"
+   },
+   {
+    "review": "https://example.org/fkg/cs3#review0012",
+    "post": "https://example.org/fkg/cs3#post_p0012",
+    "record": "https://example.org/fkg/cs3#img0012_record",
+    "version": "1.0",
+    "region": "https://example.org/fkg/cs3#img0012_r1",
+    "sourceKind": "camera",
+    "model": "Sony A7 IV",
+    "conf": "0.93",
+    "depicts": "Stadium",
+    "evidenceStatus": "https://example.org/fkg#Inferred"
+   },
+   {
+    "review": "https://example.org/fkg/cs3#review0022",
+    "post": "https://example.org/fkg/cs3#post_p0022",
+    "record": "https://example.org/fkg/cs3#img0022_record",
+    "version": "1.0",
+    "region": "https://example.org/fkg/cs3#img0022_r1",
+    "sourceKind": "camera",
+    "model": "Pixel 8",
+    "conf": "0.932",
+    "depicts": "Senator Okafor",
+    "evidenceStatus": "https://example.org/fkg#Inferred"
+   }
+  ]
+ },
+ "UC17": {
+  "query": "uc17_generator_exposure.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 26,
+  "seconds": 0.0,
+  "sample": [
+   {
+    "entityLabel": "City Hall",
+    "generator": "Pixa-XL",
+    "month": "2026-09",
+    "posts": "2",
+    "totalShares": "830"
+   },
+   {
+    "entityLabel": "City Hall",
+    "generator": "Lumen-2",
+    "month": "2026-09",
+    "posts": "2",
+    "totalShares": "939"
+   },
+   {
+    "entityLabel": "City Hall",
+    "generator": "Dreamforge-7",
+    "month": "2026-09",
+    "posts": "2",
+    "totalShares": "56"
+   }
+  ]
+ },
+ "UC18": {
+  "query": "uc18_reported_vs_inferred.rq",
+  "world": "cs3_intent_materiality",
+  "rows": 6,
+  "seconds": 0.15,
+  "sample": [
+   {
+    "img": "https://example.org/fkg/cs3#img0189",
+    "dst": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+    "device": "Pixel 8"
+   },
+   {
+    "img": "https://example.org/fkg/cs3#img0188",
+    "dst": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+    "device": "Pixel 8"
+   },
+   {
+    "img": "https://example.org/fkg/cs3#img0187",
+    "dst": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+    "device": "Sony A7 IV"
+   }
+  ]
+ }
+}

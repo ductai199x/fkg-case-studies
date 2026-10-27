@@ -1,0 +1,29 @@
+# Q1.1 (cs1) Recycled out-of-context photographs.
+# Reasoning / checks done against the data:
+# - Claim -> schema:appearance post; ctx:assertsDepictionOf event with schema:startDate (xsd:dateTime, as is as:published).
+# - "Camera-authentic": the claimed post's image has a fkg:CameraModel region and NO AI region with confidence >= 0.7
+#   (org policy: < 0.7 is unreliable). Checked: all sub-0.7 AI regions in cs1 sit on lightly compressed copies
+#   (NewsWire q~0.92, PicShare/Chirp), and e.g. a 0.57-0.60 "texture patch" recurs on every copy of one photo,
+#   i.e. the content-triggered false-region pattern, so they are not genuine edits being masked by recompression.
+# - "Same photograph": cluster membership alone is not enough (pHash clusters sometimes merge two photos of a
+#   similar scene). Checked: in clusters 5, 6 and 7 the pre-event copy was shot on a different camera model than
+#   the claimed copy (e.g. Canon EOS R6 vs Galaxy S24) -> different photographs. So I also require the earlier copy
+#   to carry the same fkg:hasCameraModel attribution.
+# - Earlier copy must be published strictly before the claimed event's start. Claims that point at old events
+#   (2019/2021/2023) with photos posted after those events began are correctly attributed and are not returned.
+SELECT DISTINCT ?post WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?start .
+  ?post as:attachment ?img .
+  ?img ctx:inCluster ?cl ; fkg:hasRegion ?r .
+  ?r fkg:produced_by ?cam . ?cam a fkg:CameraModel ; fkg:hasCameraModel ?model .
+  FILTER NOT EXISTS {
+    ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?ai . ?ai a fkg:AIGenerator ; fkg:hasConfidence ?aconf .
+    FILTER(?aconf >= 0.7)
+  }
+  ?other as:attachment ?img2 ; as:published ?pub2 .
+  ?img2 ctx:inCluster ?cl ; fkg:hasRegion ?r2 .
+  ?r2 fkg:produced_by ?cam2 . ?cam2 a fkg:CameraModel ; fkg:hasCameraModel ?model .
+  FILTER(?img2 != ?img && ?pub2 < ?start)
+}
+ORDER BY ?post

@@ -1,0 +1,6 @@
+# 20: Baseline - distribution of repost lag buckets across ALL reposts in the dataset
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?bucket (COUNT(*) AS ?n) WHERE { GRAPH <https://example.org/cc/graph/platform> {
+  ?ann a as:Announce ; as:object ?note ; as:published ?tr . ?note as:published ?tn .
+  BIND(?tr - ?tn AS ?d)
+  BIND(IF(?d <= "PT1H"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>, "a<1h", IF(?d <= "PT6H"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>, "b1-6h", IF(?d <= "PT12H"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>, "c6-12h", IF(?d <= "PT24H"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>,"d12-24h","e>24h")))) AS ?bucket) } } GROUP BY ?bucket ORDER BY ?bucket

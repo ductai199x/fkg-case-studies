@@ -1,0 +1,22 @@
+# CQ2.1 In each near-duplicate cluster, which post first carried each AI-generated region, and which
+# account posted it? A detection counts only if it is reliable (conf >= 0.7) and corroborated: at least two
+# later instances in the cluster carry a region from the same generator depicting the same content (conf >= 0.5).
+SELECT ?cluster ?post ?account WHERE {
+  { SELECT ?cluster ?generator ?desc (MIN(?t) AS ?firstSeen) WHERE {
+      ?img ctx:inCluster ?cluster ; fkg:hasRegion ?r .
+      ?r fkg:produced_by ?s ; fkg:depict/fkg:hasObjectDescription ?desc .
+      ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7)
+      ?p as:attachment ?img ; as:published ?t .
+      { SELECT ?img ?generator ?desc (COUNT(DISTINCT ?later) AS ?nLater) WHERE {
+          ?img ctx:inCluster ?cl ; fkg:hasRegion ?r1 . ?r1 fkg:produced_by ?s1 ; fkg:depict/fkg:hasObjectDescription ?desc .
+          ?s1 a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator .
+          ?p1 as:attachment ?img ; as:published ?t1 .
+          ?later ctx:inCluster ?cl ; fkg:hasRegion ?r2 . ?r2 fkg:produced_by ?s2 ; fkg:depict/fkg:hasObjectDescription ?desc .
+          ?s2 a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?c2 . FILTER(?c2 >= 0.5)
+          ?p2 as:attachment ?later ; as:published ?t2 . FILTER(?t2 > ?t1)
+        } GROUP BY ?img ?generator ?desc }
+      FILTER(?nLater >= 2)
+    } GROUP BY ?cluster ?generator ?desc }
+  ?post as:attachment ?first ; as:published ?firstSeen ; as:attributedTo ?account .
+  ?first ctx:inCluster ?cluster .
+}

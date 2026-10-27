@@ -1,0 +1,12 @@
+# 05: Inspect one full forensic record (image, record, conclusion, analysis) to learn the structure
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?s ?p ?o WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+  { SELECT ?img WHERE { ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } LIMIT 1 }
+  { ?img ?p ?o BIND(?img AS ?s) } UNION
+  { ?img fkg:hasRegion ?s . ?s ?p ?o } UNION
+  { ?img fkg:hasRegion/(fkg:produced_by|fkg:modified_by|fkg:compress_by|fkg:depict) ?s . ?s ?p ?o } UNION
+  { ?img fkg:hasRegion/fkg:modified_by/fkg:hasParameter ?s . ?s ?p ?o } UNION
+  { ?s fkg:aboutImage ?img . ?s ?p ?o } UNION
+  { ?r fkg:aboutImage ?img . ?r (fkg:hasConclusion|prov:wasGeneratedBy) ?s . ?s ?p ?o }
+} }

@@ -1,0 +1,15 @@
+# 08: For every AI-generated region: poster, account creation, generator, confidence, each op with position and parameter, compression
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?user ?created ?img ?gen ?conf ?desc ?mtype ?chain ?comp WHERE {
+ { SELECT ?r (GROUP_CONCAT(?step; separator=" | ") AS ?chain) WHERE {
+   { SELECT ?r ?op ?type ?pn ?pv (COUNT(?pred) AS ?pos) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+      ?r fkg:produced_by/a fkg:AIGenerator ; fkg:modified_by ?op . ?op a ?type . OPTIONAL { ?op fkg:hasParameter [ fkg:hasParameterName ?pn ; fkg:hasParameterValue ?pv ] }
+      OPTIONAL { ?pred fkg:hasNext+ ?op } } } GROUP BY ?r ?op ?type ?pn ?pv }
+   BIND(CONCAT(STR(?pos), ":", STRAFTER(STR(?type), "#"), COALESCE(CONCAT("(", ?pn, "=", STR(?pv), ")"), "")) AS ?step)
+ } GROUP BY ?r }
+ GRAPH <https://example.org/cc/graph/forensics> { ?r fkg:produced_by ?s ; fkg:contained_in ?img ; fkg:depict/fkg:hasObjectDescription ?desc ; fkg:compress_by ?c . ?s fkg:hasGeneratorModel ?gen ; fkg:hasConfidence ?conf .
+   OPTIONAL { ?c fkg:hasCompressionAlgorithm ?alg ; fkg:hasCompressionFactor ?cf } BIND(COALESCE(CONCAT(?alg, ":", STR(?cf)), "recompressed") AS ?comp)
+   ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:manipulationType ?mtype }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img ; as:attributedTo ?a . ?a as:preferredUsername ?user ; as:published ?created } }
+} ORDER BY ?created ?user

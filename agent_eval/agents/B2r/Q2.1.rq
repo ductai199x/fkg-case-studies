@@ -1,0 +1,39 @@
+# Q2.1 (cs2) - first carrier (post + account) of each distinct AI insertion per near-duplicate cluster.
+# Reasoning / checks:
+# - All 8 clusters start with an unaltered NewsOutlet original on NewsWire (camera region only, single-compressed);
+#   those originals are never reported because only posts carrying an AI region are considered.
+# - An "insertion" is identified within a cluster by (fkg:hasGeneratorModel, depicted fkg:hasObjectDescription);
+#   copies of a genuine insertion carry the identical confidence (0.851, 0.865, 0.948, ...) except after heavy
+#   recompression on MsgApp (0.748, 0.665), so the 0.7 threshold must NOT be applied to copies.
+# - False detector regions must be excluded. Splicing leaves a forensic signature on the edit master: the inserted
+#   AI region is compressed once (no fkg:ReCompressed) while the camera region of the same file is ReCompressed.
+#   Every genuine insertion has such a master (all posted by fringe_editor* accounts on pass-through FringeBoard).
+#   The cluster_5 "fire / Midjourney v7" region (conf 0.683-0.717 on 6 copies, varying) first appears on img0159,
+#   a byte-identical pass-through copy of the NewsWire original (camera region NOT recompressed, quality 0.92) -
+#   impossible for a real edit -> recurring content-triggered false positive. The single cluster_1 "sky /
+#   GPT-Image-1" (0.764, img0035) has no master signature either (both regions recompressed, no descendants,
+#   precedes the real FLUX.1 sky edit) -> treated as a false region. Open-world caveat: a genuine insertion whose
+#   master was not crawled would be missed by this rule.
+# - First carrier = earliest as:published post in the cluster carrying that (generator, description).
+SELECT DISTINCT ?cluster ?post ?account WHERE {
+  # genuine insertions: identified by an edit-master signature
+  {
+    SELECT DISTINCT ?cluster ?gm ?desc WHERE {
+      ?m ctx:inCluster ?cluster ; fkg:hasRegion ?ra , ?rc .
+      ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm .
+      ?ra fkg:depict/fkg:hasObjectDescription ?desc .
+      FILTER NOT EXISTS { ?ra fkg:compress_by ?ca . ?ca a fkg:ReCompressed }
+      ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel . ?rc fkg:compress_by ?cc . ?cc a fkg:ReCompressed .
+    }
+  }
+  ?img ctx:inCluster ?cluster ; fkg:hasRegion ?r .
+  ?r fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm . ?r fkg:depict/fkg:hasObjectDescription ?desc .
+  ?post as:attachment ?img ; as:published ?pub ; as:attributedTo ?account .
+  FILTER NOT EXISTS {
+    ?img2 ctx:inCluster ?cluster ; fkg:hasRegion ?r2 .
+    ?r2 fkg:produced_by ?s2 . ?s2 a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm . ?r2 fkg:depict/fkg:hasObjectDescription ?desc .
+    ?post2 as:attachment ?img2 ; as:published ?pub2 .
+    FILTER(?pub2 < ?pub)
+  }
+}
+ORDER BY ?cluster ?post

@@ -1,0 +1,4 @@
+# Baseline labels (forensic only): altered -> material alteration, else no alteration.
+SELECT ?post ?cat WHERE { ?post a as:Note ; as:attachment ?img .
+  BIND(IF(EXISTS { ?img fkg:hasRegion/fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7) },
+          ctx:UndisclosedMaterialAlteration, ctx:NoAlteration) AS ?cat) }

@@ -1,0 +1,12 @@
+# UC16 Explainability / audit trail. CQ: for a fact-check rated False, what is the chain of evidence: the claim and post,
+# the forensic record and the detector version that produced it, each region with its source, confidence and depicted entity?
+SELECT ?review ?post ?record ?version ?region ?sourceKind ?model ?conf ?depicts ?evidenceStatus WHERE {
+  ?review a schema:ClaimReview ; schema:itemReviewed ?claim ; schema:isBasedOn ?record .
+  ?claim schema:appearance ?post .
+  ?record fkg:aboutImage ?img ; prov:wasGeneratedBy [ prov:wasAssociatedWith ?v ] ; fkg:hasConclusion [ fkg:evidenceStatus ?evidenceStatus ] .
+  ?v schema:softwareVersion ?version .
+  ?region fkg:contained_in ?img ; fkg:produced_by ?src ; fkg:depict ?con .
+  ?src fkg:hasConfidence ?conf . OPTIONAL { ?src fkg:hasCameraModel ?cm } OPTIONAL { ?src fkg:hasGeneratorModel ?gm }
+  BIND(IF(BOUND(?gm), "AI generator", "camera") AS ?sourceKind) BIND(COALESCE(?gm, ?cm) AS ?model)
+  OPTIONAL { ?con ctx:depictsEntity ?e . ?e rdfs:label ?depicts }
+} ORDER BY ?review ?region LIMIT 40

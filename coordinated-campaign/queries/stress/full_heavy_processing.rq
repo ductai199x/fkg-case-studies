@@ -1,0 +1,35 @@
+# full_heavy_processing: full query with the TTP block relaxed to 'both images synthetic and heavily processed'
+PREFIX fkg:    <https://example.org/fkg#>
+PREFIX as:     <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov:   <http://www.w3.org/ns/prov#>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX g:      <https://example.org/cc/graph/>
+
+SELECT ?account (COUNT(DISTINCT ?peer) AS ?peers) WHERE {
+  { SELECT DISTINCT ?account ?peer WHERE {
+  GRAPH g:platform {
+    ?n1 as:attributedTo ?account ; as:published ?t1 ; as:attachment ?i1 .
+    ?n2 as:attributedTo ?peer    ; as:published ?t2 ; as:attachment ?i2 .
+  }
+  FILTER(?account != ?peer)
+  { SELECT DISTINCT ?i1 ?i2 WHERE {
+      { SELECT ?i1 WHERE { GRAPH g:forensics { ?r1 fkg:contained_in ?i1 ; fkg:produced_by ?s1 ; fkg:modified_by ?o1 . ?s1 a fkg:AIGenerator . ?o1 a ?t1 . FILTER(?t1 != fkg:NoPostProc) } }
+        GROUP BY ?i1 HAVING (COUNT(DISTINCT ?o1) >= 2) }
+      { SELECT ?i2 WHERE { GRAPH g:forensics { ?r2 fkg:contained_in ?i2 ; fkg:produced_by ?s2 ; fkg:modified_by ?o2 . ?s2 a fkg:AIGenerator . ?o2 a ?t2 . FILTER(?t2 != fkg:NoPostProc) } }
+        GROUP BY ?i2 HAVING (COUNT(DISTINCT ?o2) >= 2) }
+      FILTER(?i1 != ?i2) } }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i1 prov:wasDerivedFrom ?src1 } }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i2 prov:wasDerivedFrom ?src2 } }
+  FILTER(?t2 - ?t1 <= "PT72H"^^xsd:dayTimeDuration && ?t1 - ?t2 <= "PT72H"^^xsd:dayTimeDuration)
+  GRAPH g:platform { ?m1 as:attributedTo ?account . ?m2 as:attributedTo ?peer . }
+  GRAPH g:factcheck {
+    ?claim schema:appearance ?m1 , ?m2 .
+    ?review schema:itemReviewed ?claim ; schema:reviewRating ?rating . ?rating schema:ratingValue ?score .
+    FILTER(?score <= 2)
+  }
+  } }
+}
+GROUP BY ?account
+HAVING (COUNT(DISTINCT ?peer) >= 2)
+ORDER BY DESC(?peers)

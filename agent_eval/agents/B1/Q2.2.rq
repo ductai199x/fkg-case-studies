@@ -1,0 +1,59 @@
+# Q2.2 (cs2) Immediate parent of every non-first image instance in each near-duplicate cluster.
+# Cluster membership has no direction, so direction is reconstructed from hard forensic/context constraints, and the
+# most recent remaining candidate is chosen.
+# Data checks that motivate each constraint:
+# - Time: a parent must have been published (as:published) before the child.
+# - Size: copies are resized by the receiving platform. The child's camera region records fkg:Resampling with a
+#   scaleFactor parameter exactly equal to childLongEdge / parentLongEdge (0.4 = 1600/4000, 0.512 = 2048/4000,
+#   0.32 = 1280/4000, 0.781 = 1600/2048, 0.625 = 1280/2048, 0.8 = 1280/1600). With fkg:NoPostProc the parent has the
+#   same ctx:pixelLongEdge. Tolerance of 2 px for rounding.
+# - Insertions: AI insertions are inherited. A child carries exactly its parent's insertions, plus any insertion the
+#   child itself introduces (it is the first carrier in the cluster, i.e. the editor accounts). Matched by depicted
+#   description, regardless of confidence (MsgApp recompression lowers it to 0.665/0.748). The cluster originals'
+#   non-inherited 0.72 "sky" region (isolated false positive) is ignored.
+# - Pass-through: FringeBoard stores files byte-for-byte, so a FringeBoard child (unless it is an editor's re-saved
+#   file) keeps its parent's JPEG quality: |childFactor - parentFactor| <= 0.02 (measurement noise is +/-0.008 per
+#   image; platform qualities are >= 0.03 apart). For non-pass-through children quality carries no parent information.
+# - Tie-break: after these constraints 53 of 233 children have a unique candidate. Among those whose parent is not a
+#   cluster original, the parent is almost always among the 0-3 most recent prior instances, i.e. spread is strongly
+#   recency-biased, so the most recent consistent candidate is chosen. This is the main source of uncertainty (no
+#   signal in the data separates e.g. two FringeBoard 4000-px pass-through copies of the same NewsWire original).
+SELECT ?child ?parent WHERE {
+  {
+    SELECT ?child (MAX(CONCAT(STR(?tp), "|", STR(?par))) AS ?best) WHERE {
+      ?pc as:attachment ?child ; as:published ?tc ; ctx:onPlatform ?plc . ?plc ctx:passthrough ?passC .
+      ?child ctx:inCluster ?cl ; ctx:pixelLongEdge ?lc .
+      ?child fkg:hasRegion ?rc . ?rc fkg:produced_by/a fkg:CameraModel ; fkg:compress_by/fkg:hasCompressionFactor ?cfc .
+      OPTIONAL { ?rc fkg:modified_by ?mc . ?mc a fkg:Resampling ; fkg:hasParameter ?prm . ?prm fkg:hasParameterName "scaleFactor" ; fkg:hasParameterValue ?f }
+      ?par ctx:inCluster ?cl ; ctx:pixelLongEdge ?lp . ?pp as:attachment ?par ; as:published ?tp .
+      FILTER(?tp < ?tc)
+      ?par fkg:hasRegion ?rp . ?rp fkg:produced_by/a fkg:CameraModel ; fkg:compress_by/fkg:hasCompressionFactor ?cfp .
+      # size consistency
+      FILTER( IF(BOUND(?f), ABS(?lp * ?f - ?lc) <= 2, ?lp = ?lc) )
+      # does the child introduce a new insertion (first carrier in the cluster)?
+      BIND(EXISTS {
+        ?child fkg:hasRegion ?ra . ?ra fkg:produced_by/a fkg:AIGenerator ; fkg:depict/fkg:hasObjectDescription ?dn .
+        FILTER NOT EXISTS { ?o ctx:inCluster ?cl ; fkg:hasRegion ?ro . ?ro fkg:produced_by/a fkg:AIGenerator ; fkg:depict/fkg:hasObjectDescription ?dn .
+                            ?po as:attachment ?o ; as:published ?to . FILTER(?to < ?tc) }
+      } AS ?introduces)
+      # pass-through copies keep the parent's JPEG quality
+      FILTER( !?passC || ?introduces || ABS(?cfc - ?cfp) <= 0.02 )
+      # every (non-spurious) insertion of the parent is inherited by the child
+      FILTER NOT EXISTS {
+        ?par fkg:hasRegion ?rpa . ?rpa fkg:produced_by/a fkg:AIGenerator ; fkg:depict/fkg:hasObjectDescription ?dp .
+        FILTER NOT EXISTS { ?child fkg:hasRegion ?rca . ?rca fkg:produced_by/a fkg:AIGenerator ; fkg:depict/fkg:hasObjectDescription ?dp }
+        # ignore the original's non-inherited region (parent is the cluster's earliest instance)
+        FILTER EXISTS { ?o1 ctx:inCluster ?cl . ?po1 as:attachment ?o1 ; as:published ?t1 . FILTER(?t1 < ?tp) }
+      }
+      # every insertion of the child comes from the parent, unless the child introduced it
+      FILTER NOT EXISTS {
+        ?child fkg:hasRegion ?rca2 . ?rca2 fkg:produced_by/a fkg:AIGenerator ; fkg:depict/fkg:hasObjectDescription ?dc .
+        FILTER NOT EXISTS { ?par fkg:hasRegion ?rpa2 . ?rpa2 fkg:produced_by/a fkg:AIGenerator ; fkg:depict/fkg:hasObjectDescription ?dc }
+        FILTER EXISTS { ?o3 ctx:inCluster ?cl ; fkg:hasRegion ?ro3 . ?ro3 fkg:produced_by/a fkg:AIGenerator ; fkg:depict/fkg:hasObjectDescription ?dc .
+                        ?po3 as:attachment ?o3 ; as:published ?t3 . FILTER(?t3 < ?tc) }
+      }
+    } GROUP BY ?child
+  }
+  BIND(IRI(STRAFTER(?best, "|")) AS ?parent)
+}
+ORDER BY ?child

@@ -1,0 +1,17 @@
+# Q3.5 (cs3) Fact-check reviews resting on forensic records affected by a published known issue.
+# Data checks: one ctx:KnownIssue (issue_v1_1_generatorID) with ctx:affectsVersion detector_1_1 and
+# ctx:affectsProperty "https://example.org/fkg#hasGeneratorModel"^^xsd:anyURI (a literal, so it is compared to the
+# predicate IRI via STR). 14 schema:ClaimReview, each schema:isBasedOn an fkg:ForensicRecord; records link to the
+# version via prov:wasGeneratedBy / prov:wasAssociatedWith. Each record lives in its own named graph
+# urn:g:fkg/<image>, so "the record contains the affected property" = that graph holds a triple using the property.
+# The query is generic over any known issue / version / property.
+# Result: the v1.1-based reviews whose record includes a generator attribution (img0084, 0088, 0092, 0096, 0196).
+# Note: img0096's AI region is only 0.679 (below the reliability threshold) - a second reason to revisit that review.
+SELECT DISTINCT ?review WHERE {
+  ?issue a ctx:KnownIssue ; ctx:affectsVersion ?version ; ctx:affectsProperty ?prop .
+  ?review a schema:ClaimReview ; schema:isBasedOn ?rec .
+  ?rec prov:wasGeneratedBy ?run . ?run prov:wasAssociatedWith ?version .
+  GRAPH ?g { ?rec a fkg:ForensicRecord . ?x ?p ?v . }
+  FILTER(STR(?p) = STR(?prop))
+}
+ORDER BY ?review

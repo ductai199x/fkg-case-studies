@@ -1,0 +1,14 @@
+# 08: Images whose region shows the 3-step Resampling>GaussianBlur>GaussianNoise chain: params, source, type, poster, false-claim match
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?img ?mtype ?src ?conf ?scale ?sigma ?noise ?comp ?user ?t (GROUP_CONCAT(DISTINCT SUBSTR(?ctext,1,30);separator="|") AS ?claims) WHERE {
+  GRAPH <https://example.org/cc/graph/forensics> {
+    ?r fkg:modified_by ?o1 . FILTER NOT EXISTS { ?x fkg:hasNext ?o1 } ?o1 a fkg:Resampling ; fkg:hasNext ?o2 . ?o2 a fkg:GaussianBlur ; fkg:hasNext ?o3 . ?o3 a fkg:GaussianNoise .
+    ?o1 fkg:hasParameter/fkg:hasParameterValue ?scale . ?o2 fkg:hasParameter/fkg:hasParameterValue ?sigma . ?o3 fkg:hasParameter/fkg:hasParameterValue ?noise .
+    ?r fkg:produced_by ?s ; fkg:compress_by ?c ; fkg:contained_in ?img . ?c a ?ct . ?s fkg:hasConfidence ?conf . OPTIONAL { ?s fkg:hasGeneratorModel|fkg:hasCameraModel ?src }
+    ?rec fkg:aboutImage ?img ; fkg:hasConclusion ?cc . ?cc fkg:verdict ?v . OPTIONAL { ?cc fkg:manipulationType ?mt } }
+  BIND(STRAFTER(STR(?ct),"#") AS ?comp) BIND(COALESCE(STRAFTER(STR(?mt),"#"), STRAFTER(STR(?v),"#")) AS ?mtype)
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img ; as:attributedTo ?a ; as:published ?t . ?a as:preferredUsername ?user }
+    OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?claim schema:appearance ?note ; schema:text ?ctext } } }
+} GROUP BY ?img ?mtype ?src ?conf ?scale ?sigma ?noise ?comp ?user ?t ORDER BY ?user ?t

@@ -1,0 +1,52 @@
+# Q2.3 - posts crediting a news outlet while showing an AI insertion the outlet never published (cs2).
+# Reasoning: post ctx:creditsSource an account whose ctx:accountGenre is ctx:NewsOutlet; the post's image
+# shows a genuine AI insertion (conf >= 0.7, or 0.45-0.7 corroborated by the same content in another
+# cluster member - recompression caveat; isolated moderate false regions excluded).
+# "Never published" under an open-world crawl: we require POSITIVE evidence - the outlet's own post(s) of
+# the same photograph (same near-duplicate cluster, compatible camera model) are in the crawl - and none
+# of the outlet's crawled posts in that cluster shows that insertion. If no outlet post of the photograph
+# was crawled, absence proves nothing and the post is not reported.
+SELECT DISTINCT ?post WHERE {
+  ?post ctx:creditsSource ?outlet ;
+        as:attachment ?img .
+  ?outlet ctx:accountGenre ctx:NewsOutlet .
+    ?img (fkg:hasRegion|^fkg:contained_in) ?r .
+    ?r fkg:produced_by ?s .
+    ?s a fkg:AIGenerator ;
+        fkg:hasConfidence ?c .
+    FILTER( xsd:double(STR(?c)) >= 0.7
+         || ( xsd:double(STR(?c)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_a . ?o_a ctx:inCluster ?k_a . FILTER(?o_a != ?img)
+                ?o_a (fkg:hasRegion|^fkg:contained_in) ?r2_a .
+                ?r2_a fkg:produced_by ?s2_a .
+                ?s2_a a fkg:AIGenerator ; fkg:hasConfidence ?c2_a .
+                FILTER(xsd:double(STR(?c2_a)) >= 0.45)
+                ?r fkg:depict ?d1_a . ?r2_a fkg:depict ?d2_a .
+                { ?d1_a fkg:hasObjectDescription ?t1_a . ?d2_a fkg:hasObjectDescription ?t2_a .
+                  FILTER(LCASE(STR(?t1_a)) = LCASE(STR(?t2_a))) }
+                UNION { ?d1_a ctx:depictsEntity ?e_a . ?d2_a ctx:depictsEntity ?e_a }
+              } ) )
+  ?r fkg:depict/fkg:hasObjectDescription ?desc .
+  BIND(LCASE(STR(?desc)) AS ?key)
+  ?img ctx:inCluster ?k .
+  # positive evidence that the outlet published this photograph
+  ?op as:attributedTo ?outlet ;
+      as:attachment ?oimg .
+  ?oimg ctx:inCluster ?k .
+  FILTER( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?ma_g }
+         || NOT EXISTS { ?oimg (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mb_g }
+         || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mc_g . ?oimg (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?md_g .
+                     FILTER(LCASE(STR(?mc_g)) = LCASE(STR(?md_g))) } )
+  # ... and none of the outlet's versions of it carries the insertion
+  FILTER NOT EXISTS {
+    ?op2 as:attributedTo ?outlet ;
+         as:attachment ?oimg2 .
+    ?oimg2 ctx:inCluster ?k .
+    ?oimg2 (fkg:hasRegion|^fkg:contained_in) ?r2 .
+    ?r2 fkg:produced_by ?s2 .
+    ?s2 a fkg:AIGenerator ; fkg:hasConfidence ?c2 .
+    FILTER(xsd:double(STR(?c2)) >= 0.45)
+    ?r2 fkg:depict/fkg:hasObjectDescription ?dd_b .
+    FILTER(LCASE(STR(?dd_b)) = ?key)
+  }
+}

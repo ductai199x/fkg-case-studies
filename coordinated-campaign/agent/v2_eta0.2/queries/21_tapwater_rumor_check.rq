@@ -1,0 +1,10 @@
+# 21: alternative check - posts matched to the False claim with NO repost amplification: per claim, posters' account age, image verdict, and whether any repost exists (organic rumor test)
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?claimText ?u ?created ?t ?verdict (SUBSTR(STR(?txt),1,50) AS ?text) WHERE {
+  GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?n ; schema:text ?claimText . ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?v FILTER(?v <= 2) }
+  GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a ; as:published ?t ; as:content ?txt . ?a as:preferredUsername ?u ; as:published ?created . OPTIONAL { ?n as:attachment ?img } FILTER NOT EXISTS { ?ann a as:Announce ; as:object ?n } }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?fi ; fkg:hasConclusion/fkg:verdict ?vd } FILTER(?fi = ?img) BIND(STRAFTER(STR(?vd),"#") AS ?verdict) }
+  FILTER(CONTAINS(?claimText, "water"))
+} ORDER BY ?t

@@ -1,0 +1,23 @@
+# 22: Draft of the generic core criterion (op-level join version): accounts posting >=3 original Manipulated images whose multi-op chain matches (same op types, every parameter within 10%) images of >=2 other accounts; reports false-claim-matched notes among them
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?account (COUNT(DISTINCT ?img1) AS ?fpImages) (COUNT(DISTINCT ?other) AS ?peers) (COUNT(DISTINCT ?fnote) AS ?falseFpNotes) WHERE {
+ { SELECT ?r1 ?r2 WHERE {
+   { SELECT ?r1 (COUNT(DISTINCT ?x1) AS ?k1) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:modified_by ?x1 . ?x1 fkg:hasParameter ?xp1 } } GROUP BY ?r1 HAVING(COUNT(DISTINCT ?x1) >= 2) }
+   { SELECT ?r2 (COUNT(DISTINCT ?x2) AS ?k2) WHERE { GRAPH <https://example.org/cc/graph/forensics> { ?r2 fkg:modified_by ?x2 . ?x2 fkg:hasParameter ?xp2 } } GROUP BY ?r2 HAVING(COUNT(DISTINCT ?x2) >= 2) }
+   FILTER(?k1 = ?k2 && ?r1 != ?r2)
+   GRAPH <https://example.org/cc/graph/forensics> {
+     ?r1 fkg:modified_by ?o1 . ?o1 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v1 .
+     ?r2 fkg:modified_by ?o2 . ?o2 a ?t ; fkg:hasParameter/fkg:hasParameterValue ?v2 .
+     FILTER(ABS(?v1 - ?v2) <= 0.1 * ABS(?v1)) }
+ } GROUP BY ?r1 ?r2 ?k1 HAVING(COUNT(DISTINCT ?o1) = ?k1) }
+ GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:contained_in ?img1 . ?r2 fkg:contained_in ?img2 . FILTER(?img1 != ?img2)
+   ?rec1 fkg:aboutImage ?img1 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+ FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img1 prov:wasDerivedFrom ?x } }
+ FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?y } }
+ GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?img1 ; as:attributedTo ?account . ?n2 as:attachment ?img2 ; as:attributedTo ?other . FILTER(?other != ?account) }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n1 . ?rev schema:itemReviewed ?cl ; schema:reviewRating ?rt . ?rt schema:ratingValue ?rv ; schema:bestRating ?best ; schema:worstRating ?worst .
+   FILTER((?rv - ?worst) <= 0.25 * (?best - ?worst)) } BIND(?n1 AS ?fnote) }
+} GROUP BY ?account HAVING(COUNT(DISTINCT ?img1) >= 3 && COUNT(DISTINCT ?other) >= 2) ORDER BY ?account

@@ -1,0 +1,16 @@
+# CQ1.1 Which posts present a camera-authentic image as showing a current event, although the same
+# photograph (near-duplicate AND same camera attribution) was already public before that event began?
+# Layers: FKG (source attribution, confidence) + context (claims, events, posts, near-duplicate clusters).
+SELECT DISTINCT ?post WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?evStart .
+  ?post as:attachment ?img .
+  # forensic gate: no reliable AI-generated region (confidence >= 0.7)
+  FILTER NOT EXISTS { ?img fkg:hasRegion/fkg:produced_by ?g . ?g a fkg:AIGenerator ; fkg:hasConfidence ?gc . FILTER(?gc >= 0.7) }
+  ?img fkg:hasRegion/fkg:produced_by ?cs . ?cs a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+  # context: an earlier public instance in the same near-duplicate cluster ...
+  ?img ctx:inCluster ?cl . ?prior ctx:inCluster ?cl . FILTER(?prior != ?img)
+  ?priorPost as:attachment ?prior ; as:published ?pt . FILTER(?pt < ?evStart)
+  # ... whose forensic camera attribution agrees (guards against near-duplicate false merges)
+  ?prior fkg:hasRegion/fkg:produced_by/fkg:hasCameraModel ?cam .
+}

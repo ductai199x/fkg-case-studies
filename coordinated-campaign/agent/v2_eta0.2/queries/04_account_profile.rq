@@ -1,0 +1,10 @@
+# 04: per-account activity profile - creation date, posts, image posts, manipulated-image posts, reposts made
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?a ?user ?created ?nPosts ?nImgPosts ?nManip ?nReposts WHERE {
+  GRAPH <https://example.org/cc/graph/platform> { ?a a as:Person ; as:preferredUsername ?user ; as:published ?created }
+  { SELECT ?a (COUNT(DISTINCT ?n) AS ?nPosts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n a as:Note ; as:attributedTo ?a } } GROUP BY ?a }
+  OPTIONAL { SELECT ?a (COUNT(DISTINCT ?n) AS ?nImgPosts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n a as:Note ; as:attributedTo ?a ; as:attachment ?i } } GROUP BY ?a }
+  OPTIONAL { SELECT ?a (COUNT(DISTINCT ?n) AS ?nManip) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n a as:Note ; as:attributedTo ?a ; as:attachment ?i } GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?i ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } } GROUP BY ?a }
+  OPTIONAL { SELECT ?a (COUNT(DISTINCT ?r) AS ?nReposts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?r a as:Announce ; as:actor ?a } } GROUP BY ?a }
+} ORDER BY DESC(?nManip) ?created

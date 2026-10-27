@@ -1,0 +1,32 @@
+# Q2.4 (cs2) For each post on a pass-through platform (ctx:passthrough true: FringeBoard), the transcoding platform
+# whose profile the stored file matches (the last platform it passed through before upload), else "no_platform_match".
+# Reasoning / checks against the data:
+# - A pass-through platform stores the file byte-for-byte, so the file still carries the last re-encoder's JPEG
+#   quality (fkg:hasCompressionFactor, same 0-1 scale as ctx:transcodeQuality) and long edge.
+# - Measured quality jitter on native uploads is <= +-0.008 around each platform's transcodeQuality
+#   (MsgApp 0.693-0.707 vs 0.70, Chirp 0.812-0.828 vs 0.82, PicShare 0.843-0.858 vs 0.85, NewsWire 0.913-0.927 vs 0.92),
+#   and the platform qualities are >= 0.03 apart, so a match = |factor - transcodeQuality| <= 0.015 on EVERY region of
+#   the image, plus ctx:pixelLongEdge <= ctx:maxLongEdge. Only non-pass-through platforms other than the post's own
+#   are candidates (a pass-through hop leaves no trace). Nearest-quality platform is chosen if several fit.
+# - Files re-saved by an editor (q ~0.94-0.955, spliced) match no profile -> "no_platform_match".
+SELECT DISTINCT ?post ?hiddenSource WHERE {
+  ?post a as:Note ; ctx:onPlatform ?pt ; as:attachment ?img .
+  ?pt ctx:passthrough true .
+  ?img ctx:pixelLongEdge ?edge .
+  OPTIONAL {
+    ?src a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?q ; ctx:maxLongEdge ?maxE .
+    FILTER(?src != ?pt && ?edge <= ?maxE)
+    FILTER NOT EXISTS { ?rx fkg:contained_in ?img ; fkg:compress_by ?cx . ?cx fkg:hasCompressionFactor ?fx .
+                        FILTER(ABS(?fx - ?q) > 0.015) }
+    FILTER NOT EXISTS {
+      ?src2 a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?q2 ; ctx:maxLongEdge ?maxE2 .
+      FILTER(?src2 != ?src && ?src2 != ?pt && ?edge <= ?maxE2)
+      FILTER NOT EXISTS { ?ry fkg:contained_in ?img ; fkg:compress_by ?cy . ?cy fkg:hasCompressionFactor ?fy .
+                          FILTER(ABS(?fy - ?q2) > 0.015) }
+      ?r0 fkg:contained_in ?img ; fkg:compress_by ?c0 . ?c0 fkg:hasCompressionFactor ?f0 .
+      FILTER(ABS(?f0 - ?q2) < ABS(?f0 - ?q))
+    }
+  }
+  BIND(COALESCE(?src, "no_platform_match") AS ?hiddenSource)
+}
+ORDER BY ?post

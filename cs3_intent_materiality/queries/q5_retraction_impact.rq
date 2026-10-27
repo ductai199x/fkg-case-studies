@@ -1,0 +1,8 @@
+# CQ3.5 A detector version has a published known issue affecting generator attribution. Which fact-check verdicts
+# (ClaimReviews) rest on forensic records produced by that version and containing an affected attribution?
+SELECT DISTINCT ?review ?claim ?record ?version WHERE {
+  ?issue a ctx:KnownIssue ; ctx:affectsVersion ?version ; ctx:affectsProperty ?prop .
+  ?review a schema:ClaimReview ; schema:itemReviewed ?claim ; schema:isBasedOn ?record .
+  ?record prov:wasGeneratedBy/prov:wasAssociatedWith ?version ; fkg:aboutImage ?img .
+  ?img fkg:hasRegion/fkg:produced_by ?s . ?s a fkg:AIGenerator ; ?p ?any . FILTER(STR(?p) = STR(?prop))
+}

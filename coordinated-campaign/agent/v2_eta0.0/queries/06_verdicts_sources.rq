@@ -1,0 +1,5 @@
+# 06: Distribution of verdict x manipulation type x generator model across images
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?verdict ?mtype ?gen (COUNT(DISTINCT ?img) AS ?n) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+ ?rec fkg:aboutImage ?img ; fkg:hasConclusion ?c . ?c fkg:verdict ?verdict . OPTIONAL { ?c fkg:manipulationType ?mtype }
+ OPTIONAL { ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s . ?s fkg:hasGeneratorModel ?gen } } } GROUP BY ?verdict ?mtype ?gen ORDER BY DESC(?n)

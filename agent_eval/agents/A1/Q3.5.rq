@@ -1,0 +1,28 @@
+# Q3.5  Fact-check reviews resting on records affected by a published known issue.
+# Reasoning: ctx:KnownIssue ctx:affectsVersion ?version ; ctx:affectsProperty ?prop (an IRI given as a string). A
+# schema:ClaimReview schema:isBasedOn a fkg:ForensicRecord that was produced by exactly that version (record
+# prov:wasGeneratedBy a ctx:DetectorRun prov:wasAssociatedWith the version; also accepted directly on the record) AND
+# whose content actually uses the affected property. Records by other versions, or by the affected version but without
+# the affected property (e.g. a camera-only record when the defect is in the AI-attribution head), are not tainted.
+# "Contains the property": a triple with that predicate on the record or on any node reachable from it through the FKG
+# structure (image -> regions -> source / compression / content / post-processing, conclusions, observations), or -
+# where the record has its own named graph (urn:g:fkg/<image>) holding no other record - anywhere in that graph.
+# Property matching compares IRI strings (also tolerating a prefixed fkg:/ctx: spelling).
+SELECT DISTINCT ?review WHERE {
+  ?issue ctx:affectsVersion ?version ;
+         ctx:affectsProperty ?prop .
+  ?review schema:isBasedOn ?rec .
+  ?rec (prov:wasGeneratedBy/prov:wasAssociatedWith)|prov:wasAssociatedWith ?version .
+  {
+    ?rec (fkg:aboutImage|fkg:aboutRegion|fkg:hasConclusion|fkg:basedOnObservation|fkg:hasRegion|^fkg:contained_in|fkg:produced_by|fkg:modified_by|fkg:compress_by|fkg:depict|fkg:hasParameter|fkg:hasNext)* ?node .
+    ?node ?p ?o .
+  } UNION {
+    GRAPH ?g { ?rec ?anyP ?anyO . ?node ?p ?o . }
+    FILTER NOT EXISTS { GRAPH ?g {
+      { ?otherRec a fkg:ForensicRecord } UNION { ?otherRec fkg:aboutImage ?otherImg } UNION { ?otherRec prov:wasGeneratedBy ?otherRun }
+      FILTER(?otherRec != ?rec) } }
+  }
+  FILTER( STR(?p) = STR(?prop)
+       || REPLACE(STR(?p), "^https://example\\.org/fkg#", "fkg:") = STR(?prop)
+       || REPLACE(STR(?p), "^https://example\\.org/fkg/context#", "ctx:") = STR(?prop) )
+}

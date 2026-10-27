@@ -1,0 +1,13 @@
+# 15: Per account - images whose regions carry >=2 of the 3 signature ops (Resampling~0.7-1.0, Blur sigma~0.45-0.75, Noise~1.0-1.4), any order; vs total image posts
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?user ?created (COUNT(DISTINCT ?img) AS ?nSigImgs) (GROUP_CONCAT(DISTINCT ?k; separator=" ") AS ?kinds) WHERE {
+  { SELECT ?img (SUM(?hasR)+SUM(?hasB)+SUM(?hasN) AS ?k) WHERE {
+     { SELECT ?img ?r (MAX(?isR) AS ?hasR) (MAX(?isB) AS ?hasB) (MAX(?isN) AS ?hasN) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+        ?r fkg:contained_in ?img ; fkg:modified_by ?op . ?op a ?t . OPTIONAL { ?op fkg:hasParameter/fkg:hasParameterValue ?v }
+        BIND(IF(?t = fkg:Resampling && ?v >= 0.7 && ?v < 1.0, 1, 0) AS ?isR)
+        BIND(IF(?t = fkg:GaussianBlur && ?v >= 0.45 && ?v < 0.75, 1, 0) AS ?isB)
+        BIND(IF(?t = fkg:GaussianNoise && ?v >= 1.0 && ?v < 1.4, 1, 0) AS ?isN) } } GROUP BY ?img ?r }
+    } GROUP BY ?img ?r HAVING (SUM(?hasR)+SUM(?hasB)+SUM(?hasN) >= 2) }
+  GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img ; as:attributedTo ?a . ?a as:preferredUsername ?user ; as:published ?created }
+} GROUP BY ?user ?created ORDER BY DESC(?nSigImgs)

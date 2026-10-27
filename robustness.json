@@ -1,0 +1,3496 @@
+{
+ "seeds_per_eta": 5,
+ "seeds_cs2": 10,
+ "etas": [
+  0.05,
+  0.1,
+  0.2,
+  0.3,
+  0.5
+ ],
+ "summary": {
+  "cs1_recycled_media eta=0.05": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": {
+     "mean": 0.972,
+     "std": 0.016,
+     "min": 0.939,
+     "max": 0.98
+    },
+    "precision": {
+     "mean": 0.984,
+     "std": 0.02,
+     "min": 0.958,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.96,
+     "std": 0.025,
+     "min": 0.92,
+     "max": 1.0
+    }
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": {
+     "mean": 0.983,
+     "std": 0.009,
+     "min": 0.971,
+     "max": 0.992
+    },
+    "accuracy": {
+     "mean": 0.982,
+     "std": 0.009,
+     "min": 0.971,
+     "max": 0.99
+    }
+   },
+   "Baseline: forensic layer only": {
+    "headline": {
+     "mean": 0.692,
+     "std": 0.008,
+     "min": 0.679,
+     "max": 0.7
+    },
+    "accuracy": {
+     "mean": 0.754,
+     "std": 0.007,
+     "min": 0.743,
+     "max": 0.762
+    }
+   },
+   "Baseline: context layer only": {
+    "headline": {
+     "mean": 0.394,
+     "std": 0.008,
+     "min": 0.384,
+     "max": 0.408
+    },
+    "accuracy": {
+     "mean": 0.672,
+     "std": 0.013,
+     "min": 0.657,
+     "max": 0.695
+    }
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": {
+     "mean": 0.959,
+     "std": 0.017,
+     "min": 0.943,
+     "max": 0.985
+    },
+    "accuracy": {
+     "mean": 0.95,
+     "std": 0.019,
+     "min": 0.933,
+     "max": 0.981
+    }
+   },
+   "Ablation: no confidence threshold": {
+    "headline": {
+     "mean": 0.984,
+     "std": 0.011,
+     "min": 0.972,
+     "max": 1.0
+    },
+    "accuracy": {
+     "mean": 0.983,
+     "std": 0.011,
+     "min": 0.971,
+     "max": 1.0
+    }
+   }
+  },
+  "cs1_recycled_media eta=0.1": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": {
+     "mean": 0.915,
+     "std": 0.059,
+     "min": 0.826,
+     "max": 0.98
+    },
+    "precision": {
+     "mean": 0.964,
+     "std": 0.044,
+     "min": 0.905,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.872,
+     "std": 0.082,
+     "min": 0.76,
+     "max": 0.96
+    }
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": {
+     "mean": 0.953,
+     "std": 0.021,
+     "min": 0.924,
+     "max": 0.982
+    },
+    "accuracy": {
+     "mean": 0.952,
+     "std": 0.021,
+     "min": 0.924,
+     "max": 0.981
+    }
+   },
+   "Baseline: forensic layer only": {
+    "headline": {
+     "mean": 0.681,
+     "std": 0.009,
+     "min": 0.667,
+     "max": 0.69
+    },
+    "accuracy": {
+     "mean": 0.745,
+     "std": 0.007,
+     "min": 0.733,
+     "max": 0.752
+    }
+   },
+   "Baseline: context layer only": {
+    "headline": {
+     "mean": 0.37,
+     "std": 0.015,
+     "min": 0.355,
+     "max": 0.396
+    },
+    "accuracy": {
+     "mean": 0.638,
+     "std": 0.022,
+     "min": 0.619,
+     "max": 0.676
+    }
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": {
+     "mean": 0.919,
+     "std": 0.021,
+     "min": 0.898,
+     "max": 0.96
+    },
+    "accuracy": {
+     "mean": 0.907,
+     "std": 0.023,
+     "min": 0.886,
+     "max": 0.952
+    }
+   },
+   "Ablation: no confidence threshold": {
+    "headline": {
+     "mean": 0.953,
+     "std": 0.013,
+     "min": 0.93,
+     "max": 0.972
+    },
+    "accuracy": {
+     "mean": 0.948,
+     "std": 0.015,
+     "min": 0.924,
+     "max": 0.971
+    }
+   }
+  },
+  "cs1_recycled_media eta=0.2": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": {
+     "mean": 0.858,
+     "std": 0.059,
+     "min": 0.762,
+     "max": 0.941
+    },
+    "precision": {
+     "mean": 0.916,
+     "std": 0.055,
+     "min": 0.84,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.816,
+     "std": 0.103,
+     "min": 0.64,
+     "max": 0.96
+    }
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": {
+     "mean": 0.911,
+     "std": 0.029,
+     "min": 0.878,
+     "max": 0.95
+    },
+    "accuracy": {
+     "mean": 0.916,
+     "std": 0.026,
+     "min": 0.895,
+     "max": 0.952
+    }
+   },
+   "Baseline: forensic layer only": {
+    "headline": {
+     "mean": 0.655,
+     "std": 0.027,
+     "min": 0.623,
+     "max": 0.69
+    },
+    "accuracy": {
+     "mean": 0.722,
+     "std": 0.024,
+     "min": 0.695,
+     "max": 0.752
+    }
+   },
+   "Baseline: context layer only": {
+    "headline": {
+     "mean": 0.345,
+     "std": 0.016,
+     "min": 0.316,
+     "max": 0.361
+    },
+    "accuracy": {
+     "mean": 0.598,
+     "std": 0.02,
+     "min": 0.562,
+     "max": 0.619
+    }
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": {
+     "mean": 0.861,
+     "std": 0.029,
+     "min": 0.825,
+     "max": 0.907
+    },
+    "accuracy": {
+     "mean": 0.846,
+     "std": 0.027,
+     "min": 0.81,
+     "max": 0.886
+    }
+   },
+   "Ablation: no confidence threshold": {
+    "headline": {
+     "mean": 0.92,
+     "std": 0.018,
+     "min": 0.903,
+     "max": 0.953
+    },
+    "accuracy": {
+     "mean": 0.914,
+     "std": 0.021,
+     "min": 0.895,
+     "max": 0.952
+    }
+   }
+  },
+  "cs1_recycled_media eta=0.3": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": {
+     "mean": 0.825,
+     "std": 0.052,
+     "min": 0.756,
+     "max": 0.894
+    },
+    "precision": {
+     "mean": 0.905,
+     "std": 0.041,
+     "min": 0.85,
+     "max": 0.955
+    },
+    "recall": {
+     "mean": 0.76,
+     "std": 0.072,
+     "min": 0.68,
+     "max": 0.84
+    }
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": {
+     "mean": 0.873,
+     "std": 0.031,
+     "min": 0.847,
+     "max": 0.933
+    },
+    "accuracy": {
+     "mean": 0.882,
+     "std": 0.028,
+     "min": 0.848,
+     "max": 0.933
+    }
+   },
+   "Baseline: forensic layer only": {
+    "headline": {
+     "mean": 0.63,
+     "std": 0.025,
+     "min": 0.604,
+     "max": 0.669
+    },
+    "accuracy": {
+     "mean": 0.701,
+     "std": 0.019,
+     "min": 0.686,
+     "max": 0.733
+    }
+   },
+   "Baseline: context layer only": {
+    "headline": {
+     "mean": 0.31,
+     "std": 0.011,
+     "min": 0.293,
+     "max": 0.326
+    },
+    "accuracy": {
+     "mean": 0.539,
+     "std": 0.016,
+     "min": 0.514,
+     "max": 0.562
+    }
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": {
+     "mean": 0.795,
+     "std": 0.03,
+     "min": 0.769,
+     "max": 0.853
+    },
+    "accuracy": {
+     "mean": 0.766,
+     "std": 0.027,
+     "min": 0.743,
+     "max": 0.819
+    }
+   },
+   "Ablation: no confidence threshold": {
+    "headline": {
+     "mean": 0.869,
+     "std": 0.035,
+     "min": 0.822,
+     "max": 0.929
+    },
+    "accuracy": {
+     "mean": 0.855,
+     "std": 0.04,
+     "min": 0.8,
+     "max": 0.924
+    }
+   }
+  },
+  "cs1_recycled_media eta=0.5": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": {
+     "mean": 0.657,
+     "std": 0.043,
+     "min": 0.585,
+     "max": 0.698
+    },
+    "precision": {
+     "mean": 0.816,
+     "std": 0.069,
+     "min": 0.737,
+     "max": 0.929
+    },
+    "recall": {
+     "mean": 0.552,
+     "std": 0.047,
+     "min": 0.48,
+     "max": 0.6
+    }
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": {
+     "mean": 0.786,
+     "std": 0.033,
+     "min": 0.736,
+     "max": 0.816
+    },
+    "accuracy": {
+     "mean": 0.804,
+     "std": 0.023,
+     "min": 0.771,
+     "max": 0.829
+    }
+   },
+   "Baseline: forensic layer only": {
+    "headline": {
+     "mean": 0.594,
+     "std": 0.027,
+     "min": 0.547,
+     "max": 0.626
+    },
+    "accuracy": {
+     "mean": 0.672,
+     "std": 0.02,
+     "min": 0.638,
+     "max": 0.695
+    }
+   },
+   "Baseline: context layer only": {
+    "headline": {
+     "mean": 0.227,
+     "std": 0.011,
+     "min": 0.206,
+     "max": 0.239
+    },
+    "accuracy": {
+     "mean": 0.4,
+     "std": 0.02,
+     "min": 0.362,
+     "max": 0.419
+    }
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": {
+     "mean": 0.67,
+     "std": 0.022,
+     "min": 0.633,
+     "max": 0.697
+    },
+    "accuracy": {
+     "mean": 0.615,
+     "std": 0.02,
+     "min": 0.59,
+     "max": 0.648
+    }
+   },
+   "Ablation: no confidence threshold": {
+    "headline": {
+     "mean": 0.776,
+     "std": 0.014,
+     "min": 0.764,
+     "max": 0.803
+    },
+    "accuracy": {
+     "mean": 0.751,
+     "std": 0.015,
+     "min": 0.743,
+     "max": 0.781
+    }
+   }
+  },
+  "cs2_lineage_laundering": {
+   "CQ2.1 patient zero (integrated, corroborated)": {
+    "headline": {
+     "mean": 0.56,
+     "std": 0.174,
+     "min": 0.25,
+     "max": 0.833
+    },
+    "precision": {
+     "mean": 0.905,
+     "std": 0.117,
+     "min": 0.75,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.438,
+     "std": 0.176,
+     "min": 0.143,
+     "max": 0.714
+    }
+   },
+   "Ablation: no corroboration": {
+    "headline": {
+     "mean": 0.878,
+     "std": 0.062,
+     "min": 0.769,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 0.806,
+     "std": 0.079,
+     "min": 0.714,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.969,
+     "std": 0.062,
+     "min": 0.833,
+     "max": 1.0
+    }
+   },
+   "Baseline: earliest post in cluster (context only)": {
+    "headline": {
+     "mean": 0.0,
+     "std": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "precision": {
+     "mean": 0.0,
+     "std": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "recall": {
+     "mean": 0.0,
+     "std": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    }
+   },
+   "CQ2.2 lineage (FKG-constrained rule)": {
+    "headline": {
+     "mean": 0.994,
+     "std": 0.008,
+     "min": 0.979,
+     "max": 1.0
+    },
+    "exact_parent": {
+     "mean": 0.297,
+     "std": 0.021,
+     "min": 0.265,
+     "max": 0.343
+    },
+    "edit_steps_f1": {
+     "mean": 0.91,
+     "std": 0.054,
+     "min": 0.824,
+     "max": 1.0
+    }
+   },
+   "Baseline: lineage by timestamp only": {
+    "headline": {
+     "mean": 0.897,
+     "std": 0.043,
+     "min": 0.798,
+     "max": 0.95
+    },
+    "exact_parent": {
+     "mean": 0.162,
+     "std": 0.027,
+     "min": 0.099,
+     "max": 0.192
+    }
+   },
+   "CQ2.3 laundering (integrated)": {
+    "headline": {
+     "mean": 0.96,
+     "std": 0.057,
+     "min": 0.8,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 0.98,
+     "std": 0.06,
+     "min": 0.8,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.941,
+     "std": 0.06,
+     "min": 0.8,
+     "max": 1.0
+    }
+   },
+   "Baseline: all outlet-crediting posts": {
+    "headline": {
+     "mean": 0.249,
+     "std": 0.085,
+     "min": 0.114,
+     "max": 0.39
+    },
+    "precision": {
+     "mean": 0.145,
+     "std": 0.056,
+     "min": 0.061,
+     "max": 0.242
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ2.4 hidden platform hop (integrated)": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "Baseline: previous post's platform": {
+    "headline": {
+     "mean": 0.322,
+     "std": 0.06,
+     "min": 0.224,
+     "max": 0.395
+    }
+   }
+  },
+  "cs3_intent_materiality eta=0.05": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": {
+     "mean": 0.991,
+     "std": 0.007,
+     "min": 0.985,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.983,
+     "std": 0.014,
+     "min": 0.971,
+     "max": 1.0
+    }
+   },
+   "Baseline queue: forensic only": {
+    "headline": {
+     "mean": 0.458,
+     "std": 0.008,
+     "min": 0.452,
+     "max": 0.469
+    },
+    "precision": {
+     "mean": 0.299,
+     "std": 0.005,
+     "min": 0.295,
+     "max": 0.306
+    },
+    "recall": {
+     "mean": 0.983,
+     "std": 0.014,
+     "min": 0.971,
+     "max": 1.0
+    }
+   },
+   "Baseline queue: context only": {
+    "headline": {
+     "mean": 0.607,
+     "std": 0.0,
+     "min": 0.607,
+     "max": 0.607
+    },
+    "precision": {
+     "mean": 0.436,
+     "std": 0.0,
+     "min": 0.436,
+     "max": 0.436
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "Ablation queue: no materiality join": {
+    "headline": {
+     "mean": 0.797,
+     "std": 0.018,
+     "min": 0.776,
+     "max": 0.829
+    },
+    "precision": {
+     "mean": 0.671,
+     "std": 0.02,
+     "min": 0.647,
+     "max": 0.708
+    },
+    "recall": {
+     "mean": 0.983,
+     "std": 0.014,
+     "min": 0.971,
+     "max": 1.0
+    }
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": {
+     "mean": 0.978,
+     "std": 0.006,
+     "min": 0.973,
+     "max": 0.988
+    },
+    "accuracy": {
+     "mean": 0.98,
+     "std": 0.006,
+     "min": 0.975,
+     "max": 0.99
+    }
+   },
+   "Baseline labels: forensic only": {
+    "headline": {
+     "mean": 0.287,
+     "std": 0.003,
+     "min": 0.285,
+     "max": 0.292
+    },
+    "accuracy": {
+     "mean": 0.607,
+     "std": 0.006,
+     "min": 0.602,
+     "max": 0.617
+    }
+   },
+   "Baseline labels: context only": {
+    "headline": {
+     "mean": 0.676,
+     "std": 0.0,
+     "min": 0.676,
+     "max": 0.676
+    },
+    "accuracy": {
+     "mean": 0.751,
+     "std": 0.0,
+     "min": 0.751,
+     "max": 0.751
+    }
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.5 retraction impact": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   }
+  },
+  "cs3_intent_materiality eta=0.1": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": {
+     "mean": 0.979,
+     "std": 0.018,
+     "min": 0.954,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.959,
+     "std": 0.035,
+     "min": 0.912,
+     "max": 1.0
+    }
+   },
+   "Baseline queue: forensic only": {
+    "headline": {
+     "mean": 0.446,
+     "std": 0.014,
+     "min": 0.431,
+     "max": 0.466
+    },
+    "precision": {
+     "mean": 0.291,
+     "std": 0.009,
+     "min": 0.282,
+     "max": 0.304
+    },
+    "recall": {
+     "mean": 0.959,
+     "std": 0.035,
+     "min": 0.912,
+     "max": 1.0
+    }
+   },
+   "Baseline queue: context only": {
+    "headline": {
+     "mean": 0.607,
+     "std": 0.0,
+     "min": 0.607,
+     "max": 0.607
+    },
+    "precision": {
+     "mean": 0.436,
+     "std": 0.0,
+     "min": 0.436,
+     "max": 0.436
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "Ablation queue: no materiality join": {
+    "headline": {
+     "mean": 0.785,
+     "std": 0.027,
+     "min": 0.756,
+     "max": 0.829
+    },
+    "precision": {
+     "mean": 0.666,
+     "std": 0.024,
+     "min": 0.64,
+     "max": 0.708
+    },
+    "recall": {
+     "mean": 0.959,
+     "std": 0.035,
+     "min": 0.912,
+     "max": 1.0
+    }
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": {
+     "mean": 0.969,
+     "std": 0.008,
+     "min": 0.959,
+     "max": 0.983
+    },
+    "accuracy": {
+     "mean": 0.97,
+     "std": 0.009,
+     "min": 0.96,
+     "max": 0.985
+    }
+   },
+   "Baseline labels: forensic only": {
+    "headline": {
+     "mean": 0.283,
+     "std": 0.005,
+     "min": 0.278,
+     "max": 0.29
+    },
+    "accuracy": {
+     "mean": 0.597,
+     "std": 0.009,
+     "min": 0.587,
+     "max": 0.612
+    }
+   },
+   "Baseline labels: context only": {
+    "headline": {
+     "mean": 0.676,
+     "std": 0.0,
+     "min": 0.676,
+     "max": 0.676
+    },
+    "accuracy": {
+     "mean": 0.751,
+     "std": 0.0,
+     "min": 0.751,
+     "max": 0.751
+    }
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.5 retraction impact": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   }
+  },
+  "cs3_intent_materiality eta=0.2": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": {
+     "mean": 0.895,
+     "std": 0.041,
+     "min": 0.828,
+     "max": 0.938
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.812,
+     "std": 0.066,
+     "min": 0.706,
+     "max": 0.882
+    }
+   },
+   "Baseline queue: forensic only": {
+    "headline": {
+     "mean": 0.373,
+     "std": 0.024,
+     "min": 0.345,
+     "max": 0.405
+    },
+    "precision": {
+     "mean": 0.243,
+     "std": 0.014,
+     "min": 0.229,
+     "max": 0.263
+    },
+    "recall": {
+     "mean": 0.812,
+     "std": 0.066,
+     "min": 0.706,
+     "max": 0.882
+    }
+   },
+   "Baseline queue: context only": {
+    "headline": {
+     "mean": 0.607,
+     "std": 0.0,
+     "min": 0.607,
+     "max": 0.607
+    },
+    "precision": {
+     "mean": 0.436,
+     "std": 0.0,
+     "min": 0.436,
+     "max": 0.436
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "Ablation queue: no materiality join": {
+    "headline": {
+     "mean": 0.674,
+     "std": 0.036,
+     "min": 0.632,
+     "max": 0.732
+    },
+    "precision": {
+     "mean": 0.578,
+     "std": 0.028,
+     "min": 0.54,
+     "max": 0.625
+    },
+    "recall": {
+     "mean": 0.812,
+     "std": 0.066,
+     "min": 0.706,
+     "max": 0.882
+    }
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": {
+     "mean": 0.917,
+     "std": 0.014,
+     "min": 0.894,
+     "max": 0.936
+    },
+    "accuracy": {
+     "mean": 0.913,
+     "std": 0.017,
+     "min": 0.886,
+     "max": 0.935
+    }
+   },
+   "Baseline labels: forensic only": {
+    "headline": {
+     "mean": 0.255,
+     "std": 0.007,
+     "min": 0.245,
+     "max": 0.266
+    },
+    "accuracy": {
+     "mean": 0.54,
+     "std": 0.017,
+     "min": 0.512,
+     "max": 0.562
+    }
+   },
+   "Baseline labels: context only": {
+    "headline": {
+     "mean": 0.676,
+     "std": 0.0,
+     "min": 0.676,
+     "max": 0.676
+    },
+    "accuracy": {
+     "mean": 0.751,
+     "std": 0.0,
+     "min": 0.751,
+     "max": 0.751
+    }
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.5 retraction impact": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   }
+  },
+  "cs3_intent_materiality eta=0.3": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": {
+     "mean": 0.881,
+     "std": 0.03,
+     "min": 0.847,
+     "max": 0.921
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.788,
+     "std": 0.047,
+     "min": 0.735,
+     "max": 0.853
+    }
+   },
+   "Baseline queue: forensic only": {
+    "headline": {
+     "mean": 0.347,
+     "std": 0.015,
+     "min": 0.323,
+     "max": 0.367
+    },
+    "precision": {
+     "mean": 0.223,
+     "std": 0.01,
+     "min": 0.207,
+     "max": 0.234
+    },
+    "recall": {
+     "mean": 0.788,
+     "std": 0.047,
+     "min": 0.735,
+     "max": 0.853
+    }
+   },
+   "Baseline queue: context only": {
+    "headline": {
+     "mean": 0.607,
+     "std": 0.0,
+     "min": 0.607,
+     "max": 0.607
+    },
+    "precision": {
+     "mean": 0.436,
+     "std": 0.0,
+     "min": 0.436,
+     "max": 0.436
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "Ablation queue: no materiality join": {
+    "headline": {
+     "mean": 0.629,
+     "std": 0.023,
+     "min": 0.602,
+     "max": 0.659
+    },
+    "precision": {
+     "mean": 0.524,
+     "std": 0.021,
+     "min": 0.491,
+     "max": 0.549
+    },
+    "recall": {
+     "mean": 0.788,
+     "std": 0.047,
+     "min": 0.735,
+     "max": 0.853
+    }
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": {
+     "mean": 0.883,
+     "std": 0.013,
+     "min": 0.866,
+     "max": 0.904
+    },
+    "accuracy": {
+     "mean": 0.872,
+     "std": 0.017,
+     "min": 0.851,
+     "max": 0.9
+    }
+   },
+   "Baseline labels: forensic only": {
+    "headline": {
+     "mean": 0.24,
+     "std": 0.006,
+     "min": 0.23,
+     "max": 0.247
+    },
+    "accuracy": {
+     "mean": 0.498,
+     "std": 0.017,
+     "min": 0.478,
+     "max": 0.527
+    }
+   },
+   "Baseline labels: context only": {
+    "headline": {
+     "mean": 0.676,
+     "std": 0.0,
+     "min": 0.676,
+     "max": 0.676
+    },
+    "accuracy": {
+     "mean": 0.751,
+     "std": 0.0,
+     "min": 0.751,
+     "max": 0.751
+    }
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.5 retraction impact": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   }
+  },
+  "cs3_intent_materiality eta=0.5": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": {
+     "mean": 0.798,
+     "std": 0.028,
+     "min": 0.764,
+     "max": 0.847
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 0.665,
+     "std": 0.04,
+     "min": 0.618,
+     "max": 0.735
+    }
+   },
+   "Baseline queue: forensic only": {
+    "headline": {
+     "mean": 0.28,
+     "std": 0.012,
+     "min": 0.268,
+     "max": 0.301
+    },
+    "precision": {
+     "mean": 0.177,
+     "std": 0.007,
+     "min": 0.169,
+     "max": 0.189
+    },
+    "recall": {
+     "mean": 0.665,
+     "std": 0.04,
+     "min": 0.618,
+     "max": 0.735
+    }
+   },
+   "Baseline queue: context only": {
+    "headline": {
+     "mean": 0.607,
+     "std": 0.0,
+     "min": 0.607,
+     "max": 0.607
+    },
+    "precision": {
+     "mean": 0.436,
+     "std": 0.0,
+     "min": 0.436,
+     "max": 0.436
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "Ablation queue: no materiality join": {
+    "headline": {
+     "mean": 0.526,
+     "std": 0.023,
+     "min": 0.494,
+     "max": 0.556
+    },
+    "precision": {
+     "mean": 0.435,
+     "std": 0.02,
+     "min": 0.4,
+     "max": 0.46
+    },
+    "recall": {
+     "mean": 0.665,
+     "std": 0.04,
+     "min": 0.618,
+     "max": 0.735
+    }
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": {
+     "mean": 0.825,
+     "std": 0.008,
+     "min": 0.812,
+     "max": 0.835
+    },
+    "accuracy": {
+     "mean": 0.796,
+     "std": 0.013,
+     "min": 0.776,
+     "max": 0.816
+    }
+   },
+   "Baseline labels: forensic only": {
+    "headline": {
+     "mean": 0.206,
+     "std": 0.005,
+     "min": 0.198,
+     "max": 0.212
+    },
+    "accuracy": {
+     "mean": 0.423,
+     "std": 0.013,
+     "min": 0.403,
+     "max": 0.443
+    }
+   },
+   "Baseline labels: context only": {
+    "headline": {
+     "mean": 0.676,
+     "std": 0.0,
+     "min": 0.676,
+     "max": 0.676
+    },
+    "accuracy": {
+     "mean": 0.751,
+     "std": 0.0,
+     "min": 0.751,
+     "max": 0.751
+    }
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "CQ3.5 retraction impact": {
+    "headline": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "precision": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "recall": {
+     "mean": 1.0,
+     "std": 0.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   }
+  }
+ },
+ "raw": {
+  "cs1_recycled_media eta=0.05": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": [
+     0.939,
+     0.98,
+     0.98,
+     0.98,
+     0.98
+    ],
+    "precision": [
+     0.958,
+     1.0,
+     0.962,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     0.92,
+     0.96,
+     1.0,
+     0.96,
+     0.96
+    ]
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": [
+     0.971,
+     0.972,
+     0.986,
+     0.992,
+     0.992
+    ],
+    "accuracy": [
+     0.971,
+     0.971,
+     0.99,
+     0.99,
+     0.99
+    ]
+   },
+   "Baseline: forensic layer only": {
+    "headline": [
+     0.69,
+     0.679,
+     0.69,
+     0.7,
+     0.7
+    ],
+    "accuracy": [
+     0.752,
+     0.743,
+     0.752,
+     0.762,
+     0.762
+    ]
+   },
+   "Baseline: context layer only": {
+    "headline": [
+     0.384,
+     0.39,
+     0.391,
+     0.396,
+     0.408
+    ],
+    "accuracy": [
+     0.657,
+     0.667,
+     0.667,
+     0.676,
+     0.695
+    ]
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": [
+     0.943,
+     0.943,
+     0.952,
+     0.971,
+     0.985
+    ],
+    "accuracy": [
+     0.933,
+     0.933,
+     0.943,
+     0.962,
+     0.981
+    ]
+   },
+   "Ablation: no confidence threshold": {
+    "headline": [
+     0.974,
+     0.972,
+     1.0,
+     0.982,
+     0.992
+    ],
+    "accuracy": [
+     0.971,
+     0.971,
+     1.0,
+     0.981,
+     0.99
+    ]
+   }
+  },
+  "cs1_recycled_media eta=0.1": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": [
+     0.898,
+     0.889,
+     0.98,
+     0.98,
+     0.826
+    ],
+    "precision": [
+     0.917,
+     1.0,
+     1.0,
+     1.0,
+     0.905
+    ],
+    "recall": [
+     0.88,
+     0.8,
+     0.96,
+     0.96,
+     0.76
+    ]
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": [
+     0.937,
+     0.95,
+     0.971,
+     0.982,
+     0.924
+    ],
+    "accuracy": [
+     0.943,
+     0.943,
+     0.971,
+     0.981,
+     0.924
+    ]
+   },
+   "Baseline: forensic layer only": {
+    "headline": [
+     0.667,
+     0.69,
+     0.679,
+     0.69,
+     0.679
+    ],
+    "accuracy": [
+     0.733,
+     0.752,
+     0.743,
+     0.752,
+     0.743
+    ]
+   },
+   "Baseline: context layer only": {
+    "headline": [
+     0.377,
+     0.357,
+     0.367,
+     0.396,
+     0.355
+    ],
+    "accuracy": [
+     0.648,
+     0.619,
+     0.629,
+     0.676,
+     0.619
+    ]
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": [
+     0.91,
+     0.914,
+     0.914,
+     0.96,
+     0.898
+    ],
+    "accuracy": [
+     0.905,
+     0.895,
+     0.895,
+     0.952,
+     0.886
+    ]
+   },
+   "Ablation: no confidence threshold": {
+    "headline": [
+     0.956,
+     0.93,
+     0.972,
+     0.953,
+     0.952
+    ],
+    "accuracy": [
+     0.952,
+     0.924,
+     0.971,
+     0.952,
+     0.943
+    ]
+   }
+  },
+  "cs1_recycled_media eta=0.2": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": [
+     0.84,
+     0.857,
+     0.941,
+     0.889,
+     0.762
+    ],
+    "precision": [
+     0.84,
+     0.875,
+     0.923,
+     1.0,
+     0.941
+    ],
+    "recall": [
+     0.84,
+     0.84,
+     0.96,
+     0.8,
+     0.64
+    ]
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": [
+     0.878,
+     0.885,
+     0.94,
+     0.95,
+     0.9
+    ],
+    "accuracy": [
+     0.895,
+     0.895,
+     0.952,
+     0.943,
+     0.895
+    ]
+   },
+   "Baseline: forensic layer only": {
+    "headline": [
+     0.623,
+     0.626,
+     0.655,
+     0.69,
+     0.679
+    ],
+    "accuracy": [
+     0.695,
+     0.695,
+     0.724,
+     0.752,
+     0.743
+    ]
+   },
+   "Baseline: context layer only": {
+    "headline": [
+     0.353,
+     0.342,
+     0.361,
+     0.351,
+     0.316
+    ],
+    "accuracy": [
+     0.61,
+     0.59,
+     0.619,
+     0.61,
+     0.562
+    ]
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": [
+     0.839,
+     0.825,
+     0.879,
+     0.907,
+     0.854
+    ],
+    "accuracy": [
+     0.838,
+     0.81,
+     0.867,
+     0.886,
+     0.829
+    ]
+   },
+   "Ablation: no confidence threshold": {
+    "headline": [
+     0.903,
+     0.92,
+     0.953,
+     0.92,
+     0.904
+    ],
+    "accuracy": [
+     0.895,
+     0.914,
+     0.952,
+     0.914,
+     0.895
+    ]
+   }
+  },
+  "cs1_recycled_media eta=0.3": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": [
+     0.857,
+     0.844,
+     0.894,
+     0.773,
+     0.756
+    ],
+    "precision": [
+     0.875,
+     0.95,
+     0.955,
+     0.895,
+     0.85
+    ],
+    "recall": [
+     0.84,
+     0.76,
+     0.84,
+     0.68,
+     0.68
+    ]
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": [
+     0.86,
+     0.854,
+     0.933,
+     0.847,
+     0.873
+    ],
+    "accuracy": [
+     0.886,
+     0.867,
+     0.933,
+     0.848,
+     0.876
+    ]
+   },
+   "Baseline: forensic layer only": {
+    "headline": [
+     0.604,
+     0.609,
+     0.669,
+     0.621,
+     0.647
+    ],
+    "accuracy": [
+     0.686,
+     0.686,
+     0.733,
+     0.686,
+     0.714
+    ]
+   },
+   "Baseline: context layer only": {
+    "headline": [
+     0.315,
+     0.307,
+     0.326,
+     0.308,
+     0.293
+    ],
+    "accuracy": [
+     0.543,
+     0.533,
+     0.562,
+     0.543,
+     0.514
+    ]
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": [
+     0.772,
+     0.769,
+     0.853,
+     0.787,
+     0.792
+    ],
+    "accuracy": [
+     0.752,
+     0.743,
+     0.819,
+     0.762,
+     0.752
+    ]
+   },
+   "Ablation: no confidence threshold": {
+    "headline": [
+     0.871,
+     0.869,
+     0.929,
+     0.822,
+     0.852
+    ],
+    "accuracy": [
+     0.857,
+     0.857,
+     0.924,
+     0.8,
+     0.838
+    ]
+   }
+  },
+  "cs1_recycled_media eta=0.5": {
+   "CQ1.1 recycled out-of-context (integrated)": {
+    "headline": [
+     0.698,
+     0.698,
+     0.636,
+     0.667,
+     0.585
+    ],
+    "precision": [
+     0.833,
+     0.833,
+     0.737,
+     0.929,
+     0.75
+    ],
+    "recall": [
+     0.6,
+     0.6,
+     0.56,
+     0.52,
+     0.48
+    ]
+   },
+   "CQ1.2 earliest appearance": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ1.3 classification (integrated)": {
+    "headline": [
+     0.805,
+     0.814,
+     0.736,
+     0.816,
+     0.758
+    ],
+    "accuracy": [
+     0.819,
+     0.829,
+     0.771,
+     0.819,
+     0.781
+    ]
+   },
+   "Baseline: forensic layer only": {
+    "headline": [
+     0.6,
+     0.609,
+     0.547,
+     0.626,
+     0.586
+    ],
+    "accuracy": [
+     0.676,
+     0.686,
+     0.638,
+     0.695,
+     0.667
+    ]
+   },
+   "Baseline: context layer only": {
+    "headline": [
+     0.239,
+     0.229,
+     0.232,
+     0.206,
+     0.227
+    ],
+    "accuracy": [
+     0.419,
+     0.4,
+     0.41,
+     0.362,
+     0.41
+    ]
+   },
+   "Ablation: no camera-agreement guard": {
+    "headline": [
+     0.697,
+     0.684,
+     0.633,
+     0.674,
+     0.663
+    ],
+    "accuracy": [
+     0.648,
+     0.619,
+     0.6,
+     0.59,
+     0.619
+    ]
+   },
+   "Ablation: no confidence threshold": {
+    "headline": [
+     0.803,
+     0.774,
+     0.771,
+     0.768,
+     0.764
+    ],
+    "accuracy": [
+     0.781,
+     0.743,
+     0.743,
+     0.743,
+     0.743
+    ]
+   }
+  },
+  "cs2_lineage_laundering": {
+   "CQ2.1 patient zero (integrated, corroborated)": {
+    "headline": [
+     0.727,
+     0.25,
+     0.25,
+     0.6,
+     0.6,
+     0.833,
+     0.6,
+     0.545,
+     0.6,
+     0.6
+    ],
+    "precision": [
+     0.8,
+     1.0,
+     1.0,
+     0.75,
+     1.0,
+     1.0,
+     0.75,
+     0.75,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     0.667,
+     0.143,
+     0.143,
+     0.5,
+     0.429,
+     0.714,
+     0.5,
+     0.429,
+     0.429,
+     0.429
+    ]
+   },
+   "Ablation: no corroboration": {
+    "headline": [
+     0.769,
+     1.0,
+     0.875,
+     0.923,
+     0.875,
+     0.875,
+     0.857,
+     0.8,
+     0.933,
+     0.875
+    ],
+    "precision": [
+     0.714,
+     1.0,
+     0.778,
+     0.857,
+     0.778,
+     0.778,
+     0.75,
+     0.75,
+     0.875,
+     0.778
+    ],
+    "recall": [
+     0.833,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.857,
+     1.0,
+     1.0
+    ]
+   },
+   "Baseline: earliest post in cluster (context only)": {
+    "headline": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "precision": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "recall": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "CQ2.2 lineage (FKG-constrained rule)": {
+    "headline": [
+     0.996,
+     0.996,
+     1.0,
+     1.0,
+     1.0,
+     0.98,
+     1.0,
+     1.0,
+     0.986,
+     0.979
+    ],
+    "exact_parent": [
+     0.284,
+     0.275,
+     0.3,
+     0.292,
+     0.301,
+     0.343,
+     0.288,
+     0.313,
+     0.265,
+     0.305
+    ],
+    "edit_steps_f1": [
+     0.923,
+     1.0,
+     0.875,
+     1.0,
+     0.875,
+     0.875,
+     0.923,
+     0.875,
+     0.933,
+     0.824
+    ]
+   },
+   "Baseline: lineage by timestamp only": {
+    "headline": [
+     0.871,
+     0.947,
+     0.95,
+     0.911,
+     0.911,
+     0.798,
+     0.893,
+     0.897,
+     0.863,
+     0.925
+    ],
+    "exact_parent": [
+     0.099,
+     0.17,
+     0.183,
+     0.153,
+     0.146,
+     0.181,
+     0.176,
+     0.18,
+     0.137,
+     0.192
+    ]
+   },
+   "CQ2.3 laundering (integrated)": {
+    "headline": [
+     0.963,
+     1.0,
+     1.0,
+     0.8,
+     0.96,
+     0.963,
+     1.0,
+     1.0,
+     0.966,
+     0.947
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     0.8,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     0.929,
+     1.0,
+     1.0,
+     0.8,
+     0.923,
+     0.929,
+     1.0,
+     1.0,
+     0.933,
+     0.9
+    ]
+   },
+   "Baseline: all outlet-crediting posts": {
+    "headline": [
+     0.368,
+     0.136,
+     0.114,
+     0.244,
+     0.283,
+     0.295,
+     0.241,
+     0.195,
+     0.39,
+     0.225
+    ],
+    "precision": [
+     0.226,
+     0.073,
+     0.061,
+     0.139,
+     0.165,
+     0.173,
+     0.137,
+     0.108,
+     0.242,
+     0.127
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ2.4 hidden platform hop (integrated)": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "Baseline: previous post's platform": {
+    "headline": [
+     0.224,
+     0.229,
+     0.386,
+     0.317,
+     0.333,
+     0.383,
+     0.3,
+     0.371,
+     0.279,
+     0.395
+    ]
+   }
+  },
+  "cs3_intent_materiality eta=0.05": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": [
+     1.0,
+     0.985,
+     0.985,
+     1.0,
+     0.985
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     0.971,
+     0.971,
+     1.0,
+     0.971
+    ]
+   },
+   "Baseline queue: forensic only": {
+    "headline": [
+     0.466,
+     0.452,
+     0.452,
+     0.469,
+     0.452
+    ],
+    "precision": [
+     0.304,
+     0.295,
+     0.295,
+     0.306,
+     0.295
+    ],
+    "recall": [
+     1.0,
+     0.971,
+     0.971,
+     1.0,
+     0.971
+    ]
+   },
+   "Baseline queue: context only": {
+    "headline": [
+     0.607,
+     0.607,
+     0.607,
+     0.607,
+     0.607
+    ],
+    "precision": [
+     0.436,
+     0.436,
+     0.436,
+     0.436,
+     0.436
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "Ablation queue: no materiality join": {
+    "headline": [
+     0.8,
+     0.795,
+     0.786,
+     0.829,
+     0.776
+    ],
+    "precision": [
+     0.667,
+     0.673,
+     0.66,
+     0.708,
+     0.647
+    ],
+    "recall": [
+     1.0,
+     0.971,
+     0.971,
+     1.0,
+     0.971
+    ]
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": [
+     0.983,
+     0.973,
+     0.973,
+     0.988,
+     0.973
+    ],
+    "accuracy": [
+     0.985,
+     0.975,
+     0.975,
+     0.99,
+     0.975
+    ]
+   },
+   "Baseline labels: forensic only": {
+    "headline": [
+     0.29,
+     0.285,
+     0.285,
+     0.292,
+     0.285
+    ],
+    "accuracy": [
+     0.612,
+     0.602,
+     0.602,
+     0.617,
+     0.602
+    ]
+   },
+   "Baseline labels: context only": {
+    "headline": [
+     0.676,
+     0.676,
+     0.676,
+     0.676,
+     0.676
+    ],
+    "accuracy": [
+     0.751,
+     0.751,
+     0.751,
+     0.751,
+     0.751
+    ]
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.5 retraction impact": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "cs3_intent_materiality eta=0.1": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": [
+     1.0,
+     0.97,
+     0.97,
+     1.0,
+     0.954
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     0.941,
+     0.941,
+     1.0,
+     0.912
+    ]
+   },
+   "Baseline queue: forensic only": {
+    "headline": [
+     0.459,
+     0.435,
+     0.438,
+     0.466,
+     0.431
+    ],
+    "precision": [
+     0.298,
+     0.283,
+     0.286,
+     0.304,
+     0.282
+    ],
+    "recall": [
+     1.0,
+     0.941,
+     0.941,
+     1.0,
+     0.912
+    ]
+   },
+   "Baseline queue: context only": {
+    "headline": [
+     0.607,
+     0.607,
+     0.607,
+     0.607,
+     0.607
+    ],
+    "precision": [
+     0.436,
+     0.436,
+     0.436,
+     0.436,
+     0.436
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "Ablation queue: no materiality join": {
+    "headline": [
+     0.8,
+     0.78,
+     0.762,
+     0.829,
+     0.756
+    ],
+    "precision": [
+     0.667,
+     0.667,
+     0.64,
+     0.708,
+     0.646
+    ],
+    "recall": [
+     1.0,
+     0.941,
+     0.941,
+     1.0,
+     0.912
+    ]
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": [
+     0.972,
+     0.959,
+     0.964,
+     0.983,
+     0.965
+    ],
+    "accuracy": [
+     0.975,
+     0.96,
+     0.965,
+     0.985,
+     0.965
+    ]
+   },
+   "Baseline labels: forensic only": {
+    "headline": [
+     0.286,
+     0.278,
+     0.28,
+     0.29,
+     0.279
+    ],
+    "accuracy": [
+     0.602,
+     0.587,
+     0.592,
+     0.612,
+     0.592
+    ]
+   },
+   "Baseline labels: context only": {
+    "headline": [
+     0.676,
+     0.676,
+     0.676,
+     0.676,
+     0.676
+    ],
+    "accuracy": [
+     0.751,
+     0.751,
+     0.751,
+     0.751,
+     0.751
+    ]
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.5 retraction impact": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "cs3_intent_materiality eta=0.2": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": [
+     0.885,
+     0.885,
+     0.938,
+     0.938,
+     0.828
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     0.794,
+     0.794,
+     0.882,
+     0.882,
+     0.706
+    ]
+   },
+   "Baseline queue: forensic only": {
+    "headline": [
+     0.355,
+     0.365,
+     0.397,
+     0.405,
+     0.345
+    ],
+    "precision": [
+     0.229,
+     0.237,
+     0.256,
+     0.263,
+     0.229
+    ],
+    "recall": [
+     0.794,
+     0.794,
+     0.882,
+     0.882,
+     0.706
+    ]
+   },
+   "Baseline queue: context only": {
+    "headline": [
+     0.607,
+     0.607,
+     0.607,
+     0.607,
+     0.607
+    ],
+    "precision": [
+     0.436,
+     0.436,
+     0.436,
+     0.436,
+     0.436
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "Ablation queue: no materiality join": {
+    "headline": [
+     0.643,
+     0.675,
+     0.69,
+     0.732,
+     0.632
+    ],
+    "precision": [
+     0.54,
+     0.587,
+     0.566,
+     0.625,
+     0.571
+    ],
+    "recall": [
+     0.794,
+     0.794,
+     0.882,
+     0.882,
+     0.706
+    ]
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": [
+     0.894,
+     0.91,
+     0.923,
+     0.936,
+     0.923
+    ],
+    "accuracy": [
+     0.886,
+     0.905,
+     0.92,
+     0.935,
+     0.92
+    ]
+   },
+   "Baseline labels: forensic only": {
+    "headline": [
+     0.245,
+     0.252,
+     0.261,
+     0.266,
+     0.252
+    ],
+    "accuracy": [
+     0.512,
+     0.532,
+     0.547,
+     0.562,
+     0.547
+    ]
+   },
+   "Baseline labels: context only": {
+    "headline": [
+     0.676,
+     0.676,
+     0.676,
+     0.676,
+     0.676
+    ],
+    "accuracy": [
+     0.751,
+     0.751,
+     0.751,
+     0.751,
+     0.751
+    ]
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.5 retraction impact": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "cs3_intent_materiality eta=0.3": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": [
+     0.885,
+     0.847,
+     0.921,
+     0.903,
+     0.847
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     0.794,
+     0.735,
+     0.853,
+     0.824,
+     0.735
+    ]
+   },
+   "Baseline queue: forensic only": {
+    "headline": [
+     0.342,
+     0.323,
+     0.367,
+     0.359,
+     0.345
+    ],
+    "precision": [
+     0.218,
+     0.207,
+     0.234,
+     0.23,
+     0.225
+    ],
+    "recall": [
+     0.794,
+     0.735,
+     0.853,
+     0.824,
+     0.735
+    ]
+   },
+   "Baseline queue: context only": {
+    "headline": [
+     0.607,
+     0.607,
+     0.607,
+     0.607,
+     0.607
+    ],
+    "precision": [
+     0.436,
+     0.436,
+     0.436,
+     0.436,
+     0.436
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "Ablation queue: no materiality join": {
+    "headline": [
+     0.607,
+     0.602,
+     0.652,
+     0.659,
+     0.625
+    ],
+    "precision": [
+     0.491,
+     0.51,
+     0.527,
+     0.549,
+     0.543
+    ],
+    "recall": [
+     0.794,
+     0.735,
+     0.853,
+     0.824,
+     0.735
+    ]
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": [
+     0.872,
+     0.866,
+     0.888,
+     0.887,
+     0.904
+    ],
+    "accuracy": [
+     0.856,
+     0.851,
+     0.876,
+     0.876,
+     0.9
+    ]
+   },
+   "Baseline labels: forensic only": {
+    "headline": [
+     0.234,
+     0.23,
+     0.244,
+     0.243,
+     0.247
+    ],
+    "accuracy": [
+     0.483,
+     0.478,
+     0.502,
+     0.502,
+     0.527
+    ]
+   },
+   "Baseline labels: context only": {
+    "headline": [
+     0.676,
+     0.676,
+     0.676,
+     0.676,
+     0.676
+    ],
+    "accuracy": [
+     0.751,
+     0.751,
+     0.751,
+     0.751,
+     0.751
+    ]
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.5 retraction impact": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "cs3_intent_materiality eta=0.5": {
+   "CQ3.1 triage queue (integrated)": {
+    "headline": [
+     0.847,
+     0.786,
+     0.786,
+     0.807,
+     0.764
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     0.735,
+     0.647,
+     0.647,
+     0.676,
+     0.618
+    ]
+   },
+   "Baseline queue: forensic only": {
+    "headline": [
+     0.301,
+     0.268,
+     0.273,
+     0.286,
+     0.273
+    ],
+    "precision": [
+     0.189,
+     0.169,
+     0.173,
+     0.181,
+     0.175
+    ],
+    "recall": [
+     0.735,
+     0.647,
+     0.647,
+     0.676,
+     0.618
+    ]
+   },
+   "Baseline queue: context only": {
+    "headline": [
+     0.607,
+     0.607,
+     0.607,
+     0.607,
+     0.607
+    ],
+    "precision": [
+     0.436,
+     0.436,
+     0.436,
+     0.436,
+     0.436
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "Ablation queue: no materiality join": {
+    "headline": [
+     0.556,
+     0.494,
+     0.518,
+     0.548,
+     0.512
+    ],
+    "precision": [
+     0.446,
+     0.4,
+     0.431,
+     0.46,
+     0.438
+    ],
+    "recall": [
+     0.735,
+     0.647,
+     0.647,
+     0.676,
+     0.618
+    ]
+   },
+   "CQ3.2 credential contradictions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.3 intent rule (integrated)": {
+    "headline": [
+     0.83,
+     0.812,
+     0.821,
+     0.829,
+     0.835
+    ],
+    "accuracy": [
+     0.796,
+     0.776,
+     0.791,
+     0.801,
+     0.816
+    ]
+   },
+   "Baseline labels: forensic only": {
+    "headline": [
+     0.209,
+     0.198,
+     0.204,
+     0.209,
+     0.212
+    ],
+    "accuracy": [
+     0.423,
+     0.403,
+     0.418,
+     0.428,
+     0.443
+    ]
+   },
+   "Baseline labels: context only": {
+    "headline": [
+     0.676,
+     0.676,
+     0.676,
+     0.676,
+     0.676
+    ],
+    "accuracy": [
+     0.751,
+     0.751,
+     0.751,
+     0.751,
+     0.751
+    ]
+   },
+   "CQ3.4 anachronistic attributions": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "CQ3.5 retraction impact": {
+    "headline": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "precision": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "recall": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   }
+  }
+ }
+}

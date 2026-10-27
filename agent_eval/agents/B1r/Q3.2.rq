@@ -1,0 +1,32 @@
+# Q3.2 (cs3) Posts whose image has a validly signed content credential (ctx:signatureValid true) whose assertion
+# contradicts the forensic record.
+# Contradictions considered (checked all 22 credentials, all validly signed):
+#  (a) how it was made: credential says iptc:digitalCapture (pure camera capture) but the forensic record has a
+#      reliable AI region (fkg:AIGenerator, confidence >= 0.7)  -> p0184..p0189;
+#      or credential declares AI (trainedAlgorithmicMedia / composite...) but the record has no AI region at all
+#      (none in the data); or credential says fully AI (trainedAlgorithmicMedia) but the record contains camera
+#      regions (none in the data).
+#  (b) which device: ctx:claimedCaptureDevice differs from the camera model the detector attributes a camera
+#      region to (fkg:hasCameraModel) -> p0190, p0191 (claim Nikon Z9, forensics Canon EOS R5 / Pixel 8).
+#      Fully AI images (trainedAlgorithmicMedia) also list a device, but there is no camera evidence to contradict,
+#      so they are not flagged; composite credentials' devices all match the camera region.
+SELECT DISTINCT ?post WHERE {
+  ?post a as:Note ; as:attachment ?img .
+  ?cc ctx:credentialFor ?img ; ctx:signatureValid true .
+  {
+    ?cc ctx:digitalSourceType iptc:digitalCapture .
+    ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?cf . FILTER(?cf >= 0.7)
+  } UNION {
+    ?cc ctx:digitalSourceType ?dst ; ctx:credentialFor ?img .
+    FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia))
+    FILTER NOT EXISTS { ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s a fkg:AIGenerator }
+  } UNION {
+    ?cc ctx:digitalSourceType iptc:trainedAlgorithmicMedia ; ctx:credentialFor ?img .
+    ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s a fkg:CameraModel
+  } UNION {
+    ?cc ctx:claimedCaptureDevice ?dev .
+    ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+    FILTER(LCASE(STR(?cam)) != LCASE(STR(?dev)))
+  }
+}
+ORDER BY ?post

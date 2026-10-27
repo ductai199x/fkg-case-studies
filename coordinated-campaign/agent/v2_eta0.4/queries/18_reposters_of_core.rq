@@ -1,0 +1,11 @@
+# 18: Reposters of the 10 core signature-image accounts: #distinct core authors reposted, and whether core reposts them back (lag columns came back empty - duration functions unsupported; see 19)
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?ruser ?rc (COUNT(DISTINCT ?a) AS ?nCoreAuthors) (COUNT(DISTINCT ?ann) AS ?nRep) (MIN(?lagH) AS ?minLagH) (AVG(?lagH) AS ?avgLagH) (SAMPLE(?back) AS ?repostedBackByCore) WHERE {
+  VALUES ?core { "lazy_patriot930" "mellow_ranger534" "true_river921" "quiet_atlas278" "north_ember718" "local_fox863" "lazy_pixel298" "true_ranger65" "real_atlas225" "blue_otter565" }
+  GRAPH <https://example.org/cc/graph/platform> {
+    ?a as:preferredUsername ?core . ?note as:attributedTo ?a ; as:published ?tn . ?ann a as:Announce ; as:object ?note ; as:actor ?r ; as:published ?tr .
+    ?r as:preferredUsername ?ruser ; as:published ?rc .
+    BIND((DAY(?tr - ?tn)*24 + HOURS(?tr - ?tn)) AS ?lagH0)
+    BIND(EXISTS { ?ann2 a as:Announce ; as:actor ?a2 ; as:object ?n2 . ?n2 as:attributedTo ?r . ?a2 as:preferredUsername ?c2 . FILTER(?c2 IN ("lazy_patriot930","mellow_ranger534","true_river921","quiet_atlas278","north_ember718","local_fox863","lazy_pixel298","true_ranger65","real_atlas225","blue_otter565")) } AS ?back)
+  } BIND(?lagH0 AS ?lagH)
+} GROUP BY ?ruser ?rc ORDER BY DESC(?nCoreAuthors)

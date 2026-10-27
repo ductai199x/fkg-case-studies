@@ -1,0 +1,8 @@
+# Ablation: integrated queue without the region-entity materiality join (any reliable AI region + claim).
+SELECT DISTINCT ?post WHERE {
+  ?cl schema:appearance ?post . ?post as:attachment ?img ; as:attributedTo ?acct .
+  ?img fkg:hasRegion/fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7)
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?d }
+  FILTER NOT EXISTS { ?cr ctx:credentialFor ?img ; ctx:signatureValid true ; ctx:digitalSourceType ?t . FILTER(?t IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) }
+  FILTER NOT EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) }
+}

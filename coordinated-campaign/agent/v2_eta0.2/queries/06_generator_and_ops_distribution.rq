@@ -1,0 +1,8 @@
+# 06: distribution of AI generator models and of post-processing op types over regions produced by an AIGenerator
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?gen ?opType (COUNT(DISTINCT ?r) AS ?nRegions) (COUNT(DISTINCT ?img) AS ?nImgs) WHERE {
+  GRAPH <https://example.org/cc/graph/forensics> {
+    ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+    ?r fkg:modified_by ?op . ?op a ?opType .
+  }
+} GROUP BY ?gen ?opType ORDER BY ?gen ?opType

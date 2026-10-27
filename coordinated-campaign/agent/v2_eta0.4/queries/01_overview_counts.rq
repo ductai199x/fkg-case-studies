@@ -1,0 +1,2 @@
+# 01: Overview - count triples and distinct types per named graph
+SELECT ?g ?type (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ?g { ?s a ?type } } GROUP BY ?g ?type ORDER BY ?g ?type

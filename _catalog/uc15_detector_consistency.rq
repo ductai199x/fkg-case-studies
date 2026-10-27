@@ -1,0 +1,14 @@
+# UC15 Detector-error triage by cross-instance consistency. CQ: which reliable AI attributions on the earliest known
+# instance of an image are reproduced by none of its later copies? Re-encoding does not remove generated pixels, so if the
+# original carried a generated region every copy should too; an attribution that no copy reproduces flags a likely
+# detector false positive for human review. (Restricting to the earliest instance avoids confusing a false positive with a
+# genuine edit that never spread; a general version needs a lineage built WITHOUT UC4's monotonicity constraint, since that
+# constraint already assumes attributions are correct and silently routes around a false positive.)
+SELECT ?cluster ?img ?generator ?desc ?conf (COUNT(DISTINCT ?later) AS ?copiesWithout) WHERE {
+  ?img ctx:inCluster ?cluster ; fkg:hasRegion ?reg . ?pi as:attachment ?img ; as:published ?ti .
+  FILTER NOT EXISTS { ?e ctx:inCluster ?cluster . ?pe as:attachment ?e ; as:published ?te . FILTER(?te < ?ti) }
+  ?reg fkg:produced_by ?src ; fkg:depict/fkg:hasObjectDescription ?desc .
+  ?src a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?conf . FILTER(?conf >= 0.7)
+  ?later ctx:inCluster ?cluster . FILTER(?later != ?img)
+  FILTER NOT EXISTS { ?later fkg:hasRegion ?r2 . ?r2 fkg:produced_by [ a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ] ; fkg:depict/fkg:hasObjectDescription ?desc }
+} GROUP BY ?cluster ?img ?generator ?desc ?conf HAVING (COUNT(DISTINCT ?later) >= 2) ORDER BY DESC(?copiesWithout)

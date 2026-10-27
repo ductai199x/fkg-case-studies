@@ -1,0 +1,10 @@
+# 17: For each reposter of fingerprint-cluster accounts (>=3 fingerprint images): reposts to cluster vs total reposts, and account creation date
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?r ?rc ?toCore ?total WHERE {
+ { SELECT ?r (COUNT(DISTINCT ?ann) AS ?toCore) WHERE {
+   { SELECT ?author WHERE { GRAPH <https://example.org/cc/graph/platform> { ?note as:attributedTo ?author ; as:attachment ?img }
+    GRAPH <https://example.org/cc/graph/forensics> { ?img fkg:hasRegion ?rg . ?rg fkg:modified_by ?o1, ?o2, ?o3 . ?o1 a fkg:GaussianNoise . ?o2 a fkg:GaussianBlur . ?o3 a fkg:Resampling } } GROUP BY ?author HAVING(COUNT(DISTINCT ?img) >= 3) }
+   GRAPH <https://example.org/cc/graph/platform> { ?ann a as:Announce ; as:actor ?r ; as:object ?n2 . ?n2 as:attributedTo ?author } } GROUP BY ?r }
+ GRAPH <https://example.org/cc/graph/platform> { ?r as:published ?rc . { SELECT ?r (COUNT(?a2) AS ?total) WHERE { ?a2 a as:Announce ; as:actor ?r } GROUP BY ?r } }
+} ORDER BY DESC(?toCore / ?total) DESC(?toCore)

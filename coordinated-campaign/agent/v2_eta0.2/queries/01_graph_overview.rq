@@ -1,0 +1,4 @@
+# 01: overview - count triples and distinct rdf:types per named graph (and default-graph description)
+SELECT ?g ?type (COUNT(*) AS ?n) WHERE {
+  { GRAPH ?g { ?s a ?type } } UNION { ?s a ?type BIND("default" AS ?g) }
+} GROUP BY ?g ?type ORDER BY ?g ?type

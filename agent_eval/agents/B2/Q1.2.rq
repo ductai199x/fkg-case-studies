@@ -1,0 +1,39 @@
+# Q1.2 (cs1) - earliest known public appearance of each recycled photograph found in Q1.1.
+# Reasoning / data checks:
+# - Re-derives the Q1.1 set inline (claim post, camera-sourced image, no reliable AI region [confidence >= 0.7,
+#   not counting non-object fkg:hasObjectedness-false hits below 0.8],
+#   a same-photograph instance published before the claimed event's start).
+# - "Same photograph" = same near-duplicate cluster AND same fkg:hasCameraModel on the camera region, because
+#   pHash clusters cluster_5/6/7 merge different shots from different cameras; a merged foreign shot must not be
+#   reported as the "earliest appearance".
+# - Earliest = the same-photograph instance whose post has the minimum as:published (checked: no ties on the
+#   minimum in the data; the open-world caveat means this is the earliest *known* appearance in the crawl).
+SELECT DISTINCT ?post ?earliestPost WHERE {
+  {
+    SELECT ?post ?cluster ?cam (MIN(?twinPub) AS ?minPub) WHERE {
+      ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+      ?event schema:startDate ?start .
+      ?post as:attachment ?img .
+      ?img fkg:hasRegion ?camRegion .
+      ?camRegion fkg:produced_by ?camSrc .
+      ?camSrc a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+      FILTER NOT EXISTS {
+        ?img fkg:hasRegion ?aiRegion . ?aiRegion fkg:produced_by ?aiSrc ; fkg:depict ?aiContent .
+        ?aiSrc a fkg:AIGenerator ; fkg:hasConfidence ?aiConf . ?aiContent fkg:hasObjectedness ?aiObj .
+        FILTER(?aiConf >= 0.7 && !(?aiObj = false && ?aiConf < 0.8))
+      }
+      ?img ctx:inCluster ?cluster .
+      ?twin ctx:inCluster ?cluster ; fkg:hasRegion ?twinRegion .
+      ?twinRegion fkg:produced_by ?twinSrc .
+      ?twinSrc a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+      ?twinPost as:attachment ?twin ; as:published ?twinPub .
+    }
+    GROUP BY ?post ?cluster ?cam ?start
+    HAVING (MIN(?twinPub) < ?start)
+  }
+  ?earliestImg ctx:inCluster ?cluster ; fkg:hasRegion ?eRegion .
+  ?eRegion fkg:produced_by ?eSrc .
+  ?eSrc a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+  ?earliestPost as:attachment ?earliestImg ; as:published ?minPub .
+}
+ORDER BY ?post

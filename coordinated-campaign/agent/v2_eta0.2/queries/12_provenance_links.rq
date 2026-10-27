@@ -1,0 +1,8 @@
+# 12: provenance derivation links - who posted the derived copy vs. who posted the source image, account creation dates, and time order
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?u1 ?c1 ?t1 ?u2 ?c2 ?t2 (SUBSTR(STR(?txt2),1,50) AS ?derivedText) WHERE {
+  GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?img1 }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?img1 ; as:attributedTo ?a1 ; as:published ?t1 . ?a1 as:preferredUsername ?u1 ; as:published ?c1 } }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?img2 ; as:attributedTo ?a2 ; as:published ?t2 ; as:content ?txt2 . ?a2 as:preferredUsername ?u2 ; as:published ?c2 } }
+} ORDER BY ?t1

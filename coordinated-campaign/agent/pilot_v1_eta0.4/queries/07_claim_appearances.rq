@@ -1,0 +1,10 @@
+# 07: Every claim-matched post with author, author creation date, post time, attached image verdict/source, and claim rating
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?claimShort ?rv ?t ?user ?created ?verdict ?src ?content WHERE {
+ GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?n ; schema:text ?ctext . ?rev schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?rv }
+ BIND(SUBSTR(?ctext, 13, 25) AS ?claimShort)
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a ; as:published ?t ; as:content ?content . ?a as:preferredUsername ?user ; as:published ?created . OPTIONAL { ?n as:attachment ?i } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?i2 ; fkg:hasConclusion/fkg:verdict ?verdict . OPTIONAL { ?i2 fkg:hasRegion/fkg:produced_by/fkg:hasGeneratorModel ?src } } FILTER(?i2 = ?i) }
+} ORDER BY ?claimShort ?t

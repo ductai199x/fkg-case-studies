@@ -1,0 +1,94 @@
+# 20: Ablation of detector - amplifier branch WITHOUT the account-creation-burst condition (shows which organic reposters it would sweep in)
+# Returns ?account = accounts judged part of a coordinated effort that uses manipulated media to push false claims.
+#
+# Branch A (media operators / "seeds"): the account posted >=1 post that the claim matcher links to a claim
+#   rated false (ratingValue <= worstRating + 1), carrying an ORIGINAL image (not a provenance-derived copy)
+#   with forensic verdict Manipulated; that image shares a post-processing TTP with false-claim images of
+#   >= MIN_TTP_PEERS (2) OTHER accounts: >= 2 shared operation types whose parameter estimates differ by <= TOL (0.15).
+# Branch B (amplifiers): the account has >= 1 false-claim-matched post, reposted (as:Announce) posts of
+#   >= 2 distinct seed accounts, and was created within BURST (7 days) of the creation of >= 2 seed accounts
+#   (account-creation burst), i.e. a throwaway account from the same batch as the media operators.
+PREFIX as:     <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg:    <https://example.org/fkg#>
+PREFIX prov:   <http://www.w3.org/ns/prov#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?account WHERE {
+  {
+    # ---------------- Branch A: seeds ----------------
+    { SELECT ?account WHERE {
+        { SELECT DISTINCT ?account ?peer WHERE {
+            { SELECT ?ia ?ib (COUNT(DISTINCT ?opType) AS ?shared) WHERE {
+                GRAPH <https://example.org/cc/graph/forensics> {
+                  ?ra fkg:contained_in ?ia ; fkg:modified_by ?oa . ?oa a ?opType ; fkg:hasParameter/fkg:hasParameterValue ?va .
+                  ?rb fkg:contained_in ?ib ; fkg:modified_by ?ob . ?ob a ?opType ; fkg:hasParameter/fkg:hasParameterValue ?vb .
+                  FILTER(?ia != ?ib && ABS(?va - ?vb) <= 0.15)
+                } } GROUP BY ?ia ?ib }
+            FILTER(?shared >= 2)
+            GRAPH <https://example.org/cc/graph/platform> {
+              ?na as:attributedTo ?account ; as:attachment ?ia .
+              ?nb as:attributedTo ?peer ; as:attachment ?ib . }
+            FILTER(?account != ?peer)
+            GRAPH <https://example.org/cc/graph/forensics> {
+              ?reca fkg:aboutImage ?ia ; fkg:hasConclusion/fkg:verdict fkg:Manipulated .
+              ?recb fkg:aboutImage ?ib ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+            GRAPH <https://example.org/cc/graph/factcheck> {
+              ?ca schema:appearance ?na . ?rva schema:itemReviewed ?ca ; schema:reviewRating ?rta .
+              ?rta schema:ratingValue ?vA ; schema:worstRating ?wA . FILTER(?vA <= ?wA + 1)
+              ?cb schema:appearance ?nb . ?rvb schema:itemReviewed ?cb ; schema:reviewRating ?rtb .
+              ?rtb schema:ratingValue ?vB ; schema:worstRating ?wB . FILTER(?vB <= ?wB + 1) }
+            FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ia prov:wasDerivedFrom ?anyA } }
+            FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ib prov:wasDerivedFrom ?anyB } }
+        } }
+      } GROUP BY ?account HAVING (COUNT(DISTINCT ?peer) >= 2) }
+  }
+  UNION
+  {
+    # ---------------- Branch B: amplifiers from the same creation burst ----------------
+    { SELECT ?account WHERE {
+        # seeds (same definition as Branch A)
+        { SELECT ?seed WHERE {
+            { SELECT DISTINCT ?seed ?peer WHERE {
+                { SELECT ?ia ?ib (COUNT(DISTINCT ?opType) AS ?shared) WHERE {
+                    GRAPH <https://example.org/cc/graph/forensics> {
+                      ?ra fkg:contained_in ?ia ; fkg:modified_by ?oa . ?oa a ?opType ; fkg:hasParameter/fkg:hasParameterValue ?va .
+                      ?rb fkg:contained_in ?ib ; fkg:modified_by ?ob . ?ob a ?opType ; fkg:hasParameter/fkg:hasParameterValue ?vb .
+                      FILTER(?ia != ?ib && ABS(?va - ?vb) <= 0.15)
+                    } } GROUP BY ?ia ?ib }
+                FILTER(?shared >= 2)
+                GRAPH <https://example.org/cc/graph/platform> {
+                  ?na as:attributedTo ?seed ; as:attachment ?ia .
+                  ?nb as:attributedTo ?peer ; as:attachment ?ib . }
+                FILTER(?seed != ?peer)
+                GRAPH <https://example.org/cc/graph/forensics> {
+                  ?reca fkg:aboutImage ?ia ; fkg:hasConclusion/fkg:verdict fkg:Manipulated .
+                  ?recb fkg:aboutImage ?ib ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+                GRAPH <https://example.org/cc/graph/factcheck> {
+                  ?ca schema:appearance ?na . ?rva schema:itemReviewed ?ca ; schema:reviewRating ?rta .
+                  ?rta schema:ratingValue ?vA ; schema:worstRating ?wA . FILTER(?vA <= ?wA + 1)
+                  ?cb schema:appearance ?nb . ?rvb schema:itemReviewed ?cb ; schema:reviewRating ?rtb .
+                  ?rtb schema:ratingValue ?vB ; schema:worstRating ?wB . FILTER(?vB <= ?wB + 1) }
+                FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ia prov:wasDerivedFrom ?anyA } }
+                FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ib prov:wasDerivedFrom ?anyB } }
+            } }
+          } GROUP BY ?seed HAVING (COUNT(DISTINCT ?peer) >= 2) }
+
+        GRAPH <https://example.org/cc/graph/platform> {
+          ?rp a as:Announce ; as:actor ?account ; as:object ?seedNote .
+          ?seedNote as:attributedTo ?seed .
+          ?account as:published ?accCreated . ?seed as:published ?seedCreated . }
+        FILTER(?account != ?seed)
+        BIND(IF(?accCreated > ?seedCreated, ?accCreated - ?seedCreated, ?seedCreated - ?accCreated) AS ?gap)
+        BIND(IF(?gap <= "P7D"^^xsd:dayTimeDuration, ?seed, ?nothing) AS ?burstSeed)
+        # the amplifier itself pushes a false claim
+        FILTER EXISTS {
+          GRAPH <https://example.org/cc/graph/platform> { ?own as:attributedTo ?account }
+          GRAPH <https://example.org/cc/graph/factcheck> {
+            ?cc schema:appearance ?own . ?rr schema:itemReviewed ?cc ; schema:reviewRating ?rt .
+            ?rt schema:ratingValue ?rv ; schema:worstRating ?rw . FILTER(?rv <= ?rw + 1) } }
+      } GROUP BY ?account
+        HAVING (COUNT(DISTINCT ?seed) >= 2) }
+  }
+}
+ORDER BY ?account

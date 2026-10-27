@@ -1,0 +1,3810 @@
+{
+ "queries": [
+  {
+   "query": "cs1_recycled_media/baselines/ablation_no_camera_guard.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.06
+  },
+  {
+   "query": "cs1_recycled_media/baselines/ablation_no_conf_threshold.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.14
+  },
+  {
+   "query": "cs1_recycled_media/baselines/b_context_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.04
+  },
+  {
+   "query": "cs1_recycled_media/baselines/b_forensic_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 105,
+   "seconds": 0.02
+  },
+  {
+   "query": "cs1_recycled_media/queries/q1_recycled.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 0.01
+  },
+  {
+   "query": "cs1_recycled_media/queries/q2_earliest_appearance.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform"
+   ],
+   "rows": 22,
+   "seconds": 0.04
+  },
+  {
+   "query": "cs1_recycled_media/queries/q3_classify.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.13
+  },
+  {
+   "query": "cs2_lineage_laundering/baselines/b1_patient_zero_context_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 8,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs2_lineage_laundering/baselines/b1_patient_zero_no_corroboration.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 8,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs2_lineage_laundering/baselines/b2_derivation_timestamp_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 233,
+   "seconds": 10.53
+  },
+  {
+   "query": "cs2_lineage_laundering/baselines/b3_laundering_context_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#creditsSource"
+   ],
+   "rows": 73,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs2_lineage_laundering/baselines/b4_hop_context_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough"
+   ],
+   "rows": 56,
+   "seconds": 6.55
+  },
+  {
+   "query": "cs2_lineage_laundering/queries/q1_patient_zero.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 4,
+   "seconds": 0.01
+  },
+  {
+   "query": "cs2_lineage_laundering/queries/q2a_candidate_parents.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#candidateParent",
+    "https://example.org/fkg/context#editCandidate",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge"
+   ],
+   "rows": 2956,
+   "seconds": 3.73
+  },
+  {
+   "query": "cs2_lineage_laundering/queries/q2b_derivation.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#candidateParent",
+    "https://example.org/fkg/context#editCandidate",
+    "https://example.org/fkg/context#introducesSyntheticRegionFrom"
+   ],
+   "rows": 0,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs2_lineage_laundering/queries/q3_laundering.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 10,
+   "seconds": 0.01
+  },
+  {
+   "query": "cs2_lineage_laundering/queries/q4_hidden_hop.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/baselines/b1_context_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 81,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/baselines/b1_forensic_only.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 109,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/baselines/b1_no_materiality.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 48,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/baselines/b3_context_only_labels.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 204,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/baselines/b3_forensic_only_labels.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration"
+   ],
+   "rows": 204,
+   "seconds": 0.03
+  },
+  {
+   "query": "cs3_intent_materiality/queries/q1_material_undisclosed.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#shareCount",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 31,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/queries/q2_credential_contradiction.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 8,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/queries/q3_intent_rule.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Inferred",
+    "https://example.org/fkg#limitationNote",
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#aboutPost",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#derivedByRule",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#intentCategory",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 1632,
+   "seconds": 0.08
+  },
+  {
+   "query": "cs3_intent_materiality/queries/q4_anachronism.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#generatorEntity"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "cs3_intent_materiality/queries/q5_retraction_impact.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#KnownIssue",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "_catalog/uc13_toolkit_fingerprint.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#hasNext",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#hasParameterName",
+    "https://example.org/fkg#hasParameterValue",
+    "https://example.org/fkg#modified_by"
+   ],
+   "rows": 0,
+   "seconds": 0.01
+  },
+  {
+   "query": "_catalog/uc14_device_linking.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed"
+   ],
+   "rows": 25,
+   "seconds": 0.02
+  },
+  {
+   "query": "_catalog/uc15_detector_consistency.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 0,
+   "seconds": 1.88
+  },
+  {
+   "query": "_catalog/uc16_explain_conclusion.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg/context#depictsEntity"
+   ],
+   "rows": 20,
+   "seconds": 0.0
+  },
+  {
+   "query": "_catalog/uc17_generator_exposure.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#shareCount"
+   ],
+   "rows": 26,
+   "seconds": 0.0
+  },
+  {
+   "query": "_catalog/uc18_reported_vs_inferred.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Inferred",
+    "https://example.org/fkg#SourceReported",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg/context#claimedCaptureDevice"
+   ],
+   "rows": 6,
+   "seconds": 0.14
+  },
+  {
+   "query": "agent_eval/hand/Q1.1.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/hand/Q1.2.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform"
+   ],
+   "rows": 22,
+   "seconds": 0.05
+  },
+  {
+   "query": "agent_eval/hand/Q1.3.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.12
+  },
+  {
+   "query": "agent_eval/hand/Q2.1.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 4,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/hand/Q2.2.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#candidateParent",
+    "https://example.org/fkg/context#editCandidate"
+   ],
+   "rows": 233,
+   "seconds": 1.5
+  },
+  {
+   "query": "agent_eval/hand/Q2.2.stage1.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#candidateParent",
+    "https://example.org/fkg/context#editCandidate",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge"
+   ],
+   "rows": 2956,
+   "seconds": 3.55
+  },
+  {
+   "query": "agent_eval/hand/Q2.3.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 10,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/hand/Q2.4.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/hand/Q3.1.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#shareCount",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 31,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/hand/Q3.2.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 8,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/hand/Q3.3.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 204,
+   "seconds": 0.08
+  },
+  {
+   "query": "agent_eval/hand/Q3.4.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#generatorEntity"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/hand/Q3.5.rq",
+   "study": "cs13",
+   "kind": "hand",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#KnownIssue",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/A1/Q1.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#sha256"
+   ],
+   "rows": 22,
+   "seconds": 0.25
+  },
+  {
+   "query": "agent_eval/agents/A1/Q1.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#sha256"
+   ],
+   "rows": 22,
+   "seconds": 2.38
+  },
+  {
+   "query": "agent_eval/agents/A1/Q1.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg/context#SyntheticImage",
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#sha256"
+   ],
+   "timeout": 30
+  },
+  {
+   "query": "agent_eval/agents/A1/Q2.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 7,
+   "seconds": 1.94
+  },
+  {
+   "query": "agent_eval/agents/A1/Q2.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#sha256"
+   ],
+   "timeout": 30
+  },
+  {
+   "query": "agent_eval/agents/A1/Q2.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#NewsOutlet",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 14,
+   "seconds": 4.42
+  },
+  {
+   "query": "agent_eval/agents/A1/Q2.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/A1/Q3.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasReCompressed",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#shareCount"
+   ],
+   "rows": 31,
+   "seconds": 0.03
+  },
+  {
+   "query": "agent_eval/agents/A1/Q3.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasReCompressed",
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "timeout": 30
+  },
+  {
+   "query": "agent_eval/agents/A1/Q3.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 204,
+   "seconds": 1.97
+  },
+  {
+   "query": "agent_eval/agents/A1/Q3.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasReCompressed",
+    "https://example.org/fkg/context#GeneratorModel",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#generatorEntity",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/A1/Q3.5.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [
+    "matches on a term no generated world or rule contains (pattern cannot match): https://example.org/fkg#aboutRegion",
+    "matches on a term no generated world or rule contains (pattern cannot match): https://example.org/fkg#basedOnObservation"
+   ],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutRegion",
+    "https://example.org/fkg#basedOnObservation",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasNext",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#modified_by",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/A2/Q1.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 2.67
+  },
+  {
+   "query": "agent_eval/agents/A2/Q1.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 4.34
+  },
+  {
+   "query": "agent_eval/agents/A2/Q1.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 2.84
+  },
+  {
+   "query": "agent_eval/agents/A2/Q2.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 7,
+   "seconds": 0.05
+  },
+  {
+   "query": "agent_eval/agents/A2/Q2.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#sha256"
+   ],
+   "timeout": 30
+  },
+  {
+   "query": "agent_eval/agents/A2/Q2.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#NewsOutlet",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 14,
+   "seconds": 0.39
+  },
+  {
+   "query": "agent_eval/agents/A2/Q2.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#sha256",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 11.21
+  },
+  {
+   "query": "agent_eval/agents/A2/Q3.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#shareCount"
+   ],
+   "rows": 31,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/agents/A2/Q3.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [
+    "compares against a value no generated world contains: http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicMedia"
+   ],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 13,
+   "seconds": 0.3
+  },
+  {
+   "query": "agent_eval/agents/A2/Q3.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 204,
+   "seconds": 1.94
+  },
+  {
+   "query": "agent_eval/agents/A2/Q3.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#GeneratorModel",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#generatorEntity",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/A2/Q3.5.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [
+    "matches on a term no generated world or rule contains (pattern cannot match): https://example.org/fkg#aboutRegion",
+    "matches on a term no generated world or rule contains (pattern cannot match): https://example.org/fkg#basedOnObservation"
+   ],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutRegion",
+    "https://example.org/fkg#basedOnObservation",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasNext",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#modified_by",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1/Q1.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/agents/B1/Q1.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 0.22
+  },
+  {
+   "query": "agent_eval/agents/B1/Q1.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.2
+  },
+  {
+   "query": "agent_eval/agents/B1/Q2.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 7,
+   "seconds": 0.41
+  },
+  {
+   "query": "agent_eval/agents/B1/Q2.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#hasParameterName",
+    "https://example.org/fkg#hasParameterValue",
+    "https://example.org/fkg#modified_by",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge"
+   ],
+   "rows": 232,
+   "seconds": 7.25
+  },
+  {
+   "query": "agent_eval/agents/B1/Q2.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#NewsOutlet",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 14,
+   "seconds": 9.3
+  },
+  {
+   "query": "agent_eval/agents/B1/Q2.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1/Q3.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#shareCount"
+   ],
+   "rows": 31,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1/Q3.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 8,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/agents/B1/Q3.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 204,
+   "seconds": 0.08
+  },
+  {
+   "query": "agent_eval/agents/B1/Q3.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#GeneratorModel",
+    "https://example.org/fkg/context#generatorEntity"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1/Q3.5.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#KnownIssue",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q1.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 0.03
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q1.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 2.13
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q1.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 1.48
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q2.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 6,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q2.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#hasParameterName",
+    "https://example.org/fkg#hasParameterValue",
+    "https://example.org/fkg#modified_by",
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 233,
+   "seconds": 10.24
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q2.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#NewsOutlet",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 10,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q2.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 0.09
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q3.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#shareCount"
+   ],
+   "rows": 31,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q3.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 8,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q3.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 204,
+   "seconds": 0.14
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q3.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#GeneratorModel",
+    "https://example.org/fkg/context#generatorEntity"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B1r/Q3.5.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#KnownIssue",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2/Q1.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectedness",
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 23,
+   "seconds": 0.08
+  },
+  {
+   "query": "agent_eval/agents/B2/Q1.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectedness",
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 23,
+   "seconds": 0.07
+  },
+  {
+   "query": "agent_eval/agents/B2/Q1.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectedness",
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.15
+  },
+  {
+   "query": "agent_eval/agents/B2/Q2.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 8,
+   "seconds": 0.04
+  },
+  {
+   "query": "agent_eval/agents/B2/Q2.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#hasParameterName",
+    "https://example.org/fkg#hasParameterValue",
+    "https://example.org/fkg#modified_by",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "timeout": 30
+  },
+  {
+   "query": "agent_eval/agents/B2/Q2.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#NewsOutlet",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 14,
+   "seconds": 0.16
+  },
+  {
+   "query": "agent_eval/agents/B2/Q2.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2/Q3.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectedness",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#shareCount"
+   ],
+   "rows": 31,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2/Q3.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectedness",
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 8,
+   "seconds": 0.02
+  },
+  {
+   "query": "agent_eval/agents/B2/Q3.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectedness",
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 204,
+   "seconds": 0.11
+  },
+  {
+   "query": "agent_eval/agents/B2/Q3.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#GeneratorModel",
+    "https://example.org/fkg/context#generatorEntity"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2/Q3.5.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#KnownIssue",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q1.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q1.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 22,
+   "seconds": 0.13
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q1.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs1",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#assertsDepictionOf",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 105,
+   "seconds": 0.16
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q2.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 6,
+   "seconds": 0.11
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q2.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#hasParameterName",
+    "https://example.org/fkg#hasParameterValue",
+    "https://example.org/fkg#modified_by",
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#inCluster",
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 233,
+   "seconds": 0.16
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q2.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ReCompressed",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg/context#NewsOutlet",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#creditsSource",
+    "https://example.org/fkg/context#inCluster"
+   ],
+   "rows": 10,
+   "seconds": 0.01
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q2.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs2",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#Platform",
+    "https://example.org/fkg/context#maxLongEdge",
+    "https://example.org/fkg/context#onPlatform",
+    "https://example.org/fkg/context#passthrough",
+    "https://example.org/fkg/context#pixelLongEdge",
+    "https://example.org/fkg/context#transcodeQuality"
+   ],
+   "rows": 56,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q3.1.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure",
+    "https://example.org/fkg/context#shareCount"
+   ],
+   "rows": 31,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q3.2.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#claimedCaptureDevice",
+    "https://example.org/fkg/context#signatureValid"
+   ],
+   "rows": 8,
+   "seconds": 0.87
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q3.3.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#DisclosedSynthetic",
+    "https://example.org/fkg/context#NoAlteration",
+    "https://example.org/fkg/context#SatireOrArt",
+    "https://example.org/fkg/context#UndisclosedMaterialAlteration",
+    "https://example.org/fkg/context#UndisclosedPeripheralAlteration",
+    "https://example.org/fkg/context#accountGenre",
+    "https://example.org/fkg/context#depictsEntity",
+    "https://example.org/fkg/context#hasDisclosure"
+   ],
+   "rows": 204,
+   "seconds": 0.07
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q3.4.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#generatorEntity"
+   ],
+   "rows": 3,
+   "seconds": 0.0
+  },
+  {
+   "query": "agent_eval/agents/B2r/Q3.5.rq",
+   "study": "cs13",
+   "kind": "agent",
+   "world": "cs3",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg/context#KnownIssue",
+    "https://example.org/fkg/context#affectsProperty",
+    "https://example.org/fkg/context#affectsVersion"
+   ],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/queries/amplifiers.rq.tmpl",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 2,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/queries/context_only.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 48,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/queries/explain.rq.tmpl",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 12,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/queries/forensic_only.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 16,
+   "seconds": 0.19
+  },
+  {
+   "query": "coordinated-campaign/queries/forensic_time.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 16,
+   "seconds": 0.26
+  },
+  {
+   "query": "coordinated-campaign/queries/full.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 10,
+   "seconds": 0.48
+  },
+  {
+   "query": "coordinated-campaign/queries/full_no_provenance.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 16,
+   "seconds": 0.41
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/amp_noage.rq.tmpl",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 2,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/full_entity.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 11,
+   "seconds": 120.41
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/full_gen_only.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 51,
+   "seconds": 3.12
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/full_heavy_processing.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc"
+   ],
+   "rows": 39,
+   "seconds": 3.41
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/full_ops_any_gen.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 16,
+   "seconds": 1.89
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/full_self_consistent.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 8,
+   "seconds": 1.01
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/full_unreviewed_ok.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 11,
+   "seconds": 0.83
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/mutual_open.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 0,
+   "seconds": 0.11
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/mutual_sc.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 0,
+   "seconds": 1.08
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/open_gen_only.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 51,
+   "seconds": 3.09
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/open_one_op.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 15,
+   "seconds": 0.95
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/open_peers1.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 15,
+   "seconds": 0.81
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/open_stance.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 11,
+   "seconds": 0.72
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/open_stance_one_op.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 15,
+   "seconds": 0.95
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/sc_open_one_op.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 13,
+   "seconds": 1.09
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/sc_open_stance.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 7,
+   "seconds": 1.31
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/tie_open.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 7,
+   "seconds": 2.2
+  },
+  {
+   "query": "coordinated-campaign/queries/stress/tie_sc.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 2,
+   "seconds": 1.22
+  },
+  {
+   "query": "coordinated-campaign/queries/stress_extra/full_claim_first.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 11,
+   "seconds": 30.24
+  },
+  {
+   "query": "coordinated-campaign/queries/stress_index/full_indexed.rq",
+   "study": "cs4",
+   "kind": "hand",
+   "world": "cs4stress",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 11,
+   "seconds": 4.33
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/detector.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 12,
+   "seconds": 1.03
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/01_graph_counts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 24,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/02_claims.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/03_verdicts_generators.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#ForensicRecord",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 9,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/04_op_chain_signatures.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 69,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/05_account_profile.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 168,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/06_daily_activity.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 24,
+   "seconds": 0.08
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/07_claim_appearances.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 108,
+   "seconds": 0.03
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/08_ai_region_ops_by_poster.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#manipulationType"
+   ],
+   "rows": 297,
+   "seconds": 0.24
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/09_provenance_links.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasObjectedness"
+   ],
+   "rows": 6,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/10_repost_network.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 421,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/11_new_account_posts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 112,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/12_ttp_sharing_pairs.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 31,
+   "seconds": 0.61
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/13_second_ttp_cluster_posts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#hasObjectDescription",
+    "https://example.org/fkg#hasObjectedness"
+   ],
+   "rows": 24,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/14_seed_ttp_false.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 10,
+   "seconds": 0.52
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/15_amplifier_candidates.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 22,
+   "seconds": 0.05
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/16_seed_sensitivity_tol_0.05.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 10,
+   "seconds": 0.42
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/16_seed_sensitivity_tol_0.10.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 10,
+   "seconds": 0.46
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/16_seed_sensitivity_tol_0.25.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 11,
+   "seconds": 0.61
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/16_seed_sensitivity_tol_0.40.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 11,
+   "seconds": 0.85
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/17_seed_without_provenance_filter.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 16,
+   "seconds": 0.49
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/18_resharer_histories.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 27,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/19_aiediting_base_cameras.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#AIEditing",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#manipulationType"
+   ],
+   "rows": 9,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/20_detector_ablation_no_burst.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 22,
+   "seconds": 1.01
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/21_text_template_sharing.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 22,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/pilot_v1_eta0.4/queries/22_per_claim_coordination_signals.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 5,
+   "seconds": 0.02
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/agent_eta0.0.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 12,
+   "seconds": 5.07
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/detector.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 12,
+   "seconds": 4.7
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/01_graph_overview.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 4,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/02_type_counts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 24,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/03_factchecks.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/04_provenance.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 6,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/05_accounts_false_claims_manip.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 48,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/06_verdicts_sources.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 9,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/07_chain_signatures.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 70,
+   "seconds": 4.3
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/08_multiop_images_detail.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 117,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/09_tight_cluster_content.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise"
+   ],
+   "rows": 89,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/10_account_profiles.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 168,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/11_repost_network.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 45,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/12_amplifier_notes.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 15,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/13_copypasta.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 18,
+   "seconds": 0.45
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/14_core_account_timelines.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 68,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/15_derived_copy_posters.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 6,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/16_who_reposts_core.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling"
+   ],
+   "rows": 32,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/17_repost_focus.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling"
+   ],
+   "rows": 32,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/18_second_fingerprint_cluster.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#Sharpening",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 17,
+   "seconds": 0.23
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/19_fingerprint_param_stats.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 6,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/20_fingerprint_compression.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling"
+   ],
+   "rows": 2,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/21_fuzzy_fingerprint_matches.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 70,
+   "seconds": 1.43
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/22_core_detector_draft.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 16,
+   "seconds": 2.06
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/23_core_tolerance_sensitivity.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 16,
+   "seconds": 1.23
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/24_cluster_timing.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 2,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/25_accounts_created_in_window.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 13,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.0/queries/26_final_detector_run.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 12,
+   "seconds": 4.96
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/agent_eta0.2.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 12,
+   "seconds": 0.31
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/detector.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 12,
+   "seconds": 0.3
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/01_graph_overview.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 51,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/02_claims_reviews.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/03_false_claim_posts_by_account.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 48,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/04_account_profile.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 168,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/05_time_range_and_new_accounts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 13,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/06_generator_and_ops_distribution.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 34,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/07_op_chain_signatures.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 66,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/08_param_values_two_chains.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#Sharpening",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 113,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/09_chainA_vs_chainB_posts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#Sharpening"
+   ],
+   "rows": 93,
+   "seconds": 0.22
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/10_duplicate_texts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 39,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/11_new_accounts_posts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 107,
+   "seconds": 0.16
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/12_provenance_links.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 6,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/13_shared_images.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 0,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/14_repost_network.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 64,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/15_chainA_params_by_poster.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 53,
+   "seconds": 0.52
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/16_per_claim_posters_media.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 5,
+   "seconds": 0.02
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/17_fingerprint_pairs.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 17,
+   "seconds": 0.36
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/18_fast_reposts_of_false_notes.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 17,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/19_new_account_repost_cohesion.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 16,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/20_alt_cluster_resampling_sharpening.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#Sharpening"
+   ],
+   "rows": 15,
+   "seconds": 0.14
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/21_tapwater_rumor_check.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 15,
+   "seconds": 0.13
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/22_detector_branchA_only.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 10,
+   "seconds": 0.26
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/23_detector_branchA_tol10.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 10,
+   "seconds": 0.24
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/24_detector_branchA_tol25.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 10,
+   "seconds": 0.35
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.2/queries/25_detector_branchB_only.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 10,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/agent_eta0.4.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 12,
+   "seconds": 3.79
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/detector.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 12,
+   "seconds": 3.61
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/01_overview_counts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 24,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/02_default_graph.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 31807,
+   "seconds": 0.02
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/03_claims_reviews.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/04_false_claim_posters.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 48,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/05_sample_record.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#Manipulated",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 34,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/06_ttp_signature_distribution.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 86,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/07_ordered_chain_by_source.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 49,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/08_rbn_chain_images.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 72,
+   "seconds": 0.96
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/09_account_profiles.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 168,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/10_young_account_cohort.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 11,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/11_repost_edges.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 83,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/12_posts_of_accounts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 36,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/13_provenance_edges.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 6,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/14_param_distribution.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 87,
+   "seconds": 0.13
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/15_partial_signature_by_account.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#GaussianBlur",
+    "https://example.org/fkg#GaussianNoise",
+    "https://example.org/fkg#Resampling",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 17,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/16_shared_images.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 0,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/17_single_sig_accounts_detail.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 17,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/18_reposters_of_core.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "timeout": 30
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/19_fast_reposts_of_core.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 32,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/20_global_repost_lag.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 5,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/21_noncore_false_posters.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 52,
+   "seconds": 0.48
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/22_cohort_posts.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 83,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/23_verbatim_text_with_core.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 11,
+   "seconds": 0.01
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/24_generic_ttp_links.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "timeout": 30
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/25_second_ttp_cluster.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#hasParameter",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 24,
+   "seconds": 0.47
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/26_aurora_posters.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 6,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/27_true_claim_control.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#aboutImage",
+    "https://example.org/fkg#hasConclusion",
+    "https://example.org/fkg#manipulationType",
+    "https://example.org/fkg#verdict"
+   ],
+   "rows": 18,
+   "seconds": 0.0
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/28_core_criterion_sensitivity.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [
+    "https://example.org/fkg#NoPostProc",
+    "https://example.org/fkg#hasParameter"
+   ],
+   "rows": 16,
+   "seconds": 1.27
+  },
+  {
+   "query": "coordinated-campaign/agent/v2_eta0.4/queries/29_amplifier_criterion_sensitivity.rq",
+   "study": "cs4",
+   "kind": "agent",
+   "world": "cs4",
+   "errors": [],
+   "warnings": [],
+   "not_in_shapes": [],
+   "rows": 18,
+   "seconds": 1.25
+  }
+ ],
+ "catalog_missing": [],
+ "data_terms_not_in_ontology": {
+  "cs13": [],
+  "cs4": []
+ }
+}

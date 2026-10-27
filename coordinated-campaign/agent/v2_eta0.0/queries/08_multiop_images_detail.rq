@@ -1,0 +1,12 @@
+# 08: For synthetic regions with >=2 post-processing ops: generator, unordered op set with parameter values, posting account, time, matched claim rating
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?gen ?ops ?a ?t ?rating ?note WHERE {
+ { SELECT ?img ?gen (GROUP_CONCAT(?d; separator=" ") AS ?ops) (COUNT(?op) AS ?nops) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+   ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s . ?s fkg:hasGeneratorModel ?gen . ?r fkg:modified_by ?op . ?op a ?t0 . FILTER(?t0 != fkg:NoPostProc)
+   OPTIONAL { ?op fkg:hasParameter ?p . ?p fkg:hasParameterName ?pn ; fkg:hasParameterValue ?pv }
+   BIND(CONCAT(STRAFTER(STR(?t0),"#"),"(",COALESCE(STR(ROUND(?pv*100)/100),""),")") AS ?d) } } GROUP BY ?img ?gen HAVING(COUNT(?op) >= 2) }
+ GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img ; as:attributedTo ?a ; as:published ?t }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?note . ?rev schema:itemReviewed ?cl ; schema:reviewRating/schema:alternateName ?rating } }
+} ORDER BY ?gen ?a ?t

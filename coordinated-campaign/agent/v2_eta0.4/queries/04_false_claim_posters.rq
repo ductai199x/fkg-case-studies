@@ -1,0 +1,10 @@
+# 04: Per account - how many posts matched to False-rated claims, and how many of those carry an image the FKG says is Manipulated
+PREFIX schema: <https://schema.org/>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?a ?user (COUNT(DISTINCT ?note) AS ?nFalse) (COUNT(DISTINCT ?mnote) AS ?nFalseManip) (COUNT(DISTINCT ?claim) AS ?nClaims) WHERE {
+  GRAPH <https://example.org/cc/graph/factcheck> { ?rev schema:itemReviewed ?claim ; schema:reviewRating/schema:alternateName "False" . ?claim schema:appearance ?note }
+  GRAPH <https://example.org/cc/graph/platform> { ?note as:attributedTo ?a . ?a as:preferredUsername ?user }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img }
+             GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } BIND(?note AS ?mnote) }
+} GROUP BY ?a ?user ORDER BY DESC(?nFalseManip) DESC(?nFalse)

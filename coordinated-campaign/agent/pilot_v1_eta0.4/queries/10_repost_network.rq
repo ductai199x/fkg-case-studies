@@ -1,0 +1,6 @@
+# 10: Repost (Announce) edges aggregated: reposter -> original author, with both creation years, count and min delay
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?ru ?rc ?ou ?oc (COUNT(*) AS ?n) (MIN(?tr - ?to) AS ?minDelay) WHERE { GRAPH <https://example.org/cc/graph/platform> {
+ ?x a as:Announce ; as:actor ?r ; as:object ?note ; as:published ?tr . ?note as:attributedTo ?o ; as:published ?to .
+ ?r as:preferredUsername ?ru ; as:published ?rcd . ?o as:preferredUsername ?ou ; as:published ?ocd .
+ BIND(SUBSTR(STR(?rcd),1,7) AS ?rc) BIND(SUBSTR(STR(?ocd),1,7) AS ?oc) } } GROUP BY ?ru ?rc ?ou ?oc ORDER BY ?rc ?ru

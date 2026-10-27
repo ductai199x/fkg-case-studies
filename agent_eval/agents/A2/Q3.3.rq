@@ -1,0 +1,60 @@
+# Q3.3 - one presentation category per image post (cs3), applied in the stated precedence:
+#  NoAlteration (no reliable AI region) > DisclosedSynthetic (ctx:hasDisclosure, or a content credential
+#  whose digitalSourceType declares AI - counted whatever its signature status) > SatireOrArt (poster's
+#  ctx:accountGenre is SatireAccount/ArtAccount) > UndisclosedMaterialAlteration (a reliable AI region's
+#  content ctx:depictsEntity the entity a claim on the post is schema:about) > UndisclosedPeripheralAlteration.
+# "Reliable" AI = conf >= 0.7, or 0.45-0.7 corroborated by the same content in another near-duplicate copy
+# (isolated moderate regions are treated as detector false positives -> NoAlteration).
+# Evaluated per post over all its attached images, so each post gets exactly one row.
+SELECT ?post ?category WHERE {
+  { SELECT DISTINCT ?post WHERE { ?post as:attachment ?anyImg } }
+  BIND(EXISTS {
+    ?post as:attachment ?img1 .
+    ?img1 (fkg:hasRegion|^fkg:contained_in) ?r1 .
+    ?r1 fkg:produced_by ?s1 .
+    ?s1 a fkg:AIGenerator ;
+        fkg:hasConfidence ?c1 .
+    FILTER( xsd:double(STR(?c1)) >= 0.7
+         || ( xsd:double(STR(?c1)) >= 0.45 && EXISTS {
+                ?img1 ctx:inCluster ?k_a . ?o_a ctx:inCluster ?k_a . FILTER(?o_a != ?img1)
+                ?o_a (fkg:hasRegion|^fkg:contained_in) ?r2_a .
+                ?r2_a fkg:produced_by ?s2_a .
+                ?s2_a a fkg:AIGenerator ; fkg:hasConfidence ?c2_a .
+                FILTER(xsd:double(STR(?c2_a)) >= 0.45)
+                ?r1 fkg:depict ?d1_a . ?r2_a fkg:depict ?d2_a .
+                { ?d1_a fkg:hasObjectDescription ?t1_a . ?d2_a fkg:hasObjectDescription ?t2_a .
+                  FILTER(LCASE(STR(?t1_a)) = LCASE(STR(?t2_a))) }
+                UNION { ?d1_a ctx:depictsEntity ?e_a . ?d2_a ctx:depictsEntity ?e_a }
+              } ) )
+  } AS ?ai)
+  BIND(EXISTS { ?post ctx:hasDisclosure ?disc }
+       || EXISTS { ?post as:attachment ?img2 . ?cc ctx:credentialFor ?img2 ; ctx:digitalSourceType ?dst .
+                   FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia, iptc:algorithmicMedia, iptc:compositeSynthetic, iptc:compositeWithTrainedAlgorithmicMedia)) } AS ?disclosed)
+  BIND(EXISTS { ?post as:attributedTo ?acct . ?acct ctx:accountGenre ?g .
+                FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) } AS ?satire)
+  BIND(EXISTS {
+    ?claim schema:appearance ?post ; schema:about ?ent .
+    ?post as:attachment ?img3 .
+    ?img3 (fkg:hasRegion|^fkg:contained_in) ?r3 .
+    ?r3 fkg:produced_by ?s3 .
+    ?s3 a fkg:AIGenerator ;
+        fkg:hasConfidence ?c3 .
+    FILTER( xsd:double(STR(?c3)) >= 0.7
+         || ( xsd:double(STR(?c3)) >= 0.45 && EXISTS {
+                ?img3 ctx:inCluster ?k_b . ?o_b ctx:inCluster ?k_b . FILTER(?o_b != ?img3)
+                ?o_b (fkg:hasRegion|^fkg:contained_in) ?r2_b .
+                ?r2_b fkg:produced_by ?s2_b .
+                ?s2_b a fkg:AIGenerator ; fkg:hasConfidence ?c2_b .
+                FILTER(xsd:double(STR(?c2_b)) >= 0.45)
+                ?r3 fkg:depict ?d1_b . ?r2_b fkg:depict ?d2_b .
+                { ?d1_b fkg:hasObjectDescription ?t1_b . ?d2_b fkg:hasObjectDescription ?t2_b .
+                  FILTER(LCASE(STR(?t1_b)) = LCASE(STR(?t2_b))) }
+                UNION { ?d1_b ctx:depictsEntity ?e_b . ?d2_b ctx:depictsEntity ?e_b }
+              } ) )
+    ?r3 fkg:depict/ctx:depictsEntity ?ent .
+  } AS ?material)
+  BIND(IF(!?ai, ctx:NoAlteration,
+       IF(?disclosed, ctx:DisclosedSynthetic,
+       IF(?satire, ctx:SatireOrArt,
+       IF(?material, ctx:UndisclosedMaterialAlteration, ctx:UndisclosedPeripheralAlteration)))) AS ?category)
+}

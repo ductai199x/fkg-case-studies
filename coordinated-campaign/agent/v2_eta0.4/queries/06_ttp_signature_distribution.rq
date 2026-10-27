@@ -1,0 +1,10 @@
+# 06: Distribution of per-region processing-chain signatures (ordered op types) x source type x compression, for all images
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?srcType ?chain ?comp (COUNT(DISTINCT ?r) AS ?n) WHERE {
+  { SELECT ?r (GROUP_CONCAT(?opLabel; separator=">") AS ?chain) WHERE {
+      { SELECT ?r ?op ?t (COUNT(?prev) AS ?pos) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+          ?r fkg:modified_by ?op . ?op a ?t . ?r fkg:modified_by ?prev . ?prev fkg:hasNext* ?op } } GROUP BY ?r ?op ?t }
+      BIND(CONCAT(STR(?pos), ":", STRAFTER(STR(?t), "#")) AS ?opLabel) } GROUP BY ?r }
+  GRAPH <https://example.org/cc/graph/forensics> { ?r fkg:produced_by ?s . ?s a ?st . ?r fkg:compress_by ?c . ?c a ?ct }
+  BIND(STRAFTER(STR(?st), "#") AS ?srcType) BIND(STRAFTER(STR(?ct), "#") AS ?comp)
+} GROUP BY ?srcType ?chain ?comp ORDER BY DESC(?n)

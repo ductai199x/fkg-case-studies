@@ -1,0 +1,8 @@
+# 16: Who reposts notes of accounts posting >=3 images with the shared 3-op Noise+Blur+Resampling fingerprint; reposter creation date and count
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?r ?rc (COUNT(?ann) AS ?n) WHERE {
+ { SELECT ?author WHERE { GRAPH <https://example.org/cc/graph/platform> { ?note as:attributedTo ?author ; as:attachment ?img }
+    GRAPH <https://example.org/cc/graph/forensics> { ?img fkg:hasRegion ?rg . ?rg fkg:modified_by ?o1, ?o2, ?o3 . ?o1 a fkg:GaussianNoise . ?o2 a fkg:GaussianBlur . ?o3 a fkg:Resampling } } GROUP BY ?author HAVING(COUNT(DISTINCT ?img) >= 3) }
+ GRAPH <https://example.org/cc/graph/platform> { ?ann a as:Announce ; as:actor ?r ; as:object ?n2 . ?n2 as:attributedTo ?author . ?r as:published ?rc }
+} GROUP BY ?r ?rc ORDER BY DESC(?n)

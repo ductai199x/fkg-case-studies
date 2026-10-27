@@ -1,0 +1,41 @@
+# 22: sensitivity - detector criterion A (shared TTP fingerprint) alone, 15% tolerance
+# detector.rq - accounts in a coordinated effort that uses manipulated media to push false claims.
+# An account is flagged if it meets criterion A (shared forensic TTP fingerprint) OR criterion B (new-account in-group amplification).
+#  A: >= 2 of its own posts are matched to a claim rated in the bottom quarter of the rating scale AND carry an image the FKG
+#     calls Manipulated, and the post-processing of those images shares >= 2 parameterised operation types (same parameter
+#     name, values within 15% relative) with such false-claim manipulated images posted by >= 3 OTHER accounts.
+#  B: the account was created <= 30 days before the first post in the dataset, made >= 3 reposts, >= 80% of its reposts target
+#     posts by other accounts created in that same window, and >= 2 of the posts it authored or reposted are matched to
+#     bottom-quarter-rated claims.
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?account WHERE {
+  {
+    # ---------- Criterion A: shared TTP fingerprint on false-claim manipulated media ----------
+    SELECT ?account WHERE {
+      { SELECT DISTINCT ?account ?n1 ?a2 WHERE {
+          { SELECT DISTINCT ?r1 ?n1 ?account WHERE {
+              GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?n1 . ?rv schema:itemReviewed ?c ; schema:reviewRating ?rt .
+                ?rt schema:ratingValue ?v ; schema:worstRating ?w ; schema:bestRating ?b . FILTER(?v <= ?w + (?b - ?w) * 0.25) }
+              GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attributedTo ?account ; as:attachment ?i1 }
+              GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?i1 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . ?r1 fkg:contained_in ?i1 } } }
+          { SELECT DISTINCT ?r2 ?a2 WHERE {
+              GRAPH <https://example.org/cc/graph/factcheck> { ?c2 schema:appearance ?n2 . ?rv2 schema:itemReviewed ?c2 ; schema:reviewRating ?rt2 .
+                ?rt2 schema:ratingValue ?v2 ; schema:worstRating ?w2 ; schema:bestRating ?b2 . FILTER(?v2 <= ?w2 + (?b2 - ?w2) * 0.25) }
+              GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attributedTo ?a2 ; as:attachment ?i2 }
+              GRAPH <https://example.org/cc/graph/forensics> { ?rec2 fkg:aboutImage ?i2 ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . ?r2 fkg:contained_in ?i2 } } }
+          FILTER(?account != ?a2)
+          { SELECT ?r1 ?r2 WHERE {
+              GRAPH <https://example.org/cc/graph/forensics> {
+                ?r1 fkg:modified_by ?o1 . ?o1 a ?T ; fkg:hasParameter ?p1 . ?p1 fkg:hasParameterName ?pn ; fkg:hasParameterValue ?x1 .
+                ?r2 fkg:modified_by ?o2 . ?o2 a ?T ; fkg:hasParameter ?p2 . ?p2 fkg:hasParameterName ?pn ; fkg:hasParameterValue ?x2 .
+                FILTER(?r1 != ?r2 && ?T != fkg:NoPostProc)
+                FILTER(ABS(?x1 - ?x2) <= 0.15 * IF(ABS(?x1) > ABS(?x2), ABS(?x1), ABS(?x2)))
+              } } GROUP BY ?r1 ?r2 HAVING (COUNT(DISTINCT ?T) >= 2) }
+      } }
+    } GROUP BY ?account HAVING (COUNT(DISTINCT ?n1) >= 2 && COUNT(DISTINCT ?a2) >= 3)
+  }
+}
+ORDER BY ?account

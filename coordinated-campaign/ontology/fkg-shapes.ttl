@@ -1,0 +1,47 @@
+# SHACL shapes for closed-world validation of FKG records (Axioms 2-4 and Table 9 cardinalities).
+# Axiom 1 (pixel partition) needs region masks or selectors, which these synthetic records do not carry.
+@prefix fkg: <https://example.org/fkg#> .
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fkgsh: <https://example.org/fkg/shapes#> .
+
+fkgsh:ImageShape a sh:NodeShape ; sh:targetClass fkg:Image ;
+    sh:property [ sh:path fkg:hasRegion ; sh:minCount 1 ; sh:class fkg:Region ] .
+
+fkgsh:RegionShape a sh:NodeShape ; sh:targetClass fkg:Region ;
+    sh:property [ sh:path fkg:contained_in ; sh:minCount 1 ; sh:maxCount 1 ; sh:class fkg:Image ] ;
+    sh:property [ sh:path fkg:produced_by ; sh:minCount 1 ; sh:maxCount 1 ; sh:class fkg:Source ] ;     # Axiom 2
+    sh:property [ sh:path fkg:modified_by ; sh:minCount 1 ; sh:class fkg:PostProcessing ] ;
+    sh:property [ sh:path fkg:compress_by ; sh:maxCount 1 ; sh:class fkg:Compression ] ;
+    sh:property [ sh:path fkg:depict ; sh:minCount 1 ; sh:maxCount 1 ; sh:class fkg:Content ] ;
+    sh:sparql [ sh:message "hasNext links a region's operation to an operation of another region" ;
+        sh:prefixes fkgsh:prefixes ;
+        sh:select """SELECT $this WHERE { $this fkg:modified_by ?a . ?a fkg:hasNext ?b .
+                     FILTER NOT EXISTS { $this fkg:modified_by ?b } }""" ] ;
+    sh:sparql [ sh:message "NoPostProc combined with other operations" ;
+        sh:prefixes fkgsh:prefixes ;
+        sh:select """SELECT $this WHERE { $this fkg:modified_by ?a , ?b . ?a a fkg:NoPostProc . FILTER(?a != ?b) }""" ] .
+
+fkgsh:SourceShape a sh:NodeShape ; sh:targetClass fkg:Source ;                                       # Axiom 3
+    sh:not [ sh:and ( [ sh:class fkg:RealSource ] [ sh:class fkg:SyntheticSource ] ) ] ;
+    sh:property [ sh:path fkg:hasConfidence ; sh:maxCount 1 ; sh:datatype xsd:float ; sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ] .
+
+fkgsh:GeneratorShape a sh:NodeShape ; sh:targetClass fkg:AIGenerator ;
+    sh:property [ sh:path fkg:hasGeneratorModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+fkgsh:CameraShape a sh:NodeShape ; sh:targetClass fkg:CameraModel ;
+    sh:property [ sh:path fkg:hasCameraModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+
+fkgsh:OperationShape a sh:NodeShape ; sh:targetClass fkg:PostProcessing ;                            # Axiom 4 (chain is acyclic, single successor)
+    sh:property [ sh:path fkg:hasNext ; sh:maxCount 1 ; sh:class fkg:PostProcessing ] ;
+    sh:sparql [ sh:message "processing chain contains a cycle" ; sh:prefixes fkgsh:prefixes ;
+        sh:select """SELECT $this WHERE { $this fkg:hasNext+ $this }""" ] .
+
+fkgsh:ParameterShape a sh:NodeShape ; sh:targetClass fkg:Parameter ;
+    sh:property [ sh:path fkg:hasParameterName ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path fkg:hasParameterValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:float ] .
+
+fkgsh:LastCompressedShape a sh:NodeShape ; sh:targetClass fkg:LastCompressed ;
+    sh:property [ sh:path fkg:hasCompressionAlgorithm ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path fkg:hasCompressionFactor ; sh:maxCount 1 ; sh:datatype xsd:float ; sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ] .
+
+fkgsh:prefixes sh:declare [ sh:prefix "fkg" ; sh:namespace "https://example.org/fkg#"^^xsd:anyURI ] .

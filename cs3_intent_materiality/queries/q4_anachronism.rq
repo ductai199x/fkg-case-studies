@@ -1,0 +1,8 @@
+# CQ3.4 Which posts carry an AI attribution to a generator that had not been released when the post was published?
+# (Either the attribution is wrong or the timestamp is.) Report the detector version that made the attribution.
+SELECT ?post ?generator ?released ?published ?version WHERE {
+  ?post as:attachment ?img ; as:published ?published .
+  ?img fkg:hasRegion/fkg:produced_by ?s . ?s ctx:generatorEntity ?g ; fkg:hasGeneratorModel ?generator . ?g schema:datePublished ?released .
+  FILTER(xsd:date(SUBSTR(STR(?published), 1, 10)) < ?released)
+  ?rec fkg:aboutImage ?img ; prov:wasGeneratedBy/prov:wasAssociatedWith ?version .
+}

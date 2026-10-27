@@ -1,0 +1,41 @@
+# Q3.2 (cs3) - posts whose image has a validly signed content credential contradicted by the forensics.
+# Reasoning / data checks:
+# - 22 credentials, all ctx:signatureValid true (still required explicitly). A valid signature proves who signed
+#   the manifest, not that its assertions are true (credential assertions are SourceReported).
+# - "How the image was made" contradictions:
+#     * digitalCapture asserted, but the image has a reliable AI region (confidence >= 0.7, excluding the
+#       non-object moderate-confidence false-positive pattern) -> img0184-0189;
+#     * trainedAlgorithmicMedia asserted, but the forensics find a camera-sourced region;
+#     * compositeWithTrainedAlgorithmicMedia asserted, but no reliable AI region (or no camera region) is found.
+#   (The last two never fire in this data; they are kept so the rule is complete.)
+# - "Which device" contradiction: ctx:claimedCaptureDevice differs from the fkg:hasCameraModel of the image's
+#   camera-sourced region (img0190: claims Nikon Z9, forensics Canon EOS R5; img0191: Nikon Z9 vs Pixel 8).
+#   Only testable when the forensics attribute a camera; the trainedAlgorithmicMedia credentials also name a
+#   capture device but their images have no camera region, so there is no forensic device to contradict
+#   (and their AI declaration agrees with the forensics) -> not reported.
+SELECT DISTINCT ?post WHERE {
+  ?post as:attachment ?img .
+  ?cred ctx:credentialFor ?img ; ctx:signatureValid true .
+  OPTIONAL { ?cred ctx:digitalSourceType ?dst }
+  OPTIONAL { ?cred ctx:claimedCaptureDevice ?device }
+  BIND(EXISTS {
+    ?img fkg:hasRegion ?ar . ?ar fkg:produced_by ?as ; fkg:depict ?ad .
+    ?as a fkg:AIGenerator ; fkg:hasConfidence ?ac . ?ad fkg:hasObjectedness ?ao .
+    FILTER(?ac >= 0.7 && !(?ao = false && ?ac < 0.8))
+  } AS ?reliableAI)
+  BIND(EXISTS { ?img fkg:hasRegion ?cr . ?cr fkg:produced_by ?cs . ?cs a fkg:CameraModel } AS ?hasCamera)
+  BIND(BOUND(?device) && EXISTS {
+    ?img fkg:hasRegion ?cr2 . ?cr2 fkg:produced_by ?cs2 . ?cs2 a fkg:CameraModel ; fkg:hasCameraModel ?cam .
+    FILTER(LCASE(STR(?cam)) != LCASE(STR(?device)))
+  } && NOT EXISTS {
+    ?img fkg:hasRegion ?cr3 . ?cr3 fkg:produced_by ?cs3 . ?cs3 a fkg:CameraModel ; fkg:hasCameraModel ?cam3 .
+    FILTER(LCASE(STR(?cam3)) = LCASE(STR(?device)))
+  } AS ?deviceMismatch)
+  FILTER(
+    (?dst = iptc:digitalCapture && ?reliableAI) ||
+    (?dst = iptc:trainedAlgorithmicMedia && ?hasCamera) ||
+    (?dst = iptc:compositeWithTrainedAlgorithmicMedia && (!?reliableAI || !?hasCamera)) ||
+    ?deviceMismatch
+  )
+}
+ORDER BY ?post

@@ -1,0 +1,9 @@
+# 23: Which accounts post text verbatim-identical to a False-claim-matched post of the 10 core accounts? (copy-paste narrative vs organic hedged wording)
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?created (COUNT(DISTINCT ?n2) AS ?nVerbatim) (GROUP_CONCAT(DISTINCT SUBSTR(STR(?txt),1,40); separator=" | ") AS ?texts) WHERE {
+  VALUES ?core { "lazy_patriot930" "mellow_ranger534" "true_river921" "quiet_atlas278" "north_ember718" "local_fox863" "lazy_pixel298" "true_ranger65" "real_atlas225" "blue_otter565" }
+  GRAPH <https://example.org/cc/graph/factcheck> { ?rev schema:itemReviewed ?claim ; schema:reviewRating/schema:alternateName "False" . ?claim schema:appearance ?n1 }
+  GRAPH <https://example.org/cc/graph/platform> { ?a1 as:preferredUsername ?core . ?n1 as:attributedTo ?a1 ; as:content ?txt .
+    ?n2 as:content ?txt ; as:attributedTo ?a2 . ?a2 as:preferredUsername ?user ; as:published ?created . FILTER(?a2 != ?a1) }
+} GROUP BY ?user ?created ORDER BY DESC(?nVerbatim)

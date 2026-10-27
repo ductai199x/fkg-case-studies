@@ -1,0 +1,9 @@
+# 19: Camera model of the authentic (base) region in AI-edited images, by whether the poster account was created within 60 days of its first post
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?young ?cam (COUNT(DISTINCT ?img) AS ?n) WHERE {
+ GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:manipulationType fkg:AIEditing . ?img fkg:hasRegion/fkg:produced_by/fkg:hasCameraModel ?cam }
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img ; as:attributedTo ?a . ?a as:published ?c }
+ { SELECT ?a (MIN(?t) AS ?first) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?p as:attributedTo ?a ; as:published ?t } } GROUP BY ?a }
+ BIND(?first - ?c <= "P60D"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration> AS ?young)
+} GROUP BY ?young ?cam ORDER BY ?young DESC(?n)

@@ -1,0 +1,25 @@
+# Q3.1 (cs3) - fact-checking triage queue, most-shared first.
+# Criteria (same building blocks as Q3.3, i.e. exactly its UndisclosedMaterialAlteration set):
+# - the post carries a claim (schema:Claim with schema:appearance = post);
+# - AI-altered: a RELIABLE AI region (fkg:AIGenerator, hasConfidence >= 0.7); img0094-0096 (0.64-0.68, not heavily
+#   recompressed) are excluded per policy;
+# - no disclosure of any kind: no ctx:hasDisclosure and no content credential whose digitalSourceType declares AI
+#   (trainedAlgorithmicMedia / compositeWithTrainedAlgorithmicMedia). A credential asserting digitalCapture is not
+#   a disclosure, so img0184-0189 (AI content behind a "camera capture" credential) stay in the queue;
+# - posting account is not ctx:SatireAccount / ctx:ArtAccount;
+# - the reliable AI region itself ctx:depictsEntity the claim's schema:about entity (posts where AI only touched
+#   sky/foliage/background crowd while the claimed entity is in the camera region are excluded).
+# v1.1 records (generator-ID known issue) are kept: the issue does not affect AI-vs-camera attribution.
+# Ordered by ctx:shareCount descending (ties by post IRI). 31 posts.
+SELECT DISTINCT ?post ?shares WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; schema:about ?ent .
+  ?post a as:Note ; as:attachment ?img ; as:attributedTo ?acct ; ctx:shareCount ?shares .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?conf .
+  FILTER(?conf >= 0.7)
+  ?r fkg:depict ?d . ?d ctx:depictsEntity ?ent .
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?disc }
+  FILTER NOT EXISTS { ?cred ctx:credentialFor ?img ; ctx:digitalSourceType ?dst .
+                      FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) }
+  FILTER NOT EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) }
+}
+ORDER BY DESC(?shares) ?post

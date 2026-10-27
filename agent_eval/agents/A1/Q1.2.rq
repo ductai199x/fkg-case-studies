@@ -1,0 +1,86 @@
+# Q1.2  Earliest known public appearance for each Q1.1 post.
+# Reasoning: re-derive the Q1.1 set (same rules: camera-authentic, reliable-AI policy with recompression/corroboration
+# correction, same photograph = same sha256 or same cluster + same camera model, published before event start),
+# then over all appearances of the same photograph take the minimum as:published and return the post(s) at that time.
+# The earliest appearance may be any post (not necessarily claim-bearing, not necessarily on the same platform).
+# "Earliest known" is relative to the crawl (open world).
+SELECT DISTINCT ?post ?earliestPost WHERE {
+  {
+    SELECT ?post ?img (MIN(?pubAll) AS ?minPub) WHERE {
+      {
+        SELECT DISTINCT ?post ?img WHERE {
+          ?claim schema:appearance ?post ;
+         ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?start .
+  ?post as:attachment ?img .
+
+  # (a) camera-authentic: at least one camera-attributed region and no RELIABLE AI region
+  ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?camA .
+    ?camA a fkg:CameraModel .
+  FILTER NOT EXISTS {
+    ?img (fkg:hasRegion|^fkg:contained_in) ?rA .
+    ?rA fkg:produced_by ?srcA .
+    ?srcA a fkg:AIGenerator ; fkg:hasConfidence ?confA .
+    FILTER( ?confA >= "0.7"^^xsd:float
+         || ( ?confA >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clA . ?oA ctx:inCluster ?clA .
+          ?oA (fkg:hasRegion|^fkg:contained_in) ?orA .
+          ?orA fkg:produced_by ?osA .
+          ?osA a fkg:AIGenerator ; fkg:hasConfidence ?ocA .
+          FILTER(?oA != ?img && ?ocA >= "0.7"^^xsd:float)
+          ?rA fkg:depict ?ctA . ?orA fkg:depict ?octA .
+          { ?ctA fkg:hasObjectDescription ?dA . ?octA fkg:hasObjectDescription ?odA .
+            FILTER(LCASE(STR(?dA)) = LCASE(STR(?odA))) }
+          UNION
+          { ?ctA ctx:depictsEntity ?eA . ?octA ctx:depictsEntity ?eA . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kA .
+          { ?kA a fkg:ReCompressed } UNION { ?kA fkg:hasReCompressed true }
+          OPTIONAL { ?kA fkg:hasCompressionFactor ?fA }
+          FILTER(!BOUND(?fA) || ?fA <= "0.75"^^xsd:float)
+        } ) ) )
+  }
+
+  # (b) another appearance of the same photograph, published before the event began
+  ?earlyPost as:attachment ?img2 ;
+             as:published ?pub2 .
+  {
+      ?img ctx:sha256 ?hE . ?img2 ctx:sha256 ?hE .
+    } UNION {
+      ?img ctx:inCluster ?pcE . ?img2 ctx:inCluster ?pcE .
+      ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?maE . ?maE a fkg:CameraModel ; fkg:hasCameraModel ?cmaE .
+      ?img2 (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?mbE . ?mbE a fkg:CameraModel ; fkg:hasCameraModel ?cmbE .
+      FILTER(LCASE(STR(?cmaE)) = LCASE(STR(?cmbE)))
+    }
+  FILTER( IF(DATATYPE(?start) = xsd:date,
+             SUBSTR(STR(?pub2), 1, 10) < SUBSTR(STR(?start), 1, 10),
+             COALESCE(?pub2 < ?start, STR(?pub2) < STR(?start))) )
+        }
+      }
+      ?anyPost as:attachment ?imgAll ;
+               as:published ?pubAll .
+      {
+      ?img ctx:sha256 ?hM . ?imgAll ctx:sha256 ?hM .
+    } UNION {
+      ?img ctx:inCluster ?pcM . ?imgAll ctx:inCluster ?pcM .
+      ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?maM . ?maM a fkg:CameraModel ; fkg:hasCameraModel ?cmaM .
+      ?imgAll (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?mbM . ?mbM a fkg:CameraModel ; fkg:hasCameraModel ?cmbM .
+      FILTER(LCASE(STR(?cmaM)) = LCASE(STR(?cmbM)))
+    }
+    }
+    GROUP BY ?post ?img
+  }
+  ?earliestPost as:attachment ?imgE ;
+                as:published ?pubE .
+  FILTER(sameTerm(?pubE, ?minPub) || ?pubE = ?minPub)
+  {
+      ?img ctx:sha256 ?hF . ?imgE ctx:sha256 ?hF .
+    } UNION {
+      ?img ctx:inCluster ?pcF . ?imgE ctx:inCluster ?pcF .
+      ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?maF . ?maF a fkg:CameraModel ; fkg:hasCameraModel ?cmaF .
+      ?imgE (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?mbF . ?mbF a fkg:CameraModel ; fkg:hasCameraModel ?cmbF .
+      FILTER(LCASE(STR(?cmaF)) = LCASE(STR(?cmbF)))
+    }
+}

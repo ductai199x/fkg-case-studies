@@ -1,0 +1,179 @@
+# Q2.2  Immediate parent of every image instance (except the first of its photograph in the cluster).
+# Reasoning: candidates for ?child's parent are instances of the same cluster that are
+#   - published strictly earlier (post as:published),
+#   - not provably a different photograph (cluster merge guard: if both have a detected camera model they must share it),
+#   - insertion-consistent: every genuine insertion of the parent is also present on the child (edits accumulate down
+#     a lineage; reposts never remove an inserted object). Genuine = description shown reliably somewhere in the cluster
+#     and not the isolated false region on the cluster's earliest instance (same rule as Q2.1),
+#   - resolution-consistent: child long edge <= parent long edge (platforms downscale, never upscale).
+# Among candidates, rank lexicographically and take the best (MAX over a padded rank string + "|" + parent IRI):
+#   1. most genuine insertions on the parent (closest point in the edit chain);
+#   2. file evidence: identical sha256, or the child sits on a pass-through platform and its compression factor and
+#      long edge equal the parent's (byte-for-byte storage);
+#   3. platform-profile consistency: a re-encoding platform outputs min(parent edge, its maxLongEdge), so if the child
+#      is smaller than its platform's max the parent must have exactly the child's edge; if equal, parent >= it;
+#   4. the child post credits (ctx:creditsSource) the parent's account (weak: a claim, not provenance);
+#   5. smallest resolution gap;  6. most recent earlier post (people repost what is circulating).
+# Instances with no candidate (the earliest of each photograph) get no row. The answer is a most-likely tree, Inferred.
+SELECT DISTINCT ?child ?parent WHERE {
+  {
+    SELECT ?child (MAX(?rankKey) AS ?best) WHERE {
+      ?child ctx:inCluster ?cl .
+      ?cpost as:attachment ?child ; as:published ?ct .
+      ?ppost as:attachment ?parent ; as:published ?pt .
+      FILTER(?child != ?parent)
+      FILTER(COALESCE(?pt < ?ct, STR(?pt) < STR(?ct)))
+      {
+    SELECT ?parent ?cl (COUNT(DISTINCT ?pk) AS ?nIns) WHERE {
+      ?parent ctx:inCluster ?cl .
+      OPTIONAL {
+        ?parent (fkg:hasRegion|^fkg:contained_in) ?pr .
+        ?pr fkg:produced_by ?ps .
+        ?ps a fkg:AIGenerator ; fkg:hasConfidence ?pc .
+        FILTER(?pc >= "0.5"^^xsd:float)
+        ?pr fkg:depict/fkg:hasObjectDescription ?pd .
+        BIND(LCASE(STR(?pd)) AS ?pk)
+        FILTER EXISTS {
+      ?hiN ctx:inCluster ?cl .
+      ?hiN (fkg:hasRegion|^fkg:contained_in) ?rHN .
+    ?rHN fkg:produced_by ?srcHN .
+    ?srcHN a fkg:AIGenerator ; fkg:hasConfidence ?confHN .
+    FILTER( ?confHN >= "0.7"^^xsd:float
+         || ( ?confHN >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?hiN ctx:inCluster ?clHN . ?oHN ctx:inCluster ?clHN .
+          ?oHN (fkg:hasRegion|^fkg:contained_in) ?orHN .
+          ?orHN fkg:produced_by ?osHN .
+          ?osHN a fkg:AIGenerator ; fkg:hasConfidence ?ocHN .
+          FILTER(?oHN != ?hiN && ?ocHN >= "0.7"^^xsd:float)
+          ?rHN fkg:depict ?ctHN . ?orHN fkg:depict ?octHN .
+          { ?ctHN fkg:hasObjectDescription ?dHN . ?octHN fkg:hasObjectDescription ?odHN .
+            FILTER(LCASE(STR(?dHN)) = LCASE(STR(?odHN))) }
+          UNION
+          { ?ctHN ctx:depictsEntity ?eHN . ?octHN ctx:depictsEntity ?eHN . }
+        }
+                || EXISTS {
+          ?hiN (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kHN .
+          { ?kHN a fkg:ReCompressed } UNION { ?kHN fkg:hasReCompressed true }
+          OPTIONAL { ?kHN fkg:hasCompressionFactor ?fHN }
+          FILTER(!BOUND(?fHN) || ?fHN <= "0.75"^^xsd:float)
+        } ) ) )
+      ?rHN fkg:depict/fkg:hasObjectDescription ?hdN .
+      FILTER(LCASE(STR(?hdN)) = ?pk)
+    }
+    FILTER( EXISTS {
+              ?otN ctx:inCluster ?cl . FILTER(?otN != ?parent)
+              ?otN (fkg:hasRegion|^fkg:contained_in) ?otrN . ?otrN fkg:produced_by ?otsN . ?otsN a fkg:AIGenerator .
+              ?otrN fkg:depict/fkg:hasObjectDescription ?otdN .
+              FILTER(LCASE(STR(?otdN)) = ?pk)
+            }
+         || EXISTS {
+              ?eaN ctx:inCluster ?cl . ?eapN as:attachment ?eaN ; as:published ?eatN .
+              ?impN as:attachment ?parent ; as:published ?imtN .
+              FILTER(COALESCE(?eatN < ?imtN, STR(?eatN) < STR(?imtN)))
+              FILTER ( NOT EXISTS { ?parent (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xaWN . ?xaWN a fkg:CameraModel ; fkg:hasCameraModel ?xmaWN }
+       || NOT EXISTS { ?eaN (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xbWN . ?xbWN a fkg:CameraModel ; fkg:hasCameraModel ?xmbWN }
+       || EXISTS { ?parent (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xcWN . ?xcWN a fkg:CameraModel ; fkg:hasCameraModel ?xmcWN .
+                   ?eaN (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xdWN . ?xdWN a fkg:CameraModel ; fkg:hasCameraModel ?xmdWN .
+                   FILTER(LCASE(STR(?xmcWN)) = LCASE(STR(?xmdWN))) } )
+            } )
+      }
+    }
+    GROUP BY ?parent ?cl
+  }
+
+      # same photograph (cluster-merge guard)
+      FILTER ( NOT EXISTS { ?child (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xaC . ?xaC a fkg:CameraModel ; fkg:hasCameraModel ?xmaC }
+       || NOT EXISTS { ?parent (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xbC . ?xbC a fkg:CameraModel ; fkg:hasCameraModel ?xmbC }
+       || EXISTS { ?child (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xcC . ?xcC a fkg:CameraModel ; fkg:hasCameraModel ?xmcC .
+                   ?parent (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xdC . ?xdC a fkg:CameraModel ; fkg:hasCameraModel ?xmdC .
+                   FILTER(LCASE(STR(?xmcC)) = LCASE(STR(?xmdC))) } )
+
+      # every genuine insertion on the parent is also on the child
+      FILTER NOT EXISTS {
+        ?parent (fkg:hasRegion|^fkg:contained_in) ?qr .
+        ?qr fkg:produced_by ?qs .
+        ?qs a fkg:AIGenerator ; fkg:hasConfidence ?qc .
+        FILTER(?qc >= "0.5"^^xsd:float)
+        ?qr fkg:depict/fkg:hasObjectDescription ?qd0 .
+        BIND(LCASE(STR(?qd0)) AS ?qd)
+        FILTER EXISTS {
+      ?hiS ctx:inCluster ?cl .
+      ?hiS (fkg:hasRegion|^fkg:contained_in) ?rHS .
+    ?rHS fkg:produced_by ?srcHS .
+    ?srcHS a fkg:AIGenerator ; fkg:hasConfidence ?confHS .
+    FILTER( ?confHS >= "0.7"^^xsd:float
+         || ( ?confHS >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?hiS ctx:inCluster ?clHS . ?oHS ctx:inCluster ?clHS .
+          ?oHS (fkg:hasRegion|^fkg:contained_in) ?orHS .
+          ?orHS fkg:produced_by ?osHS .
+          ?osHS a fkg:AIGenerator ; fkg:hasConfidence ?ocHS .
+          FILTER(?oHS != ?hiS && ?ocHS >= "0.7"^^xsd:float)
+          ?rHS fkg:depict ?ctHS . ?orHS fkg:depict ?octHS .
+          { ?ctHS fkg:hasObjectDescription ?dHS . ?octHS fkg:hasObjectDescription ?odHS .
+            FILTER(LCASE(STR(?dHS)) = LCASE(STR(?odHS))) }
+          UNION
+          { ?ctHS ctx:depictsEntity ?eHS . ?octHS ctx:depictsEntity ?eHS . }
+        }
+                || EXISTS {
+          ?hiS (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kHS .
+          { ?kHS a fkg:ReCompressed } UNION { ?kHS fkg:hasReCompressed true }
+          OPTIONAL { ?kHS fkg:hasCompressionFactor ?fHS }
+          FILTER(!BOUND(?fHS) || ?fHS <= "0.75"^^xsd:float)
+        } ) ) )
+      ?rHS fkg:depict/fkg:hasObjectDescription ?hdS .
+      FILTER(LCASE(STR(?hdS)) = ?qd)
+    }
+    FILTER( EXISTS {
+              ?otS ctx:inCluster ?cl . FILTER(?otS != ?parent)
+              ?otS (fkg:hasRegion|^fkg:contained_in) ?otrS . ?otrS fkg:produced_by ?otsS . ?otsS a fkg:AIGenerator .
+              ?otrS fkg:depict/fkg:hasObjectDescription ?otdS .
+              FILTER(LCASE(STR(?otdS)) = ?qd)
+            }
+         || EXISTS {
+              ?eaS ctx:inCluster ?cl . ?eapS as:attachment ?eaS ; as:published ?eatS .
+              ?impS as:attachment ?parent ; as:published ?imtS .
+              FILTER(COALESCE(?eatS < ?imtS, STR(?eatS) < STR(?imtS)))
+              FILTER ( NOT EXISTS { ?parent (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xaWS . ?xaWS a fkg:CameraModel ; fkg:hasCameraModel ?xmaWS }
+       || NOT EXISTS { ?eaS (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xbWS . ?xbWS a fkg:CameraModel ; fkg:hasCameraModel ?xmbWS }
+       || EXISTS { ?parent (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xcWS . ?xcWS a fkg:CameraModel ; fkg:hasCameraModel ?xmcWS .
+                   ?eaS (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xdWS . ?xdWS a fkg:CameraModel ; fkg:hasCameraModel ?xmdWS .
+                   FILTER(LCASE(STR(?xmcWS)) = LCASE(STR(?xmdWS))) } )
+            } )
+        FILTER NOT EXISTS {
+          ?child (fkg:hasRegion|^fkg:contained_in) ?cr .
+          ?cr fkg:produced_by ?cs . ?cs a fkg:AIGenerator .
+          ?cr fkg:depict/fkg:hasObjectDescription ?cd .
+          FILTER(LCASE(STR(?cd)) = ?qd)
+        }
+      }
+
+      OPTIONAL { ?child ctx:pixelLongEdge ?cw }
+      OPTIONAL { ?parent ctx:pixelLongEdge ?pw }
+      FILTER(!BOUND(?cw) || !BOUND(?pw) || ?cw <= ?pw)
+
+      OPTIONAL { ?cpost ctx:onPlatform ?cplat }
+      OPTIONAL { ?cplat ctx:maxLongEdge ?cmax }
+      BIND(EXISTS { ?cplat ctx:passthrough ?cpv . FILTER(?cpv = true) } AS ?childPass)
+
+      BIND( IF( EXISTS { ?child ctx:sha256 ?hh . ?parent ctx:sha256 ?hh . }
+                || ( ?childPass && BOUND(?cw) && BOUND(?pw) && ?cw = ?pw
+                     && EXISTS { ?child (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by/fkg:hasCompressionFactor ?cf .
+                                 ?parent (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by/fkg:hasCompressionFactor ?pf .
+                                 FILTER(ABS(?cf - ?pf) <= 0.005) } ),
+                "1", "0") AS ?kFile )
+      BIND( IF( !BOUND(?cw) || !BOUND(?pw), "0",
+              IF( ?childPass, IF(?cw = ?pw, "1", "0"),
+                IF( !BOUND(?cmax), "0",
+                  IF( ?cw < ?cmax, IF(?cw = ?pw, "1", "0"),
+                    IF(?pw >= ?cw, "1", "0") ) ) ) ) AS ?kRes )
+      BIND( IF( EXISTS { ?cpost ctx:creditsSource ?credAcct . ?ppost as:attributedTo ?credAcct . }, "1", "0") AS ?kCredit )
+      BIND( IF(BOUND(?cw) && BOUND(?pw), 9999999 - (?pw - ?cw), 5000000) AS ?invGap )
+      BIND( SUBSTR(CONCAT("000", STR(?nIns)), STRLEN(STR(?nIns)) + 1) AS ?kIns )
+      BIND( CONCAT(?kIns, ?kFile, ?kRes, ?kCredit, STR(xsd:integer(?invGap)), STR(?pt), "|", STR(?parent)) AS ?rankKey )
+    }
+    GROUP BY ?child
+  }
+  BIND(IRI(STRAFTER(?best, "|")) AS ?parent)
+}

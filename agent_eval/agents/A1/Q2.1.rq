@@ -1,0 +1,72 @@
+# Q2.1  First carrier of each distinct AI insertion per near-duplicate cluster.
+# Reasoning: an insertion is identified within a cluster by the (lower-cased) fkg:hasObjectDescription of its AI region.
+# Carriers: instances whose AI region with that description has confidence >= 0.5 (reposts through recompressing
+# platforms push a genuine region's confidence into 0.5-0.7, so the 0.7 cut would lose them). An insertion counts only
+# if (i) at least one instance in the cluster shows it reliably (>= 0.7, or 0.5-0.7 with heavy recompression /
+# near-duplicate corroboration), and (ii) it is not an isolated region seen only on the cluster's earliest instance -
+# that pattern is the detector's known isolated false positive on the unaltered original, which must not be reported.
+# The first carrier is the earliest as:published post among carriers (MIN over "published|post" string; the timestamps
+# are assumed to share one ISO-8601 format so lexical order = time order). Account = as:attributedTo of that post.
+# Caveat: two independent edits with the same description in one cluster would be merged into one insertion.
+SELECT DISTINCT ?cluster ?post ?account WHERE {
+  {
+    SELECT ?cluster ?desc (MIN(CONCAT(STR(?pub), "|", STR(?p))) AS ?first) WHERE {
+      ?img ctx:inCluster ?cluster .
+      ?p as:attachment ?img ;
+         as:published ?pub .
+      ?img (fkg:hasRegion|^fkg:contained_in) ?r .
+      ?r fkg:produced_by ?s .
+      ?s a fkg:AIGenerator ; fkg:hasConfidence ?c .
+      FILTER(?c >= "0.5"^^xsd:float)
+      ?r fkg:depict/fkg:hasObjectDescription ?d0 .
+      BIND(LCASE(STR(?d0)) AS ?desc)
+      FILTER EXISTS {
+      ?hiG ctx:inCluster ?cluster .
+      ?hiG (fkg:hasRegion|^fkg:contained_in) ?rHG .
+    ?rHG fkg:produced_by ?srcHG .
+    ?srcHG a fkg:AIGenerator ; fkg:hasConfidence ?confHG .
+    FILTER( ?confHG >= "0.7"^^xsd:float
+         || ( ?confHG >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?hiG ctx:inCluster ?clHG . ?oHG ctx:inCluster ?clHG .
+          ?oHG (fkg:hasRegion|^fkg:contained_in) ?orHG .
+          ?orHG fkg:produced_by ?osHG .
+          ?osHG a fkg:AIGenerator ; fkg:hasConfidence ?ocHG .
+          FILTER(?oHG != ?hiG && ?ocHG >= "0.7"^^xsd:float)
+          ?rHG fkg:depict ?ctHG . ?orHG fkg:depict ?octHG .
+          { ?ctHG fkg:hasObjectDescription ?dHG . ?octHG fkg:hasObjectDescription ?odHG .
+            FILTER(LCASE(STR(?dHG)) = LCASE(STR(?odHG))) }
+          UNION
+          { ?ctHG ctx:depictsEntity ?eHG . ?octHG ctx:depictsEntity ?eHG . }
+        }
+                || EXISTS {
+          ?hiG (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kHG .
+          { ?kHG a fkg:ReCompressed } UNION { ?kHG fkg:hasReCompressed true }
+          OPTIONAL { ?kHG fkg:hasCompressionFactor ?fHG }
+          FILTER(!BOUND(?fHG) || ?fHG <= "0.75"^^xsd:float)
+        } ) ) )
+      ?rHG fkg:depict/fkg:hasObjectDescription ?hdG .
+      FILTER(LCASE(STR(?hdG)) = ?desc)
+    }
+    FILTER( EXISTS {
+              ?otG ctx:inCluster ?cluster . FILTER(?otG != ?img)
+              ?otG (fkg:hasRegion|^fkg:contained_in) ?otrG . ?otrG fkg:produced_by ?otsG . ?otsG a fkg:AIGenerator .
+              ?otrG fkg:depict/fkg:hasObjectDescription ?otdG .
+              FILTER(LCASE(STR(?otdG)) = ?desc)
+            }
+         || EXISTS {
+              ?eaG ctx:inCluster ?cluster . ?eapG as:attachment ?eaG ; as:published ?eatG .
+              ?impG as:attachment ?img ; as:published ?imtG .
+              FILTER(COALESCE(?eatG < ?imtG, STR(?eatG) < STR(?imtG)))
+              FILTER ( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xaWG . ?xaWG a fkg:CameraModel ; fkg:hasCameraModel ?xmaWG }
+       || NOT EXISTS { ?eaG (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xbWG . ?xbWG a fkg:CameraModel ; fkg:hasCameraModel ?xmbWG }
+       || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xcWG . ?xcWG a fkg:CameraModel ; fkg:hasCameraModel ?xmcWG .
+                   ?eaG (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?xdWG . ?xdWG a fkg:CameraModel ; fkg:hasCameraModel ?xmdWG .
+                   FILTER(LCASE(STR(?xmcWG)) = LCASE(STR(?xmdWG))) } )
+            } )
+    }
+    GROUP BY ?cluster ?desc
+  }
+  BIND(IRI(STRAFTER(?first, "|")) AS ?post)
+  ?post as:attributedTo ?account .
+}

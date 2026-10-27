@@ -1,0 +1,9 @@
+# 19: for accounts created <=30 days before the first post, how many of ALL their reposts target notes by other such new accounts (in-group amplification) vs. older accounts
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?u (COUNT(DISTINCT ?ann) AS ?nReposts) (SUM(?inGroup) AS ?nToNewAccts) WHERE {
+  { SELECT (MIN(?t0) AS ?firstPost) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n0 a as:Note ; as:published ?t0 } } }
+  GRAPH <https://example.org/cc/graph/platform> { ?r as:preferredUsername ?u ; as:published ?cr . ?ann a as:Announce ; as:actor ?r ; as:object ?note . ?note as:attributedTo ?o . ?o as:published ?co }
+  FILTER(?firstPost - ?cr <= "P30D"^^xsd:dayTimeDuration)
+  BIND(IF(?firstPost - ?co <= "P30D"^^xsd:dayTimeDuration, 1, 0) AS ?inGroup)
+} GROUP BY ?u ORDER BY DESC(?nToNewAccts)

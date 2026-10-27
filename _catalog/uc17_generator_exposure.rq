@@ -1,0 +1,9 @@
+# UC17 Generator exposure by entity. CQ: for each public entity, how many posts carry a reliable AI region depicting it,
+# broken down by generator and by month, and how widely were they shared? (Monitoring / early warning once a generator
+# is linked to an actor or newly released.)
+SELECT ?entityLabel ?generator ?month (COUNT(DISTINCT ?post) AS ?posts) (SUM(?shares) AS ?totalShares) WHERE {
+  ?reg fkg:contained_in ?img ; fkg:produced_by ?src ; fkg:depict [ ctx:depictsEntity ?e ] .
+  ?src a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7)
+  ?post as:attachment ?img ; as:published ?t ; ctx:shareCount ?shares . ?e rdfs:label ?entityLabel .
+  BIND(SUBSTR(STR(?t), 1, 7) AS ?month)
+} GROUP BY ?entityLabel ?generator ?month ORDER BY ?entityLabel ?month DESC(?posts)

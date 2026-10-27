@@ -1,0 +1,21 @@
+# Q3.5 (cs3) - fact-check reviews resting on forensic records produced by a detector version with a published
+# known issue, where the record actually contains the affected property.
+# Reasoning / checks:
+# - ctx:KnownIssue issue_v1_1_generatorID: ctx:affectsVersion detector_1_1, ctx:affectsProperty is an xsd:anyURI
+#   literal "https://example.org/fkg#hasGeneratorModel" -> compared as a string with STR(?prop) of the record's
+#   triples (no inference; the property IRI is matched textually).
+# - Review -> schema:isBasedOn -> fkg:ForensicRecord -> prov:wasGeneratedBy (DetectorRun) -> prov:wasAssociatedWith
+#   (DetectorVersion).
+# - "Containing the affected property": some region of the record's image (fkg:aboutImage) has a source carrying
+#   that property. v1.1 records of camera-only images (img0199-0204) do not contain it and have no reviews anyway.
+# - 14 reviews exist; the v1.0 ones (e.g. review0100/0104/0108) are unaffected. Result: reviews on img0084, 0088,
+#   0092, 0096, 0196.
+SELECT DISTINCT ?review WHERE {
+  ?issue a ctx:KnownIssue ; ctx:affectsVersion ?ver ; ctx:affectsProperty ?propStr .
+  ?review a schema:ClaimReview ; schema:isBasedOn ?rec .
+  ?rec a fkg:ForensicRecord ; prov:wasGeneratedBy ?run ; fkg:aboutImage ?img .
+  ?run prov:wasAssociatedWith ?ver .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s . ?s ?prop ?val .
+  FILTER(STR(?prop) = STR(?propStr))
+}
+ORDER BY ?review

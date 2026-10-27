@@ -1,0 +1,12 @@
+r_all eta=0.0 seed=1 quads=71664 full_unreviewed_ok:0.70
+r_all eta=0.0 seed=2 quads=79394 full_unreviewed_ok:0.87
+r_all eta=0.0 seed=3 quads=71792 full_unreviewed_ok:0.80
+r_all eta=0.3 seed=1 quads=70088 full_unreviewed_ok:0.82
+r_all eta=0.3 seed=2 quads=78122 full_unreviewed_ok:0.78
+r_all eta=0.3 seed=3 quads=70465 full_unreviewed_ok:0.67
+r_all_spamouflage eta=0.0 seed=1 quads=77579 full_unreviewed_ok:0.75
+r_all_spamouflage eta=0.0 seed=2 quads=79786 full_unreviewed_ok:0.78
+r_all_spamouflage eta=0.0 seed=3 quads=78252 full_unreviewed_ok:0.75
+r_all_spamouflage eta=0.3 seed=1 quads=76321 full_unreviewed_ok:0.76
+r_all_spamouflage eta=0.3 seed=2 quads=78510 full_unreviewed_ok:0.69
+r_all_spamouflage eta=0.3 seed=3 quads=77016 full_unreviewed_ok:0.70

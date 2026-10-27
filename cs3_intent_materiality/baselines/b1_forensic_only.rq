@@ -1,0 +1,2 @@
+# Baseline queue (forensic only): every post whose image has a reliable AI region.
+SELECT DISTINCT ?post WHERE { ?post as:attachment ?img . ?img fkg:hasRegion/fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7) }

@@ -1,0 +1,105 @@
+# detector.rq - accounts in a coordinated effort that uses manipulated media to push false claims.
+# Generic: no hard-coded IRIs, texts, generator/camera names, dates or parameter values; only thresholds.
+#
+# "False-claim post" = a post the claim matcher links (schema:appearance) to a claim whose ClaimReview rating lies in
+#   the bottom quarter of its own scale (e.g. 1-2 on a 1..5 scale).
+# CORE account:
+#   (a) has >= 1 false-claim post, and
+#   (b) has >= 2 distinct images whose FKG region shows a consecutive post-processing step pair
+#       (op1 fkg:hasNext op2, neither NoPostProc) that is matched - same two op types in the same order, both estimated
+#       parameters within 0.12 - in images posted by >= 2 OTHER accounts that also have false-claim posts.
+#       (= the same tool/tactic fingerprint is reused across several false-claim posters.)
+# AMPLIFIER account (not necessarily posting images):
+#   (c) has a false-claim post whose text is a verbatim copy of a post by a core account, and
+#   (d) reposted posts of >= 2 distinct core accounts within 6 hours of their publication.
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?account WHERE {
+  {
+    # ---------------- CORE ----------------
+    SELECT ?account WHERE {
+      GRAPH <https://example.org/cc/graph/factcheck> {
+        ?rv1 schema:itemReviewed ?c1 ; schema:reviewRating ?rt1 . ?rt1 schema:ratingValue ?v1 ; schema:bestRating ?b1 ; schema:worstRating ?w1 .
+        ?c1 schema:appearance ?fn1 . FILTER((?v1 - ?w1) <= 0.25 * (?b1 - ?w1)) }
+      GRAPH <https://example.org/cc/graph/platform> { ?fn1 as:attributedTo ?account . ?n1 as:attributedTo ?account ; as:attachment ?img1 }
+      GRAPH <https://example.org/cc/graph/forensics> {
+        ?r1 fkg:contained_in ?img1 ; fkg:modified_by ?p1 . ?p1 fkg:hasNext ?q1 . ?p1 a ?tp . ?q1 a ?tq .
+        ?p1 fkg:hasParameter/fkg:hasParameterValue ?vp1 . ?q1 fkg:hasParameter/fkg:hasParameterValue ?vq1 .
+        ?r2 fkg:modified_by ?p2 . ?p2 a ?tp . ?p2 fkg:hasNext ?q2 . ?q2 a ?tq .
+        ?p2 fkg:hasParameter/fkg:hasParameterValue ?vp2 . ?q2 fkg:hasParameter/fkg:hasParameterValue ?vq2 .
+        ?r2 fkg:contained_in ?img2 .
+        FILTER(?tp != fkg:NoPostProc && ?tq != fkg:NoPostProc && ?img2 != ?img1
+               && ABS(?vp1 - ?vp2) <= 0.12 && ABS(?vq1 - ?vq2) <= 0.12) }
+      GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?img2 ; as:attributedTo ?a2 . ?fn2 as:attributedTo ?a2 }
+      GRAPH <https://example.org/cc/graph/factcheck> {
+        ?c2 schema:appearance ?fn2 . ?rv2 schema:itemReviewed ?c2 ; schema:reviewRating ?rt2 . ?rt2 schema:ratingValue ?v2 ; schema:bestRating ?b2 ; schema:worstRating ?w2 .
+        FILTER((?v2 - ?w2) <= 0.25 * (?b2 - ?w2)) }
+      FILTER(?a2 != ?account)
+    } GROUP BY ?account HAVING (COUNT(DISTINCT ?img1) >= 2 && COUNT(DISTINCT ?a2) >= 2)
+  }
+  UNION
+  {
+    # ---------------- AMPLIFIERS ----------------
+    SELECT DISTINCT ?account WHERE {
+      {
+        # (d) fast reposts of >= 2 distinct core accounts
+        SELECT ?account WHERE {
+          {
+            SELECT ?core WHERE {   # same CORE definition as above
+          GRAPH <https://example.org/cc/graph/factcheck> {
+            ?rv1 schema:itemReviewed ?c1 ; schema:reviewRating ?rt1 . ?rt1 schema:ratingValue ?v1 ; schema:bestRating ?b1 ; schema:worstRating ?w1 .
+            ?c1 schema:appearance ?fn1 . FILTER((?v1 - ?w1) <= 0.25 * (?b1 - ?w1)) }
+          GRAPH <https://example.org/cc/graph/platform> { ?fn1 as:attributedTo ?core . ?n1 as:attributedTo ?core ; as:attachment ?img1 }
+          GRAPH <https://example.org/cc/graph/forensics> {
+            ?r1 fkg:contained_in ?img1 ; fkg:modified_by ?p1 . ?p1 fkg:hasNext ?q1 . ?p1 a ?tp . ?q1 a ?tq .
+            ?p1 fkg:hasParameter/fkg:hasParameterValue ?vp1 . ?q1 fkg:hasParameter/fkg:hasParameterValue ?vq1 .
+            ?r2 fkg:modified_by ?p2 . ?p2 a ?tp . ?p2 fkg:hasNext ?q2 . ?q2 a ?tq .
+            ?p2 fkg:hasParameter/fkg:hasParameterValue ?vp2 . ?q2 fkg:hasParameter/fkg:hasParameterValue ?vq2 .
+            ?r2 fkg:contained_in ?img2 .
+            FILTER(?tp != fkg:NoPostProc && ?tq != fkg:NoPostProc && ?img2 != ?img1
+                   && ABS(?vp1 - ?vp2) <= 0.12 && ABS(?vq1 - ?vq2) <= 0.12) }
+          GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?img2 ; as:attributedTo ?a2 . ?fn2 as:attributedTo ?a2 }
+          GRAPH <https://example.org/cc/graph/factcheck> {
+            ?c2 schema:appearance ?fn2 . ?rv2 schema:itemReviewed ?c2 ; schema:reviewRating ?rt2 . ?rt2 schema:ratingValue ?v2 ; schema:bestRating ?b2 ; schema:worstRating ?w2 .
+            FILTER((?v2 - ?w2) <= 0.25 * (?b2 - ?w2)) }
+          FILTER(?a2 != ?core)
+        } GROUP BY ?core HAVING (COUNT(DISTINCT ?img1) >= 2 && COUNT(DISTINCT ?a2) >= 2)
+          }
+          GRAPH <https://example.org/cc/graph/platform> {
+            ?cn as:attributedTo ?core ; as:published ?tc .
+            ?ann a as:Announce ; as:object ?cn ; as:actor ?account ; as:published ?ta . }
+          FILTER(?account != ?core && ?ta - ?tc <= "PT6H"^^xsd:dayTimeDuration)
+        } GROUP BY ?account HAVING (COUNT(DISTINCT ?core) >= 2)
+      }
+      {
+            SELECT ?core2 WHERE {   # CORE again
+          GRAPH <https://example.org/cc/graph/factcheck> {
+            ?rv1 schema:itemReviewed ?c1 ; schema:reviewRating ?rt1 . ?rt1 schema:ratingValue ?v1 ; schema:bestRating ?b1 ; schema:worstRating ?w1 .
+            ?c1 schema:appearance ?fn1 . FILTER((?v1 - ?w1) <= 0.25 * (?b1 - ?w1)) }
+          GRAPH <https://example.org/cc/graph/platform> { ?fn1 as:attributedTo ?core2 . ?n1 as:attributedTo ?core2 ; as:attachment ?img1 }
+          GRAPH <https://example.org/cc/graph/forensics> {
+            ?r1 fkg:contained_in ?img1 ; fkg:modified_by ?p1 . ?p1 fkg:hasNext ?q1 . ?p1 a ?tp . ?q1 a ?tq .
+            ?p1 fkg:hasParameter/fkg:hasParameterValue ?vp1 . ?q1 fkg:hasParameter/fkg:hasParameterValue ?vq1 .
+            ?r2 fkg:modified_by ?p2 . ?p2 a ?tp . ?p2 fkg:hasNext ?q2 . ?q2 a ?tq .
+            ?p2 fkg:hasParameter/fkg:hasParameterValue ?vp2 . ?q2 fkg:hasParameter/fkg:hasParameterValue ?vq2 .
+            ?r2 fkg:contained_in ?img2 .
+            FILTER(?tp != fkg:NoPostProc && ?tq != fkg:NoPostProc && ?img2 != ?img1
+                   && ABS(?vp1 - ?vp2) <= 0.12 && ABS(?vq1 - ?vq2) <= 0.12) }
+          GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?img2 ; as:attributedTo ?a2 . ?fn2 as:attributedTo ?a2 }
+          GRAPH <https://example.org/cc/graph/factcheck> {
+            ?c2 schema:appearance ?fn2 . ?rv2 schema:itemReviewed ?c2 ; schema:reviewRating ?rt2 . ?rt2 schema:ratingValue ?v2 ; schema:bestRating ?b2 ; schema:worstRating ?w2 .
+            FILTER((?v2 - ?w2) <= 0.25 * (?b2 - ?w2)) }
+          FILTER(?a2 != ?core2)
+        } GROUP BY ?core2 HAVING (COUNT(DISTINCT ?img1) >= 2 && COUNT(DISTINCT ?a2) >= 2)
+      }
+      # (c) one of the account's false-claim posts is a verbatim copy of a core account's post
+      GRAPH <https://example.org/cc/graph/factcheck> {
+        ?rv3 schema:itemReviewed ?c3 ; schema:reviewRating ?rt3 . ?rt3 schema:ratingValue ?v3 ; schema:bestRating ?b3 ; schema:worstRating ?w3 .
+        ?c3 schema:appearance ?fn3 . FILTER((?v3 - ?w3) <= 0.25 * (?b3 - ?w3)) }
+      GRAPH <https://example.org/cc/graph/platform> { ?fn3 as:attributedTo ?account ; as:content ?txt . ?cn3 as:content ?txt ; as:attributedTo ?core2 . }
+      FILTER(?core2 != ?account)
+    }
+  }
+}

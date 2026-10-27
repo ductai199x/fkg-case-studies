@@ -1,0 +1,8 @@
+# 05: post time range, and distribution of account creation by month (look for a creation burst near the event)
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?what ?k (COUNT(*) AS ?n) (MIN(?t) AS ?first) (MAX(?t) AS ?last) WHERE {
+  GRAPH <https://example.org/cc/graph/platform> {
+    { ?x a as:Note ; as:published ?t BIND("note" AS ?what) BIND("" AS ?k) }
+    UNION { ?x a as:Person ; as:published ?t BIND("acct" AS ?what) BIND(SUBSTR(STR(?t),1,7) AS ?k) FILTER(?t >= "2025-10-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>) }
+  }
+} GROUP BY ?what ?k ORDER BY ?what ?k

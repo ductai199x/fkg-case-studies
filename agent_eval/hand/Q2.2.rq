@@ -1,0 +1,20 @@
+# CQ2.2 (rule 2 of 2) Assert prov:wasDerivedFrom. Parsimony: if any candidate parent explains the child without
+# an edit, pick the most recent such candidate; otherwise pick the most recent edit candidate and record the
+# generator whose region the edit introduced. Run over the dataset plus the graph produced by q2a.
+SELECT DISTINCT ?child ?parent WHERE {
+  {
+    ?c ctx:candidateParent ?p . FILTER NOT EXISTS { ?c ctx:editCandidate ?p }
+    ?pp as:attachment ?p ; as:published ?tp .
+    FILTER NOT EXISTS { ?c ctx:candidateParent ?p2 . FILTER NOT EXISTS { ?c ctx:editCandidate ?p2 }
+                        ?pp2 as:attachment ?p2 ; as:published ?tp2 . FILTER(?tp2 > ?tp) }
+  } UNION {
+    ?c ctx:editCandidate ?p .
+    FILTER NOT EXISTS { ?c ctx:candidateParent ?q . FILTER NOT EXISTS { ?c ctx:editCandidate ?q } }
+    ?pp as:attachment ?p ; as:published ?tp .
+    FILTER NOT EXISTS { ?c ctx:editCandidate ?p2 . ?pp2 as:attachment ?p2 ; as:published ?tp2 . FILTER(?tp2 > ?tp) }
+    ?c fkg:hasRegion ?rn . ?rn fkg:produced_by ?sn ; fkg:depict/fkg:hasObjectDescription ?dn .
+    ?sn a fkg:AIGenerator ; fkg:hasGeneratorModel ?gNew ; fkg:hasConfidence ?cn . FILTER(?cn >= 0.7)
+    FILTER NOT EXISTS { ?p fkg:hasRegion ?ro . ?ro fkg:produced_by ?so ; fkg:depict/fkg:hasObjectDescription ?dn . ?so a fkg:AIGenerator ; fkg:hasGeneratorModel ?gNew }
+  }
+  BIND(?c AS ?child) BIND(?p AS ?parent)
+}

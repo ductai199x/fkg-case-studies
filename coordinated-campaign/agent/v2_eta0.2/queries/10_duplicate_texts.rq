@@ -1,0 +1,5 @@
+# 10: identical post texts shared by 2+ distinct accounts (copy-paste templating), with accounts and time span
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?content (COUNT(DISTINCT ?a) AS ?nAcc) (COUNT(DISTINCT ?n) AS ?nPosts) (MIN(?t) AS ?first) (MAX(?t) AS ?last) (GROUP_CONCAT(DISTINCT ?u; separator=",") AS ?users) WHERE {
+  GRAPH <https://example.org/cc/graph/platform> { ?n a as:Note ; as:content ?content ; as:attributedTo ?a ; as:published ?t . ?a as:preferredUsername ?u }
+} GROUP BY ?content HAVING (COUNT(DISTINCT ?a) >= 2) ORDER BY DESC(?nAcc)

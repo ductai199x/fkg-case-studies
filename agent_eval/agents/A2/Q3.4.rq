@@ -1,0 +1,39 @@
+# Q3.4 - anachronistic generator attributions (cs3).
+# Reasoning: a reliable AI region's source (fkg:AIGenerator) links via ctx:generatorEntity to a
+# ctx:GeneratorModel whose schema:datePublished (release) is later than the post's as:published.
+# Fallback when ctx:generatorEntity is missing: match fkg:hasGeneratorModel to the model's schema:name /
+# rdfs:label (case-insensitive).
+# Only reliable attributions count (conf >= 0.7, or 0.45-0.7 corroborated across near-duplicate copies):
+# the organisation does not stand behind attributions below 0.7.
+# Dates: when the release is an xsd:dateTime we compare instants; otherwise we compare calendar days
+# (post day strictly before release day).
+SELECT DISTINCT ?post WHERE {
+  ?post as:attachment ?img ;
+        as:published ?pub .
+    ?img (fkg:hasRegion|^fkg:contained_in) ?r .
+    ?r fkg:produced_by ?gen .
+    ?gen a fkg:AIGenerator ;
+        fkg:hasConfidence ?c .
+    FILTER( xsd:double(STR(?c)) >= 0.7
+         || ( xsd:double(STR(?c)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_a . ?o_a ctx:inCluster ?k_a . FILTER(?o_a != ?img)
+                ?o_a (fkg:hasRegion|^fkg:contained_in) ?r2_a .
+                ?r2_a fkg:produced_by ?s2_a .
+                ?s2_a a fkg:AIGenerator ; fkg:hasConfidence ?c2_a .
+                FILTER(xsd:double(STR(?c2_a)) >= 0.45)
+                ?r fkg:depict ?d1_a . ?r2_a fkg:depict ?d2_a .
+                { ?d1_a fkg:hasObjectDescription ?t1_a . ?d2_a fkg:hasObjectDescription ?t2_a .
+                  FILTER(LCASE(STR(?t1_a)) = LCASE(STR(?t2_a))) }
+                UNION { ?d1_a ctx:depictsEntity ?e_a . ?d2_a ctx:depictsEntity ?e_a }
+              } ) )
+  { ?gen ctx:generatorEntity ?gm }
+  UNION
+  { ?gen fkg:hasGeneratorModel ?gl .
+     ?gm a ctx:GeneratorModel .
+     { ?gm schema:name ?gn } UNION { ?gm rdfs:label ?gn }
+     FILTER(LCASE(STR(?gn)) = LCASE(STR(?gl))) }
+  ?gm schema:datePublished ?rel .
+  FILTER( IF(DATATYPE(?rel) = xsd:dateTime,
+             COALESCE(xsd:dateTime(?pub) < ?rel, STR(?pub) < STR(?rel)),
+             SUBSTR(STR(?pub), 1, 10) < SUBSTR(STR(?rel), 1, 10)) )
+}

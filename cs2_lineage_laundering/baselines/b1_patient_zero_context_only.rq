@@ -1,0 +1,5 @@
+# Baseline (context only): the earliest post in each cluster is taken as the origin of whatever the cluster shows.
+SELECT ?cluster ?post ?account WHERE {
+  { SELECT ?cluster (MIN(?t) AS ?t0) WHERE { ?p as:attachment ?i ; as:published ?t . ?i ctx:inCluster ?cluster } GROUP BY ?cluster }
+  ?post as:attachment ?i0 ; as:published ?t0 ; as:attributedTo ?account . ?i0 ctx:inCluster ?cluster .
+}

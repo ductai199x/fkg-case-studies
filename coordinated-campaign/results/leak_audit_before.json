@@ -1,0 +1,114 @@
+{
+ "base@eta0.0": {
+  "images": {
+   "n_regions": 0.626,
+   "any_obj_false": 0.626,
+   "descs": 0.851,
+   "compression": 0.593,
+   "synth_conf_bin": 0.719,
+   "cam_conf_bin": 0.593,
+   "n_ops": 0.864
+  },
+  "accounts": {
+   "posts": 0.681,
+   "imgs": 0.596,
+   "announces": 0.766,
+   "created_year": 0.933,
+   "username_len": 0.547,
+   "any_2region_img": 0.798,
+   "any_obj_false_img": 0.798,
+   "ann_index_decile": 0.952,
+   "first_word": 0.5
+  },
+  "n": {
+   "img_pos": 152,
+   "img": 1951,
+   "acct_pos": 36,
+   "acct": 504
+  }
+ },
+ "base@eta0.3": {
+  "images": {
+   "n_regions": 0.626,
+   "any_obj_false": 0.626,
+   "descs": 0.85,
+   "compression": 0.593,
+   "synth_conf_bin": 0.685,
+   "cam_conf_bin": 0.566,
+   "n_ops": 0.81
+  },
+  "accounts": {
+   "posts": 0.681,
+   "imgs": 0.596,
+   "announces": 0.766,
+   "created_year": 0.933,
+   "username_len": 0.547,
+   "any_2region_img": 0.798,
+   "any_obj_false_img": 0.798,
+   "ann_index_decile": 0.952,
+   "first_word": 0.5
+  },
+  "n": {
+   "img_pos": 152,
+   "img": 1951,
+   "acct_pos": 36,
+   "acct": 504
+  }
+ },
+ "r_all@eta0.0": {
+  "images": {
+   "n_regions": 0.641,
+   "any_obj_false": 0.641,
+   "descs": 0.875,
+   "compression": 0.604,
+   "synth_conf_bin": 0.664,
+   "cam_conf_bin": 0.613,
+   "n_ops": 0.766
+  },
+  "accounts": {
+   "posts": 0.843,
+   "imgs": 0.693,
+   "announces": 0.811,
+   "created_year": 0.934,
+   "username_len": 0.406,
+   "any_2region_img": 0.799,
+   "any_obj_false_img": 0.799,
+   "ann_index_decile": 0.975,
+   "first_word": 0.5
+  },
+  "n": {
+   "img_pos": 122,
+   "img": 4326,
+   "acct_pos": 36,
+   "acct": 1440
+  }
+ },
+ "r_all@eta0.3": {
+  "images": {
+   "n_regions": 0.641,
+   "any_obj_false": 0.641,
+   "descs": 0.859,
+   "compression": 0.604,
+   "synth_conf_bin": 0.594,
+   "cam_conf_bin": 0.588,
+   "n_ops": 0.678
+  },
+  "accounts": {
+   "posts": 0.843,
+   "imgs": 0.693,
+   "announces": 0.811,
+   "created_year": 0.934,
+   "username_len": 0.406,
+   "any_2region_img": 0.799,
+   "any_obj_false_img": 0.799,
+   "ann_index_decile": 0.975,
+   "first_word": 0.5
+  },
+  "n": {
+   "img_pos": 122,
+   "img": 4326,
+   "acct_pos": 36,
+   "acct": 1440
+  }
+ }
+}

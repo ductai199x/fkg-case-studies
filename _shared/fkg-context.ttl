@@ -1,0 +1,93 @@
+# FKG context extension (ctx:) for the IEEE BIG case studies.
+# Links the FKG forensic layer to how an image came to be (PROV-O, content credentials) and how it
+# was disseminated and framed (Activity Streams 2.0, schema.org Claim/ClaimReview/Event).
+# Design rule: reuse a W3C/schema.org term wherever one exists; mint ctx: only for the gap.
+@prefix ctx: <https://example.org/fkg/context#> .
+@prefix fkg: <https://example.org/fkg#> .
+@prefix as: <https://www.w3.org/ns/activitystreams#> .
+@prefix schema: <https://schema.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://example.org/fkg/context> a owl:Ontology ;
+  owl:imports <https://example.org/fkg> ;
+  rdfs:comment "Reused terms (not redeclared): as:Note, as:Person, as:attributedTo, as:published, as:attachment, as:content; schema:Claim, schema:appearance, schema:about, schema:Event, schema:startDate, schema:location, schema:datePublished, schema:softwareVersion; prov:wasDerivedFrom, prov:wasGeneratedBy, prov:wasAssociatedWith, prov:SoftwareAgent, prov:Activity." .
+
+# ---------- Dissemination ----------
+ctx:Platform a owl:Class ; rdfs:subClassOf schema:WebSite ;
+  rdfs:comment "A distribution service. Its transcoding profile is reference knowledge (evidenceStatus SourceReported)." .
+ctx:onPlatform a owl:ObjectProperty ; rdfs:domain as:Object ; rdfs:range ctx:Platform ;
+  rdfs:comment "Platform on which a post or account lives." .
+ctx:transcodeQuality a owl:DatatypeProperty ; rdfs:domain ctx:Platform ; rdfs:range xsd:float ;
+  rdfs:comment "JPEG quality (0-1 scale, as fkg:hasCompressionFactor) the platform re-encodes uploads to." .
+ctx:passthrough a owl:DatatypeProperty ; rdfs:domain ctx:Platform ; rdfs:range xsd:boolean ;
+  rdfs:comment "True if the platform stores uploaded files without re-encoding." .
+ctx:maxLongEdge a owl:DatatypeProperty ; rdfs:domain ctx:Platform ; rdfs:range xsd:positiveInteger .
+ctx:accountGenre a owl:ObjectProperty ; rdfs:domain as:Person ; rdfs:range ctx:Genre ;
+  rdfs:comment "Self-declared account genre (profile bio / verified category)." .
+ctx:Genre a owl:Class .
+ctx:NewsOutlet a ctx:Genre . ctx:PersonalAccount a ctx:Genre . ctx:SatireAccount a ctx:Genre . ctx:ArtAccount a ctx:Genre .
+ctx:shareCount a owl:DatatypeProperty ; rdfs:domain as:Note ; rdfs:range xsd:nonNegativeInteger ;
+  rdfs:comment "Reach proxy at crawl time (AS2 has collections, not counts)." .
+ctx:creditsSource a owl:ObjectProperty ; rdfs:domain as:Note ; rdfs:range as:Person ;
+  rdfs:comment "Account the post explicitly credits as origin (e.g. 'via @outlet'). A claim by the poster, not provenance." .
+ctx:hasDisclosure a owl:ObjectProperty ; rdfs:domain as:Note ; rdfs:range ctx:Disclosure .
+ctx:Disclosure a owl:Class .
+ctx:PlatformAILabel a ctx:Disclosure . ctx:CaptionAIDisclosure a ctx:Disclosure .
+
+# ---------- Image instances and near-duplicate evidence ----------
+ctx:NearDuplicateCluster a owl:Class ; rdfs:comment "Set of image instances judged perceptual near-duplicates (e.g. pHash/learned copy detection). Membership is Inferred evidence; it carries no direction." .
+ctx:inCluster a owl:ObjectProperty ; rdfs:domain fkg:Image ; rdfs:range ctx:NearDuplicateCluster .
+ctx:sha256 a owl:DatatypeProperty ; rdfs:domain fkg:Image ; rdfs:range xsd:string .
+ctx:pixelLongEdge a owl:DatatypeProperty ; rdfs:domain fkg:Image ; rdfs:range xsd:positiveInteger .
+
+# ---------- Entity linking from forensic content and generator literals ----------
+ctx:depictsEntity a owl:ObjectProperty ; rdfs:domain fkg:Content ; rdfs:range schema:Thing ;
+  rdfs:comment "IRI-valued counterpart of fkg:hasObjectDescription, enabling joins with claims (schema:about)." .
+ctx:GeneratorModel a owl:Class ; rdfs:subClassOf schema:SoftwareApplication .
+ctx:generatorEntity a owl:ObjectProperty ; rdfs:domain fkg:AIGenerator ; rdfs:range ctx:GeneratorModel ;
+  rdfs:comment "Links the per-region attribution node to a model entity (release date etc.); counterpart of fkg:hasGeneratorModel." .
+
+# ---------- Claims about media ----------
+ctx:assertsDepictionOf a owl:ObjectProperty ; rdfs:domain schema:Claim ; rdfs:range schema:Event ;
+  rdfs:comment "The claim that the attached image shows this event." .
+
+# ---------- Content credentials (C2PA manifests, summarized) ----------
+ctx:ContentCredential a owl:Class ; rdfs:subClassOf prov:Entity ;
+  rdfs:comment "Summary of a validated C2PA manifest bound to an image instance. Assertions are SourceReported, not verified facts." .
+ctx:credentialFor a owl:ObjectProperty ; rdfs:domain ctx:ContentCredential ; rdfs:range fkg:Image .
+ctx:digitalSourceType a owl:ObjectProperty ; rdfs:domain ctx:ContentCredential ;
+  rdfs:comment "IPTC Digital Source Type NewsCode IRI (http://cv.iptc.org/newscodes/digitalsourcetype/...)." .
+ctx:claimedCaptureDevice a owl:DatatypeProperty ; rdfs:domain ctx:ContentCredential ; rdfs:range xsd:string .
+ctx:signatureValid a owl:DatatypeProperty ; rdfs:domain ctx:ContentCredential ; rdfs:range xsd:boolean .
+
+# ---------- Detector provenance ----------
+ctx:DetectorRun a owl:Class ; rdfs:subClassOf prov:Activity .
+ctx:DetectorVersion a owl:Class ; rdfs:subClassOf prov:SoftwareAgent .
+ctx:KnownIssue a owl:Class ; rdfs:comment "A documented defect of a detector version (e.g. a retracted attribution head)." .
+ctx:affectsVersion a owl:ObjectProperty ; rdfs:domain ctx:KnownIssue ; rdfs:range ctx:DetectorVersion .
+ctx:affectsProperty a owl:DatatypeProperty ; rdfs:domain ctx:KnownIssue ; rdfs:range xsd:anyURI .
+
+# ---------- Derived (query-materialized) assertions ----------
+ctx:IntentAssessment a owl:Class ; rdfs:subClassOf fkg:ForensicConclusion ;
+  rdfs:comment "Analyst-facing hypothesis about how media is being presented. Always fkg:evidenceStatus fkg:Inferred; never an observed fact about the poster's mind." .
+ctx:intentCategory a owl:ObjectProperty ; rdfs:domain ctx:IntentAssessment ; rdfs:range ctx:IntentCategory .
+ctx:IntentCategory a owl:Class .
+ctx:UndisclosedMaterialAlteration a ctx:IntentCategory .
+ctx:UndisclosedPeripheralAlteration a ctx:IntentCategory .
+ctx:DisclosedSynthetic a ctx:IntentCategory .
+ctx:SatireOrArt a ctx:IntentCategory .
+ctx:NoAlteration a ctx:IntentCategory .
+ctx:aboutPost a owl:ObjectProperty ; rdfs:range as:Note .
+ctx:derivedByRule a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:comment "Identifier of the SPARQL CONSTRUCT rule that produced the assertion." .
+
+ctx:SyntheticImage a fkg:Verdict ; rdfs:comment "Detector verdict for an image whose every region is attributed to an AI generator (the fkg: verdict set in the example records covers Authentic/Manipulated/Inconclusive only)." .
+ctx:candidateParent a owl:ObjectProperty ; rdfs:domain fkg:Image ; rdfs:range fkg:Image ;
+  rdfs:comment "Materialized by a lineage rule: an earlier instance from which this instance could have been derived without violating forensic constraints. prov:wasDerivedFrom is then asserted for the latest candidate." .
+ctx:editCandidate a owl:ObjectProperty ; rdfs:subPropertyOf ctx:candidateParent ;
+  rdfs:comment "Candidate parent from which the child could only derive by an edit that introduced a reliable AI region." .
+ctx:introducesSyntheticRegionFrom a owl:DatatypeProperty ; rdfs:domain fkg:Image ;
+  rdfs:comment "Generator name of a reliable AI region present in this instance but absent from its inferred parent (an inferred edit step)." .

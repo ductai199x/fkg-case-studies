@@ -1,0 +1,12 @@
+# 21: Robustness to FKG noise: regions matching >=2 of the 3 fingerprint ops within tolerance (any source), to find campaign images with missed ops or misattributed source; poster and claim match
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?a ?img ?src (COUNT(DISTINCT ?hit) AS ?hits) (COUNT(DISTINCT ?anyop) AS ?nops) (SAMPLE(?rating) AS ?rt) WHERE {
+ GRAPH <https://example.org/cc/graph/forensics> { ?img fkg:hasRegion ?rg . ?rg fkg:produced_by ?s . OPTIONAL { ?s fkg:hasGeneratorModel ?g } OPTIONAL { ?s fkg:hasCameraModel ?cm } BIND(COALESCE(?g,?cm) AS ?src)
+   ?rg fkg:modified_by ?hit . ?hit fkg:hasParameter/fkg:hasParameterValue ?v .
+   FILTER( (EXISTS { ?hit a fkg:GaussianNoise } && ?v >= 1.1 && ?v <= 1.3) || (EXISTS { ?hit a fkg:GaussianBlur } && ?v >= 0.55 && ?v <= 0.67) || (EXISTS { ?hit a fkg:Resampling } && ?v >= 0.75 && ?v <= 0.86) )
+   ?rg fkg:modified_by ?anyop . }
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img ; as:attributedTo ?a }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n . ?rev schema:itemReviewed ?cl ; schema:reviewRating/schema:alternateName ?rating } }
+} GROUP BY ?a ?img ?src HAVING(COUNT(DISTINCT ?hit) >= 2) ORDER BY ?a

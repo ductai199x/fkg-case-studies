@@ -1,0 +1,8 @@
+# 15: Accounts whose posted image is a provenance-derived copy of an image first posted by another account: poster, its creation date, source poster, time gap, poster's text
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?copier ?copierCreated ?orig ?tOrig ?tCopy ?content WHERE {
+ GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?img1 }
+ GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?img2 ; as:attributedTo ?copier ; as:published ?tCopy ; as:content ?content . ?copier as:published ?copierCreated .
+   ?n1 as:attachment ?img1 ; as:attributedTo ?orig ; as:published ?tOrig }
+}

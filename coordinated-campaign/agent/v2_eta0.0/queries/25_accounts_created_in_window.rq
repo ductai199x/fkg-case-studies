@@ -1,0 +1,3 @@
+# 25: All accounts created in the 2026-09-09..2026-09-15 window (the suspected batch), to see if any created-in-window account is NOT part of the network
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?a ?c WHERE { GRAPH <https://example.org/cc/graph/platform> { ?a a as:Person ; as:published ?c . FILTER(?c >= "2026-09-09T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> && ?c < "2026-09-16T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>) } } ORDER BY ?c

@@ -1,0 +1,67 @@
+# Q1.2 - earliest known public appearance of each recycled photograph found in Q1.1 (cs1).
+# Reasoning: re-derive the Q1.1 posts, then take the minimum as:published over every post whose image
+# is the same photograph (same image node or same near-duplicate cluster AND compatible camera model,
+# to guard against pHash merging a different photo of a similar scene). Return the post(s) at that time.
+# Assumption: the crawl is incomplete, so this is the earliest KNOWN appearance only.
+SELECT DISTINCT ?post ?earliestPost WHERE {
+  {
+    SELECT ?post ?img (MIN(?t1) AS ?tEarliest) WHERE {
+      {
+        SELECT DISTINCT ?post ?img WHERE {
+    ?claim_a schema:appearance ?post ;
+           ctx:assertsDepictionOf ?event_a .
+    ?event_a schema:startDate ?start_a .
+    BIND(IF(DATATYPE(?start_a) = xsd:date,
+            xsd:dateTime(CONCAT(SUBSTR(STR(?start_a), 1, 10), "T00:00:00Z")),
+            xsd:dateTime(STR(?start_a))) AS ?startDT_a)
+    ?post as:attachment ?img .
+    # camera-authentic: has camera-sourced regions and no reliable AI region
+    FILTER EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?cam_ac . ?cam_ac a fkg:CameraModel }
+    FILTER NOT EXISTS {
+    ?img (fkg:hasRegion|^fkg:contained_in) ?ar_a .
+    ?ar_a fkg:produced_by ?as_a .
+    ?as_a a fkg:AIGenerator ;
+        fkg:hasConfidence ?ac_a .
+    FILTER( xsd:double(STR(?ac_a)) >= 0.7
+         || ( xsd:double(STR(?ac_a)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_ar . ?o_ar ctx:inCluster ?k_ar . FILTER(?o_ar != ?img)
+                ?o_ar (fkg:hasRegion|^fkg:contained_in) ?r2_ar .
+                ?r2_ar fkg:produced_by ?s2_ar .
+                ?s2_ar a fkg:AIGenerator ; fkg:hasConfidence ?c2_ar .
+                FILTER(xsd:double(STR(?c2_ar)) >= 0.45)
+                ?ar_a fkg:depict ?d1_ar . ?r2_ar fkg:depict ?d2_ar .
+                { ?d1_ar fkg:hasObjectDescription ?t1_ar . ?d2_ar fkg:hasObjectDescription ?t2_ar .
+                  FILTER(LCASE(STR(?t1_ar)) = LCASE(STR(?t2_ar))) }
+                UNION { ?d1_ar ctx:depictsEntity ?e_ar . ?d2_ar ctx:depictsEntity ?e_ar }
+              } ) )
+    }
+    # the same photograph (same image, or a cluster member that passes the camera-model guard)
+    ?img (ctx:inCluster/^ctx:inCluster)? ?img0_a .
+    FILTER( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?ma_ag }
+         || NOT EXISTS { ?img0_a (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mb_ag }
+         || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mc_ag . ?img0_a (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?md_ag .
+                     FILTER(LCASE(STR(?mc_ag)) = LCASE(STR(?md_ag))) } )
+    ?post0_a as:attachment ?img0_a ;
+              as:published ?t0_a .
+    FILTER(?post0_a != ?post)
+    FILTER(COALESCE(xsd:dateTime(?t0_a) < ?startDT_a, STR(?t0_a) < STR(?startDT_a)))
+        }
+      }
+      ?img (ctx:inCluster/^ctx:inCluster)? ?img1 .
+      FILTER( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?ma_g1 }
+         || NOT EXISTS { ?img1 (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mb_g1 }
+         || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mc_g1 . ?img1 (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?md_g1 .
+                     FILTER(LCASE(STR(?mc_g1)) = LCASE(STR(?md_g1))) } )
+      ?p1 as:attachment ?img1 ;
+          as:published ?t1 .
+    } GROUP BY ?post ?img
+  }
+  ?img (ctx:inCluster/^ctx:inCluster)? ?img2 .
+  FILTER( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?ma_g2 }
+         || NOT EXISTS { ?img2 (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mb_g2 }
+         || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mc_g2 . ?img2 (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?md_g2 .
+                     FILTER(LCASE(STR(?mc_g2)) = LCASE(STR(?md_g2))) } )
+  ?earliestPost as:attachment ?img2 ;
+                as:published ?t2 .
+  FILTER(?t2 = ?tEarliest)
+}

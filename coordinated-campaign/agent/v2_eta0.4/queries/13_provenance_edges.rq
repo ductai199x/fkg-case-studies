@@ -1,0 +1,12 @@
+# 13: Provenance derivation edges with poster of each copy and of the original, post times, and verdicts
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?origUser ?t1 ?v1 ?copyUser ?t2 ?v2 WHERE {
+  GRAPH <https://example.org/cc/graph/provenance> { ?img2 prov:wasDerivedFrom ?img1 }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?img1 ; as:attributedTo ?a1 ; as:published ?t1 . ?a1 as:preferredUsername ?origUser } }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?img2 ; as:attributedTo ?a2 ; as:published ?t2 . ?a2 as:preferredUsername ?copyUser } }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?r1 fkg:aboutImage ?img1 ; fkg:hasConclusion ?c1 . ?c1 fkg:verdict ?vv1 . OPTIONAL { ?c1 fkg:manipulationType ?m1 } } }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?r2 fkg:aboutImage ?img2 ; fkg:hasConclusion ?c2 . ?c2 fkg:verdict ?vv2 . OPTIONAL { ?c2 fkg:manipulationType ?m2 } } }
+  BIND(COALESCE(STRAFTER(STR(?m1),"#"),STRAFTER(STR(?vv1),"#")) AS ?v1) BIND(COALESCE(STRAFTER(STR(?m2),"#"),STRAFTER(STR(?vv2),"#")) AS ?v2)
+} ORDER BY ?origUser ?t1

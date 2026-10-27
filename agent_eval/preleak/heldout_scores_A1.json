@@ -1,0 +1,129 @@
+{
+ "A1": {
+  "Q1.1": {
+   "primary": 0.87,
+   "detail": {
+    "tp": 20,
+    "fp": 1,
+    "fn": 5,
+    "precision": 0.952,
+    "recall": 0.8,
+    "f1": 0.87
+   },
+   "seconds": 4.66
+  },
+  "Q1.2": {
+   "primary": 0.976,
+   "detail": {
+    "tp": 20,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.952,
+    "recall": 1.0,
+    "f1": 0.976
+   },
+   "seconds": 5.47
+  },
+  "Q1.3": {
+   "primary": 0.881,
+   "detail": {
+    "accuracy": 0.886,
+    "macro_f1": 0.881
+   },
+   "seconds": 62.18
+  },
+  "Q2.1": {
+   "primary": 1.0,
+   "detail": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "seconds": 29.35
+  },
+  "Q2.2": {
+   "primary": 0.0,
+   "error": "timeout after 900s"
+  },
+  "Q2.3": {
+   "primary": 1.0,
+   "detail": {
+    "tp": 15,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "seconds": 1.66
+  },
+  "Q2.4": {
+   "primary": 0.95,
+   "detail": {
+    "correct": 38,
+    "of": 40
+   },
+   "seconds": 0.01
+  },
+  "Q3.1": {
+   "primary": 0.938,
+   "detail": {
+    "tp": 30,
+    "fp": 0,
+    "fn": 4,
+    "precision": 1.0,
+    "recall": 0.882,
+    "f1": 0.938,
+    "p_at_10": 1.0
+   },
+   "seconds": 0.02
+  },
+  "Q3.2": {
+   "primary": 0.762,
+   "detail": {
+    "tp": 8,
+    "fp": 5,
+    "fn": 0,
+    "precision": 0.615,
+    "recall": 1.0,
+    "f1": 0.762
+   },
+   "seconds": 58.41
+  },
+  "Q3.3": {
+   "primary": 0.892,
+   "detail": {
+    "accuracy": 0.881,
+    "macro_f1": 0.892
+   },
+   "seconds": 2.68
+  },
+  "Q3.4": {
+   "primary": 1.0,
+   "detail": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "seconds": 0.29
+  },
+  "Q3.5": {
+   "primary": 1.0,
+   "detail": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "seconds": 0.01
+  }
+ }
+}

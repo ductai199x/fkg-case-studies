@@ -1,0 +1,9 @@
+# 14: repost (Announce) edges: reposter -> original author, with count and median-ish lag; restricted to reposts of notes matched to False claims
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?ru ?ou (COUNT(*) AS ?n) (MIN(?lag) AS ?minLag) (MAX(?lag) AS ?maxLag) WHERE {
+  GRAPH <https://example.org/cc/graph/platform> { ?ann a as:Announce ; as:actor ?r ; as:object ?note ; as:published ?ta . ?note as:attributedTo ?o ; as:published ?tn .
+    ?r as:preferredUsername ?ru . ?o as:preferredUsername ?ou }
+  GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?note . ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?v FILTER(?v <= 2) }
+  BIND(?ta - ?tn AS ?lag)
+} GROUP BY ?ru ?ou ORDER BY ?ou ?ru

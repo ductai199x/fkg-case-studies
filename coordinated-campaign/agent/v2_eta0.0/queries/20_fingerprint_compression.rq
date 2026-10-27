@@ -1,0 +1,5 @@
+# 20: Compression records on regions with the 3-op chain, by source kind
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?kind ?ctype ?alg ?f (COUNT(DISTINCT ?rg) AS ?n) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+ ?rg fkg:modified_by ?o1, ?o2, ?o3 . ?o1 a fkg:GaussianNoise . ?o2 a fkg:GaussianBlur . ?o3 a fkg:Resampling . ?rg fkg:produced_by/a ?kind .
+ OPTIONAL { ?rg fkg:compress_by ?c . ?c a ?ctype . OPTIONAL { ?c fkg:hasCompressionAlgorithm ?alg } OPTIONAL { ?c fkg:hasCompressionFactor ?f } } } } GROUP BY ?kind ?ctype ?alg ?f

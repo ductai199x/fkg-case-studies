@@ -1,0 +1,47 @@
+{
+ "cs1": {
+  "n": {
+   "fp": 58,
+   "tp": 131
+  },
+  "lookup_balanced_acc": {
+   "objectness": 0.786,
+   "description": 0.786,
+   "recompressed": 0.428,
+   "post_processing": 0.786,
+   "compression_factor": 0.631
+  },
+  "conf_auc_tp_over_fp": 0.708,
+  "fp_conf_modal_share": 0.069
+ },
+ "cs2": {
+  "n": {
+   "fp": 20,
+   "tp": 193
+  },
+  "lookup_balanced_acc": {
+   "objectness": 1.0,
+   "description": 1.0,
+   "recompressed": 0.795,
+   "post_processing": 0.565,
+   "compression_factor": 1.0
+  },
+  "conf_auc_tp_over_fp": 0.876,
+  "fp_conf_modal_share": 1.0
+ },
+ "cs3": {
+  "n": {
+   "fp": 99,
+   "tp": 150
+  },
+  "lookup_balanced_acc": {
+   "objectness": 1.0,
+   "description": 0.857,
+   "recompressed": 0.5,
+   "post_processing": 0.5,
+   "compression_factor": 0.5
+  },
+  "conf_auc_tp_over_fp": 1.0,
+  "fp_conf_modal_share": 1.0
+ }
+}

@@ -1,0 +1,11 @@
+# UC14 Shared-device linking (sock puppets). CQ: which pairs of accounts each post first-generation camera originals
+# (single compression, no earlier near-duplicate) attributed to the same, otherwise rare, camera model?
+# Limit: FKG resolves camera MODEL, not the individual device, so this yields candidates, not identity.
+SELECT ?model ?a1 ?a2 (COUNT(*) AS ?pairs) WHERE {
+  { SELECT ?model (COUNT(DISTINCT ?acc) AS ?nacc) WHERE { ?p as:attachment ?i ; as:attributedTo ?acc . ?reg fkg:contained_in ?i ; fkg:produced_by [ fkg:hasCameraModel ?model ] } GROUP BY ?model }
+  FILTER(?nacc <= 25)   # rarity: few accounts use this model (threshold is world-dependent)
+  ?p1 as:attachment ?i1 ; as:attributedTo ?a1 . ?r1 fkg:contained_in ?i1 ; fkg:produced_by [ fkg:hasCameraModel ?model ] ; fkg:compress_by ?c1 .
+  ?p2 as:attachment ?i2 ; as:attributedTo ?a2 . ?r2 fkg:contained_in ?i2 ; fkg:produced_by [ fkg:hasCameraModel ?model ] ; fkg:compress_by ?c2 .
+  FILTER(STR(?a1) < STR(?a2) && ?i1 != ?i2)
+  FILTER NOT EXISTS { ?c1 a fkg:ReCompressed } FILTER NOT EXISTS { ?c2 a fkg:ReCompressed }
+} GROUP BY ?model ?a1 ?a2 HAVING (COUNT(*) >= 2) ORDER BY DESC(?pairs)

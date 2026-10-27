@@ -1,0 +1,10 @@
+# 07: Per-region processing chain signature (ordered op types via hasNext from first op) for synthetic regions, counted by generator
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?gen ?sig (COUNT(DISTINCT ?r) AS ?n) WHERE {
+ { SELECT ?r ?gen (GROUP_CONCAT(?tn; separator=">") AS ?sig) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+   ?r fkg:produced_by ?s . ?s fkg:hasGeneratorModel ?gen .
+   ?r fkg:modified_by ?first . FILTER NOT EXISTS { ?r fkg:modified_by ?pre . ?pre fkg:hasNext ?first }
+   ?first fkg:hasNext* ?op . ?op a ?t . BIND(STRAFTER(STR(?t),"#") AS ?tn)
+   { SELECT ?first ?op (COUNT(?mid) AS ?pos) WHERE { ?first fkg:hasNext* ?mid . ?mid fkg:hasNext* ?op } GROUP BY ?first ?op }
+ } } GROUP BY ?r ?gen ORDER BY ?r ?pos }
+} GROUP BY ?gen ?sig ORDER BY DESC(?n)

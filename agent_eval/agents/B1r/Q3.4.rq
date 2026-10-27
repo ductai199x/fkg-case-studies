@@ -1,0 +1,21 @@
+# Q3.4 (cs3) Posts carrying an AI attribution to a generator released only AFTER the post was published.
+# Reasoning / checks against the data:
+# - Attribution node fkg:AIGenerator -> ctx:generatorEntity -> ctx:GeneratorModel with schema:datePublished
+#   (xsd:date). All 112 attribution nodes carry ctx:generatorEntity; as an open-world fallback the model is also
+#   matched by schema:name = fkg:hasGeneratorModel.
+# - Released "not yet" = as:published (xsd:dateTime) earlier than 00:00 of the release date.
+# - Only reliable attributions (confidence >= 0.7) are considered.
+# - Result: the three Nova-3 attributions (released 2026-10-10) on posts from 2026-09-20/23/26. Caveat for the
+#   reader: all three records were produced by detector v1.1, whose generator-identification head has a published
+#   ctx:KnownIssue (affects fkg:hasGeneratorModel). The anachronism is therefore most likely that mislabelling, not
+#   a pre-release leak; the AI-vs-camera finding itself is unaffected. (No v1.0 attribution is anachronistic.)
+SELECT DISTINCT ?post WHERE {
+  ?post a as:Note ; as:attachment ?img ; as:published ?pub .
+  ?r fkg:contained_in ?img ; fkg:produced_by ?s .
+  ?s a fkg:AIGenerator ; fkg:hasConfidence ?cf .
+  FILTER(?cf >= 0.7)
+  { ?s ctx:generatorEntity ?gen } UNION { ?s fkg:hasGeneratorModel ?gname . ?gen a ctx:GeneratorModel ; schema:name ?n2 . FILTER(STR(?n2) = STR(?gname)) }
+  ?gen schema:datePublished ?rel .
+  FILTER(?pub < xsd:dateTime(CONCAT(SUBSTR(STR(?rel), 1, 10), "T00:00:00")))
+}
+ORDER BY ?post

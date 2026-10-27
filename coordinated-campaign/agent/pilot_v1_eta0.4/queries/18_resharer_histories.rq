@@ -1,0 +1,8 @@
+# 18: Post histories of accounts that posted provenance-derived copies of campaign images (organic re-sharers?) 
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?user ?t ?content ?derived WHERE {
+ { SELECT DISTINCT ?a WHERE { GRAPH <https://example.org/cc/graph/provenance> { ?i2 prov:wasDerivedFrom ?i1 } GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?i2 ; as:attributedTo ?a } } }
+ GRAPH <https://example.org/cc/graph/platform> { ?a as:preferredUsername ?user . ?p as:attributedTo ?a ; as:published ?t ; as:content ?content . OPTIONAL { ?p as:attachment ?img } }
+ BIND(EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?img prov:wasDerivedFrom ?z } } AS ?derived)
+} ORDER BY ?user ?t

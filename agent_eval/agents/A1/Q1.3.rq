@@ -1,0 +1,112 @@
+# Q1.3  One label per claim-bearing post, in precedence order synthetic > manipulated > recycled_ooc > no_problem_found.
+# Reasoning:
+#  - synthetic: the attached image has AI-attributed regions and no camera-attributed region (every region AI), or the
+#    detector's record carries the ctx:SyntheticImage verdict. Confidence is not required here: a fully synthetic file
+#    that was heavily recompressed can drop below 0.7 everywhere, but it still has no camera evidence at all.
+#  - manipulated: camera-attributed region(s) plus at least one RELIABLE AI region (>= 0.7, or 0.5-0.7 when corroborated
+#    by a near-duplicate at >= 0.7 or when the file is heavily recompressed). Isolated moderate-confidence AI regions on
+#    lightly compressed files are treated as detector false positives, so such images stay "camera-authentic".
+#  - recycled_ooc: the Q1.1 test (camera-authentic, and the same photograph - same sha256, or same cluster AND same
+#    camera model - appeared before the claimed event's start).
+#  - otherwise no_problem_found (which, in an open-world crawl, means "nothing found", not "verified authentic").
+# Claim-bearing post = object of schema:appearance from a schema:Claim (or from a claim with ctx:assertsDepictionOf).
+# Flags are computed per post with EXISTS so a post with several attachments still gets exactly one label.
+SELECT ?post ?label WHERE {
+  {
+    SELECT DISTINCT ?post WHERE {
+      { ?c a schema:Claim ; schema:appearance ?post . }
+      UNION
+      { ?c ctx:assertsDepictionOf ?anyEvent ; schema:appearance ?post . }
+    }
+  }
+  BIND( EXISTS {
+          ?post as:attachment ?iS .
+          {
+            ?iS (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?aiS . ?aiS a fkg:AIGenerator .
+            FILTER NOT EXISTS { ?iS (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?cmS . ?cmS a fkg:CameraModel . }
+          } UNION {
+            ?recS fkg:aboutImage ?iS ; fkg:hasConclusion?/fkg:verdict ctx:SyntheticImage .
+          }
+        } AS ?isSynthetic )
+  BIND( EXISTS {
+          ?post as:attachment ?img .
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?camM .
+    ?camM a fkg:CameraModel .
+          ?img (fkg:hasRegion|^fkg:contained_in) ?rM .
+    ?rM fkg:produced_by ?srcM .
+    ?srcM a fkg:AIGenerator ; fkg:hasConfidence ?confM .
+    FILTER( ?confM >= "0.7"^^xsd:float
+         || ( ?confM >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clM . ?oM ctx:inCluster ?clM .
+          ?oM (fkg:hasRegion|^fkg:contained_in) ?orM .
+          ?orM fkg:produced_by ?osM .
+          ?osM a fkg:AIGenerator ; fkg:hasConfidence ?ocM .
+          FILTER(?oM != ?img && ?ocM >= "0.7"^^xsd:float)
+          ?rM fkg:depict ?ctM . ?orM fkg:depict ?octM .
+          { ?ctM fkg:hasObjectDescription ?dM . ?octM fkg:hasObjectDescription ?odM .
+            FILTER(LCASE(STR(?dM)) = LCASE(STR(?odM))) }
+          UNION
+          { ?ctM ctx:depictsEntity ?eM . ?octM ctx:depictsEntity ?eM . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kM .
+          { ?kM a fkg:ReCompressed } UNION { ?kM fkg:hasReCompressed true }
+          OPTIONAL { ?kM fkg:hasCompressionFactor ?fM }
+          FILTER(!BOUND(?fM) || ?fM <= "0.75"^^xsd:float)
+        } ) ) )
+        } AS ?isManipulated )
+  BIND( EXISTS {
+          ?claim schema:appearance ?post ;
+         ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?start .
+  ?post as:attachment ?img .
+
+  # (a) camera-authentic: at least one camera-attributed region and no RELIABLE AI region
+  ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?camA .
+    ?camA a fkg:CameraModel .
+  FILTER NOT EXISTS {
+    ?img (fkg:hasRegion|^fkg:contained_in) ?rA .
+    ?rA fkg:produced_by ?srcA .
+    ?srcA a fkg:AIGenerator ; fkg:hasConfidence ?confA .
+    FILTER( ?confA >= "0.7"^^xsd:float
+         || ( ?confA >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clA . ?oA ctx:inCluster ?clA .
+          ?oA (fkg:hasRegion|^fkg:contained_in) ?orA .
+          ?orA fkg:produced_by ?osA .
+          ?osA a fkg:AIGenerator ; fkg:hasConfidence ?ocA .
+          FILTER(?oA != ?img && ?ocA >= "0.7"^^xsd:float)
+          ?rA fkg:depict ?ctA . ?orA fkg:depict ?octA .
+          { ?ctA fkg:hasObjectDescription ?dA . ?octA fkg:hasObjectDescription ?odA .
+            FILTER(LCASE(STR(?dA)) = LCASE(STR(?odA))) }
+          UNION
+          { ?ctA ctx:depictsEntity ?eA . ?octA ctx:depictsEntity ?eA . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kA .
+          { ?kA a fkg:ReCompressed } UNION { ?kA fkg:hasReCompressed true }
+          OPTIONAL { ?kA fkg:hasCompressionFactor ?fA }
+          FILTER(!BOUND(?fA) || ?fA <= "0.75"^^xsd:float)
+        } ) ) )
+  }
+
+  # (b) another appearance of the same photograph, published before the event began
+  ?earlyPost as:attachment ?img2 ;
+             as:published ?pub2 .
+  {
+      ?img ctx:sha256 ?hE . ?img2 ctx:sha256 ?hE .
+    } UNION {
+      ?img ctx:inCluster ?pcE . ?img2 ctx:inCluster ?pcE .
+      ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?maE . ?maE a fkg:CameraModel ; fkg:hasCameraModel ?cmaE .
+      ?img2 (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?mbE . ?mbE a fkg:CameraModel ; fkg:hasCameraModel ?cmbE .
+      FILTER(LCASE(STR(?cmaE)) = LCASE(STR(?cmbE)))
+    }
+  FILTER( IF(DATATYPE(?start) = xsd:date,
+             SUBSTR(STR(?pub2), 1, 10) < SUBSTR(STR(?start), 1, 10),
+             COALESCE(?pub2 < ?start, STR(?pub2) < STR(?start))) )
+        } AS ?isRecycled )
+  BIND( IF(?isSynthetic, "synthetic",
+          IF(?isManipulated, "manipulated",
+            IF(?isRecycled, "recycled_ooc", "no_problem_found"))) AS ?label )
+}

@@ -1,0 +1,72 @@
+# Q2.4 - hidden source platform for posts on pass-through platforms (cs2).
+# Reasoning: a pass-through platform stores the file byte-for-byte, so the file still carries the
+# fingerprint of the last re-encoding platform it went through: its last compression factor
+# (fkg:hasCompressionFactor, 0-1) equals that platform's ctx:transcodeQuality (tolerance +-0.02) and its
+# ctx:pixelLongEdge is <= that platform's ctx:maxLongEdge. Candidate platforms are non-pass-through
+# platforms other than the post's own. Ranking: a byte-identical copy (same ctx:sha256) crawled on that
+# platform is the strongest evidence (+4); a long edge exactly at the platform's maxLongEdge shows the
+# platform's downscale (+2); a profile match (+1). All candidates with the top score are returned (if two
+# platforms share a profile and nothing separates them, the evidence cannot decide). If no platform
+# matches (e.g. an editor/camera export or an uncompressed file), return "no_platform_match".
+# Assumption: the compression factor is recorded per region on fkg:LastCompressed nodes; the image's
+# factor is averaged over its regions (they share one last encode).
+SELECT DISTINCT ?post ?hiddenSource WHERE {
+  ?post as:attachment ?img ;
+        ctx:onPlatform ?pt .
+  ?pt ctx:passthrough ?ptFlag .
+  FILTER(?ptFlag = true)
+  OPTIONAL {
+    {
+      SELECT ?post (MAX(?score) AS ?bestScore) WHERE {
+      ?post as:attachment ?img ;
+            ctx:onPlatform ?pt .
+      ?x ctx:transcodeQuality ?tq .
+      FILTER(?x != ?pt)
+      FILTER NOT EXISTS { ?x ctx:passthrough ?xpt . FILTER(?xpt = true) }
+      OPTIONAL {
+        SELECT ?img (AVG(xsd:double(STR(?q0))) AS ?q) WHERE {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by/fkg:hasCompressionFactor ?q0 .
+        } GROUP BY ?img
+      }
+      OPTIONAL { ?img ctx:pixelLongEdge ?eRaw }
+      OPTIONAL { ?x ctx:maxLongEdge ?mRaw }
+      BIND(xsd:integer(STR(?eRaw)) AS ?e)
+      BIND(xsd:integer(STR(?mRaw)) AS ?m)
+      BIND(EXISTS {
+        ?img ctx:sha256 ?h . ?o ctx:sha256 ?h2 . FILTER(?o != ?img && STR(?h) = STR(?h2))
+        ?op as:attachment ?o ; ctx:onPlatform ?x .
+      } AS ?shaHit)
+      BIND(BOUND(?q) && ABS(?q - xsd:double(STR(?tq))) <= 0.02
+           && (!BOUND(?e) || !BOUND(?m) || ?e <= ?m) AS ?profileOK)
+      FILTER(?shaHit || COALESCE(?profileOK, false))
+      BIND(IF(?shaHit, 4, 0) + IF(COALESCE(?profileOK, false), 1, 0)
+           + IF(BOUND(?e) && BOUND(?m) && ?e = ?m, 2, 0) AS ?score)
+      } GROUP BY ?post
+    }
+      ?post as:attachment ?img ;
+            ctx:onPlatform ?pt .
+      ?x ctx:transcodeQuality ?tq .
+      FILTER(?x != ?pt)
+      FILTER NOT EXISTS { ?x ctx:passthrough ?xpt . FILTER(?xpt = true) }
+      OPTIONAL {
+        SELECT ?img (AVG(xsd:double(STR(?q0))) AS ?q) WHERE {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by/fkg:hasCompressionFactor ?q0 .
+        } GROUP BY ?img
+      }
+      OPTIONAL { ?img ctx:pixelLongEdge ?eRaw }
+      OPTIONAL { ?x ctx:maxLongEdge ?mRaw }
+      BIND(xsd:integer(STR(?eRaw)) AS ?e)
+      BIND(xsd:integer(STR(?mRaw)) AS ?m)
+      BIND(EXISTS {
+        ?img ctx:sha256 ?h . ?o ctx:sha256 ?h2 . FILTER(?o != ?img && STR(?h) = STR(?h2))
+        ?op as:attachment ?o ; ctx:onPlatform ?x .
+      } AS ?shaHit)
+      BIND(BOUND(?q) && ABS(?q - xsd:double(STR(?tq))) <= 0.02
+           && (!BOUND(?e) || !BOUND(?m) || ?e <= ?m) AS ?profileOK)
+      FILTER(?shaHit || COALESCE(?profileOK, false))
+      BIND(IF(?shaHit, 4, 0) + IF(COALESCE(?profileOK, false), 1, 0)
+           + IF(BOUND(?e) && BOUND(?m) && ?e = ?m, 2, 0) AS ?score)
+    FILTER(?score = ?bestScore)
+  }
+  BIND(COALESCE(?x, "no_platform_match") AS ?hiddenSource)
+}

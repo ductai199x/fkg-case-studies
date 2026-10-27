@@ -1,0 +1,7 @@
+# Baseline queue (context only): undisclosed claim-bearing image posts from non-satire, non-art accounts.
+SELECT DISTINCT ?post WHERE {
+  ?cl schema:appearance ?post . ?post as:attachment ?img ; as:attributedTo ?acct .
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?d }
+  FILTER NOT EXISTS { ?cr ctx:credentialFor ?img ; ctx:digitalSourceType ?t . FILTER(?t IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) }
+  FILTER NOT EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) }
+}

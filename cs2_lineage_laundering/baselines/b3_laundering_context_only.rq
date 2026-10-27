@@ -1,0 +1,2 @@
+# Baseline (context only): every post that credits an outlet is suspect.
+SELECT DISTINCT ?post ?outlet WHERE { ?post ctx:creditsSource ?outlet }

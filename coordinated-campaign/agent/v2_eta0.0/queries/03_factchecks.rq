@@ -1,0 +1,5 @@
+# 03: List fact-checks, ratings, claims and how many post appearances the matcher linked
+PREFIX schema: <https://schema.org/>
+SELECT ?review ?claim ?rv ?rname ?text (COUNT(?note) AS ?apps) WHERE { GRAPH <https://example.org/cc/graph/factcheck> {
+ ?review a schema:ClaimReview ; schema:itemReviewed ?claim ; schema:reviewRating ?r . ?r schema:ratingValue ?rv ; schema:alternateName ?rname .
+ ?claim schema:text ?text . OPTIONAL { ?claim schema:appearance ?note } } } GROUP BY ?review ?claim ?rv ?rname ?text

@@ -1,0 +1,48 @@
+# Q2.1 - first carrier of each distinct AI-generated insertion per near-duplicate cluster (cs2).
+# Reasoning: an "insertion" is identified by its depicted content (lower-cased fkg:hasObjectDescription of
+# the AI region) within a cluster, so the same insertion re-shared across many copies counts once. Only
+# genuine insertions count: some carrier shows it at confidence >= 0.7, or it appears (>= 0.45) in at
+# least two cluster members (recompression drives genuine regions down to ~0.5-0.7, while the detector's
+# false regions are isolated and moderate, so they are excluded). The first carrier is the earliest
+# as:published post whose image shows that content as an AI region (>= 0.45, since downstream copies are
+# recompressed). An unaltered original has no genuine AI region and is therefore never reported.
+# Assumption: the same insertion keeps the same object description across copies; generator attribution
+# is NOT part of the key because attributions can drift on degraded copies.
+SELECT DISTINCT ?cluster ?post ?account WHERE {
+  {
+    SELECT ?cluster ?key (MIN(?t) AS ?tFirst) WHERE {
+      ?img ctx:inCluster ?cluster .
+      ?p as:attachment ?img ;
+         as:published ?t .
+    ?img (fkg:hasRegion|^fkg:contained_in) ?r .
+    ?r fkg:produced_by ?s .
+    ?s a fkg:AIGenerator ;
+        fkg:hasConfidence ?c .
+    FILTER( xsd:double(STR(?c)) >= 0.7
+         || ( xsd:double(STR(?c)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_q1 . ?o_q1 ctx:inCluster ?k_q1 . FILTER(?o_q1 != ?img)
+                ?o_q1 (fkg:hasRegion|^fkg:contained_in) ?r2_q1 .
+                ?r2_q1 fkg:produced_by ?s2_q1 .
+                ?s2_q1 a fkg:AIGenerator ; fkg:hasConfidence ?c2_q1 .
+                FILTER(xsd:double(STR(?c2_q1)) >= 0.45)
+                ?r fkg:depict ?d1_q1 . ?r2_q1 fkg:depict ?d2_q1 .
+                { ?d1_q1 fkg:hasObjectDescription ?t1_q1 . ?d2_q1 fkg:hasObjectDescription ?t2_q1 .
+                  FILTER(LCASE(STR(?t1_q1)) = LCASE(STR(?t2_q1))) }
+                UNION { ?d1_q1 ctx:depictsEntity ?e_q1 . ?d2_q1 ctx:depictsEntity ?e_q1 }
+              } ) )
+      ?r fkg:depict/fkg:hasObjectDescription ?desc .
+      BIND(LCASE(STR(?desc)) AS ?key)
+    } GROUP BY ?cluster ?key
+  }
+  ?img2 ctx:inCluster ?cluster .
+  ?post as:attachment ?img2 ;
+        as:published ?t2 ;
+        as:attributedTo ?account .
+  FILTER(?t2 = ?tFirst)
+  ?img2 (fkg:hasRegion|^fkg:contained_in) ?r2 .
+    ?r2 fkg:produced_by ?s2 .
+    ?s2 a fkg:AIGenerator ; fkg:hasConfidence ?c2 .
+    FILTER(xsd:double(STR(?c2)) >= 0.45)
+    ?r2 fkg:depict/fkg:hasObjectDescription ?dd_q2 .
+    FILTER(LCASE(STR(?dd_q2)) = ?key)
+}

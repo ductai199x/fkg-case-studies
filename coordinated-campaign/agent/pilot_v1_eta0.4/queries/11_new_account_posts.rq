@@ -1,0 +1,9 @@
+# 11: All posts by accounts created within 60 days before the first post in the dataset, with claim match (if any) -- to see unmatched campaign posts
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?t ?content ?matched WHERE {
+ { SELECT (MIN(?t0) AS ?start) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?x a as:Note ; as:published ?t0 } } }
+ GRAPH <https://example.org/cc/graph/platform> { ?a a as:Person ; as:published ?c ; as:preferredUsername ?user . ?n as:attributedTo ?a ; as:published ?t ; as:content ?content }
+ FILTER(?start - ?c <= "P60D"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>)
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n ; schema:text ?ct } BIND(SUBSTR(?ct,1,30) AS ?matched) }
+} ORDER BY ?user ?t

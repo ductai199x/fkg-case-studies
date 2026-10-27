@@ -1,0 +1,34 @@
+# Q1.2 (cs1) Earliest known public appearance of each recycled photograph found in Q1.1.
+# Reasoning: re-derive the Q1.1 set (camera image, no AI region with confidence >= 0.7, a same-cluster copy with
+# the SAME camera-model attribution published before the claimed event's start). "Same photograph" = same
+# near-duplicate cluster AND same fkg:hasCameraModel (clusters 5/6/7 merge different photos, checked by camera model).
+# The earliest appearance is the copy of that photograph (same cluster + same camera model, any post, including
+# the claimed post itself in principle) with the minimum as:published. Checked: no ties on the minimum timestamp.
+SELECT DISTINCT ?post ?earliestPost WHERE {
+  {
+    SELECT ?post ?cl ?model (MIN(?pubAll) AS ?minPub) WHERE {
+      ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+      ?event schema:startDate ?start .
+      ?post as:attachment ?img .
+      ?img ctx:inCluster ?cl ; fkg:hasRegion ?r .
+      ?r fkg:produced_by ?cam . ?cam a fkg:CameraModel ; fkg:hasCameraModel ?model .
+      FILTER NOT EXISTS {
+        ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?ai . ?ai a fkg:AIGenerator ; fkg:hasConfidence ?aconf .
+        FILTER(?aconf >= 0.7)
+      }
+      FILTER EXISTS {
+        ?other as:attachment ?img2 ; as:published ?pub2 .
+        ?img2 ctx:inCluster ?cl ; fkg:hasRegion ?r2 .
+        ?r2 fkg:produced_by ?cam2 . ?cam2 a fkg:CameraModel ; fkg:hasCameraModel ?model .
+        FILTER(?img2 != ?img && ?pub2 < ?start)
+      }
+      ?any as:attachment ?imgA ; as:published ?pubAll .
+      ?imgA ctx:inCluster ?cl ; fkg:hasRegion ?rA .
+      ?rA fkg:produced_by ?camA . ?camA a fkg:CameraModel ; fkg:hasCameraModel ?model .
+    } GROUP BY ?post ?cl ?model
+  }
+  ?earliestPost as:attachment ?imgE ; as:published ?minPub .
+  ?imgE ctx:inCluster ?cl ; fkg:hasRegion ?rE .
+  ?rE fkg:produced_by ?camE . ?camE a fkg:CameraModel ; fkg:hasCameraModel ?model .
+}
+ORDER BY ?post

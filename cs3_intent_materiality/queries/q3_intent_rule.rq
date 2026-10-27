@@ -1,0 +1,18 @@
+# CQ3.3 Rule: materialize an intent assessment for every image post. The output is an Inferred, provenance-linked
+# hypothesis about presentation (disclosed, satirical, material or peripheral alteration), never an observed fact.
+CONSTRUCT {
+  ?ia a ctx:IntentAssessment ; ctx:aboutPost ?post ; ctx:intentCategory ?cat ; fkg:evidenceStatus fkg:Inferred ;
+      ctx:derivedByRule "cs3-intent-v1" ; prov:wasDerivedFrom ?post, ?rec ;
+      fkg:limitationNote "Presentation-level hypothesis from forensic, disclosure, genre and claim signals; does not establish the poster's state of mind." .
+} WHERE {
+  ?post a as:Note ; as:attachment ?img ; as:attributedTo ?acct . ?rec a fkg:ForensicRecord ; fkg:aboutImage ?img .
+  BIND(EXISTS { ?img fkg:hasRegion/fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7) } AS ?altered)
+  BIND(EXISTS { ?post ctx:hasDisclosure ?d } || EXISTS { ?cr ctx:credentialFor ?img ; ctx:signatureValid true ; ctx:digitalSourceType ?t .
+                FILTER(?t IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) } AS ?disclosed)
+  BIND(EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) } AS ?satireArt)
+  BIND(EXISTS { ?cl schema:appearance ?post ; schema:about ?e . ?img fkg:hasRegion ?r . ?r fkg:depict/ctx:depictsEntity ?e ;
+                fkg:produced_by ?s2 . ?s2 a fkg:AIGenerator ; fkg:hasConfidence ?c2 . FILTER(?c2 >= 0.7) } AS ?material)
+  BIND(IF(!?altered, ctx:NoAlteration, IF(?disclosed, ctx:DisclosedSynthetic, IF(?satireArt, ctx:SatireOrArt,
+       IF(?material, ctx:UndisclosedMaterialAlteration, ctx:UndisclosedPeripheralAlteration)))) AS ?cat)
+  BIND(IRI(CONCAT(STR(?post), "_intent")) AS ?ia)
+}

@@ -1,0 +1,4 @@
+# 24: Account creation span and fingerprint-post time span of the 10 core accounts vs. creation span of all accounts
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?grp (COUNT(DISTINCT ?a) AS ?n) (MIN(?c) AS ?minCreated) (MAX(?c) AS ?maxCreated) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?a a as:Person ; as:published ?c .
+ BIND(IF(?a IN (<https://example.org/cc/actor/u02c0fa7a>,<https://example.org/cc/actor/u3a69e2ca>,<https://example.org/cc/actor/u49438493>,<https://example.org/cc/actor/u518f2244>,<https://example.org/cc/actor/u774e22af>,<https://example.org/cc/actor/u7b5ad134>,<https://example.org/cc/actor/uaf3bda6f>,<https://example.org/cc/actor/ub2a3fa67>,<https://example.org/cc/actor/uc876d8ef>,<https://example.org/cc/actor/ud18fc9fb>,<https://example.org/cc/actor/u20363c2b>,<https://example.org/cc/actor/u653f610d>),"suspected","other") AS ?grp) } } GROUP BY ?grp

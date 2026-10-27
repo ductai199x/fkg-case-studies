@@ -1,0 +1,73 @@
+# FKG core ontology, OWL 2 encoding of Appendix A of Nguyen & Stamm, arXiv:2606.23917,
+# using the namespace and record layer of Jane's FKG Turtle examples (FKG 0.2.0 draft).
+# Terms marked "case-study addition" are introduced here and are not in either source.
+@prefix fkg:  <https://example.org/fkg#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://example.org/fkg> a owl:Ontology ;
+    dcterms:title "Forensic Knowledge Graph core ontology (case-study encoding)" ;
+    owl:versionInfo "0.2.0-cc" .
+
+# ---- classes (Table 8) ----
+fkg:Image a owl:Class .
+fkg:Region a owl:Class .
+fkg:Source a owl:Class .
+fkg:RealSource a owl:Class ; rdfs:subClassOf fkg:Source .
+fkg:SyntheticSource a owl:Class ; rdfs:subClassOf fkg:Source .
+fkg:RealSource owl:disjointWith fkg:SyntheticSource .                      # Axiom 3
+fkg:CameraModel a owl:Class ; rdfs:subClassOf fkg:RealSource .
+fkg:AIGenerator a owl:Class ; rdfs:subClassOf fkg:SyntheticSource .
+fkg:PostProcessing a owl:Class .
+fkg:NoPostProc a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:Resampling a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:GaussianBlur a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:GaussianNoise a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:Sharpening a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+[] a owl:AllDisjointClasses ; owl:members ( fkg:NoPostProc fkg:Resampling fkg:GaussianBlur fkg:GaussianNoise fkg:Sharpening ) .
+fkg:Parameter a owl:Class .
+fkg:Compression a owl:Class .
+fkg:Uncompressed a owl:Class ; rdfs:subClassOf fkg:Compression .
+fkg:LastCompressed a owl:Class ; rdfs:subClassOf fkg:Compression .
+fkg:ReCompressed a owl:Class ; rdfs:subClassOf fkg:Compression .
+fkg:Content a owl:Class .
+[] a owl:AllDisjointClasses ; owl:members ( fkg:Image fkg:Region fkg:Source fkg:PostProcessing fkg:Parameter fkg:Compression fkg:Content ) .
+
+# ---- object properties (Table 9) ----
+fkg:contained_in a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Image .
+fkg:hasRegion a owl:ObjectProperty ; rdfs:domain fkg:Image ; rdfs:range fkg:Region ; owl:inverseOf fkg:contained_in .  # Jane's addition
+fkg:produced_by a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Source .      # Axiom 2 (with SHACL minCount 1)
+fkg:modified_by a owl:ObjectProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:PostProcessing .
+fkg:compress_by a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Compression .
+fkg:depict a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Content .
+fkg:hasParameter a owl:ObjectProperty ; rdfs:domain fkg:PostProcessing ; rdfs:range fkg:Parameter .
+fkg:hasNext a owl:ObjectProperty, owl:FunctionalProperty, owl:IrreflexiveProperty ; rdfs:domain fkg:PostProcessing ; rdfs:range fkg:PostProcessing .
+
+# ---- datatype properties (Table 10) ----
+fkg:hasConfidence a owl:DatatypeProperty ; rdfs:domain fkg:Source ; rdfs:range xsd:float .
+fkg:hasCameraModel a owl:DatatypeProperty ; rdfs:domain fkg:CameraModel ; rdfs:range xsd:string .
+fkg:hasGeneratorModel a owl:DatatypeProperty ; rdfs:domain fkg:AIGenerator ; rdfs:range xsd:string .
+fkg:hasParameterName a owl:DatatypeProperty ; rdfs:domain fkg:Parameter ; rdfs:range xsd:string .
+fkg:hasParameterValue a owl:DatatypeProperty ; rdfs:domain fkg:Parameter ; rdfs:range xsd:float .
+fkg:hasCompressionAlgorithm a owl:DatatypeProperty ; rdfs:domain fkg:LastCompressed ; rdfs:range xsd:string .
+fkg:hasCompressionFactor a owl:DatatypeProperty ; rdfs:domain fkg:LastCompressed ; rdfs:range xsd:float .
+fkg:hasReCompressed a owl:DatatypeProperty ; rdfs:domain fkg:ReCompressed ; rdfs:range xsd:boolean .
+fkg:hasObjectedness a owl:DatatypeProperty ; rdfs:domain fkg:Content ; rdfs:range xsd:boolean .
+fkg:hasObjectDescription a owl:DatatypeProperty ; rdfs:domain fkg:Content ; rdfs:range xsd:string .
+
+# ---- record layer (Jane's FKG 0.2.0 draft terms, as used in her truck record) ----
+fkg:ForensicRecord a owl:Class .
+fkg:ForensicConclusion a owl:Class .
+fkg:aboutImage a owl:ObjectProperty ; rdfs:range fkg:Image .
+fkg:aboutRegion a owl:ObjectProperty ; rdfs:range fkg:Region .
+fkg:hasConclusion a owl:ObjectProperty ; rdfs:domain fkg:ForensicRecord ; rdfs:range fkg:ForensicConclusion .
+fkg:verdict a owl:ObjectProperty ; rdfs:domain fkg:ForensicConclusion .
+fkg:manipulationType a owl:ObjectProperty ; rdfs:domain fkg:ForensicConclusion .
+fkg:localizationStatus a owl:ObjectProperty ; rdfs:domain fkg:Region .
+fkg:Manipulated a owl:NamedIndividual .
+fkg:Authentic a owl:NamedIndividual .
+fkg:AIEditing a owl:NamedIndividual .
+fkg:LocalizationNotProvided a owl:NamedIndividual .
+fkg:FullySynthetic a owl:NamedIndividual ; rdfs:comment "Case-study addition: manipulation type for an image whose every region has a synthetic source." .

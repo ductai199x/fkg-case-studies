@@ -1,0 +1,8 @@
+# 09: Account profiles - creation date, #posts, #posts with images, #reposts made, first/last post time
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?a ?user ?created (COUNT(DISTINCT ?note) AS ?nPosts) (COUNT(DISTINCT ?inote) AS ?nImgPosts) (MIN(?t) AS ?first) (MAX(?t) AS ?last)
+  (SAMPLE(?nRep) AS ?nReposts) WHERE { GRAPH <https://example.org/cc/graph/platform> {
+  ?a a as:Person ; as:preferredUsername ?user . OPTIONAL { ?a as:published ?created }
+  OPTIONAL { ?note as:attributedTo ?a ; as:published ?t . OPTIONAL { ?note as:attachment ?i BIND(?note AS ?inote) } }
+  { SELECT ?a (COUNT(?ann) AS ?nRep) WHERE { ?a a as:Person . OPTIONAL { ?ann a as:Announce ; as:actor ?a } } GROUP BY ?a }
+} } GROUP BY ?a ?user ?created ORDER BY DESC(?created)

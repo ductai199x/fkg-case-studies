@@ -1,0 +1,7 @@
+# Ablation: earliest reliable (conf >= 0.7) AI detection per cluster and generator, without cross-instance corroboration.
+SELECT ?cluster ?generator ?post ?account WHERE {
+  { SELECT ?cluster ?generator (MIN(?t) AS ?t0) WHERE {
+      ?img ctx:inCluster ?cluster ; fkg:hasRegion/fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?generator ; fkg:hasConfidence ?c . FILTER(?c >= 0.7)
+      ?p as:attachment ?img ; as:published ?t } GROUP BY ?cluster ?generator }
+  ?post as:attachment ?i ; as:published ?t0 ; as:attributedTo ?account . ?i ctx:inCluster ?cluster .
+}

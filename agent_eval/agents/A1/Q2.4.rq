@@ -1,0 +1,47 @@
+# Q2.4  Hidden upstream platform for files on pass-through platforms.
+# Reasoning: a pass-through platform stores the file byte-for-byte, so the file still carries the encoding of the last
+# platform that re-encoded it: its LastCompressed quality factor equals that platform's ctx:transcodeQuality and its
+# long edge is <= that platform's ctx:maxLongEdge. Candidates are re-encoding platforms (not pass-through, not the
+# post's own platform) with |quality - factor| <= 0.03 and a compatible size. If several match, rank by
+# (near-exact quality, |diff| <= 0.005) > (long edge exactly equals the platform's max, i.e. it was downscaled there)
+# > smallest quality difference. Posts with no candidate get "no_platform_match" (e.g. a camera original whose size
+# exceeds every platform's max, or an encoding matching no profile).
+# Assumptions: the compression factor is attached per region (fkg:compress_by on regions) and is the same file-level
+# value on every region; passthrough flag is an xsd:boolean; quality and factor share the 0-1 scale.
+SELECT DISTINCT ?post ?hiddenSource WHERE {
+  {
+    SELECT DISTINCT ?post WHERE {
+      ?post ctx:onPlatform ?pt ;
+            as:attachment ?anyImg .
+      ?pt ctx:passthrough ?pv .
+      FILTER(?pv = true)
+    }
+  }
+  OPTIONAL {
+    {
+      SELECT ?post (MAX(?k) AS ?best) WHERE {
+        ?post ctx:onPlatform ?pt ;
+              as:attachment ?img .
+        ?pt ctx:passthrough ?pv .
+        FILTER(?pv = true)
+        ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?cmp .
+        ?cmp fkg:hasCompressionFactor ?f .
+        ?plat ctx:transcodeQuality ?q .
+        FILTER(?plat != ?pt)
+        FILTER NOT EXISTS { ?plat ctx:passthrough ?ppv . FILTER(?ppv = true) }
+        BIND(ABS(?q - ?f) AS ?diff)
+        FILTER(?diff <= 0.03)
+        OPTIONAL { ?img ctx:pixelLongEdge ?w }
+        OPTIONAL { ?plat ctx:maxLongEdge ?mx }
+        FILTER(!BOUND(?w) || !BOUND(?mx) || ?w <= ?mx)
+        BIND(IF(?diff <= 0.005, "1", "0") AS ?k1)
+        BIND(IF(BOUND(?w) && BOUND(?mx) && ?w = ?mx, "1", "0") AS ?k2)
+        BIND(STR(1000 - xsd:integer(ROUND(?diff * 1000))) AS ?k3s)
+        BIND(SUBSTR(CONCAT("0000", ?k3s), STRLEN(?k3s) + 1) AS ?k3)
+        BIND(CONCAT(?k1, ?k2, ?k3, "|", STR(?plat)) AS ?k)
+      }
+      GROUP BY ?post
+    }
+  }
+  BIND(IF(BOUND(?best), IRI(STRAFTER(?best, "|")), "no_platform_match") AS ?hiddenSource)
+}

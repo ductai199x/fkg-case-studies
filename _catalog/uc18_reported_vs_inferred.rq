@@ -1,0 +1,10 @@
+# UC18 Evidence-status audit. CQ: which images have a source-reported assertion (a signed content credential) but no
+# forensic record that independently corroborates it, i.e. where trust rests only on what the source says?
+SELECT ?img ?dst ?device WHERE {
+  ?cred a ctx:ContentCredential ; ctx:credentialFor ?img ; ctx:digitalSourceType ?dst ; fkg:evidenceStatus fkg:SourceReported .
+  OPTIONAL { ?cred ctx:claimedCaptureDevice ?device }
+  FILTER NOT EXISTS {
+    ?rec fkg:aboutImage ?img ; fkg:hasConclusion [ fkg:evidenceStatus fkg:Inferred ; fkg:verdict ?v ] .
+    FILTER( (?dst = iptc:digitalCapture && ?v = fkg:Authentic) || (?dst != iptc:digitalCapture && ?v != fkg:Authentic) )
+  }
+}

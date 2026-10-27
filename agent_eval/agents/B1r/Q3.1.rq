@@ -1,0 +1,25 @@
+# Q3.1 (cs3) Fact-checking triage queue, most-shared first.
+# Conditions (same logic as Q3.3's UndisclosedMaterialAlteration):
+# - the post carries a schema:Claim (schema:appearance) about an entity (schema:about);
+# - its image has a RELIABLE AI region (fkg:AIGenerator, fkg:hasConfidence >= 0.7; cs3 images are all at q=0.85, so the
+#   three sub-0.7 regions are not recompression artefacts and are excluded) whose content ctx:depictsEntity is that
+#   entity (fallback: description = entity rdfs:label; checked that all entity-named content nodes carry the link);
+#   fully synthetic images count as AI-altered content too. Detector v1.1's known issue only affects the generator
+#   name, not AI-vs-camera, so v1.1 records are kept;
+# - no disclosure of any kind: no ctx:hasDisclosure and no content credential with an AI digitalSourceType
+#   (a "digitalCapture" credential is not a disclosure; those posts stay in the queue);
+# - poster's ctx:accountGenre is not ctx:SatireAccount / ctx:ArtAccount (news outlets are NOT exempt).
+# Ordered by ctx:shareCount descending.
+SELECT DISTINCT ?post ?shares WHERE {
+  ?post a as:Note ; as:attachment ?img ; as:attributedTo ?acct ; ctx:shareCount ?shares .
+  ?claim schema:appearance ?post ; schema:about ?ent .
+  ?r fkg:contained_in ?img ; fkg:produced_by ?s ; fkg:depict ?d .
+  ?s a fkg:AIGenerator ; fkg:hasConfidence ?cf . FILTER(?cf >= 0.7)
+  { ?d ctx:depictsEntity ?ent } UNION { ?d fkg:hasObjectDescription ?desc . ?ent rdfs:label ?lab . FILTER(STR(?desc) = STR(?lab)) }
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?dis }
+  FILTER NOT EXISTS { ?cc ctx:credentialFor ?img ; ctx:digitalSourceType ?dst .
+                      FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia,
+                                      iptc:algorithmicMedia, iptc:compositeSynthetic)) }
+  FILTER NOT EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) }
+}
+ORDER BY DESC(?shares) ?post

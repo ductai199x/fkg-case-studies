@@ -1,0 +1,11 @@
+# 09: Provenance derivation links: who posted the derived copy vs the original, when, and forensic description
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?i2 ?u2 ?c2 ?t2 ?i1 ?u1 ?c1 ?t1 ?d1 ?d2 WHERE {
+ GRAPH <https://example.org/cc/graph/provenance> { ?i2 prov:wasDerivedFrom ?i1 }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?i2 ; as:attributedTo ?a2 ; as:published ?t2 . ?a2 as:preferredUsername ?u2 ; as:published ?c2 } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n1 as:attachment ?i1 ; as:attributedTo ?a1 ; as:published ?t1 . ?a1 as:preferredUsername ?u1 ; as:published ?c1 } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?i1 fkg:hasRegion/fkg:depict ?dd1 . ?dd1 fkg:hasObjectedness true ; fkg:hasObjectDescription ?d1 } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?i2 fkg:hasRegion/fkg:depict ?dd2 . ?dd2 fkg:hasObjectedness true ; fkg:hasObjectDescription ?d2 } }
+}

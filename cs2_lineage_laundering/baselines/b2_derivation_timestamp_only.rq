@@ -1,0 +1,5 @@
+# Baseline (context only): each instance derives from the most recent earlier instance in its cluster.
+CONSTRUCT { ?c prov:wasDerivedFrom ?p } WHERE {
+  ?c ctx:inCluster ?cl . ?p ctx:inCluster ?cl . ?pc as:attachment ?c ; as:published ?tc . ?pp as:attachment ?p ; as:published ?tp . FILTER(?tp < ?tc)
+  FILTER NOT EXISTS { ?p2 ctx:inCluster ?cl . ?pp2 as:attachment ?p2 ; as:published ?tp2 . FILTER(?tp2 > ?tp && ?tp2 < ?tc) }
+}

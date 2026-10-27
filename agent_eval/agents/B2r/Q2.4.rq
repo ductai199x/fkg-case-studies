@@ -1,0 +1,29 @@
+# Q2.4 (cs2) - hidden source platform of files posted on a pass-through platform.
+# Reasoning / checks:
+# - Only platform_fringe has ctx:passthrough true in cs2; it stores uploads byte-for-byte, so the file's last JPEG
+#   quality (fkg:hasCompressionFactor of its LastCompressed nodes, 0-1 scale) and pixel size are those left by the
+#   last transcoding platform it passed through.
+# - Profile match: a NON-pass-through platform whose ctx:transcodeQuality is within 0.01 of the image's measured
+#   compression factor (averaged over the image's regions; observed per-platform spread is +/-0.008:
+#   msg 0.693-0.707, chirp 0.812-0.828, picshare 0.843-0.856, newswire 0.912-0.927) and whose ctx:maxLongEdge is
+#   >= the image's ctx:pixelLongEdge. If several matched, the closest quality wins (never happens here).
+# - Files re-saved by the fringe "editor" accounts (quality ~0.942-0.955, and 0178, a straight copy of an editor
+#   master) match no platform's profile -> "no_platform_match".
+SELECT ?post ?hiddenSource WHERE {
+  {
+    SELECT ?post ?img ?px (AVG(?cf) AS ?q) WHERE {
+      ?post a as:Note ; as:attachment ?img ; ctx:onPlatform ?plat . ?plat ctx:passthrough true .
+      ?img ctx:pixelLongEdge ?px ; fkg:hasRegion ?r . ?r fkg:compress_by ?c . ?c fkg:hasCompressionFactor ?cf .
+    } GROUP BY ?post ?img ?px
+  }
+  OPTIONAL {
+    ?src a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?tq ; ctx:maxLongEdge ?maxEdge .
+    FILTER(ABS(?q - ?tq) <= 0.01 && ?px <= ?maxEdge)
+    FILTER NOT EXISTS {
+      ?src2 a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?tq2 ; ctx:maxLongEdge ?maxEdge2 .
+      FILTER(?src2 != ?src && ABS(?q - ?tq2) <= 0.01 && ?px <= ?maxEdge2 && ABS(?q - ?tq2) < ABS(?q - ?tq))
+    }
+  }
+  BIND(COALESCE(?src, "no_platform_match") AS ?hiddenSource)
+}
+ORDER BY ?post

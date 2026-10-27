@@ -1,0 +1,26 @@
+agents/A1 Q1.1 0.87 4.66
+agents/A1 Q1.2 0.976 5.47
+agents/A1 Q1.3 0.881 62.18
+agents/A1 Q2.1 1.0 29.35
+agents/A1 Q2.2 0.0 timeout after 900s
+agents/A1 Q2.3 1.0 1.66
+agents/A1 Q2.4 0.95 0.01
+agents/A1 Q3.1 0.938 0.02
+agents/A1 Q3.2 0.762 58.41
+agents/A1 Q3.3 0.892 2.68
+agents/A1 Q3.4 1.0 0.29
+agents/A1 Q3.5 1.0 0.01
+Q           A1
+Q1.1     0.870
+Q1.2     0.976
+Q1.3     0.881
+Q2.1     1.000
+Q2.2     0.000
+Q2.3     1.000
+Q2.4     0.950
+Q3.1     0.938
+Q3.2     0.762
+Q3.3     0.892
+Q3.4     1.000
+Q3.5     1.000
+A1 errors: {'Q2.2': 'timeout after 900s'}

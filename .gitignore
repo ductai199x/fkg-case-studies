@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.stress_worlds/
+coordinated-campaign/data/
+coordinated-campaign/data_evasive/
+coordinated-campaign/truth/
+coordinated-campaign/truth_evasive/
+.venv/
+.query_check_worlds/

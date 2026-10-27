@@ -1,0 +1,12 @@
+# 05: Per-account profile (subquery per metric): creation date, posts, image posts, manipulated-image posts, false/true-claim matched posts, reposts made, first post
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?a ?user ?created ?posts ?imgPosts ?manip ?falsePosts ?truePosts ?reposts ?firstPost WHERE {
+ GRAPH <https://example.org/cc/graph/platform> { ?a a as:Person ; as:preferredUsername ?user ; as:published ?created . }
+ OPTIONAL { SELECT ?a (COUNT(DISTINCT ?n) AS ?posts) (COUNT(DISTINCT ?i) AS ?imgPosts) (MIN(?t) AS ?firstPost) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n a as:Note ; as:attributedTo ?a ; as:published ?t . OPTIONAL { ?n as:attachment ?i } } } GROUP BY ?a }
+ OPTIONAL { SELECT ?a (COUNT(DISTINCT ?i) AS ?manip) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a ; as:attachment ?i } GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?i ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } } GROUP BY ?a }
+ OPTIONAL { SELECT ?a (COUNT(DISTINCT ?n) AS ?falsePosts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a } GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?n . ?rev schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?rv FILTER(?rv <= 2) } } GROUP BY ?a }
+ OPTIONAL { SELECT ?a (COUNT(DISTINCT ?n) AS ?truePosts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a } GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?n . ?rev schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?rv FILTER(?rv >= 4) } } GROUP BY ?a }
+ OPTIONAL { SELECT ?a (COUNT(DISTINCT ?x) AS ?reposts) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?x a as:Announce ; as:actor ?a } } GROUP BY ?a }
+} ORDER BY DESC(?falsePosts) DESC(?manip)

@@ -1,0 +1,14 @@
+# CQ1.2 For each recycled post, where and when did the photograph first appear (original context)?
+SELECT ?post ?earliestPost WHERE {
+  { SELECT ?post (MIN(?pt) AS ?earliestTime) WHERE {
+      ?claim schema:appearance ?post ; ctx:assertsDepictionOf ?event . ?event schema:startDate ?evStart .
+      ?post as:attachment ?img .
+      FILTER NOT EXISTS { ?img fkg:hasRegion/fkg:produced_by ?g . ?g a fkg:AIGenerator ; fkg:hasConfidence ?gc . FILTER(?gc >= 0.7) }
+      ?img fkg:hasRegion/fkg:produced_by/fkg:hasCameraModel ?cam ; ctx:inCluster ?cl .
+      ?prior ctx:inCluster ?cl ; fkg:hasRegion/fkg:produced_by/fkg:hasCameraModel ?cam .
+      ?priorPost as:attachment ?prior ; as:published ?pt .
+    } GROUP BY ?post HAVING (MIN(?pt) < MIN(?evStart)) }
+  ?post as:attachment ?img2 . ?img2 ctx:inCluster ?cl2 .
+  ?earliestPost as:attachment ?first ; as:published ?earliestTime ; ctx:onPlatform ?platform .
+  ?first ctx:inCluster ?cl2 .
+}

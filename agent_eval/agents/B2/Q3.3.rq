@@ -1,0 +1,42 @@
+# Q3.3 (cs3) - one presentation category per image post, applied in the stated precedence.
+# Reasoning / data checks:
+# - "Reliable AI region" = fkg:AIGenerator source with confidence >= 0.7 (org policy), EXCLUDING the isolated
+#   false-positive pattern: in all three datasets the detector's stray hits are regions whose content has
+#   fkg:hasObjectedness false at moderate confidence (cs1 "texture patch" ~0.56, cs2 "sky" 0.72 never inherited
+#   by copies, cs3 "sky" 0.73 on img0081-0083) whereas every genuine insertion depicts an object
+#   (objectedness true). So a non-object AI hit below 0.8 is not counted. AI regions at 0.637-0.679 (img0094-0096)
+#   are below policy threshold -> NoAlteration.
+# - Generator-ID defect of detector v1.1 (ctx:KnownIssue) only affects fkg:hasGeneratorModel; per its note the
+#   AI-vs-camera attribution is unaffected, so v1.1 images still count as AI-altered.
+# - Disclosure = any ctx:hasDisclosure on the post (PlatformAILabel / CaptionAIDisclosure) OR a content
+#   credential for the image whose ctx:digitalSourceType declares AI (trainedAlgorithmicMedia or
+#   compositeWithTrainedAlgorithmicMedia). A digitalCapture credential is not a disclosure. (All 22 credentials
+#   are signatureValid true; validity is not required for a self-declared AI disclosure.)
+# - Satire/art = poster's ctx:accountGenre is ctx:SatireAccount or ctx:ArtAccount.
+# - Material = a reliable AI region's ctx:depictsEntity equals schema:about of a claim whose schema:appearance is
+#   the post (cs3 claims use schema:about; 100 claims, at most one per post).
+SELECT DISTINCT ?post ?category WHERE {
+  ?post a as:Note ; as:attachment ?img .
+  ?img a fkg:Image .
+  BIND(EXISTS {
+    ?img fkg:hasRegion ?r1 . ?r1 fkg:produced_by ?s1 ; fkg:depict ?d1 .
+    ?s1 a fkg:AIGenerator ; fkg:hasConfidence ?c1 . ?d1 fkg:hasObjectedness ?o1 .
+    FILTER(?c1 >= 0.7 && !(?o1 = false && ?c1 < 0.8))
+  } AS ?aiAltered)
+  BIND(EXISTS { ?post ctx:hasDisclosure ?anyDisclosure } ||
+       EXISTS { ?cred ctx:credentialFor ?img ; ctx:digitalSourceType ?dst .
+                FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) } AS ?disclosed)
+  BIND(EXISTS { ?post as:attributedTo ?acct . ?acct ctx:accountGenre ?genre .
+                FILTER(?genre IN (ctx:SatireAccount, ctx:ArtAccount)) } AS ?satireArt)
+  BIND(EXISTS {
+    ?claim schema:appearance ?post ; schema:about ?entity .
+    ?img fkg:hasRegion ?r2 . ?r2 fkg:produced_by ?s2 ; fkg:depict ?d2 .
+    ?s2 a fkg:AIGenerator ; fkg:hasConfidence ?c2 . ?d2 fkg:hasObjectedness ?o2 ; ctx:depictsEntity ?entity .
+    FILTER(?c2 >= 0.7 && !(?o2 = false && ?c2 < 0.8))
+  } AS ?material)
+  BIND(IF(!?aiAltered, ctx:NoAlteration,
+       IF(?disclosed, ctx:DisclosedSynthetic,
+       IF(?satireArt, ctx:SatireOrArt,
+       IF(?material, ctx:UndisclosedMaterialAlteration, ctx:UndisclosedPeripheralAlteration)))) AS ?category)
+}
+ORDER BY ?post

@@ -1,0 +1,10 @@
+# 18: per account - distinct authors whose False-claim posts it reposted within 6h, total such fast reposts, own False-claim posts, and account age (days) at the first post in the dataset
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?u ?created (COUNT(DISTINCT ?o) AS ?nAuthorsFast) (COUNT(DISTINCT ?ann) AS ?nFast) ?nOwnFalse WHERE {
+  GRAPH <https://example.org/cc/graph/platform> { ?ann a as:Announce ; as:actor ?r ; as:object ?note ; as:published ?ta . ?note as:attributedTo ?o ; as:published ?tn . ?r as:preferredUsername ?u ; as:published ?created }
+  GRAPH <https://example.org/cc/graph/factcheck> { ?c schema:appearance ?note . ?rv schema:itemReviewed ?c ; schema:reviewRating/schema:ratingValue ?v FILTER(?v <= 2) }
+  FILTER(?ta - ?tn <= "PT6H"^^xsd:dayTimeDuration && ?r != ?o)
+  OPTIONAL { SELECT ?r (COUNT(DISTINCT ?n3) AS ?nOwnFalse) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?n3 as:attributedTo ?r } GRAPH <https://example.org/cc/graph/factcheck> { ?c3 schema:appearance ?n3 . ?rv3 schema:itemReviewed ?c3 ; schema:reviewRating/schema:ratingValue ?v3 FILTER(?v3 <= 2) } } GROUP BY ?r }
+} GROUP BY ?u ?created ?nOwnFalse ORDER BY DESC(?nFast)

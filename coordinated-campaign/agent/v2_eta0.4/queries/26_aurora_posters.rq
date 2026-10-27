@@ -1,0 +1,7 @@
+# 26: Who posts the 'Aurora Trail' promotional text (check full membership of the marketing cluster) and are any of them claim-matched?
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?created (COUNT(?note) AS ?n) (SAMPLE(?cm) AS ?anyClaimMatch) WHERE { GRAPH <https://example.org/cc/graph/platform> {
+  ?note as:content ?c ; as:attributedTo ?a . ?a as:preferredUsername ?user ; as:published ?created . FILTER(CONTAINS(LCASE(STR(?c)), "aurora")) }
+  BIND(EXISTS { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?note } } AS ?cm)
+} GROUP BY ?user ?created

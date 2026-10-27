@@ -1,0 +1,29 @@
+# Q1.3 (cs1) One label per claim-bearing post (posts that are schema:appearance of a schema:Claim; 105 claims, one per post).
+# Precedence: synthetic > manipulated > recycled_ooc > no_problem_found.
+# - synthetic: no fkg:CameraModel region at all and at least one AI region with confidence >= 0.7
+#   (checked: the 15 ctx:SyntheticImage records are single-region AI images, conf 0.75-0.98).
+# - manipulated: has a camera region and an AI region with confidence >= 0.7 (org reliability threshold).
+#   Sub-0.7 AI regions (0.57-0.68) are treated as unreliable: they occur on lightly compressed copies
+#   (NewsWire q~0.92), and one 0.57-0.60 "texture patch" recurs on all copies of a photo (content-triggered false
+#   region pattern), so the "recompression lowered a genuine region" caveat does not apply here.
+# - recycled_ooc: camera image without reliable AI region, and a copy of the same photograph (same cluster AND same
+#   camera-model attribution, since pHash clusters 5/6/7 merge different photos) was published before the claimed
+#   event's schema:startDate.
+# - no_problem_found: everything else (including correct "throwback" posts about the 2019/2021/2023 events).
+SELECT DISTINCT ?post ?label WHERE {
+  ?claim a schema:Claim ; schema:appearance ?post ; ctx:assertsDepictionOf ?event .
+  ?event schema:startDate ?start .
+  ?post as:attachment ?img .
+  BIND(EXISTS { ?img fkg:hasRegion ?rc . ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel } AS ?hasCam)
+  BIND(EXISTS { ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasConfidence ?ca .
+                FILTER(?ca >= 0.7) } AS ?hasReliableAI)
+  BIND(EXISTS {
+         ?img ctx:inCluster ?cl ; fkg:hasRegion ?r1 . ?r1 fkg:produced_by ?c1 . ?c1 a fkg:CameraModel ; fkg:hasCameraModel ?model .
+         ?other as:attachment ?img2 ; as:published ?pub2 .
+         ?img2 ctx:inCluster ?cl ; fkg:hasRegion ?r2 . ?r2 fkg:produced_by ?c2 . ?c2 a fkg:CameraModel ; fkg:hasCameraModel ?model .
+         FILTER(?img2 != ?img && ?pub2 < ?start) } AS ?earlierCopy)
+  BIND(IF(!?hasCam && ?hasReliableAI, "synthetic",
+       IF(?hasCam && ?hasReliableAI, "manipulated",
+       IF(?hasCam && ?earlierCopy, "recycled_ooc", "no_problem_found"))) AS ?label)
+}
+ORDER BY ?post

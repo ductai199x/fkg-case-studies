@@ -1,0 +1,32 @@
+# Q2.4 (cs2) - hidden previous platform of every file uploaded to a pass-through platform.
+# Reasoning / data checks:
+# - Only FringeBoard has ctx:passthrough true; its own transcodeQuality (0.92) is irrelevant because it stores
+#   uploads byte-for-byte, so a FringeBoard file still carries the last re-encode it received elsewhere.
+# - Observed re-encode noise per platform (camera-region fkg:hasCompressionFactor on non-pass-through posts):
+#   MsgApp 0.693-0.707 (q 0.70), Chirp 0.812-0.828 (0.82), PicShare 0.843-0.858 (0.85), NewsWire 0.913-0.927
+#   (0.92), i.e. within +-0.008 of ctx:transcodeQuality. Match tolerance 0.015 keeps profiles separated.
+# - The file's compression factor is read from its camera (background) region - the bulk of the file; spliced
+#   edits carry a separately compressed AI patch.
+# - A platform matches when it is another, non-pass-through platform, the factor is within 0.015 of its
+#   transcodeQuality AND the measured ctx:pixelLongEdge does not exceed its maxLongEdge (a 4000 px file cannot
+#   have come out of a 1600 px platform). Nearest quality wins if several match (never happens here).
+# - Files that match no profile (fringe_editor uploads and pass-through copies of them, q~0.94-0.95: re-saved
+#   locally after editing) get "no_platform_match".
+SELECT DISTINCT ?post ?hiddenSource WHERE {
+  ?post as:attachment ?img ; ctx:onPlatform ?home .
+  ?home ctx:passthrough true .
+  ?img ctx:pixelLongEdge ?px ; fkg:hasRegion ?cr .
+  ?cr fkg:produced_by ?cs ; fkg:compress_by ?cc .
+  ?cs a fkg:CameraModel .
+  ?cc fkg:hasCompressionFactor ?q .
+  OPTIONAL {
+    ?plat a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?tq ; ctx:maxLongEdge ?maxEdge .
+    FILTER(?plat != ?home && ABS(?q - ?tq) <= 0.015 && ?px <= ?maxEdge)
+    FILTER NOT EXISTS {
+      ?plat2 a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?tq2 ; ctx:maxLongEdge ?maxEdge2 .
+      FILTER(?plat2 != ?home && ?plat2 != ?plat && ?px <= ?maxEdge2 && ABS(?q - ?tq2) < ABS(?q - ?tq))
+    }
+  }
+  BIND(COALESCE(?plat, "no_platform_match") AS ?hiddenSource)
+}
+ORDER BY ?post

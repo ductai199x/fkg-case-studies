@@ -1,0 +1,10 @@
+# 27: Control - posters of the True-rated claim: account age, image verdict; do any campaign-cohort accounts appear?
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?created ?content ?verdict WHERE {
+  GRAPH <https://example.org/cc/graph/factcheck> { ?rev schema:itemReviewed ?claim ; schema:reviewRating/schema:alternateName "True" . ?claim schema:appearance ?note }
+  GRAPH <https://example.org/cc/graph/platform> { ?note as:attributedTo ?a ; as:content ?content . ?a as:preferredUsername ?user ; as:published ?created }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img } GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion ?c . ?c fkg:verdict ?v . OPTIONAL { ?c fkg:manipulationType ?mt } } }
+  BIND(COALESCE(STRAFTER(STR(?mt),"#"), STRAFTER(STR(?v),"#"), "-") AS ?verdict)
+} ORDER BY ?created

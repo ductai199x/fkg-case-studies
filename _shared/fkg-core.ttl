@@ -1,0 +1,77 @@
+# FKG core TBox, transcribed from Nguyen & Stamm, arXiv:2606.23917v1, Appendix A (Tables 8-10),
+# using the IRIs and the record layer of Jane's example records (fkg: = https://example.org/fkg#).
+# This is a working transcription for the case studies, not Jane's fkg-ontology.ttl (not available here).
+@prefix fkg: <https://example.org/fkg#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://example.org/fkg> a owl:Ontology ;
+  rdfs:label "Forensic Knowledge Graph core (case-study transcription)" ;
+  dcterms:source <https://arxiv.org/abs/2606.23917> .
+
+# --- Table 8: classes ---
+fkg:Image a owl:Class ; rdfs:subClassOf prov:Entity .
+fkg:Region a owl:Class .
+fkg:Source a owl:Class .
+fkg:RealSource a owl:Class ; rdfs:subClassOf fkg:Source .
+fkg:SyntheticSource a owl:Class ; rdfs:subClassOf fkg:Source ; owl:disjointWith fkg:RealSource .  # Axiom 3
+fkg:CameraModel a owl:Class ; rdfs:subClassOf fkg:RealSource .
+fkg:AIGenerator a owl:Class ; rdfs:subClassOf fkg:SyntheticSource .
+fkg:PostProcessing a owl:Class .
+fkg:NoPostProc a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:Resampling a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:GaussianBlur a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:GaussianNoise a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:Sharpening a owl:Class ; rdfs:subClassOf fkg:PostProcessing .
+fkg:Parameter a owl:Class .
+fkg:Compression a owl:Class .
+fkg:Uncompressed a owl:Class ; rdfs:subClassOf fkg:Compression .
+fkg:LastCompressed a owl:Class ; rdfs:subClassOf fkg:Compression .
+fkg:ReCompressed a owl:Class ; rdfs:subClassOf fkg:Compression .
+fkg:Content a owl:Class .
+
+# --- Table 9: object properties ---
+fkg:contained_in a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Image .
+fkg:hasRegion a owl:ObjectProperty ; owl:inverseOf fkg:contained_in ; rdfs:domain fkg:Image ; rdfs:range fkg:Region .
+fkg:produced_by a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Source .  # Axiom 2
+fkg:modified_by a owl:ObjectProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:PostProcessing .
+fkg:compress_by a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Compression .
+fkg:depict a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain fkg:Region ; rdfs:range fkg:Content .
+fkg:hasParameter a owl:ObjectProperty ; rdfs:domain fkg:PostProcessing ; rdfs:range fkg:Parameter .
+fkg:hasNext a owl:ObjectProperty ; rdfs:domain fkg:PostProcessing ; rdfs:range fkg:PostProcessing .
+
+# --- Table 10: datatype properties ---
+fkg:hasConfidence a owl:DatatypeProperty ; rdfs:domain fkg:Source ; rdfs:range xsd:float .
+fkg:hasCameraModel a owl:DatatypeProperty ; rdfs:domain fkg:CameraModel ; rdfs:range xsd:string .
+fkg:hasGeneratorModel a owl:DatatypeProperty ; rdfs:domain fkg:AIGenerator ; rdfs:range xsd:string .
+fkg:hasParameterName a owl:DatatypeProperty ; rdfs:domain fkg:Parameter ; rdfs:range xsd:string .
+fkg:hasParameterValue a owl:DatatypeProperty ; rdfs:domain fkg:Parameter .
+fkg:hasCompressionAlgorithm a owl:DatatypeProperty ; rdfs:domain fkg:LastCompressed ; rdfs:range xsd:string .
+fkg:hasCompressionFactor a owl:DatatypeProperty ; rdfs:domain fkg:LastCompressed ; rdfs:range xsd:float .
+fkg:hasReCompressed a owl:DatatypeProperty ; rdfs:domain fkg:ReCompressed ; rdfs:range xsd:boolean .
+fkg:hasObjectedness a owl:DatatypeProperty ; rdfs:domain fkg:Content ; rdfs:range xsd:boolean .
+fkg:hasObjectDescription a owl:DatatypeProperty ; rdfs:domain fkg:Content ; rdfs:range xsd:string .
+
+# --- Record layer (from Jane's Example 1/2 records; definitions here are minimal) ---
+fkg:ForensicRecord a owl:Class ; rdfs:subClassOf prov:Entity .
+fkg:ForensicConclusion a owl:Class ; rdfs:subClassOf prov:Entity .
+fkg:ForensicObservation a owl:Class ; rdfs:subClassOf prov:Entity .
+fkg:EvidenceStatus a owl:Class .
+fkg:UserSupplied a fkg:EvidenceStatus .
+fkg:Inferred a fkg:EvidenceStatus .
+fkg:SourceReported a fkg:EvidenceStatus .
+fkg:Verdict a owl:Class .
+fkg:Authentic a fkg:Verdict .
+fkg:Manipulated a fkg:Verdict .
+fkg:Inconclusive a fkg:Verdict .
+fkg:aboutImage a owl:ObjectProperty ; rdfs:range fkg:Image .
+fkg:aboutRegion a owl:ObjectProperty ; rdfs:range fkg:Region .
+fkg:hasConclusion a owl:ObjectProperty ; rdfs:domain fkg:ForensicRecord ; rdfs:range fkg:ForensicConclusion .
+fkg:verdict a owl:ObjectProperty ; rdfs:range fkg:Verdict .
+fkg:evidenceStatus a owl:ObjectProperty ; rdfs:range fkg:EvidenceStatus .
+fkg:basedOnObservation a owl:ObjectProperty ; rdfs:range fkg:ForensicObservation .
+fkg:limitationNote a owl:DatatypeProperty ; rdfs:range xsd:string .

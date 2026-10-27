@@ -1,0 +1,7 @@
+# 11: Repost edges (reposter -> author) with min/max lag, for pairs where either account was created on or after 2026-09-01
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?ruser ?auser (COUNT(*) AS ?n) (MIN(?lag) AS ?minLag) (MAX(?lag) AS ?maxLag) WHERE { GRAPH <https://example.org/cc/graph/platform> {
+  ?ann a as:Announce ; as:actor ?r ; as:object ?note ; as:published ?tr . ?note as:attributedTo ?a ; as:published ?tn .
+  ?r as:preferredUsername ?ruser . ?a as:preferredUsername ?auser . ?r as:published ?rc . ?a as:published ?ac .
+  FILTER(?rc >= "2026-09-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> || ?ac >= "2026-09-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>)
+  BIND(?tr - ?tn AS ?lag) } } GROUP BY ?ruser ?auser ORDER BY ?auser

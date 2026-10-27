@@ -1,0 +1,85 @@
+# Q3.3  One presentation category per image post, by precedence:
+#   NoAlteration > DisclosedSynthetic > SatireOrArt > UndisclosedMaterialAlteration > UndisclosedPeripheralAlteration.
+# Reasoning (per post, over its attached images, flags via EXISTS so each post gets exactly one row):
+#  - AI-altered = some attached image has a RELIABLE AI region (>= 0.7, or 0.5-0.7 when heavily recompressed or
+#    corroborated by a near-duplicate). Otherwise ctx:NoAlteration (isolated moderate false positives do not count).
+#  - Disclosed = ctx:hasDisclosure on the post (platform label or caption disclosure) OR a content credential for an
+#    attached image whose digitalSourceType declares AI (trainedAlgorithmicMedia / compositeWithTrainedAlgorithmicMedia /
+#    other algorithmic or synthetic codes), regardless of signature validity - it is a disclosure to the viewer.
+#  - SatireOrArt = author account (as:attributedTo) has ctx:accountGenre ctx:SatireAccount or ctx:ArtAccount.
+#  - Material = a reliable AI region's content ctx:depictsEntity the entity that a claim on this post is schema:about.
+#  - everything else that is AI-altered = Peripheral.
+SELECT ?post ?category WHERE {
+  { SELECT DISTINCT ?post WHERE { ?post as:attachment ?anyImg . } }
+  BIND( EXISTS {
+          ?post as:attachment ?img .
+          ?img (fkg:hasRegion|^fkg:contained_in) ?rA .
+    ?rA fkg:produced_by ?srcA .
+    ?srcA a fkg:AIGenerator ; fkg:hasConfidence ?confA .
+    FILTER( ?confA >= "0.7"^^xsd:float
+         || ( ?confA >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clA . ?oA ctx:inCluster ?clA .
+          ?oA (fkg:hasRegion|^fkg:contained_in) ?orA .
+          ?orA fkg:produced_by ?osA .
+          ?osA a fkg:AIGenerator ; fkg:hasConfidence ?ocA .
+          FILTER(?oA != ?img && ?ocA >= "0.7"^^xsd:float)
+          ?rA fkg:depict ?ctA . ?orA fkg:depict ?octA .
+          { ?ctA fkg:hasObjectDescription ?dA . ?octA fkg:hasObjectDescription ?odA .
+            FILTER(LCASE(STR(?dA)) = LCASE(STR(?odA))) }
+          UNION
+          { ?ctA ctx:depictsEntity ?eA . ?octA ctx:depictsEntity ?eA . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kA .
+          { ?kA a fkg:ReCompressed } UNION { ?kA fkg:hasReCompressed true }
+          OPTIONAL { ?kA fkg:hasCompressionFactor ?fA }
+          FILTER(!BOUND(?fA) || ?fA <= "0.75"^^xsd:float)
+        } ) ) )
+        } AS ?isAltered )
+  BIND( EXISTS { ?post ctx:hasDisclosure ?disc . }
+        || EXISTS {
+             ?post as:attachment ?ccImg .
+             ?cc ctx:credentialFor ?ccImg ;
+                 ctx:digitalSourceType ?dst .
+             FILTER (CONTAINS(LCASE(STR(?dst)), "algorithmic") || CONTAINS(LCASE(STR(?dst)), "synthetic"))
+           } AS ?isDisclosed )
+  BIND( EXISTS {
+          ?post as:attributedTo ?acct .
+          ?acct ctx:accountGenre ?genre .
+          FILTER(?genre IN (ctx:SatireAccount, ctx:ArtAccount))
+        } AS ?isSatireArt )
+  BIND( EXISTS {
+          ?claim schema:appearance ?post ;
+                 schema:about ?entity .
+          ?post as:attachment ?img .
+          ?img (fkg:hasRegion|^fkg:contained_in) ?rM .
+    ?rM fkg:produced_by ?srcM .
+    ?srcM a fkg:AIGenerator ; fkg:hasConfidence ?confM .
+    FILTER( ?confM >= "0.7"^^xsd:float
+         || ( ?confM >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clM . ?oM ctx:inCluster ?clM .
+          ?oM (fkg:hasRegion|^fkg:contained_in) ?orM .
+          ?orM fkg:produced_by ?osM .
+          ?osM a fkg:AIGenerator ; fkg:hasConfidence ?ocM .
+          FILTER(?oM != ?img && ?ocM >= "0.7"^^xsd:float)
+          ?rM fkg:depict ?ctM . ?orM fkg:depict ?octM .
+          { ?ctM fkg:hasObjectDescription ?dM . ?octM fkg:hasObjectDescription ?odM .
+            FILTER(LCASE(STR(?dM)) = LCASE(STR(?odM))) }
+          UNION
+          { ?ctM ctx:depictsEntity ?eM . ?octM ctx:depictsEntity ?eM . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kM .
+          { ?kM a fkg:ReCompressed } UNION { ?kM fkg:hasReCompressed true }
+          OPTIONAL { ?kM fkg:hasCompressionFactor ?fM }
+          FILTER(!BOUND(?fM) || ?fM <= "0.75"^^xsd:float)
+        } ) ) )
+          ?rM fkg:depict/ctx:depictsEntity ?entity .
+        } AS ?isMaterial )
+  BIND( IF(!?isAltered, ctx:NoAlteration,
+          IF(?isDisclosed, ctx:DisclosedSynthetic,
+            IF(?isSatireArt, ctx:SatireOrArt,
+              IF(?isMaterial, ctx:UndisclosedMaterialAlteration, ctx:UndisclosedPeripheralAlteration)))) AS ?category )
+}

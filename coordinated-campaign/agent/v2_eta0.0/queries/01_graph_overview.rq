@@ -1,0 +1,2 @@
+# 01: Overview - count triples per named graph and the default-graph description
+SELECT ?g (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?g

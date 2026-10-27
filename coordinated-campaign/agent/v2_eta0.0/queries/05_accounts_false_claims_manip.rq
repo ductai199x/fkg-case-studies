@@ -1,0 +1,10 @@
+# 05: Per account: number of notes matched to False-rated claims, how many of those carry an image the FKG judges Manipulated, and total notes
+PREFIX schema: <https://schema.org/>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?a (COUNT(DISTINCT ?note) AS ?falseNotes) (COUNT(DISTINCT ?mnote) AS ?falseManipNotes) (COUNT(DISTINCT ?claim) AS ?nClaims) WHERE {
+ GRAPH <https://example.org/cc/graph/factcheck> { ?rev schema:itemReviewed ?claim ; schema:reviewRating/schema:ratingValue ?v . FILTER(?v <= 2) ?claim schema:appearance ?note }
+ GRAPH <https://example.org/cc/graph/platform> { ?note as:attributedTo ?a }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img }
+   GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:verdict fkg:Manipulated } BIND(?note AS ?mnote) }
+} GROUP BY ?a ORDER BY DESC(?falseManipNotes) DESC(?falseNotes)

@@ -1,0 +1,11 @@
+# 15: Resampling->GaussianBlur(->GaussianNoise) parameter values per poster (to test whether campaign images share a tight parameter fingerprint vs. ordinary users' images)
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?user ?created ?scale ?blur ?noise (SUBSTR(STR(?txt),1,40) AS ?text) WHERE {
+  GRAPH <https://example.org/cc/graph/forensics> {
+    ?r fkg:contained_in ?img ; fkg:produced_by ?s ; fkg:modified_by ?o1 . ?s a fkg:AIGenerator .
+    ?o1 a fkg:Resampling ; fkg:hasParameter/fkg:hasParameterValue ?scale ; fkg:hasNext ?o2 . ?o2 a fkg:GaussianBlur ; fkg:hasParameter/fkg:hasParameterValue ?blur .
+    OPTIONAL { ?o2 fkg:hasNext ?o3 . ?o3 a fkg:GaussianNoise ; fkg:hasParameter/fkg:hasParameterValue ?noise }
+  }
+  GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img ; as:attributedTo ?a ; as:content ?txt . ?a as:preferredUsername ?user ; as:published ?created }
+} ORDER BY ?created

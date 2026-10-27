@@ -1,0 +1,12 @@
+# 08: parameter values on the two most common multi-step chains (Resampling>Blur>Noise and Resampling>Sharpening), with generator and region count
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?img ?gen ?conf ?t1 ?v1 ?t2 ?v2 ?t3 ?v3 WHERE {
+  GRAPH <https://example.org/cc/graph/forensics> {
+    ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s fkg:hasConfidence ?conf . OPTIONAL { ?s fkg:hasGeneratorModel ?gen }
+    ?r fkg:modified_by ?o1 . ?o1 a fkg:Resampling ; fkg:hasParameter/fkg:hasParameterValue ?v1 . FILTER NOT EXISTS { ?px fkg:hasNext ?o1 }
+    ?o1 fkg:hasNext ?o2 . ?o2 a ?t2c ; fkg:hasParameter/fkg:hasParameterValue ?v2 .
+    OPTIONAL { ?o2 fkg:hasNext ?o3 . ?o3 a ?t3c ; fkg:hasParameter/fkg:hasParameterValue ?v3 . }
+    BIND("Resampling" AS ?t1) BIND(STRAFTER(STR(?t2c),"#") AS ?t2) BIND(STRAFTER(STR(?t3c),"#") AS ?t3)
+    FILTER(?t2c IN (fkg:GaussianBlur, fkg:Sharpening))
+  }
+} ORDER BY ?t2 ?t3 ?v1

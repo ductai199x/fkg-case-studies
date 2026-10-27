@@ -1,0 +1,9 @@
+# 17: Detail of the single signature-like image of older accounts (mellow_fox648, brave_patriot493, wild_ranger624, sunny_willow249): post text, chain, params, time
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?user ?t ?content ?type ?v ?src WHERE {
+  VALUES ?user { "mellow_fox648" "brave_patriot493" "wild_ranger624" "sunny_willow249" }
+  GRAPH <https://example.org/cc/graph/platform> { ?a as:preferredUsername ?user . ?note as:attributedTo ?a ; as:attachment ?img ; as:published ?t ; as:content ?content }
+  GRAPH <https://example.org/cc/graph/forensics> { ?r fkg:contained_in ?img ; fkg:modified_by ?op ; fkg:produced_by ?s . ?op a ?tt . OPTIONAL { ?op fkg:hasParameter/fkg:hasParameterValue ?v } OPTIONAL { ?s fkg:hasGeneratorModel|fkg:hasCameraModel ?src } }
+  FILTER(?tt != fkg:NoPostProc) BIND(STRAFTER(STR(?tt),"#") AS ?type)
+} ORDER BY ?user ?t

@@ -1,0 +1,10 @@
+# 18: Second tight fingerprint cluster (Sharpening+Resampling, 2 ops, GPT-Image regions): posting accounts, creation date, texts, claim matches, reposts among them
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?a ?created ?content (COUNT(DISTINCT ?n) AS ?nNotes) (SAMPLE(?rating) AS ?anyRating) WHERE {
+ GRAPH <https://example.org/cc/graph/forensics> { ?img fkg:hasRegion ?rg . ?rg fkg:modified_by ?o1, ?o2 . ?o1 a fkg:Sharpening . ?o2 a fkg:Resampling .
+   ?o1 fkg:hasParameter/fkg:hasParameterValue ?sv . ?o2 fkg:hasParameter/fkg:hasParameterValue ?rv . FILTER(?sv > 0.7 && ?sv < 0.9 && ?rv > 0.4 && ?rv < 0.6) }
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img ; as:attributedTo ?a ; as:content ?content . ?a as:published ?created }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n . ?rev schema:itemReviewed ?cl ; schema:reviewRating/schema:alternateName ?rating } }
+} GROUP BY ?a ?created ?content ORDER BY ?a

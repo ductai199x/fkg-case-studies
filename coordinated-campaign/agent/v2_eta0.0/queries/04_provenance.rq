@@ -1,0 +1,2 @@
+# 04: List provenance derivation links
+SELECT ?a ?b WHERE { GRAPH <https://example.org/cc/graph/provenance> { ?a <http://www.w3.org/ns/prov#wasDerivedFrom> ?b } }

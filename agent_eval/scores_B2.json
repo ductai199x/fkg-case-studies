@@ -1,0 +1,134 @@
+{
+ "B2": {
+  "Q1.1": {
+   "primary": 0.917,
+   "detail": {
+    "tp": 22,
+    "fp": 1,
+    "fn": 3,
+    "precision": 0.957,
+    "recall": 0.88,
+    "f1": 0.917
+   },
+   "seconds": 0.09
+  },
+  "Q1.2": {
+   "primary": 0.978,
+   "detail": {
+    "tp": 22,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.957,
+    "recall": 1.0,
+    "f1": 0.978
+   },
+   "seconds": 0.09
+  },
+  "Q1.3": {
+   "primary": 0.926,
+   "detail": {
+    "accuracy": 0.933,
+    "macro_f1": 0.926
+   },
+   "seconds": 0.21
+  },
+  "Q2.1": {
+   "primary": 0.857,
+   "detail": {
+    "tp": 6,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.75,
+    "recall": 1.0,
+    "f1": 0.857
+   },
+   "seconds": 0.06
+  },
+  "Q2.2": {
+   "primary": 1.0,
+   "detail": {
+    "same_variant_parent": 1.0,
+    "exact_parent": 0.365,
+    "rows": 233
+   },
+   "seconds": 40.44
+  },
+  "Q2.3": {
+   "primary": 0.833,
+   "detail": {
+    "tp": 10,
+    "fp": 4,
+    "fn": 0,
+    "precision": 0.714,
+    "recall": 1.0,
+    "f1": 0.833
+   },
+   "seconds": 0.17
+  },
+  "Q2.4": {
+   "primary": 1.0,
+   "detail": {
+    "correct": 50,
+    "of": 50
+   },
+   "seconds": 0.01
+  },
+  "Q3.1": {
+   "primary": 0.954,
+   "detail": {
+    "tp": 31,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.912,
+    "f1": 0.954,
+    "p_at_10": 1.0
+   },
+   "seconds": 0.01
+  },
+  "Q3.2": {
+   "primary": 1.0,
+   "detail": {
+    "tp": 8,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "seconds": 0.02
+  },
+  "Q3.3": {
+   "primary": 0.957,
+   "detail": {
+    "accuracy": 0.961,
+    "macro_f1": 0.957
+   },
+   "seconds": 0.15
+  },
+  "Q3.4": {
+   "primary": 1.0,
+   "detail": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "seconds": 0.01
+  },
+  "Q3.5": {
+   "primary": 1.0,
+   "detail": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "seconds": 0.0
+  }
+ }
+}

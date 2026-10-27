@@ -1,0 +1,44 @@
+# Q2.1 (cs2) - first carrier (post + account) of each distinct AI insertion per near-duplicate cluster.
+# Reasoning / data checks:
+# - Each of the 8 clusters starts with one NewsOutlet original on NewsWire; copies spread across 5 platforms.
+# - An insertion is identified by (object description, generator model) inside the cluster: in the data every
+#   copy of an inserted region keeps the same description, generator and (mostly) confidence; heavy re-encoding
+#   on MsgApp (q~0.70) lowers it (e.g. 0.865 -> 0.665, 0.948 -> 0.748), so carriers are matched at any
+#   confidence, but the insertion itself must be reliable somewhere (max confidence >= 0.7 over its carriers).
+# - "Do not report the cluster's original if it is unaltered": two outlet originals (cluster_1, cluster_5) show a
+#   0.72 "sky" AI region that no later copy of the photo carries. A real region in the original would be
+#   inherited by every copy, so this is the documented isolated false-positive pattern; an AI region that sits
+#   only on the cluster's earliest instance and on no other instance is therefore excluded. (Corroborated: both
+#   "sky" hits have fkg:hasObjectedness false, the signature of the stray hits in cs1/cs3; every inherited
+#   insertion depicts an object.)
+# - First carrier = carrier post with the minimum as:published within the cluster (no ties in the data).
+#   Results are the fringe_editor accounts on FringeBoard (re-saved locally at q~0.95). Open world: "first
+#   known carrier" in the crawl.
+SELECT DISTINCT ?cluster ?post ?account WHERE {
+  {
+    SELECT ?cluster ?desc ?gen (MIN(?pub) AS ?firstPub) WHERE {
+      ?img ctx:inCluster ?cluster ; fkg:hasRegion ?r .
+      ?r fkg:produced_by ?s ; fkg:depict ?d .
+      ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen ; fkg:hasConfidence ?conf .
+      ?d fkg:hasObjectDescription ?desc .
+      ?p as:attachment ?img ; as:published ?pub .
+    }
+    GROUP BY ?cluster ?desc ?gen
+    HAVING (MAX(?conf) >= 0.7)
+  }
+  ?firstImg ctx:inCluster ?cluster ; fkg:hasRegion ?fr .
+  ?fr fkg:produced_by ?fs ; fkg:depict ?fd .
+  ?fs a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+  ?fd fkg:hasObjectDescription ?desc .
+  ?post as:attachment ?firstImg ; as:published ?firstPub ; as:attributedTo ?account .
+  # exclude an isolated region that exists only on the cluster's original instance
+  FILTER NOT EXISTS {
+    FILTER NOT EXISTS { ?e ctx:inCluster ?cluster . ?eP as:attachment ?e ; as:published ?epub . FILTER(?epub < ?firstPub) }
+    FILTER NOT EXISTS {
+      ?o ctx:inCluster ?cluster ; fkg:hasRegion ?or . FILTER(?o != ?firstImg)
+      ?or fkg:produced_by ?os ; fkg:depict ?od . ?os a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+      ?od fkg:hasObjectDescription ?desc .
+    }
+  }
+}
+ORDER BY ?cluster ?post

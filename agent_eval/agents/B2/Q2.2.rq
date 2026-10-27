@@ -1,0 +1,98 @@
+# Q2.2 (cs2) - reconstruct the spread tree inside each near-duplicate cluster (child image -> parent image).
+# Reasoning / data checks (all via SPARQL exploration):
+# - Every cluster has exactly one NewsOutlet original on NewsWire (4000 px, q~0.92, not recompressed); it is the
+#   root and gets no row. All other instances are candidates to be children of an EARLIER instance of the
+#   same cluster (cluster membership is undirected, so direction comes from as:published).
+# - Platform physics (reference profiles, checked against observed values): non-pass-through platforms re-encode
+#   to their quality (observed noise <= +-0.008: msg 0.693-0.707, chirp 0.812-0.828, picshare 0.843-0.858,
+#   newswire 0.913-0.927) and downscale to maxLongEdge. The detector records the downscale as fkg:Resampling with a
+#   scaleFactor parameter, and in the data child_px / scaleFactor always lands on an existing parent size
+#   (1280/0.32=4000, 1600/0.781=2048, 1280/0.8=1600, ...). Hard constraints used:
+#     * resampled child: |parent_px - child_px/scaleFactor| <= 3 ; non-resampled child: parent_px = child_px
+#     * pass-through (FringeBoard) child stores the parent's bytes: same px and a camera-region compression factor
+#       in the same platform profile - except when the child is the one that introduced an insertion (the fringe_editor accounts
+#       re-save locally at q~0.94-0.95, which matches no platform).
+#     * insertion inheritance: the child carries every genuine AI insertion of the parent, and the parent carries
+#       every genuine insertion of the child unless the child is that insertion's first carrier in the cluster.
+#   An insertion is identified by (object description, generator model) within the cluster (consistent across
+#   copies in the data); "genuine" = some carrier has confidence >= 0.7 (copies through msg drop to ~0.66-0.75 but
+#   are still matched as the same insertion) and it is not an isolated region found only on the cluster's
+#   original (the 0.72 "sky" regions on two outlet originals are never inherited by any copy -> known isolated
+#   false-positive pattern; treating them as real would make every copy of those clusters inconsistent).
+# - These constraints leave 1 compatible parent for ~50 children and several for the rest (identical profiles
+#   are indistinguishable). Tie-break: the EARLIEST compatible instance. Rationale: in the uniquely determined
+#   cases the cluster original is chosen far more often than chance (6-7 direct children per cluster, all
+#   through the lifetime of the cascade) and copies-of-copies are not biased toward the most recent instance, so
+#   the earliest compatible (original first, then the longest-circulating copy) is the best single guess.
+SELECT DISTINCT ?child ?parent WHERE {
+  {
+    SELECT ?child (MIN(?ppub) AS ?bestPub) WHERE {
+      ?cPost as:attachment ?child ; as:published ?cpub ; ctx:onPlatform ?cPlat .
+      ?cPlat ctx:passthrough ?cPass .
+      ?child ctx:inCluster ?cl ; ctx:pixelLongEdge ?cpx ; fkg:hasRegion ?cCamR .
+      ?cCamR fkg:produced_by ?cCamS ; fkg:compress_by ?cCmp . ?cCamS a fkg:CameraModel . ?cCmp fkg:hasCompressionFactor ?cq .
+      ?pPost as:attachment ?parent ; as:published ?ppub .
+      ?parent ctx:inCluster ?cl ; ctx:pixelLongEdge ?ppx ; fkg:hasRegion ?pCamR .
+      ?pCamR fkg:produced_by ?pCamS ; fkg:compress_by ?pCmp . ?pCamS a fkg:CameraModel . ?pCmp fkg:hasCompressionFactor ?pq .
+      FILTER(?ppub < ?cpub)
+      # --- resolution / resampling ---
+      OPTIONAL { ?child fkg:hasRegion ?rsR . ?rsR fkg:modified_by ?rsM . ?rsM a fkg:Resampling ; fkg:hasParameter ?rsP .
+                 ?rsP fkg:hasParameterName "scaleFactor" ; fkg:hasParameterValue ?scale }
+      FILTER( IF(BOUND(?scale), ABS(?ppx - ?cpx / ?scale) <= 3, ?ppx = ?cpx) )
+      # --- does the child introduce a new genuine insertion (is it a first carrier)? ---
+      BIND(EXISTS {
+        ?child fkg:hasRegion ?nR . ?nR fkg:produced_by ?nS ; fkg:depict ?nD .
+        ?nS a fkg:AIGenerator ; fkg:hasGeneratorModel ?nGen . ?nD fkg:hasObjectDescription ?nDesc .
+        FILTER NOT EXISTS {
+          ?e ctx:inCluster ?cl ; fkg:hasRegion ?eR . ?eR fkg:produced_by ?eS ; fkg:depict ?eD .
+          ?eS a fkg:AIGenerator ; fkg:hasGeneratorModel ?nGen . ?eD fkg:hasObjectDescription ?nDesc .
+          ?eP as:attachment ?e ; as:published ?epub . FILTER(?epub < ?cpub)
+        }
+        ?k ctx:inCluster ?cl ; fkg:hasRegion ?kR . ?kR fkg:produced_by ?kS ; fkg:depict ?kD .
+        ?kS a fkg:AIGenerator ; fkg:hasGeneratorModel ?nGen ; fkg:hasConfidence ?kConf . ?kD fkg:hasObjectDescription ?nDesc .
+        FILTER(?kConf >= 0.7)
+      } AS ?introduces)
+      # --- pass-through child = same bytes as parent (unless it is the editing step) ---
+      #     (same bytes = both compression factors fall in the same platform profile, +-0.015 of its transcodeQuality,
+      #      or both match no platform profile and lie within 0.015 of each other; comparing the two noisy values
+      #      directly would let a 0.843 picshare file pass as a copy of a 0.828 chirp file)
+      FILTER( !?cPass || ?introduces ||
+              EXISTS { ?qp ctx:passthrough false ; ctx:transcodeQuality ?qt .
+                       FILTER(ABS(?cq - ?qt) <= 0.015 && ABS(?pq - ?qt) <= 0.015) } ||
+              ( NOT EXISTS { ?qp2 ctx:passthrough false ; ctx:transcodeQuality ?qt2 . FILTER(ABS(?cq - ?qt2) <= 0.015) } &&
+                NOT EXISTS { ?qp3 ctx:passthrough false ; ctx:transcodeQuality ?qt3 . FILTER(ABS(?pq - ?qt3) <= 0.015) } &&
+                ABS(?pq - ?cq) <= 0.015 ) )
+      # --- every genuine insertion of the parent must be carried by the child ---
+      FILTER NOT EXISTS {
+        ?parent fkg:hasRegion ?gR . ?gR fkg:produced_by ?gS ; fkg:depict ?gD .
+        ?gS a fkg:AIGenerator ; fkg:hasGeneratorModel ?gGen . ?gD fkg:hasObjectDescription ?gDesc .
+        # genuine unless it is an isolated hit on the cluster original that no other instance carries
+        FILTER( EXISTS { ?z ctx:inCluster ?cl . ?zP as:attachment ?z ; as:published ?zpub . FILTER(?zpub < ?ppub) } ||
+                EXISTS { ?o ctx:inCluster ?cl ; fkg:hasRegion ?oR . FILTER(?o != ?parent)
+                         ?oR fkg:produced_by ?oS ; fkg:depict ?oD . ?oS a fkg:AIGenerator ; fkg:hasGeneratorModel ?gGen .
+                         ?oD fkg:hasObjectDescription ?gDesc . } )
+        FILTER NOT EXISTS {
+          ?child fkg:hasRegion ?hR . ?hR fkg:produced_by ?hS ; fkg:depict ?hD .
+          ?hS a fkg:AIGenerator ; fkg:hasGeneratorModel ?gGen . ?hD fkg:hasObjectDescription ?gDesc .
+        }
+      }
+      # --- every insertion of the child that already existed earlier must come from the parent ---
+      FILTER NOT EXISTS {
+        ?child fkg:hasRegion ?iR . ?iR fkg:produced_by ?iS ; fkg:depict ?iD .
+        ?iS a fkg:AIGenerator ; fkg:hasGeneratorModel ?iGen . ?iD fkg:hasObjectDescription ?iDesc .
+        ?f ctx:inCluster ?cl ; fkg:hasRegion ?fR . ?fR fkg:produced_by ?fS ; fkg:depict ?fD .
+        ?fS a fkg:AIGenerator ; fkg:hasGeneratorModel ?iGen . ?fD fkg:hasObjectDescription ?iDesc .
+        ?fP as:attachment ?f ; as:published ?fpub . FILTER(?fpub < ?cpub)
+        FILTER NOT EXISTS {
+          ?parent fkg:hasRegion ?jR . ?jR fkg:produced_by ?jS ; fkg:depict ?jD .
+          ?jS a fkg:AIGenerator ; fkg:hasGeneratorModel ?iGen . ?jD fkg:hasObjectDescription ?iDesc .
+        }
+      }
+    }
+    GROUP BY ?child
+  }
+  ?child ctx:inCluster ?cl2 .
+  ?parent ctx:inCluster ?cl2 .
+  ?bp as:attachment ?parent ; as:published ?bestPub .
+}
+ORDER BY ?child

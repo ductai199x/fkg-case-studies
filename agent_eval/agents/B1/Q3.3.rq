@@ -1,0 +1,33 @@
+# Q3.3 (cs3) One presentation category per image post (204 posts, one attachment each), by precedence:
+#   NoAlteration > DisclosedSynthetic > SatireOrArt > UndisclosedMaterialAlteration > UndisclosedPeripheralAlteration
+# Data checks / decisions:
+# - "Reliable AI region" = fkg:AIGenerator source with confidence >= 0.7 (org policy). img0094/0095/0096 (0.675/0.637/
+#   0.679, normal compression) -> ctx:NoAlteration. img0081-0083 carry a 0.73 "sky" region: above threshold, so by policy
+#   they count as (peripheral) alterations although 0.73 is at the "moderate" level where isolated false regions occur;
+#   flagged as borderline.
+# - Disclosure = any ctx:hasDisclosure (PlatformAILabel, CaptionAIDisclosure) or a content credential whose
+#   digitalSourceType is trainedAlgorithmicMedia / compositeWithTrainedAlgorithmicMedia. A digitalCapture credential is
+#   not a disclosure (it asserts the opposite).
+# - Satire/art: account ctx:accountGenre ctx:SatireAccount or ctx:ArtAccount.
+# - Material: a reliable AI region whose content ctx:depictsEntity equals the schema:about of the post's claim.
+#   Posts without a claim cannot be material, so undisclosed AI posts without a claim are peripheral.
+# - The v1.1 generator-ID known issue does not affect AI-vs-camera attribution, so v1.1 records are used as-is.
+SELECT DISTINCT ?post ?category WHERE {
+  ?post a as:Note ; as:attachment ?img .
+  ?img a fkg:Image .
+  OPTIONAL { ?post as:attributedTo ?acct }
+  BIND(EXISTS { ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasConfidence ?ca . FILTER(?ca >= 0.7) } AS ?reliableAI)
+  BIND(EXISTS { ?post ctx:hasDisclosure ?anyD } ||
+       EXISTS { ?cred ctx:credentialFor ?img ; ctx:digitalSourceType ?dst .
+                FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia)) } AS ?disclosed)
+  BIND(EXISTS { ?acct ctx:accountGenre ?g . FILTER(?g IN (ctx:SatireAccount, ctx:ArtAccount)) } AS ?satireArt)
+  BIND(EXISTS { ?claim schema:appearance ?post ; schema:about ?ent .
+                ?img fkg:hasRegion ?rm . ?rm fkg:produced_by ?sm ; fkg:depict ?cm .
+                ?sm a fkg:AIGenerator ; fkg:hasConfidence ?cmf . FILTER(?cmf >= 0.7)
+                ?cm ctx:depictsEntity ?ent } AS ?material)
+  BIND(IF(!?reliableAI, ctx:NoAlteration,
+       IF(?disclosed, ctx:DisclosedSynthetic,
+       IF(?satireArt, ctx:SatireOrArt,
+       IF(?material, ctx:UndisclosedMaterialAlteration, ctx:UndisclosedPeripheralAlteration)))) AS ?category)
+}
+ORDER BY ?post

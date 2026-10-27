@@ -1,0 +1,28 @@
+# Q3.2 (cs3) Posts whose image has a validly signed content credential contradicting the forensic evidence.
+# Data checks: 22 ctx:ContentCredential, all ctx:signatureValid true (filter kept anyway). A valid signature only
+# proves who signed the manifest, not that its assertions are true (evidenceStatus SourceReported).
+# Contradictions considered:
+# (1) How made:
+#     - iptc:digitalCapture, but the image has a reliable AI region (confidence >= 0.7)          -> img0184-0189
+#     - iptc:trainedAlgorithmicMedia (fully synthetic), but the image has a camera-model region   -> none in data
+#     - iptc:compositeWithTrainedAlgorithmicMedia, but no camera region or no reliable AI region  -> none in data
+# (2) Which device: the image has camera-model region(s) and none matches ctx:claimedCaptureDevice
+#     (img0190/img0191 claim "Nikon Z9"; forensics attribute Canon EOS R5 / Pixel 8).
+# Not counted: trainedAlgorithmicMedia credentials that also name a capture device on fully-AI images (no camera
+# evidence exists to contradict the device; the source type itself agrees with forensics).
+SELECT DISTINCT ?post WHERE {
+  ?post as:attachment ?img .
+  ?cred ctx:credentialFor ?img ; ctx:signatureValid true .
+  OPTIONAL { ?cred ctx:digitalSourceType ?dst }
+  OPTIONAL { ?cred ctx:claimedCaptureDevice ?dev }
+  BIND(EXISTS { ?img fkg:hasRegion ?ra . ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasConfidence ?ca . FILTER(?ca >= 0.7) } AS ?reliableAI)
+  BIND(EXISTS { ?img fkg:hasRegion ?rc . ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel } AS ?hasCam)
+  BIND(BOUND(?dev) && ?hasCam &&
+       NOT EXISTS { ?img fkg:hasRegion ?rd . ?rd fkg:produced_by ?sd . ?sd a fkg:CameraModel ; fkg:hasCameraModel ?devX . FILTER(LCASE(STR(?devX)) = LCASE(STR(?dev))) }
+       AS ?deviceMismatch)
+  BIND(( ?dst = iptc:digitalCapture && ?reliableAI ) ||
+       ( ?dst = iptc:trainedAlgorithmicMedia && ?hasCam ) ||
+       ( ?dst = iptc:compositeWithTrainedAlgorithmicMedia && !(?hasCam && ?reliableAI) ) AS ?sourceMismatch)
+  FILTER( COALESCE(?sourceMismatch, false) || ?deviceMismatch )
+}
+ORDER BY ?post

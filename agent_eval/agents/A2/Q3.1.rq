@@ -1,0 +1,45 @@
+# Q3.1 - fact-checking triage queue, most-shared first (cs3).
+# Reasoning: post carries a claim (schema:appearance), its image has a RELIABLE AI region (conf >= 0.7,
+# or 0.45-0.7 corroborated by the same content in another near-duplicate copy) whose depicted content is
+# ctx:depictsEntity the very entity the claim is schema:about; no ctx:hasDisclosure of any kind and no
+# content credential declaring AI (IPTC trainedAlgorithmicMedia / compositeWithTrainedAlgorithmicMedia /
+# algorithmicMedia / compositeSynthetic - counted as a disclosure whatever its signature status, since
+# "of any kind"); poster's account genre is neither ctx:SatireAccount nor ctx:ArtAccount.
+# Ordered by ctx:shareCount descending.
+SELECT DISTINCT ?post ?shares WHERE {
+  ?claim schema:appearance ?post ;
+         schema:about ?ent .
+  ?post as:attachment ?img .
+    ?img (fkg:hasRegion|^fkg:contained_in) ?r .
+    ?r fkg:produced_by ?s .
+    ?s a fkg:AIGenerator ;
+        fkg:hasConfidence ?c .
+    FILTER( xsd:double(STR(?c)) >= 0.7
+         || ( xsd:double(STR(?c)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_a . ?o_a ctx:inCluster ?k_a . FILTER(?o_a != ?img)
+                ?o_a (fkg:hasRegion|^fkg:contained_in) ?r2_a .
+                ?r2_a fkg:produced_by ?s2_a .
+                ?s2_a a fkg:AIGenerator ; fkg:hasConfidence ?c2_a .
+                FILTER(xsd:double(STR(?c2_a)) >= 0.45)
+                ?r fkg:depict ?d1_a . ?r2_a fkg:depict ?d2_a .
+                { ?d1_a fkg:hasObjectDescription ?t1_a . ?d2_a fkg:hasObjectDescription ?t2_a .
+                  FILTER(LCASE(STR(?t1_a)) = LCASE(STR(?t2_a))) }
+                UNION { ?d1_a ctx:depictsEntity ?e_a . ?d2_a ctx:depictsEntity ?e_a }
+              } ) )
+  ?r fkg:depict ?content .
+  ?content ctx:depictsEntity ?ent .
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?anyDisc }
+  FILTER NOT EXISTS {
+    ?post as:attachment ?imgD .
+    ?cc ctx:credentialFor ?imgD ;
+        ctx:digitalSourceType ?dst .
+    FILTER(?dst IN (iptc:trainedAlgorithmicMedia, iptc:compositeWithTrainedAlgorithmicMedia, iptc:algorithmicMedia, iptc:compositeSynthetic, iptc:compositeWithTrainedAlgorithmicMedia))
+  }
+  FILTER NOT EXISTS {
+    ?post as:attributedTo ?acct .
+    ?acct ctx:accountGenre ?genre .
+    FILTER(?genre IN (ctx:SatireAccount, ctx:ArtAccount))
+  }
+  OPTIONAL { ?post ctx:shareCount ?shares }
+}
+ORDER BY DESC(?shares)

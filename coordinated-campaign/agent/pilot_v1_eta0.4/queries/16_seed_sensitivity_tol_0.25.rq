@@ -1,0 +1,22 @@
+# 16: Sensitivity of seed criterion (query 14) to parameter tolerance = 0.25
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?created (COUNT(DISTINCT ?b) AS ?ttpPeers) WHERE {
+ { SELECT DISTINCT ?a ?b WHERE {
+   { SELECT ?ia ?ib (COUNT(DISTINCT ?ta) AS ?shared) WHERE {
+     GRAPH <https://example.org/cc/graph/forensics> {
+       ?ra fkg:contained_in ?ia ; fkg:modified_by ?oa . ?oa a ?ta ; fkg:hasParameter/fkg:hasParameterValue ?va .
+       ?rb fkg:contained_in ?ib ; fkg:modified_by ?ob . ?ob a ?ta ; fkg:hasParameter/fkg:hasParameterValue ?vb .
+       FILTER(?ia != ?ib && ABS(?va - ?vb) <= 0.25) } } GROUP BY ?ia ?ib }
+   FILTER(?shared >= 2)
+   GRAPH <https://example.org/cc/graph/platform> { ?na as:attributedTo ?a ; as:attachment ?ia . ?nb as:attributedTo ?b ; as:attachment ?ib . } FILTER(?a != ?b)
+   GRAPH <https://example.org/cc/graph/forensics> { ?reca fkg:aboutImage ?ia ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . ?recb fkg:aboutImage ?ib ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+   GRAPH <https://example.org/cc/graph/factcheck> { ?ca schema:appearance ?na . ?rva schema:itemReviewed ?ca ; schema:reviewRating ?rta . ?rta schema:ratingValue ?vA ; schema:worstRating ?wA . FILTER(?vA <= ?wA + 1)
+                                                   ?cb schema:appearance ?nb . ?rvb schema:itemReviewed ?cb ; schema:reviewRating ?rtb . ?rtb schema:ratingValue ?vB ; schema:worstRating ?wB . FILTER(?vB <= ?wB + 1) }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ia prov:wasDerivedFrom ?x } }
+   FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ib prov:wasDerivedFrom ?y } }
+ } }
+ GRAPH <https://example.org/cc/graph/platform> { ?a as:preferredUsername ?user ; as:published ?created }
+} GROUP BY ?user ?created HAVING (COUNT(DISTINCT ?b) >= 2) ORDER BY DESC(?ttpPeers)

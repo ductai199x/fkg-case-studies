@@ -1,0 +1,52 @@
+# Q3.1  Fact-checking triage queue (most shared first).
+# Reasoning: the post carries a claim (schema:Claim schema:appearance ?post) that is schema:about an entity, and the
+# attached image has a RELIABLE AI region (>= 0.7, or 0.5-0.7 when heavily recompressed or corroborated by a
+# near-duplicate) whose depicted content links (ctx:depictsEntity) to that very entity - i.e. the alteration is
+# material to the claim. Exclusions: any ctx:hasDisclosure on the post; any content credential for the image whose
+# digitalSourceType declares AI (trainedAlgorithmicMedia, compositeWithTrainedAlgorithmicMedia, or other
+# algorithmic/synthetic IPTC codes) - counted as disclosure regardless of signature validity, since the question asks
+# for no disclosure of any kind; posts whose author account is ctx:SatireAccount or ctx:ArtAccount.
+# ?shares is ctx:shareCount (optional; posts without a count sort last).
+SELECT DISTINCT ?post ?shares WHERE {
+  ?claim schema:appearance ?post ;
+         schema:about ?entity .
+  ?post as:attachment ?img .
+  ?img (fkg:hasRegion|^fkg:contained_in) ?rA .
+    ?rA fkg:produced_by ?srcA .
+    ?srcA a fkg:AIGenerator ; fkg:hasConfidence ?confA .
+    FILTER( ?confA >= "0.7"^^xsd:float
+         || ( ?confA >= "0.5"^^xsd:float
+              && ( EXISTS {
+          ?img ctx:inCluster ?clA . ?oA ctx:inCluster ?clA .
+          ?oA (fkg:hasRegion|^fkg:contained_in) ?orA .
+          ?orA fkg:produced_by ?osA .
+          ?osA a fkg:AIGenerator ; fkg:hasConfidence ?ocA .
+          FILTER(?oA != ?img && ?ocA >= "0.7"^^xsd:float)
+          ?rA fkg:depict ?ctA . ?orA fkg:depict ?octA .
+          { ?ctA fkg:hasObjectDescription ?dA . ?octA fkg:hasObjectDescription ?odA .
+            FILTER(LCASE(STR(?dA)) = LCASE(STR(?odA))) }
+          UNION
+          { ?ctA ctx:depictsEntity ?eA . ?octA ctx:depictsEntity ?eA . }
+        }
+                || EXISTS {
+          ?img (fkg:hasRegion|^fkg:contained_in)/fkg:compress_by ?kA .
+          { ?kA a fkg:ReCompressed } UNION { ?kA fkg:hasReCompressed true }
+          OPTIONAL { ?kA fkg:hasCompressionFactor ?fA }
+          FILTER(!BOUND(?fA) || ?fA <= "0.75"^^xsd:float)
+        } ) ) )
+  ?rA fkg:depict/ctx:depictsEntity ?entity .
+  FILTER NOT EXISTS { ?post ctx:hasDisclosure ?anyDisclosure }
+  FILTER NOT EXISTS {
+    ?post as:attachment ?ccImg .
+    ?cc ctx:credentialFor ?ccImg ;
+        ctx:digitalSourceType ?dst .
+    FILTER (CONTAINS(LCASE(STR(?dst)), "algorithmic") || CONTAINS(LCASE(STR(?dst)), "synthetic"))
+  }
+  FILTER NOT EXISTS {
+    ?post as:attributedTo ?acct .
+    ?acct ctx:accountGenre ?genre .
+    FILTER(?genre IN (ctx:SatireAccount, ctx:ArtAccount))
+  }
+  OPTIONAL { ?post ctx:shareCount ?shares }
+}
+ORDER BY DESC(?shares)

@@ -1,0 +1,8 @@
+# 21: Exact-duplicate post texts shared by >=2 accounts: how many accounts use each text, and how many of them were created within 60 days of their first post
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?content (COUNT(DISTINCT ?a) AS ?accounts) (COUNT(DISTINCT ?young) AS ?youngAccounts) WHERE {
+ GRAPH <https://example.org/cc/graph/platform> { ?n a as:Note ; as:attributedTo ?a ; as:content ?content . ?a as:published ?c }
+ { SELECT ?a (MIN(?t) AS ?first) WHERE { GRAPH <https://example.org/cc/graph/platform> { ?p as:attributedTo ?a ; as:published ?t } } GROUP BY ?a }
+ BIND(IF(?first - ?c <= "P60D"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>, ?a, ?u) AS ?young)
+ FILTER(CONTAINS(LCASE(STR(?content)), "brenner") || CONTAINS(LCASE(STR(?content)), "dam") || CONTAINS(LCASE(STR(?content)), "id") || CONTAINS(LCASE(STR(?content)), "mayor") || CONTAINS(LCASE(STR(?content)), "water") || CONTAINS(LCASE(STR(?content)), "flood"))
+} GROUP BY ?content HAVING (COUNT(DISTINCT ?a) >= 2) ORDER BY DESC(?youngAccounts)

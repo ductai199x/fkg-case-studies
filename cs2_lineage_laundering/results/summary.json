@@ -1,0 +1,112 @@
+{
+ "CQ2.1 patient zero (integrated, corroborated)": {
+  "recall_on_edits_that_spread": "3/3",
+  "post": {
+   "tp": 3,
+   "fp": 1,
+   "fn": 3,
+   "precision": 0.75,
+   "recall": 0.5,
+   "f1": 0.6
+  },
+  "account": {
+   "tp": 3,
+   "fp": 1,
+   "fn": 3,
+   "precision": 0.75,
+   "recall": 0.5,
+   "f1": 0.6
+  },
+  "seconds": 0.01
+ },
+ "Ablation: no corroboration": {
+  "recall_on_edits_that_spread": "3/3",
+  "post": {
+   "tp": 6,
+   "fp": 2,
+   "fn": 0,
+   "precision": 0.75,
+   "recall": 1.0,
+   "f1": 0.857
+  },
+  "account": {
+   "tp": 6,
+   "fp": 2,
+   "fn": 0,
+   "precision": 0.75,
+   "recall": 1.0,
+   "f1": 0.857
+  },
+  "seconds": 0.0
+ },
+ "Baseline: earliest post in cluster (context only)": {
+  "recall_on_edits_that_spread": "0/3",
+  "post": {
+   "tp": 0,
+   "fp": 8,
+   "fn": 6,
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0
+  },
+  "account": {
+   "tp": 0,
+   "fp": 8,
+   "fn": 6,
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0
+  },
+  "seconds": 0.0
+ },
+ "CQ2.2 lineage (FKG-constrained rule)": {
+  "instances": 233,
+  "exact_parent": 0.288,
+  "same_variant_parent": 1.0,
+  "no_parent_found": 0,
+  "seconds": 5.31,
+  "edit_steps": {
+   "tp": 6,
+   "fp": 1,
+   "fn": 0,
+   "precision": 0.857,
+   "recall": 1.0,
+   "f1": 0.923
+  }
+ },
+ "Baseline: lineage by timestamp only": {
+  "instances": 233,
+  "exact_parent": 0.176,
+  "same_variant_parent": 0.893,
+  "no_parent_found": 0,
+  "seconds": 10.74
+ },
+ "CQ2.3 laundering (integrated)": {
+  "tp": 10,
+  "fp": 0,
+  "fn": 0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "seconds": 0.01
+ },
+ "Baseline: all outlet-crediting posts": {
+  "tp": 10,
+  "fp": 63,
+  "fn": 0,
+  "precision": 0.137,
+  "recall": 1.0,
+  "f1": 0.241,
+  "seconds": 0.0
+ },
+ "CQ2.4 hidden platform hop (integrated)": {
+  "correct": 50,
+  "of": 50,
+  "seconds": 0.0
+ },
+ "Baseline: previous post's platform": {
+  "correct": 15,
+  "of": 50,
+  "seconds": 6.68
+ }
+}

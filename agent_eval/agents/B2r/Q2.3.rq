@@ -1,0 +1,33 @@
+# Q2.3 (cs2) - posts that credit a news outlet (ctx:creditsSource -> account with ctx:accountGenre ctx:NewsOutlet)
+# while showing a genuine AI insertion that the credited outlet never published.
+# Reasoning / checks:
+# - ctx:creditsSource is the poster's claim, not provenance; we test it against what the outlet actually posted.
+# - Genuine insertion = (cluster, generator model, depicted description) having an edit-master signature (AI region
+#   single-compressed while the camera region of the same file is ReCompressed); see Q2.1. This excludes the
+#   cluster_5 "fire / Midjourney v7" false positive (it appears on credited posts 0159/0160/0164/0165, one of them
+#   at 0.71 > 0.7, but its first carrier is a byte-identical pass-through copy of the outlet original, so it is a
+#   content-triggered detector artefact, not an insertion) and the single cluster_1 GPT-Image-1 "sky" (0.764).
+# - Copies of a genuine insertion are counted regardless of confidence (heavy MsgApp recompression lowers it).
+# - "Never published": no post attributed to the credited outlet carries an AI region with that generator and
+#   description (open world: only judged on the crawled outlet posts; all outlet posts are unaltered originals).
+SELECT DISTINCT ?post WHERE {
+  {
+    SELECT DISTINCT ?cluster ?gm ?desc WHERE {
+      ?m ctx:inCluster ?cluster ; fkg:hasRegion ?ra , ?rc .
+      ?ra fkg:produced_by ?sa . ?sa a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm .
+      ?ra fkg:depict/fkg:hasObjectDescription ?desc .
+      FILTER NOT EXISTS { ?ra fkg:compress_by ?ca . ?ca a fkg:ReCompressed }
+      ?rc fkg:produced_by ?sc . ?sc a fkg:CameraModel . ?rc fkg:compress_by ?cc . ?cc a fkg:ReCompressed .
+    }
+  }
+  ?post a as:Note ; ctx:creditsSource ?outlet ; as:attachment ?img .
+  ?outlet ctx:accountGenre ctx:NewsOutlet .
+  ?img ctx:inCluster ?cluster ; fkg:hasRegion ?r .
+  ?r fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm . ?r fkg:depict/fkg:hasObjectDescription ?desc .
+  FILTER NOT EXISTS {
+    ?opost as:attributedTo ?outlet ; as:attachment ?oimg .
+    ?oimg fkg:hasRegion ?or . ?or fkg:produced_by ?os . ?os a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm .
+    ?or fkg:depict/fkg:hasObjectDescription ?desc .
+  }
+}
+ORDER BY ?post

@@ -1,0 +1,25 @@
+# Q2.4 (cs2) Hidden upstream platform of files posted on pass-through platforms.
+# Reasoning / data checks:
+# - Only FringeBoard is ctx:passthrough true (56 posts). It stores the uploaded file byte-for-byte, so the file's last
+#   JPEG quality (fkg:hasCompressionFactor of the camera region) and pixel size are those of the platform the file last
+#   passed through.
+# - On non-pass-through platforms the measured compression factor deviates from ctx:transcodeQuality by at most
+#   +/-0.008 (checked per platform), and pixel long edge never exceeds ctx:maxLongEdge. Transcode qualities are 0.70,
+#   0.82, 0.85, 0.92 (>=0.03 apart), so a +/-0.01 window gives an unambiguous match.
+# - Profile match: other platform (not the post's own, not pass-through), |factor - transcodeQuality| <= 0.01 and
+#   pixelLongEdge <= maxLongEdge. Factor taken from the camera region (every image has one; AI insertion regions on
+#   edited files carry their own, different compression).
+# - Files saved by the "fringe_editor" accounts (factor ~0.94-0.955) and pass-through copies of them match no
+#   platform profile -> "no_platform_match" (they were re-encoded by an editing tool, not a platform).
+SELECT DISTINCT ?post ?hiddenSource WHERE {
+  ?post a as:Note ; ctx:onPlatform ?plat ; as:attachment ?img .
+  ?plat ctx:passthrough true .
+  ?img ctx:pixelLongEdge ?le ; fkg:hasRegion ?r .
+  ?r fkg:produced_by/a fkg:CameraModel ; fkg:compress_by/fkg:hasCompressionFactor ?cf .
+  OPTIONAL {
+    ?src a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?q ; ctx:maxLongEdge ?max .
+    FILTER(?src != ?plat && ABS(?cf - ?q) <= 0.01 && ?le <= ?max)
+  }
+  BIND(COALESCE(?src, "no_platform_match") AS ?hiddenSource)
+}
+ORDER BY ?post

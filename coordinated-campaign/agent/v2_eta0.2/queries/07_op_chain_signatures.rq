@@ -1,0 +1,13 @@
+# 07: ordered post-processing chain (op types, ordered by number of predecessors) per AI-generated region; count how common each chain+generator is
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?gen ?chain (COUNT(*) AS ?nRegions) WHERE {
+  { SELECT ?r ?gen (GROUP_CONCAT(?step; separator=" > ") AS ?chain) WHERE {
+      { SELECT ?r ?gen ?op ?t (COUNT(?prev) AS ?pos) WHERE {
+          GRAPH <https://example.org/cc/graph/forensics> {
+            ?r fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+            ?r fkg:modified_by ?op . ?op a ?t .
+            OPTIONAL { ?r fkg:modified_by ?prev . ?prev fkg:hasNext+ ?op }
+          } } GROUP BY ?r ?gen ?op ?t ORDER BY ?r ?pos }
+      BIND(CONCAT(STR(?pos), ":", STRAFTER(STR(?t), "#")) AS ?step)
+    } GROUP BY ?r ?gen }
+} GROUP BY ?gen ?chain ORDER BY DESC(?nRegions)

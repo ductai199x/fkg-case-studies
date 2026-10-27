@@ -1,0 +1,26 @@
+# amplifiers: second hop from the accounts flagged by the full query (bound through VALUES ?core)
+PREFIX fkg:    <https://example.org/fkg#>
+PREFIX as:     <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov:   <http://www.w3.org/ns/prov#>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX g:      <https://example.org/cc/graph/>
+
+SELECT ?account (COUNT(DISTINCT ?core) AS ?amplified) WHERE {
+  VALUES ?core { %CORE% }
+  GRAPH g:platform {
+    ?ann a as:Announce ; as:actor ?account ; as:object ?note .
+    ?note as:attributedTo ?core .
+    ?own as:attributedTo ?account .
+    ?account as:published ?created . ?burstPeer as:published ?peerCreated .
+  }
+  VALUES ?burstPeer { %CORE% }
+  FILTER(?account NOT IN (%CORE%))
+  FILTER(?created - ?peerCreated <= "P7D"^^xsd:dayTimeDuration && ?peerCreated - ?created <= "P7D"^^xsd:dayTimeDuration)
+  GRAPH g:factcheck {
+    ?claim schema:appearance ?own .
+    ?review schema:itemReviewed ?claim ; schema:reviewRating ?rating . ?rating schema:ratingValue ?score . FILTER(?score <= 2)
+  }
+}
+GROUP BY ?account
+HAVING (COUNT(DISTINCT ?core) >= 2)

@@ -1,0 +1,92 @@
+{
+ "cs1/data": {
+  "n": {
+   "tp": 32,
+   "fp": 3
+  },
+  "stump_balanced_acc": {
+   "objectness": 0.646,
+   "description": 0.828,
+   "recompressed": 0.583,
+   "post_ops": 0.693,
+   "conf_exact_value": 1.0,
+   "conf_bin_0.05": 0.969,
+   "q_exact": 1.0
+  }
+ },
+ "cs1/heldout": {
+  "n": {
+   "tp": 37,
+   "fp": 6
+  },
+  "stump_balanced_acc": {
+   "objectness": 0.905,
+   "description": 0.905,
+   "recompressed": 0.502,
+   "post_ops": 0.703,
+   "conf_exact_value": 0.905,
+   "conf_bin_0.05": 0.797,
+   "q_exact": 0.973
+  }
+ },
+ "cs2/data": {
+  "n": {
+   "tp": 27,
+   "fp": 7
+  },
+  "stump_balanced_acc": {
+   "objectness": 0.722,
+   "description": 0.743,
+   "recompressed": 0.558,
+   "post_ops": 0.558,
+   "conf_exact_value": 1.0,
+   "conf_bin_0.05": 0.963,
+   "q_exact": 0.944
+  }
+ },
+ "cs2/heldout": {
+  "n": {
+   "tp": 36,
+   "fp": 2
+  },
+  "stump_balanced_acc": {
+   "objectness": 1.0,
+   "description": 1.0,
+   "recompressed": 0.875,
+   "post_ops": 0.528,
+   "conf_exact_value": 1.0,
+   "conf_bin_0.05": 1.0,
+   "q_exact": 1.0
+  }
+ },
+ "cs3/data": {
+  "n": {
+   "tp": 109,
+   "fp": 3
+  },
+  "stump_balanced_acc": {
+   "objectness": 0.612,
+   "description": 0.922,
+   "recompressed": 0.665,
+   "post_ops": 0.5,
+   "conf_exact_value": 0.995,
+   "conf_bin_0.05": 0.739,
+   "q_exact": 0.5
+  }
+ },
+ "cs3/heldout": {
+  "n": {
+   "tp": 109,
+   "fp": 20
+  },
+  "stump_balanced_acc": {
+   "objectness": 1.0,
+   "description": 0.968,
+   "recompressed": 0.665,
+   "post_ops": 0.5,
+   "conf_exact_value": 1.0,
+   "conf_bin_0.05": 1.0,
+   "q_exact": 0.5
+  }
+ }
+}

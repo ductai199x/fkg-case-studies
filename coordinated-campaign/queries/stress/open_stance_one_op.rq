@@ -1,0 +1,39 @@
+# open_stance_one_op: open-world query with stance filter and the TTP match relaxed to one matching operation
+PREFIX fkg:    <https://example.org/fkg#>
+PREFIX as:     <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX prov:   <http://www.w3.org/ns/prov#>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX cc:     <https://example.org/cc/>
+PREFIX g:      <https://example.org/cc/graph/>
+
+SELECT ?account (COUNT(DISTINCT ?peer) AS ?peers) WHERE {
+  { SELECT DISTINCT ?account ?peer WHERE {
+  GRAPH g:platform {
+    ?n1 as:attributedTo ?account ; as:published ?t1 ; as:attachment ?i1 .
+    ?n2 as:attributedTo ?peer    ; as:published ?t2 ; as:attachment ?i2 .
+  }
+  FILTER(?account != ?peer)
+  { SELECT ?i1 ?i2 WHERE {
+      GRAPH g:forensics {
+        ?r1 fkg:contained_in ?i1 ; fkg:produced_by ?s1 . ?s1 a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+        ?r2 fkg:contained_in ?i2 ; fkg:produced_by ?s2 . ?s2 a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+        FILTER(?i1 != ?i2)
+        ?r1 fkg:modified_by ?o1 . ?o1 a ?op ; fkg:hasParameter ?p1 . ?p1 fkg:hasParameterName ?pn ; fkg:hasParameterValue ?v1 .
+        ?r2 fkg:modified_by ?o2 . ?o2 a ?op ; fkg:hasParameter ?p2 . ?p2 fkg:hasParameterName ?pn ; fkg:hasParameterValue ?v2 .
+        FILTER(ABS(?v1 - ?v2) <= 0.15 * ?v1)
+      } } GROUP BY ?i1 ?i2 HAVING (COUNT(DISTINCT ?op) >= 1) }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i1 prov:wasDerivedFrom ?src1 } }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i2 prov:wasDerivedFrom ?src2 } }
+  FILTER(?t2 - ?t1 <= "PT72H"^^xsd:dayTimeDuration && ?t1 - ?t2 <= "PT72H"^^xsd:dayTimeDuration)
+  GRAPH g:platform { ?m1 as:attributedTo ?account . ?m2 as:attributedTo ?peer . }
+  GRAPH g:factcheck {
+    ?claim schema:appearance ?m1 , ?m2 .
+    FILTER NOT EXISTS { ?review schema:itemReviewed ?claim ; schema:reviewRating ?rating . ?rating schema:ratingValue ?score . FILTER(?score >= 3) }
+    FILTER NOT EXISTS { ?m1 cc:stance cc:Refutes } FILTER NOT EXISTS { ?m2 cc:stance cc:Refutes }
+  }
+  } }
+}
+GROUP BY ?account
+HAVING (COUNT(DISTINCT ?peer) >= 2)
+ORDER BY DESC(?peers)

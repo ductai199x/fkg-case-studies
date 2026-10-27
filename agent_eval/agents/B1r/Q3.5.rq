@@ -1,0 +1,25 @@
+# Q3.5 (cs3) Fact-check reviews resting on forensic records that were produced by a detector version with a
+# published ctx:KnownIssue AND that actually contain the affected property.
+# Reasoning / checks against the data:
+# - One KnownIssue: affectsVersion detector 1.1, affectsProperty "https://example.org/fkg#hasGeneratorModel"
+#   (an xsd:anyURI literal, so it is compared with STR() of the predicate IRI).
+# - schema:ClaimReview -> schema:isBasedOn ?record ; ?record prov:wasGeneratedBy ?run ; ?run prov:wasAssociatedWith ?version.
+# - "Contains the affected property": a triple using that predicate occurs in the record's own named graph
+#   (urn:g:fkg/<image>), or (fallback) on a source node of a region of the record's image.
+#   13 records come from v1.1; 6 of them (img0199-0204) are camera-only and have no fkg:hasGeneratorModel, so a review
+#   on them would not be affected; reviews on v1.0 records are not affected either.
+SELECT DISTINCT ?review WHERE {
+  ?review a schema:ClaimReview ; schema:isBasedOn ?rec .
+  ?rec prov:wasGeneratedBy ?run .
+  ?run prov:wasAssociatedWith ?ver .
+  ?issue a ctx:KnownIssue ; ctx:affectsVersion ?ver ; ctx:affectsProperty ?prop .
+  {
+    GRAPH ?g { ?rec a fkg:ForensicRecord . }
+    GRAPH ?g { ?x ?p ?o . }
+  } UNION {
+    ?rec fkg:aboutImage ?img . ?r fkg:contained_in ?img ; fkg:produced_by ?s . ?s ?p ?o2 .
+  }
+  # (filter kept outside the UNION: inside a branch ?prop would be out of scope)
+  FILTER(STR(?p) = STR(?prop))
+}
+ORDER BY ?review

@@ -1,0 +1,36 @@
+# Q2.3 (cs2) Posts that credit a news outlet (ctx:creditsSource -> account with ctx:accountGenre ctx:NewsOutlet)
+# while their image carries an AI-generated insertion that the credited outlet never published.
+# Reasoning / checks against the data:
+# - Genuine insertions are identified as in Q2.1: (cluster, generator, description) of an AI region for which some
+#   copy shows the splice signature (AI region not fkg:ReCompressed, camera background fkg:ReCompressed, conf >= 0.7).
+#   Carriers are then matched at any confidence, because heavy MsgApp recompression lowers a genuine region's
+#   confidence below 0.7.
+# - This deliberately excludes the content-triggered false "Midjourney v7 / fire" region in cluster_5 (0.68-0.72):
+#   four posts crediting outlet1 carry it (p0159, p0160, p0164, p0165) but it is detector noise, not an insertion.
+# - "Credited outlet never published it": no post attributed to the credited account carries the same insertion
+#   (checked: outlets only post the clean originals, 2 posts each). Credits all point to the 4 outlet accounts.
+SELECT DISTINCT ?post WHERE {
+  {
+    SELECT DISTINCT ?cluster ?gm ?desc WHERE {
+      ?ai a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm ; fkg:hasConfidence ?conf .
+      ?r fkg:produced_by ?ai ; fkg:contained_in ?img ; fkg:depict ?d ; fkg:compress_by ?c .
+      ?d fkg:hasObjectDescription ?desc . ?img ctx:inCluster ?cluster .
+      FILTER(?conf >= 0.7)
+      FILTER NOT EXISTS { ?c a fkg:ReCompressed }
+      ?rc fkg:contained_in ?img ; fkg:produced_by ?cam ; fkg:compress_by ?cc .
+      ?cam a fkg:CameraModel . ?cc a fkg:ReCompressed .
+    }
+  }
+  ?ai2 a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm .
+  ?r2 fkg:produced_by ?ai2 ; fkg:contained_in ?img2 ; fkg:depict ?d2 .
+  ?d2 fkg:hasObjectDescription ?desc . ?img2 ctx:inCluster ?cluster .
+  ?post as:attachment ?img2 ; ctx:creditsSource ?outlet .
+  ?outlet ctx:accountGenre ctx:NewsOutlet .
+  FILTER NOT EXISTS {
+    ?op as:attributedTo ?outlet ; as:attachment ?oimg .
+    ?oimg ctx:inCluster ?cluster .
+    ?or fkg:contained_in ?oimg ; fkg:produced_by ?oai ; fkg:depict ?od .
+    ?oai a fkg:AIGenerator ; fkg:hasGeneratorModel ?gm . ?od fkg:hasObjectDescription ?desc .
+  }
+}
+ORDER BY ?post

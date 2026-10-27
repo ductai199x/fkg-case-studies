@@ -1,0 +1,10 @@
+# 13: Posts of the second TTP-sharing cluster (older accounts sharing a processing chain) -- are they pushing false claims?
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+PREFIX fkg: <https://example.org/fkg#>
+SELECT ?user ?created ?t ?content ?desc ?claim (COUNT(DISTINCT ?rp) AS ?repostsReceived) WHERE {
+ VALUES ?user { "daily_ember163" "sunny_atlas47" "quiet_cedar104" "local_cedar896" "rusty_atlas425" "rusty_atlas897" "quiet_atlas146" }
+ GRAPH <https://example.org/cc/graph/platform> { ?a as:preferredUsername ?user ; as:published ?created . ?n as:attributedTo ?a ; as:published ?t ; as:content ?content . OPTIONAL { ?n as:attachment ?i } OPTIONAL { ?rp a as:Announce ; as:object ?n } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/forensics> { ?i fkg:hasRegion/fkg:depict ?d . ?d fkg:hasObjectedness true ; fkg:hasObjectDescription ?desc } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n ; schema:text ?claim } }
+} GROUP BY ?user ?created ?t ?content ?desc ?claim ORDER BY ?user ?t

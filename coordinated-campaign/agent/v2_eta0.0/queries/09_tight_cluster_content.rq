@@ -1,0 +1,7 @@
+# 09: Content of notes whose image has a 3-op Noise+Blur+Resampling chain or 2-op Sharpening+Resampling chain (the two tight parameter clusters seen in 08)
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?a ?t ?content ?img WHERE {
+ GRAPH <https://example.org/cc/graph/forensics> { ?img fkg:hasRegion ?r . ?r fkg:modified_by ?o1 , ?o2 . ?o1 a fkg:GaussianNoise . ?o2 a fkg:GaussianBlur }
+ GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img ; as:attributedTo ?a ; as:published ?t ; as:content ?content }
+} ORDER BY ?t

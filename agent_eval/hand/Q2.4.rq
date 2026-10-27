@@ -1,0 +1,8 @@
+# CQ2.4 For posts on pass-through platforms (which store files unchanged), which platform did the file most
+# recently pass through? Match the camera region's last JPEG quality to the platforms' transcode profiles.
+SELECT ?post ?hiddenSource WHERE {
+  ?post ctx:onPlatform ?here ; as:attachment ?img . ?here ctx:passthrough true .
+  ?img fkg:hasRegion ?r . ?r fkg:produced_by/rdf:type fkg:CameraModel ; fkg:compress_by/fkg:hasCompressionFactor ?q .
+  OPTIONAL { ?src a ctx:Platform ; ctx:passthrough false ; ctx:transcodeQuality ?tq . FILTER(ABS(?q - ?tq) < 0.015) }
+  BIND(COALESCE(?src, "no_platform_match") AS ?hiddenSource)
+}

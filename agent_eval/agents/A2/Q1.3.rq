@@ -1,0 +1,55 @@
+# Q1.3 - one label per claim-bearing post (cs1).
+# Precedence: synthetic > manipulated > recycled_ooc > no_problem_found.
+# - synthetic: the image has a reliable AI region and no camera-sourced region (fully AI-generated).
+# - manipulated: camera image (has camera-sourced regions) with a reliable AI region.
+# - recycled_ooc: camera-authentic image (no reliable AI region) whose same photograph was published
+#   before the claimed event's start (same logic and cluster-merge guard as Q1.1).
+# - no_problem_found: everything else, including posts with no forensic record (open world: absence of
+#   evidence is not evidence of a problem).
+# "Reliable" = confidence >= 0.7, or 0.45-0.7 corroborated by the same content flagged as AI in another
+# member of the same near-duplicate cluster (recompression caveat). A post with several images gets the
+# most severe label across them (one row per post).
+SELECT ?post ?label WHERE {
+  {
+    SELECT ?post (MAX(?rank) AS ?best) WHERE {
+      { SELECT DISTINCT ?post WHERE { ?anyClaim schema:appearance ?post } }
+      OPTIONAL { ?post as:attachment ?img }
+      BIND(IF(BOUND(?img), EXISTS {
+    ?img (fkg:hasRegion|^fkg:contained_in) ?ar .
+    ?ar fkg:produced_by ?as .
+    ?as a fkg:AIGenerator ;
+        fkg:hasConfidence ?ac .
+    FILTER( xsd:double(STR(?ac)) >= 0.7
+         || ( xsd:double(STR(?ac)) >= 0.45 && EXISTS {
+                ?img ctx:inCluster ?k_r1 . ?o_r1 ctx:inCluster ?k_r1 . FILTER(?o_r1 != ?img)
+                ?o_r1 (fkg:hasRegion|^fkg:contained_in) ?r2_r1 .
+                ?r2_r1 fkg:produced_by ?s2_r1 .
+                ?s2_r1 a fkg:AIGenerator ; fkg:hasConfidence ?c2_r1 .
+                FILTER(xsd:double(STR(?c2_r1)) >= 0.45)
+                ?ar fkg:depict ?d1_r1 . ?r2_r1 fkg:depict ?d2_r1 .
+                { ?d1_r1 fkg:hasObjectDescription ?t1_r1 . ?d2_r1 fkg:hasObjectDescription ?t2_r1 .
+                  FILTER(LCASE(STR(?t1_r1)) = LCASE(STR(?t2_r1))) }
+                UNION { ?d1_r1 ctx:depictsEntity ?e_r1 . ?d2_r1 ctx:depictsEntity ?e_r1 }
+              } ) )
+      }, false) AS ?hasAI)
+      BIND(IF(BOUND(?img), EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by ?cam_c1 . ?cam_c1 a fkg:CameraModel }, false) AS ?hasCam)
+      BIND(IF(BOUND(?img) && ?hasCam && !?hasAI, EXISTS {
+        ?claimR schema:appearance ?post ; ctx:assertsDepictionOf ?evR .
+        ?evR schema:startDate ?stR .
+        BIND(IF(DATATYPE(?stR) = xsd:date,
+            xsd:dateTime(CONCAT(SUBSTR(STR(?stR), 1, 10), "T00:00:00Z")),
+            xsd:dateTime(STR(?stR))) AS ?stDTR)
+        ?img (ctx:inCluster/^ctx:inCluster)? ?imgR .
+        FILTER( NOT EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?ma_gr }
+         || NOT EXISTS { ?imgR (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mb_gr }
+         || EXISTS { ?img (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?mc_gr . ?imgR (fkg:hasRegion|^fkg:contained_in)/fkg:produced_by/fkg:hasCameraModel ?md_gr .
+                     FILTER(LCASE(STR(?mc_gr)) = LCASE(STR(?md_gr))) } )
+        ?postR as:attachment ?imgR ; as:published ?tR .
+        FILTER(?postR != ?post)
+        FILTER(COALESCE(xsd:dateTime(?tR) < ?stDTR, STR(?tR) < STR(?stDTR)))
+      }, false) AS ?recycled)
+      BIND(IF(?hasAI && !?hasCam, 4, IF(?hasAI, 3, IF(?recycled, 2, 1))) AS ?rank)
+    } GROUP BY ?post
+  }
+  BIND(IF(?best = 4, "synthetic", IF(?best = 3, "manipulated", IF(?best = 2, "recycled_ooc", "no_problem_found"))) AS ?label)
+}

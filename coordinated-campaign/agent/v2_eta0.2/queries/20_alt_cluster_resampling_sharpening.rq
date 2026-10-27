@@ -1,0 +1,9 @@
+# 20: alternative cluster check - accounts posting Resampling->Sharpening manipulated images: account age, posts of that type, False-claim matches, reposts in/out (is this a second disinformation op or something else?)
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?u ?created (COUNT(DISTINCT ?n) AS ?nSigPosts) (SAMPLE(SUBSTR(STR(?txt),1,40)) AS ?sampleText) (COUNT(DISTINCT ?fc) AS ?nFalseMatched) WHERE {
+  GRAPH <https://example.org/cc/graph/forensics> { ?r fkg:contained_in ?img ; fkg:modified_by ?o1 . ?o1 a fkg:Resampling ; fkg:hasNext ?o2 . ?o2 a fkg:Sharpening . FILTER NOT EXISTS { ?x fkg:hasNext ?o1 } }
+  GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img ; as:attributedTo ?a ; as:content ?txt . ?a as:preferredUsername ?u ; as:published ?created }
+  OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?fc schema:appearance ?n . ?rv schema:itemReviewed ?fc ; schema:reviewRating/schema:ratingValue ?v FILTER(?v <= 2) } }
+} GROUP BY ?u ?created ORDER BY DESC(?nSigPosts)

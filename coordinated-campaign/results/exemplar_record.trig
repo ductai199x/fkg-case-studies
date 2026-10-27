@@ -1,0 +1,147 @@
+@prefix as: <https://www.w3.org/ns/activitystreams#> .
+@prefix fkg: <https://example.org/fkg#> .
+@prefix g: <https://example.org/cc/graph/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+g:factcheck {
+    <https://example.org/cc/review/aa7d19be29> a schema:ClaimReview ;
+        schema:author <https://example.org/cc/agent/factcheck-desk> ;
+        schema:claimReviewed "The Brennerton dam was opened on purpose to flood the east side of the city." ;
+        schema:datePublished "2026-10-06"^^xsd:date ;
+        schema:itemReviewed <https://example.org/cc/claim/aa7d19be29> ;
+        schema:reviewRating <https://example.org/cc/rating/aa7d19be29> .
+
+    <https://example.org/cc/claim/aa7d19be29> a schema:Claim ;
+        schema:appearance <https://example.org/cc/note/n9724cb9b> ;
+        schema:text "The Brennerton dam was opened on purpose to flood the east side of the city." .
+
+    <https://example.org/cc/rating/aa7d19be29> a schema:Rating ;
+        schema:alternateName "False" ;
+        schema:bestRating 5 ;
+        schema:ratingValue 1 ;
+        schema:worstRating 1 .
+}
+
+g:platform {
+    <https://example.org/cc/activity/create-n9724cb9b> a as:Create ;
+        as:actor <https://example.org/cc/actor/u49438493> ;
+        as:object <https://example.org/cc/note/n9724cb9b> ;
+        as:published "2026-10-04T08:57:40+00:00"^^xsd:dateTime .
+
+    <https://example.org/cc/note/n9724cb9b> a as:Note ;
+        as:attachment <ni:///sha-256;p0BnMzWtBaIIqF_u6-WlwnPctvkedv9yFB3jbgRCgA0> ;
+        as:attributedTo <https://example.org/cc/actor/u49438493> ;
+        as:content "East Brennerton was flooded on purpose. The dam gates were opened at night."@en ;
+        as:published "2026-10-04T08:57:40+00:00"^^xsd:dateTime .
+}
+
+g:forensics {
+    <https://example.org/cc/record/a740673335ad> a fkg:ForensicRecord ;
+        prov:wasGeneratedBy <https://example.org/cc/analysis/a740673335ad> ;
+        fkg:aboutImage <ni:///sha-256;p0BnMzWtBaIIqF_u6-WlwnPctvkedv9yFB3jbgRCgA0> ;
+        fkg:hasConclusion <https://example.org/cc/conclusion/a740673335ad> .
+
+    <https://example.org/cc/analysis/a740673335ad> a prov:Activity ;
+        prov:used <ni:///sha-256;p0BnMzWtBaIIqF_u6-WlwnPctvkedv9yFB3jbgRCgA0> ;
+        prov:wasAssociatedWith <https://example.org/cc/agent/fkg-system> .
+
+    <https://example.org/cc/compression/a740673335ad-0> a fkg:ReCompressed ;
+        fkg:hasReCompressed true .
+
+    <https://example.org/cc/compression/a740673335ad-1> a fkg:ReCompressed ;
+        fkg:hasReCompressed true .
+
+    <https://example.org/cc/conclusion/a740673335ad> a fkg:ForensicConclusion ;
+        fkg:aboutImage <ni:///sha-256;p0BnMzWtBaIIqF_u6-WlwnPctvkedv9yFB3jbgRCgA0> ;
+        fkg:manipulationType fkg:AIEditing ;
+        fkg:verdict fkg:Manipulated .
+
+    <https://example.org/cc/content/a740673335ad-0> a fkg:Content ;
+        fkg:hasObjectDescription "background" ;
+        fkg:hasObjectedness false .
+
+    <https://example.org/cc/content/a740673335ad-1> a fkg:Content ;
+        fkg:hasObjectDescription "dam spillway" ;
+        fkg:hasObjectedness true .
+
+    <https://example.org/cc/op/a740673335ad-0-0> a fkg:Resampling ;
+        fkg:hasNext <https://example.org/cc/op/a740673335ad-0-1> ;
+        fkg:hasParameter <https://example.org/cc/param/a740673335ad-0-0> .
+
+    <https://example.org/cc/op/a740673335ad-1-0> a fkg:Resampling ;
+        fkg:hasNext <https://example.org/cc/op/a740673335ad-1-1> ;
+        fkg:hasParameter <https://example.org/cc/param/a740673335ad-1-0> .
+
+    <https://example.org/cc/param/a740673335ad-0-0> a fkg:Parameter ;
+        fkg:hasParameterName "scaleFactor" ;
+        fkg:hasParameterValue "0.797"^^xsd:float .
+
+    <https://example.org/cc/param/a740673335ad-0-1> a fkg:Parameter ;
+        fkg:hasParameterName "sigma" ;
+        fkg:hasParameterValue "0.589"^^xsd:float .
+
+    <https://example.org/cc/param/a740673335ad-0-2> a fkg:Parameter ;
+        fkg:hasParameterName "sigma" ;
+        fkg:hasParameterValue "1.235"^^xsd:float .
+
+    <https://example.org/cc/param/a740673335ad-1-0> a fkg:Parameter ;
+        fkg:hasParameterName "scaleFactor" ;
+        fkg:hasParameterValue "0.839"^^xsd:float .
+
+    <https://example.org/cc/param/a740673335ad-1-1> a fkg:Parameter ;
+        fkg:hasParameterName "sigma" ;
+        fkg:hasParameterValue "0.606"^^xsd:float .
+
+    <https://example.org/cc/param/a740673335ad-1-2> a fkg:Parameter ;
+        fkg:hasParameterName "sigma" ;
+        fkg:hasParameterValue "1.226"^^xsd:float .
+
+    <https://example.org/cc/region/a740673335ad-0> a fkg:Region ;
+        fkg:compress_by <https://example.org/cc/compression/a740673335ad-0> ;
+        fkg:contained_in <ni:///sha-256;p0BnMzWtBaIIqF_u6-WlwnPctvkedv9yFB3jbgRCgA0> ;
+        fkg:depict <https://example.org/cc/content/a740673335ad-0> ;
+        fkg:localizationStatus fkg:LocalizationNotProvided ;
+        fkg:modified_by <https://example.org/cc/op/a740673335ad-0-0>,
+            <https://example.org/cc/op/a740673335ad-0-1>,
+            <https://example.org/cc/op/a740673335ad-0-2> ;
+        fkg:produced_by <https://example.org/cc/source/a740673335ad-0> .
+
+    <https://example.org/cc/region/a740673335ad-1> a fkg:Region ;
+        fkg:compress_by <https://example.org/cc/compression/a740673335ad-1> ;
+        fkg:contained_in <ni:///sha-256;p0BnMzWtBaIIqF_u6-WlwnPctvkedv9yFB3jbgRCgA0> ;
+        fkg:depict <https://example.org/cc/content/a740673335ad-1> ;
+        fkg:localizationStatus fkg:LocalizationNotProvided ;
+        fkg:modified_by <https://example.org/cc/op/a740673335ad-1-0>,
+            <https://example.org/cc/op/a740673335ad-1-1>,
+            <https://example.org/cc/op/a740673335ad-1-2> ;
+        fkg:produced_by <https://example.org/cc/source/a740673335ad-1> .
+
+    <https://example.org/cc/source/a740673335ad-0> a fkg:CameraModel ;
+        fkg:hasCameraModel "Canon EOS R6" ;
+        fkg:hasConfidence "0.871"^^xsd:float .
+
+    <https://example.org/cc/source/a740673335ad-1> a fkg:AIGenerator ;
+        fkg:hasConfidence "0.891"^^xsd:float ;
+        fkg:hasGeneratorModel "FLUX.1 [dev]" .
+
+    <https://example.org/cc/op/a740673335ad-0-1> a fkg:GaussianBlur ;
+        fkg:hasNext <https://example.org/cc/op/a740673335ad-0-2> ;
+        fkg:hasParameter <https://example.org/cc/param/a740673335ad-0-1> .
+
+    <https://example.org/cc/op/a740673335ad-0-2> a fkg:GaussianNoise ;
+        fkg:hasParameter <https://example.org/cc/param/a740673335ad-0-2> .
+
+    <https://example.org/cc/op/a740673335ad-1-1> a fkg:GaussianBlur ;
+        fkg:hasNext <https://example.org/cc/op/a740673335ad-1-2> ;
+        fkg:hasParameter <https://example.org/cc/param/a740673335ad-1-1> .
+
+    <https://example.org/cc/op/a740673335ad-1-2> a fkg:GaussianNoise ;
+        fkg:hasParameter <https://example.org/cc/param/a740673335ad-1-2> .
+
+    <ni:///sha-256;p0BnMzWtBaIIqF_u6-WlwnPctvkedv9yFB3jbgRCgA0> a fkg:Image ;
+        fkg:hasRegion <https://example.org/cc/region/a740673335ad-0>,
+            <https://example.org/cc/region/a740673335ad-1> .
+}
+

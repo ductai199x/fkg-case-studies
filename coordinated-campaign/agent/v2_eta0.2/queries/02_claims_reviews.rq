@@ -1,0 +1,9 @@
+# 02: list fact-checked claims, rating, and number of matched post appearances
+PREFIX schema: <https://schema.org/>
+SELECT ?claim ?text ?ratingName ?v (COUNT(DISTINCT ?note) AS ?nApp) WHERE {
+  GRAPH <https://example.org/cc/graph/factcheck> {
+    ?claim a schema:Claim ; schema:text ?text .
+    OPTIONAL { ?claim schema:appearance ?note }
+    ?rev schema:itemReviewed ?claim ; schema:reviewRating ?r . ?r schema:alternateName ?ratingName ; schema:ratingValue ?v .
+  }
+} GROUP BY ?claim ?text ?ratingName ?v

@@ -1,0 +1,20 @@
+# 28: Sensitivity of the detector CORE criterion - per account, #own images with a TTP pair matched in false-claim posters' images, #partner accounts (no HAVING), plus account creation date
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?created (COUNT(DISTINCT ?img1) AS ?nImgs) (COUNT(DISTINCT ?a2) AS ?nPartners) WHERE {
+  GRAPH <https://example.org/cc/graph/factcheck> {
+    ?rv1 schema:itemReviewed ?c1 ; schema:reviewRating ?rt1 . ?rt1 schema:ratingValue ?v1 ; schema:bestRating ?b1 ; schema:worstRating ?w1 .
+    ?c1 schema:appearance ?fn1 . FILTER((?v1 - ?w1) <= 0.25 * (?b1 - ?w1)) }
+  GRAPH <https://example.org/cc/graph/platform> { ?fn1 as:attributedTo ?account . ?n1 as:attributedTo ?account ; as:attachment ?img1 . ?account as:preferredUsername ?user ; as:published ?created }
+  GRAPH <https://example.org/cc/graph/forensics> {
+    ?r1 fkg:contained_in ?img1 ; fkg:modified_by ?p1 . ?p1 fkg:hasNext ?q1 . ?p1 a ?tp . ?q1 a ?tq .
+    ?p1 fkg:hasParameter/fkg:hasParameterValue ?vp1 . ?q1 fkg:hasParameter/fkg:hasParameterValue ?vq1 .
+    ?r2 fkg:modified_by ?p2 . ?p2 a ?tp . ?p2 fkg:hasNext ?q2 . ?q2 a ?tq .
+    ?p2 fkg:hasParameter/fkg:hasParameterValue ?vp2 . ?q2 fkg:hasParameter/fkg:hasParameterValue ?vq2 .
+    ?r2 fkg:contained_in ?img2 .
+    FILTER(?tp != fkg:NoPostProc && ?tq != fkg:NoPostProc && ?img2 != ?img1 && ABS(?vp1 - ?vp2) <= 0.12 && ABS(?vq1 - ?vq2) <= 0.12) }
+  GRAPH <https://example.org/cc/graph/platform> { ?n2 as:attachment ?img2 ; as:attributedTo ?a2 . ?fn2 as:attributedTo ?a2 }
+  GRAPH <https://example.org/cc/graph/factcheck> { ?c2 schema:appearance ?fn2 . ?rv2 schema:itemReviewed ?c2 ; schema:reviewRating ?rt2 . ?rt2 schema:ratingValue ?v2 ; schema:bestRating ?b2 ; schema:worstRating ?w2 . FILTER((?v2 - ?w2) <= 0.25 * (?b2 - ?w2)) }
+  FILTER(?a2 != ?account)
+} GROUP BY ?user ?created ORDER BY DESC(?nImgs) DESC(?nPartners)

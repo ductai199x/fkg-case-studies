@@ -1,0 +1,20 @@
+# 12: TTP-sharing graph: for ORIGINAL (non-derived) manipulated images, count other accounts whose image shares >=2 post-processing op types with matching parameter estimates (|diff|<=0.15)
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?ua ?ca (COUNT(DISTINCT ?b) AS ?ttpPeers) (GROUP_CONCAT(DISTINCT ?ub; separator=",") AS ?peers) WHERE {
+ { SELECT DISTINCT ?a ?b WHERE {
+   { SELECT ?a ?b ?ia ?ib (COUNT(DISTINCT ?ta) AS ?shared) WHERE {
+     GRAPH <https://example.org/cc/graph/platform> { ?na as:attributedTo ?a ; as:attachment ?ia . ?nb as:attributedTo ?b ; as:attachment ?ib . }
+     FILTER(?a != ?b)
+     GRAPH <https://example.org/cc/graph/forensics> {
+       ?ra fkg:contained_in ?ia ; fkg:modified_by ?oa . ?oa a ?ta ; fkg:hasParameter/fkg:hasParameterValue ?va .
+       ?rb fkg:contained_in ?ib ; fkg:modified_by ?ob . ?ob a ?ta ; fkg:hasParameter/fkg:hasParameterValue ?vb .
+       FILTER(ABS(?va - ?vb) <= 0.15)
+       ?reca fkg:aboutImage ?ia ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . ?recb fkg:aboutImage ?ib ; fkg:hasConclusion/fkg:verdict fkg:Manipulated . }
+     FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ia prov:wasDerivedFrom ?x } }
+     FILTER NOT EXISTS { GRAPH <https://example.org/cc/graph/provenance> { ?ib prov:wasDerivedFrom ?y } }
+   } GROUP BY ?a ?b ?ia ?ib }
+   FILTER(?shared >= 2) } }
+ GRAPH <https://example.org/cc/graph/platform> { ?a as:preferredUsername ?ua ; as:published ?ca . ?b as:preferredUsername ?ub }
+} GROUP BY ?ua ?ca ORDER BY DESC(?ttpPeers)

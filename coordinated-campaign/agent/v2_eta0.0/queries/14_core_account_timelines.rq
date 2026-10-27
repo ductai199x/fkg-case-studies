@@ -1,0 +1,13 @@
+# 14: Full timelines of the 10 suspected core accounts: each note, attachment source (generator or camera), op count, verdict, claim rating
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?a ?t ?content ?src ?nops ?verdict ?rating WHERE {
+ VALUES ?a { <https://example.org/cc/actor/u02c0fa7a> <https://example.org/cc/actor/u3a69e2ca> <https://example.org/cc/actor/u49438493> <https://example.org/cc/actor/u518f2244> <https://example.org/cc/actor/u774e22af> <https://example.org/cc/actor/u7b5ad134> <https://example.org/cc/actor/uaf3bda6f> <https://example.org/cc/actor/ub2a3fa67> <https://example.org/cc/actor/uc876d8ef> <https://example.org/cc/actor/ud18fc9fb> }
+ GRAPH <https://example.org/cc/graph/platform> { ?n as:attributedTo ?a ; as:published ?t ; as:content ?content . }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?n as:attachment ?img }
+   { SELECT ?img ?verdict (GROUP_CONCAT(DISTINCT COALESCE(?gm,?cm); separator="|") AS ?src) (COUNT(DISTINCT ?op) AS ?nops) WHERE { GRAPH <https://example.org/cc/graph/forensics> {
+     ?rec fkg:aboutImage ?img ; fkg:hasConclusion/fkg:verdict ?verdict . ?img fkg:hasRegion ?r . ?r fkg:produced_by ?s . OPTIONAL { ?s fkg:hasGeneratorModel ?gm } OPTIONAL { ?s fkg:hasCameraModel ?cm }
+     OPTIONAL { ?r fkg:modified_by ?op . FILTER NOT EXISTS { ?op a fkg:NoPostProc } } } } GROUP BY ?img ?verdict } }
+ OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?n . ?rev schema:itemReviewed ?cl ; schema:reviewRating/schema:alternateName ?rating } }
+} ORDER BY ?a ?t

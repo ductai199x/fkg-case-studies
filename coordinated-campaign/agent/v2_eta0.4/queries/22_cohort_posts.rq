@@ -1,0 +1,12 @@
+# 22: All posts of accounts created within the newest-account burst (created >= 2026-09-01): text, image verdict, claim matched
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+PREFIX fkg: <https://example.org/fkg#>
+PREFIX schema: <https://schema.org/>
+SELECT ?user ?t ?content ?verdict ?claimShort WHERE {
+  GRAPH <https://example.org/cc/graph/platform> { ?a as:preferredUsername ?user ; as:published ?c . ?note as:attributedTo ?a ; as:published ?t ; as:content ?content . }
+  FILTER(?c >= "2026-09-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>)
+  OPTIONAL { GRAPH <https://example.org/cc/graph/platform> { ?note as:attachment ?img } GRAPH <https://example.org/cc/graph/forensics> { ?rec fkg:aboutImage ?img ; fkg:hasConclusion ?cc . ?cc fkg:verdict ?v . OPTIONAL { ?cc fkg:manipulationType ?mt } } }
+  BIND(COALESCE(STRAFTER(STR(?mt),"#"), STRAFTER(STR(?v),"#"), "-") AS ?verdict)
+  OPTIONAL { GRAPH <https://example.org/cc/graph/factcheck> { ?cl schema:appearance ?note ; schema:text ?ct } }
+  BIND(SUBSTR(COALESCE(?ct,""),1,22) AS ?claimShort)
+} ORDER BY ?user ?t

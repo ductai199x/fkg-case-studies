@@ -1,0 +1,7 @@
+# 10: Account profile stats for all accounts: creation date, number of notes, first/last note time, reposts made
+PREFIX as: <https://www.w3.org/ns/activitystreams#>
+SELECT ?a ?user ?created ?posts ?first ?last ?reposts WHERE { GRAPH <https://example.org/cc/graph/platform> {
+ ?a a as:Person ; as:preferredUsername ?user ; as:published ?created .
+ { SELECT ?a (COUNT(?n) AS ?posts) (MIN(?t) AS ?first) (MAX(?t) AS ?last) WHERE { ?n a as:Note ; as:attributedTo ?a ; as:published ?t } GROUP BY ?a }
+ OPTIONAL { SELECT ?a (COUNT(?ann) AS ?reposts) WHERE { ?ann a as:Announce ; as:actor ?a } GROUP BY ?a }
+} } ORDER BY DESC(?created)
