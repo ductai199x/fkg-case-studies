@@ -1,0 +1,1 @@
+SELECT ?account ?created WHERE { GRAPH g:platform { ?account a as:Person ; as:published ?created } }

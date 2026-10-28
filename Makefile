@@ -1,6 +1,6 @@
 # Reproduce every result in the report. Each target regenerates its synthetic world from a fixed seed, then runs and scores the queries.
 PY ?= uv run python
-.PHONY: all setup check validate cs1 cs2 cs3 catalog sweep audit agents campaign campaign-agents campaign-stress figures docs clean
+.PHONY: all setup check validate cs1 cs2 cs3 catalog sweep audit agents campaign campaign-agents campaign-stress campaign-waves figures docs clean
 all: validate cs1 cs2 cs3 catalog campaign figures
 
 setup:            ## create .venv with the locked dependencies (uv.lock)
@@ -33,6 +33,8 @@ campaign:         ## CS4 coordinated campaign: generate 8 noise levels x 5 seeds
 	  && $(PY) queries/build_queries.py && $(PY) eval/run_eval.py
 campaign-stress:  ## CS4 stress tests (attackers, scale, realism); pass EXPS="base scale_3 ..." (names in eval/stress_grid.py); long
 	cd coordinated-campaign && $(PY) eval/run_stress.py --exps $(EXPS)
+campaign-waves:   ## CS4 long horizon: multi-wave operators, persona turnover, cross-wave attribution; pass EXPS="w_base ..." (eval/waves_grid.py); long
+	cd coordinated-campaign && $(PY) eval/run_waves.py --exps $(EXPS)
 check:            ## audit every SPARQL query and check the reported numbers (uv run pytest, a few minutes)
 	uv run pytest -q
 figures:          ## redraw figures/ from the stored results

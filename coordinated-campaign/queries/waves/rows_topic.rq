@@ -1,0 +1,1 @@
+SELECT ?account ?topic WHERE { GRAPH g:platform { ?n as:attributedTo ?account } GRAPH g:factcheck { ?c schema:appearance ?n ; schema:about ?topic } }

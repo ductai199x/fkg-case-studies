@@ -1,0 +1,31 @@
+# open_stance restricted to posts at or after %W0% (the current event window); the image pairs are formed only from window posts
+SELECT ?account (COUNT(DISTINCT ?peer) AS ?peers) WHERE {
+  { SELECT DISTINCT ?account ?peer WHERE {
+  GRAPH g:platform {
+    ?n1 as:attributedTo ?account ; as:published ?t1 ; as:attachment ?i1 .
+    ?n2 as:attributedTo ?peer    ; as:published ?t2 ; as:attachment ?i2 .
+  }
+  FILTER(?account != ?peer)
+  { SELECT ?i1 ?i2 WHERE {
+      { SELECT ?i1 ?gen ?op ?v1 WHERE { GRAPH g:platform { ?x1 as:attachment ?i1 ; as:published ?ta . } FILTER(?ta >= "%W0%"^^xsd:dateTime)
+          GRAPH g:forensics { ?r1 fkg:contained_in ?i1 ; fkg:produced_by ?s1 . ?s1 a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+                              ?r1 fkg:modified_by ?o1 . ?o1 a ?op ; fkg:hasParameter ?p1 . ?p1 fkg:hasParameterValue ?v1 . } } }
+      { SELECT ?i2 ?gen ?op ?v2 WHERE { GRAPH g:platform { ?x2 as:attachment ?i2 ; as:published ?tb . } FILTER(?tb >= "%W0%"^^xsd:dateTime)
+          GRAPH g:forensics { ?r2 fkg:contained_in ?i2 ; fkg:produced_by ?s2 . ?s2 a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+                              ?r2 fkg:modified_by ?o2 . ?o2 a ?op ; fkg:hasParameter ?p2 . ?p2 fkg:hasParameterValue ?v2 . } } }
+      FILTER(?i1 != ?i2 && ABS(?v1 - ?v2) <= 0.15 * ?v1)
+    } GROUP BY ?i1 ?i2 HAVING (COUNT(DISTINCT ?op) >= 2) }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i1 prov:wasDerivedFrom ?src1 } }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i2 prov:wasDerivedFrom ?src2 } }
+  FILTER(?t2 - ?t1 <= "PT72H"^^xsd:dayTimeDuration && ?t1 - ?t2 <= "PT72H"^^xsd:dayTimeDuration)
+  GRAPH g:platform { ?m1 as:attributedTo ?account ; as:published ?tm1 . ?m2 as:attributedTo ?peer ; as:published ?tm2 . }
+  FILTER(?tm1 >= "%W0%"^^xsd:dateTime && ?tm2 >= "%W0%"^^xsd:dateTime)
+  GRAPH g:factcheck {
+    ?claim schema:appearance ?m1 , ?m2 .
+    FILTER NOT EXISTS { ?review schema:itemReviewed ?claim ; schema:reviewRating ?rating . ?rating schema:ratingValue ?score . FILTER(?score >= 3) }
+    FILTER NOT EXISTS { ?m1 cc:stance cc:Refutes } FILTER NOT EXISTS { ?m2 cc:stance cc:Refutes }
+  }
+  } }
+}
+GROUP BY ?account
+HAVING (COUNT(DISTINCT ?peer) >= 2)

@@ -1,0 +1,1 @@
+SELECT ?n ?account ?t WHERE { GRAPH g:platform { ?n a as:Note ; as:attributedTo ?account ; as:published ?t } }

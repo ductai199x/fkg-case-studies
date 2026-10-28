@@ -1,0 +1,23 @@
+# tie_open restricted to posts at or after %W0%
+SELECT ?account (COUNT(DISTINCT ?peer) AS ?peers) WHERE {
+  { SELECT DISTINCT ?account ?peer WHERE {
+  GRAPH g:platform {
+    { ?x a as:Announce ; as:actor ?account ; as:object ?pnote . ?pnote as:attributedTo ?peer . }
+    UNION { ?y a as:Announce ; as:actor ?peer ; as:object ?anote . ?anote as:attributedTo ?account . }
+    ?n1 as:attributedTo ?account ; as:published ?t1 ; as:attachment ?i1 .
+    ?n2 as:attributedTo ?peer ; as:published ?t2 ; as:attachment ?i2 .
+  }
+  FILTER(?account != ?peer && ?t1 >= "%W0%"^^xsd:dateTime && ?t2 >= "%W0%"^^xsd:dateTime)
+  GRAPH g:forensics { ?r1 fkg:contained_in ?i1 ; fkg:produced_by ?s1 . ?s1 a fkg:AIGenerator . ?r2 fkg:contained_in ?i2 ; fkg:produced_by ?s2 . ?s2 a fkg:AIGenerator . }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i1 prov:wasDerivedFrom ?src1 } }
+  FILTER NOT EXISTS { GRAPH g:provenance { ?i2 prov:wasDerivedFrom ?src2 } }
+  FILTER(?t2 - ?t1 <= "PT72H"^^xsd:dayTimeDuration && ?t1 - ?t2 <= "PT72H"^^xsd:dayTimeDuration)
+  GRAPH g:factcheck {
+    ?claim schema:appearance ?n1 , ?n2 .
+    FILTER NOT EXISTS { ?review schema:itemReviewed ?claim ; schema:reviewRating ?rating . ?rating schema:ratingValue ?score . FILTER(?score >= 3) }
+    FILTER NOT EXISTS { ?n1 cc:stance cc:Refutes } FILTER NOT EXISTS { ?n2 cc:stance cc:Refutes }
+  }
+  } }
+}
+GROUP BY ?account
+HAVING (COUNT(DISTINCT ?peer) >= 2)

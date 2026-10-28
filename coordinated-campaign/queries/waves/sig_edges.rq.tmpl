@@ -1,0 +1,29 @@
+# sig_edges: cross-wave TTP continuity. Pairs a window post (at or after %W0%) that carries a synthetic image and an unrefuted
+# claim with earlier accounts ?h that a takedown report names (g:takedown) or that an earlier wave's evaluation flagged
+# (g:inferred), when the two images match: same generator (or any generator), >= 2 operations with parameters within 15 %.
+# Returns (?account, ?h, number of ?h's images matched); attribution is read off ?h's takedown operator (one hop) or by
+# following such edges back through earlier flagged accounts to one that a takedown names (chained).
+SELECT ?account ?h (COUNT(DISTINCT ?hi) AS ?hits) WHERE {
+  { SELECT ?account ?h ?i ?hi WHERE {
+    { SELECT ?account ?i ?gen ?ot ?v1 WHERE {
+      GRAPH g:platform { ?n as:attributedTo ?account ; as:published ?t ; as:attachment ?i . }
+      FILTER(?t >= "%W0%"^^xsd:dateTime)
+      GRAPH g:forensics { ?r fkg:contained_in ?i ; fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+                          ?r fkg:modified_by ?o1 . ?o1 a ?ot ; fkg:hasParameter ?p1 . ?p1 fkg:hasParameterValue ?v1 . }
+      GRAPH g:factcheck {
+        ?claim schema:appearance ?n .
+        FILTER NOT EXISTS { ?review schema:itemReviewed ?claim ; schema:reviewRating ?rating . ?rating schema:ratingValue ?score . FILTER(?score >= 3) }
+        FILTER NOT EXISTS { ?n cc:stance cc:Refutes }
+      }
+      FILTER NOT EXISTS { GRAPH g:provenance { ?i prov:wasDerivedFrom ?src } }
+    } }
+    { SELECT ?h ?hi ?%HGEN% ?ot ?v2 WHERE {
+      { SELECT DISTINCT ?h WHERE { { GRAPH g:takedown { ?td cc:removed ?h } } UNION { GRAPH g:inferred { ?h a cc:FlaggedAccount } } } }
+      GRAPH g:platform { ?hn as:attributedTo ?h ; as:attachment ?hi . }
+      GRAPH g:forensics { ?hr fkg:contained_in ?hi ; fkg:produced_by ?hs . ?hs a fkg:AIGenerator ; fkg:hasGeneratorModel ?%HGEN% .
+                          ?hr fkg:modified_by ?o2 . ?o2 a ?ot ; fkg:hasParameter ?p2 . ?p2 fkg:hasParameterValue ?v2 . }
+    } }
+    FILTER(?h != ?account && ?hi != ?i && ABS(?v1 - ?v2) <= 0.15 * ?v2)
+  } GROUP BY ?account ?h ?i ?hi HAVING (COUNT(DISTINCT ?ot) >= 2) }
+}
+GROUP BY ?account ?h

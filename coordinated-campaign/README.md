@@ -19,6 +19,8 @@ records, and an iterated failure hunt (attack the detector, fix it, attack again
 | `eval/run_eval.py` | Scores detectors on `sim/generate.py` worlds (account-level P/R/F1) |
 | `eval/run_stress.py`, `eval/stress_grid.py` | Generates and scores named stress experiments; one JSON row per world x detector in `<out>/<exp>.jsonl` |
 | `eval/summarize_stress.py`, `eval/union_scores.py`, `eval/ttd_active.py` | Tables: mean metric per experiment x detector; unions of detectors; early detection against accounts already active |
+| `sim/waves.py` | Long-horizon world: a news event every 4 weeks, operators that run one wave per event with fresh personas and drifting presets, persistent benign actors (brands, a fan group, debunkers), takedown reports (operator + removed accounts) published with a lag; every record is timestamped so a snapshot as of T is a prefix of one fixed set of observations |
+| `eval/run_waves.py`, `eval/waves_grid.py`, `eval/summarize_waves.py` | Per event: windowed detectors, cross-wave TTP edges (`queries/waves/sig_edges.rq.tmpl`), attribution by one hop or chained through earlier waves, baselines (account overlap, co-repost, narrative, posting time), fusion; growth runs with `--scaling` |
 | `eval/leak_audit.py` | Scores every readable attribute alone against the labels (balanced accuracy) to find leaks the generator wrote in |
 | `eval/sensitivity.py`, `eval/exemplar.py`, `eval/behavioral.py`, `eval/two_stage.py` | Threshold sensitivity; one exemplar FKG record; co-repost baseline (after Pacheco et al.); two-stage evaluation of the joined query |
 | `scripts/` | One script per result (below) |
@@ -50,9 +52,20 @@ Scripts write under `$OUT_ROOT` (default `repro/`), so `results/` stays as publi
 | `14_leak_audit.sh` | Leak audit before and after the fixes; key worlds rerun | `leak_audit_*.json`, `stress_leakfix/summary.md` |
 | `15_stress_iter5.sh` | Iteration 5 (Table 7.6): stance-aware and one-operation detectors, ensembles, held-out seeds 4 to 6 | `stress/i5f_*.md`, `stress_fresh/*.md` |
 | `16_stress_iter6.sh` | Iteration 6: repost ties, age-free amplifier hop, operator without ties, early detection vs active accounts, unions | `stress6/*.md` |
+| `20_waves.sh` | Long horizon (7.8): months of events, one wave per event with full persona turnover, preset drift, takedown reports; cross-wave attribution vs baselines; growth runs | `waves/`, `waves_heldout/`, `waves_growth/` |
 | `run_all.sh` | All of the above in order | |
 
 Notes. The agent-written detectors are frozen outputs of the agent runs; the scripts score them but do not re-run the agent.
 Iteration 5 was first run with fact-check coverage drawn from the shared world stream (`i5_*`, `results/stress/iter5.log`); that
 coupling is a bug the doc describes, and every reported number uses the per-claim draw (`i5f_*`). In iteration 6 the repost-tie
 detector was designed after looking at seed 1, so `unions.md` also reports seeds 2 to 6.
+
+### Long-horizon study (`20_waves.sh`)
+
+The question is whether FKG queries can tie a new campaign wave to the operator behind earlier waves after every account has been
+replaced. Each event is evaluated 96 h after it starts against the KG as it stood then. `sig_edges` pairs window posts that carry a
+synthetic image and an unrefuted claim with images of accounts that a takedown report names, or that an earlier evaluation flagged,
+when the generator matches (or, in the `any_gen` form, regardless of generator) and at least two operations agree within 15 %.
+A direct label takes the takedown operator one hop away; a chained label follows these edges back through earlier flagged accounts.
+Query plans matter here: building per-side (image, generator, operation, value) tables in subqueries and joining them took the
+windowed TTP join from 234 s to 1.7 s on a 204K-quad snapshot with the same rows.

@@ -1,0 +1,1 @@
+SELECT ?account ?op WHERE { GRAPH g:takedown { ?td cc:operator ?op ; cc:removed ?account } }

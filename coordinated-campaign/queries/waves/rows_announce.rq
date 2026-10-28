@@ -1,0 +1,1 @@
+SELECT ?account ?note WHERE { GRAPH g:platform { ?a a as:Announce ; as:actor ?account ; as:object ?note } }
