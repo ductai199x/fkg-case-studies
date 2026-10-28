@@ -5,7 +5,7 @@
 \begin{center}
 {\LARGE\bfseries Forensic Knowledge Graphs as investigative infrastructure: proposal and case studies\par}
 \vspace{6pt}
-{\normalsize Tai Nguyen \quad\textperiodcentered\quad October 27, 2026\par}
+{\normalsize Tai Nguyen \quad\textperiodcentered\quad October 28, 2026\par}
 \end{center}
 \vspace{4pt}
 
@@ -22,7 +22,7 @@ The FKG paper [1] turns one image's forensic analysis into an explainable knowle
 \midrule
 C1 & \textbf{Encoding} & FKG in OWL 2 and RDF with a SHACL profile, plus a thin context layer that reuses existing standards (Activity Streams 2.0, schema.org Claim and ClaimReview, C2PA and IPTC, PROV-O). Named graphs keep track of who asserted what. & §2, §8 \\
 C2 & \textbf{Expressiveness} & 18 investigative use cases in four families, each a competency question with a SPARQL query. & §4, App. A \\
-C3 & \textbf{Evidence} & Four case studies on synthetic worlds with planted ground truth. The integrated query beats each single layer and degrades gracefully up to 50\% noise. & §5, §6 \\
+C3 & \textbf{Evidence} & Four case studies on synthetic worlds with planted ground truth, one followed over a simulated year of campaign waves. The integrated query beats each single layer and degrades gracefully up to 50\% noise. & §5, §6 \\
 C4 & \textbf{Agentic investigation} & LLM agents that see only the schema write queries that match or beat hand-written ones, and one rediscovered the campaign join unaided. & §7 \\
 \bottomrule
 \end{tabularx}
@@ -32,12 +32,13 @@ C4 & \textbf{Agentic investigation} & LLM agents that see only the schema write 
 \includegraphics[width=\linewidth]{figures/headline.pdf}
 \caption{Headline results, one row per investigative question. Section 5 gives each study's setup; section 6 shows how the gaps hold under noise.}
 \end{figure}
-\textbf{Four}\textbf{ things to take away}
+\textbf{Five}\textbf{ things to take away}
 
 \begin{itemize}
 \item \textbf{The gain comes from integration, not detection.} Every arm of every study reads the same detector outputs; only the joins differ. The forensic layer alone cannot see time, claims or accounts, and the context layer alone cannot see what was altered.
 \item \textbf{Errors are misses, not false accusations.} Joins rarely invent evidence, so noise lowers recall while precision holds: 1.00 at every noise rate for CS3 triage, at least 0.81 for CS1 recycled-media flags up to η = 0.5.
-\item \textbf{Defence is a new query, not a new model.} In the campaign study, each attack that broke detection was answered by a new query over the same records (five of eleven fixed, two partly, four open). This is the empirical case for FKG as a living system rather than a fixed detector.
+\item \textbf{Defence is a new query, not a new model.} In the campaign study, each attack that broke detection was answered by a new query over the same records (of seventeen attacks, seven fixed, four partly, six open). This is the empirical case for FKG as a living system rather than a fixed detector.
+\item \textbf{Forensic TTPs outlast personas.} When operators retire every account after each wave, the processing-chain join still links 85\% of new waves to the right operator and none to the wrong one, where account overlap links none and narrative or timing name the wrong operator in 12 to 62\% of waves. It holds over a simulated year (4.8M quads) and against 23 benign look-alike accounts per campaign account; within-wave precision is what the base rate erodes.
 \item \textbf{The schema is enough for agents.} Agents given only a page of data notes wrote correct investigative SPARQL (held-out mean 0.92 to 0.96 against 0.91 by hand). This is what makes FKG usable by analysts who do not write queries.
 \end{itemize}
 \section*{2. How it fits together}
@@ -193,12 +194,12 @@ Run as a separate, deeper study; full write-up and code in the repository's \hre
 \end{figure}
 \begin{itemize}
 \item \textbf{Agents rediscovered the join.} Three LLM investigators given only a schema card and the analyst's question each found exactly the 12 accounts and independently wrote the same forensic-and-claim rule. Detectors written from noisy data reach F1 0.92 and 0.94 at η = 0.7 on held-out worlds; the one written from clean data is too strict (0.31).
-\item \textbf{Six rounds of attack and defence}, in worlds up to 30× larger (745k quads) and calibrated to published measurements. Every defence is a new query over the same records:
+\item \textbf{Eight rounds of attack and defence}, in single-event worlds up to 30× larger (745k quads), over a simulated year of waves (up to 4.84M quads), and calibrated to published measurements. Every defence is a new query over the same records:
 \end{itemize}
 \begingroup\small
 \begin{xltabular}{\linewidth}{@{\extracolsep{0pt plus 1fil}}>{\raggedright\arraybackslash\hsize=1.2608\hsize}X>{\raggedright\arraybackslash\hsize=0.5478\hsize}X>{\raggedright\arraybackslash\hsize=1.1914\hsize}Xl@{}}
 \toprule
-\textbf{Attack (F1 at η = 0.3)} & \textbf{What broke} & \textbf{Defender's new query} & \textbf{After} \\
+\textbf{Attack (F1 at η = 0.3 unless stated)} & \textbf{What broke} & \textbf{Defender's new query} & \textbf{After} \\
 \midrule
 \endhead
 Per-persona processing presets & joined query 0.05 & self-consistent processing per account & 0.78 \\
@@ -208,7 +209,11 @@ Debunkers repost campaign images & precision 0.70 & stance filter on claim links
 One or two posts per persona & at most 0.34 & union with a behavioural rule & 0.63 \\
 Per-persona processing on aged accounts & 0.02 & repost ties plus an age-free amplifier hop & 0.59 \\
 Operator also stops reposting its personas & 0.26 & one agreeing operation suffices & 0.42 \\
-Random processing per image; 12-day spread; platform-scale query cost &  &  & open \\
+Full account turnover between waves & overlap links 0\% of waves & cross-wave TTP join, chained labels & 85\% right, 0\% wrong \\
+Two operators buy the same toolkit & 32\% wrong links & keep FKG labels that narrative or timing confirm & 22\% wrong \\
+Platform-scale query cost & over 30 min at 1.09M quads & scope each query to the event window & 30 s at 1.46M quads \\
+23 benign look-alikes per campaign account & precision 0.41 & house-style tenure & precision 0.55 \\
+Random processing per image; 12-day spread; a fresh pipeline per persona each wave; 10× population through the amplifier hop; 60-day persona warm-up &  &  & open \\
 \bottomrule
 \end{xltabular}
 \endgroup
@@ -216,7 +221,55 @@ Random processing per image; 12-day spread; platform-scale query cost &  &  & op
 \begin{itemize}
 \item \textbf{Detection is evidence-limited.} All campaign accounts have acted by 24 hours, yet the best F1 at η = 0.3 is 0.36 at 24 hours and 0.53 at 36 hours, because personas need time to post two matching images.
 \end{itemize}
-\textbf{Takeaway.} The forensic records carry the evidence that is hardest for an operator to remove, and every attack was met by a query, not a retrained model. The paper should claim that the join \textbf{raises the cost of running a campaign} and finds it as it completes, not that it cannot be evaded.
+\subsection*{CS4, long horizon: does the forensic TTP link a new wave to a known operator, months later?}
+Real operators run campaigns in waves, retire their personas after each one and change tools, while platforms name an operator only weeks later in a takedown report. So a new wave arrives from accounts that share nothing with the old ones except, possibly, how their images were made.
+
+\begin{itemize}
+\item \textbf{The world.} Six news events four weeks apart (twelve for the one-year runs). Two operators each run one wave per event with fresh personas (16 and 11 accounts), retire them, and drift their processing presets (5\% per wave, a 15\% chance of swapping a tool). Takedown reports name the operator for 80\% of waves, list 75\% of its accounts and arrive a median 35 days late. 450 organic accounts, fan groups, brand agencies and debunkers share the platform, with every realism model of the stress rounds switched on.
+\item \textbf{The cross-wave query.} A post in the current event window with a synthetic image and an unrefuted claim is matched to an earlier account that a takedown names or an earlier wave flagged, using the same TTP test (at least two operations with parameters within 15\%). Labels are read off the takedown report directly or by following such links back through earlier waves (chained, at most six hops).
+\item \textbf{Every snapshot is the graph as it stood 96 hours after the event began}, built only from records visible by then, so nothing from the future leaks in.
+\end{itemize}
+
+\textbf{Finding 1: FKG links new waves to the right operator and almost never to the wrong one.} Pooled over events 2 to 6, three seeds and two noise levels (60 operator waves per world), the chained FKG link is right for 85\% of waves and wrong for none in the base world. Account overlap and co-repost similarity link 0\%, because fresh personas share no accounts. Narrative and timing link about as often but are wrong for 12\% and 28\% of waves, and collapse when operators push the same narratives (62\% wrong) or use a scheduling tool (50\% wrong). Chaining through earlier waves beats the one-hop link on held-out seeds (82\% against 72 to 75\%).
+
+\begin{figure}[tbp]\centering
+\includegraphics[width=\linewidth]{figures/waves_links.pdf}
+\caption{Cross-wave attribution under attack. Each bar is the share of operator waves (events 2 to 6, three seeds, $\eta \in \{0, 0.3\}$) whose flagged accounts are labelled with the right operator, the wrong one, or not at all. FKG uses the chained forensic link; the baselines label by narrative topics and posting hours learned from takedown reports. Account overlap and co-repost similarity link no wave in any world and are omitted.}
+\end{figure}
+
+\textbf{Finding 2: what breaks it is shared or per-persona processing, not time.} Per-persona pipelines leave nothing to match (25\% right, 20\% wrong). Two operators buying the same toolkit makes them indistinguishable (32\% wrong). Slow, sparse takedowns starve every method equally (about 42\%). Requiring narrative or timing to agree with the FKG label keeps the wrong-link rate at or below 7\% wherever FKG works, at the cost of recall.
+
+\textbf{Finding 3: queries scale if they are scoped to the event.} Over a year of events the graph grew from 73k to 1.46M quads (1x population) and from 220k to 4.84M quads (10x population, 1,900 accounts).
+\begingroup\small\par\smallskip\noindent
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X r r r r@{}}
+\toprule
+\textbf{Joined detection query} & \textbf{1x, event 2} & \textbf{1x, event 12} & \textbf{10x, event 2} & \textbf{10x, event 12} \\
+\midrule
+Graph size (quads) & 191k & 1.46M & 621k & 4.84M \\
+Unscoped, whole history & 11 s & over 30 min & 144 s & over 5 min (limit) \\
+Scoped to the event window & 1.4 s & 30 s & 14 s & 163 s \\
+Window-only store (identical answers) & 0.4 s & 0.5 s & 4.5 s & 3.5 s \\
+Cross-wave TTP edges & 0.1 s & 0.9 s & 0.2 s & 6.0 s \\
+\bottomrule
+\end{tabularx}
+\par\medskip\endgroup
+The unscoped query passed 30 minutes at 1.09M quads. A store that holds only the current window (about 30k quads at 1x, 100k at 10x) answers the joined query in seconds with identical results at every event, so an incremental deployment is feasible. The repost-tie query needs about two weeks of look-back, not just the window, and is the slowest step on the full graph (up to 25 minutes at 3.2M quads). Cross-wave links stay right as the graph grows: 18 of 22 operator waves at 1x and 19 of 22 at 10x, with at most one wrong; the misses are abstentions before the first takedown reports appear.
+
+\textbf{Finding 4: the base rate of benign coordination is the real limit, and generator identity is what holds.} Fan groups that pass a false claim around in one house style, brand agencies running cause-marketing posts, and news outlets syndicating one wire image through a shared CMS pipeline were added on top of the base world, up to 23 look-alike accounts per campaign account (Figure~\ref{fig:wscale}b; three seeds, $\eta \in \{0, 0.3\}$, a noise-only redraw as control).
+\begin{itemize}
+\item \textbf{Within-wave detection precision falls from 0.87 to 0.41} while recall stays near 0.65; a redraw of the noise alone moves it by 0.06. Fans cause 81\% of the false positives: within one event they are a small, sincere campaign. Brand and news posts rarely trip it, because true claims get rated and syndicated copies carry provenance.
+\item \textbf{Operator-wave links stay right.} The chained FKG link was never wrong at any ratio. At the account level, attribution precision holds best when the generator must match (0.90 to 0.72), against 0.54 for any generator, 0.35 for narrative and 0.28 for timing.
+\item \textbf{Population growth hits a different step.} At 10x population the core joined query keeps precision 0.69, but the amplifier hop pulls in organic accounts that reposted campaign posts (570 of 581 false positives), so the flagged set's precision falls to 0.30.
+\item \textbf{A new query recovers part of it: house-style tenure.} Dropping candidates whose window images match two or more of their own images posted more than 30 days earlier raises precision from 0.60 to 0.72 at 8 look-alikes per campaign account and from 0.38 to 0.55 at 23, and drops no campaign account. Fans who only repost inside their group are untouched (311 of 675 fan false positives remain).
+\item \textbf{The operator can buy its way past tenure.} Personas that post the wave's kit style weekly for 60 days before the wave get dropped by the filter (188 campaign accounts), and recall falls from 0.63 to 0.43. Tenure therefore raises the cost of a wave, from three weeks of persona upkeep to two months, rather than closing the gap. The cross-wave link is unaffected (85\% right, at most 2\% wrong).
+\end{itemize}
+
+\begin{figure}[tbp]\centering
+\includegraphics[width=\linewidth]{figures/waves_scale.pdf}
+\caption{(a) Query time against graph size over twelve monthly events, at 1x and 10x population; the unscoped query stops at its timeout. (b) Precision against the number of benign look-alike accounts (fans, brand agencies, news syndicators) per campaign account, events 2 to 6 pooled over three seeds and $\eta \in \{0, 0.3\}$. The bar at 1 is the spread between two draws of observation noise on the same world. The tenure curve comes from a rerun with four months of platform history before the first event.}\label{fig:wscale}
+\end{figure}
+
+\textbf{Takeaway.} The forensic records carry the evidence that is hardest for an operator to remove, and every attack was met by a query, not a retrained model. Over months, the same records link new waves to known operators where account, repost, narrative and timing signals fail, and they stay right as the graph grows and benign look-alikes multiply; what falls is within-wave precision, which is a base-rate problem the paper should state plainly. The paper should claim that the join \textbf{raises the cost of running a campaign} (a shared toolkit, per-persona pipelines or two months of persona warm-up are what it takes to evade it) and finds it as it completes, not that it cannot be evaded.
 
 \section*{6. Robustness to noise}
 The single-seed tables fix the number of planted failures, so each CS1 and CS3 world was regenerated with every failure mode at rate η (five seeds per rate). CS2 was rerun over ten fresh seeds, since its spread trees already vary by seed.
@@ -291,7 +344,8 @@ CS1 to CS3 and CS4 were built in parallel and made different, reversible choices
 \item \textbf{Leaks were found and fixed.} Both simulators first leaked ground truth into attributes a query could read; both were audited and fixed (Appendix C). The audits should be rerun whenever a generator changes.
 \item \textbf{Upper bounds by design.} A pasted region's single-compression trace is recorded without noise, and CS4's processing-chain detection rates are assumed, since no published benchmark measures how well processing chains are estimated.
 \item \textbf{Limits of the evidence itself.} An uncrawled earliest copy caps recall. FKG identifies camera and generator models, not devices or accounts, so toolkit and device linking (UC13, UC14) yields candidates, not attributions. Exact parents among identical copies are underdetermined.
-\item \textbf{Scale.} CS1 to CS3 worlds hold about 10k quads and CS4 up to 745k; CS4 query cost grows about quadratically. Real crawls are orders of magnitude larger and need incremental candidate generation and materialised rules.
+\item \textbf{Scale.} CS1 to CS3 worlds hold about 10k quads and CS4 up to 4.8M. Unscoped CS4 queries grow about quadratically and pass 30 minutes near 1M quads; scoping each query to its event, or keeping a window-only store, keeps them at seconds to minutes (§5). Real crawls are orders of magnitude larger and need incremental candidate generation and materialised rules.
+\item \textbf{Base rates.} Within-wave campaign detection loses precision as benign coordination grows (0.87 to 0.41 at 23 look-alike accounts per campaign account) and as the population grows (0.30 at 10x, through the amplifier hop). The real ratio of sincere fan or brand coordination to covert campaigns is unknown and should be measured before any precision claim. Inferred flags written back to the graph also become history that later benign images can match, so they need an expiry or confirmation.
 \item \textbf{Agents.} One run per arm, and the notes named the caveats, so the study does not show that agents discover failure modes unprompted. The model and version used are for the authors to fill in.
 \end{itemize}
 \section*{10. Suggested next steps for the paper}
@@ -307,6 +361,8 @@ Settle §8 and release FKG 0.2, the context profile, SHACL shapes and the 18 com
 Controlled agent study: several models, repeated runs, notes with and without caveats, cost guards & How reliably agents turn questions into correct, affordable queries, and how they fail & Medium \\
 Scale test at 10⁷ to 10⁸ quads with incremental TTP candidates and materialised lineage & Latency at crawl scale & Medium to high \\
 Calibrate CS4's processing-chain rates against a real estimator & Whether the campaign result holds with realistic TTP estimates & High \\
+Measure the base rate of benign coordination (fan, brand and syndication clusters) on a real platform sample & The precision a deployed campaign detector can expect & Medium \\
+Tighten the amplifier hop and test tenure-style filters against operators that age personas & Whether within-wave precision can be recovered at population scale & Low to medium \\
 \bottomrule
 \end{xltabular}
 \endgroup
@@ -317,7 +373,7 @@ Calibrate CS4's processing-chain rates against a real estimator & Whether the ca
 \item Motivation and the proposal: §1 and §2
 \item Related work, organised by the rows of §3
 \item Encoding and competency questions: §8 decisions, §4 and Appendix A
-\item Evaluation: CS1 to CS3 as breadth, CS4 as depth, §6 for robustness
+\item Evaluation: CS1 to CS3 as breadth, CS4 as depth, the CS4 long horizon for attribution and base rates, §6 for robustness
 \item Agentic investigation: §7 and the CS4 agents
 \item Limitations: §9, stated up front in the evaluation
 \end{itemize}
@@ -343,6 +399,8 @@ Leak audit (Appendix C) & \code{make audit} & minutes \\
 Agent comparison (§7, Appendix D) & \code{make agents} & about an hour \\
 CS4 base results (§5) & \code{make campaign} & minutes \\
 CS4 attack and defence rounds & \code{coordinated-\allowbreak{}campaign/\allowbreak{}scripts/\allowbreak{}10\_\allowbreak{}*.\allowbreak{}sh} to \code{16\_\allowbreak{}*.\allowbreak{}sh} & hours each \\
+CS4 long horizon and growth (§5) & \code{coordinated-\allowbreak{}campaign/\allowbreak{}scripts/\allowbreak{}20\_\allowbreak{}waves.\allowbreak{}sh} & about a day \\
+CS4 base-rate curve and tenure (§5) & \code{coordinated-\allowbreak{}campaign/\allowbreak{}scripts/\allowbreak{}21\_\allowbreak{}baserate.\allowbreak{}sh} & about 6 hours \\
 Figures & \code{make figures} & seconds \\
 \bottomrule
 \end{xltabular}

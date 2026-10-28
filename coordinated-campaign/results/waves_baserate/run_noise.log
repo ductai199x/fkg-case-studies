@@ -1,0 +1,7 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+done w_base_noise s1 eta0.0: 174 rows
+done w_base_noise s2 eta0.0: 174 rows
+done w_base_noise s3 eta0.0: 174 rows
+done w_base_noise s1 eta0.3: 174 rows
+done w_base_noise s2 eta0.3: 174 rows
+done w_base_noise s3 eta0.3: 174 rows

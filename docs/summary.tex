@@ -5,7 +5,7 @@
 \begin{center}
 {\LARGE\bfseries Forensic Knowledge Graphs as investigative infrastructure: executive summary\par}
 \vspace{6pt}
-{\normalsize Tai Nguyen \quad\textperiodcentered\quad October 27, 2026\par}
+{\normalsize Tai Nguyen \quad\textperiodcentered\quad October 28, 2026\par}
 \end{center}
 \vspace{4pt}
 
@@ -25,7 +25,7 @@
 \midrule
 C1 & \textbf{Encoding} & FKG in OWL 2 and RDF with a SHACL profile, plus a thin context layer that reuses Activity Streams 2.0, schema.org Claim and ClaimReview, C2PA and IPTC, and PROV-O. Named graphs record who asserted what. \\
 C2 & \textbf{Expressiveness} & 18 investigative use cases in four families (time, copies, claims and intent, auditing the analysis), each a competency question with a runnable SPARQL query. \\
-C3 & \textbf{Evidence} & Four case studies with planted ground truth. The integrated query beats each single layer and degrades gracefully up to 50\% noise. \\
+C3 & \textbf{Evidence} & Four case studies with planted ground truth, one followed over a simulated year of campaign waves. The integrated query beats each single layer and degrades gracefully up to 50\% noise. \\
 C4 & \textbf{Agentic investigation} & LLM agents given only the schema and a page of notes write queries that match or beat hand-written ones. \\
 \bottomrule
 \end{tabularx}
@@ -40,7 +40,8 @@ C4 & \textbf{Agentic investigation} & LLM agents given only the schema and a pag
 \begin{itemize}
 \item \textbf{The gain comes from integration, not detection.} Only the joins differ between arms. Forensics alone cannot see time, claims or accounts; context alone cannot see what was altered.
 \item \textbf{Errors are misses, not false accusations.} Noise lowers recall while precision holds: 1.00 at every noise rate for CS3 triage, at least 0.81 for CS1 recycled-media flags up to $\eta = 0.5$. At $\eta = 0.5$, CS1 macro-F1 is 0.786 against 0.594 for forensics alone.
-\item \textbf{Defence is a new query, not a new model.} In CS4, each attack that broke detection was answered by a new query over the same records: five of eleven fixed, two partly, four open.
+\item \textbf{Defence is a new query, not a new model.} In CS4, each attack that broke detection was answered by a new query over the same records: of seventeen attacks, seven fixed, four partly, six open.
+\item \textbf{Forensic TTPs outlast personas.} When operators retire every account after each wave, the processing-chain join links 85\% of new waves to the right operator and none to the wrong one; account overlap links none, and narrative or timing name the wrong operator in 12 to 28\% of waves. It holds over a year at ten times the population (4.84M quads, 19 of 22 waves) and among 23 benign look-alike accounts per campaign account, where within-wave detection precision falls from 0.87 to 0.41 (Figure~\ref{fig:sscale}).
 \item \textbf{The schema is enough for agents.} On held-out worlds, agent-written queries score 0.92 to 0.96 against 0.91 for the hand-written set.
 \end{itemize}
 
@@ -66,9 +67,15 @@ CS1 Recycled media & Is an authentic photo presented as showing an event it pred
 CS2 Lineage and laundering & Which copy added the AI region, which platform did a file pass through, who credits an outlet for an edit it never published? & Copies ordered by compression, resampling and inserted regions, then tied to posts and credits & Hop 50/50, laundering precision 1.00 & 15/50, 0.137 (context) \\
 CS3 Materiality and intent & Does an undisclosed alteration touch what the claim is about? & Altered content's entity against the claim's subject and the credential & Precision 1.00 at recall 0.912 & 0.420 (context) \\
 CS4 Coordinated campaign & Which accounts run a coordinated campaign with manipulated media? & Shared generator and processing recipe (a forensic TTP) plus narrative and timing & F1 1.00 (0.97 at $\eta = 0.7$) & 0.70 (forensic) \\
+CS4 across waves & Does a wave of fresh accounts come from a known operator? & The same TTP matched to accounts that lagged takedown reports name, chained through earlier waves & 85\% of waves right, none wrong & narrative, 12\% wrong \\
 \bottomrule
 \end{tabularx}
 \par\medskip\endgroup
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/waves_scale.pdf}
+\caption{CS4 over a simulated year. (a) Query time against graph size at 1x and 10x population; scoping to the event keeps the joined query linear. (b) Precision against benign look-alike accounts per campaign account: detection precision halves while same-generator attribution holds best.}\label{fig:sscale}
+\end{figure}
 
 The graph also audits its own analysis (CS3). It finds all 8 credentials the forensics contradict, all 3 attributions to a generator not yet released, and all 5 fact-checks that rest on a faulty detector version.
 
@@ -99,7 +106,8 @@ Four smaller ones (compression subclasses, axioms SHACL cannot check, a shared r
 \item \textbf{Leaks found and fixed.} Both simulators first leaked ground truth into readable attributes. After the fix, no single attribute predicts truth above about 0.67 balanced accuracy.
 \item \textbf{Upper bounds by design.} A pasted region's single-compression trace is recorded without noise, and CS4's processing-chain detection rates are assumed.
 \item \textbf{Hardest question.} CS2 patient zero reaches precision 0.75 (F1 0.56 across ten seeds): a detector false positive that recurs on copies looks like corroboration.
-\item \textbf{Scale.} Worlds hold 10k to 745k quads; real crawls need incremental candidates and materialised rules.
+\item \textbf{Scale.} Worlds hold 10k to 4.84M quads. Scoping each query to its event keeps the joined query at seconds to minutes where the unscoped one passes 30 minutes; real crawls still need incremental candidates and materialised rules.
+\item \textbf{Base rates.} Benign coordination (fans, brand pushes, news syndication) halves within-wave precision at 23 look-alikes per campaign account, and a house-style tenure filter recovers it only until operators warm personas up for 60 days. The real ratio is unknown and should be measured before any precision claim.
 \end{itemize}
 
 \section*{Next experiments and code}
@@ -112,6 +120,7 @@ Real FKG pipeline on public out-of-context and provenance benchmarks & The joins
 Join real published fact-checks to the images they cite & The claim layer works on messy real claims & Medium \\
 Settle the decisions; release FKG 0.2, the profile, shapes and 18 competency questions & A reusable benchmark for query-based investigation & Low \\
 Controlled agent study: several models, repeated runs, notes with and without caveats & How reliably agents produce correct, affordable queries & Medium \\
+Measure benign fan, brand and syndication clusters on a real platform sample & The precision a deployed campaign detector can expect & Medium \\
 \bottomrule
 \end{tabularx}
 \par\medskip\endgroup

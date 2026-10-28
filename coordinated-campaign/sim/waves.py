@@ -37,7 +37,8 @@ OP_B = dict(OPERATOR, name="B", themes=["sabotage", "elite"], gen="Midjourney v7
             param_mode="kit", n_core=8, n_amp=3, aged=True, organic_reposts=True, offset_h=18, hours=([(9, 13), (14, 18)], 3))
 WAVE_DEFAULT = dict(STRESS_DEFAULT, start=(2026, 5, 1), end=(2026, 10, 10), first_event=(2026, 5, 12, 0), event_every_d=28, n_events=6,
                     operators=[OPERATOR, OP_B], fan_groups=1, fan_size=8, debunkers=8, brand_agencies=1, fc_stream=True, leakfix=True, stance=True,
-                    p_takedown=0.8, takedown_recall=0.75, takedown_lag_d=35.0, takedown_lag_sd=0.5, eval_after_h=96, block_d=15)
+                    p_takedown=0.8, takedown_recall=0.75, takedown_lag_d=35.0, takedown_lag_sd=0.5, eval_after_h=96, block_d=15,
+                    lookalike=0, news_size=6, news_illus_p=0.3, news_rumor_p=0.3, news_deny_p=0.5, brand_event_p=0.5, lookalike_preset_p=0.5)
 
 
 def make_wave_cfg(**kw):
@@ -54,6 +55,7 @@ def clamp(t, v): lo, hi = OPS[t][1]; return min(max(v, lo), hi)
 class WaveScenario(StressScenario):
     def __init__(self, cfg, seed, eta):
         super().__init__(cfg, seed, eta)
+        if cfg.get("obs_salt"): self.rng = random.Random(f"{seed}:{eta}:{cfg['obs_salt']}")  # same world, fresh observation noise (control)
         self.claims, self.claim_text, self.claim_topic, self.claim_event = {}, {}, {}, {}
         self.true_claims = set()
         self.events = [dt(*cfg["first_event"]) + timedelta(days=cfg["event_every_d"] * k) for k in range(cfg["n_events"])]
@@ -120,7 +122,8 @@ class WaveScenario(StressScenario):
                 if op["events"] is not None and e not in op["events"]: continue
                 if self.waves and any(w["op"] == oi for w in self.waves): self.drift_kit(st, op, orng)
                 cw0 = t_ev + timedelta(hours=op["offset_h"]); cw1 = cw0 + timedelta(hours=op["window_h"])
-                c0, c1 = (dt(2014, 1, 1), dt(2025, 12, 31)) if op["aged"] else (cw0 - timedelta(days=23), cw0 - timedelta(days=19))
+                wd = timedelta(days=op.get("warm_d", 0))
+                c0, c1 = (dt(2014, 1, 1), dt(2025, 12, 31)) if op["aged"] else (cw0 - wd - timedelta(days=23), cw0 - wd - timedelta(days=19))
                 core = [self.add_account("campaign_core", rand_time(r, c0, c1), oi, e) for _ in range(op["n_core"])]
                 keep = [a for a in prev_amps if r.random() < op["reuse_amp"]]
                 amps = keep + [self.add_account("campaign_amplifier", rand_time(r, c0, c1), oi, e) for _ in range(op["n_amp"] - len(keep))]
@@ -131,6 +134,11 @@ class WaveScenario(StressScenario):
                     f0 = max(o0, cw0 - timedelta(days=21)) if op["aged"] else a["created"] + timedelta(days=1)
                     for t in self.times(a, r.randint(1, 3), f0, cw0 - timedelta(hours=12)):
                         self.post(a, t, r.choice(ORGANIC_TEXT), self.organic_image(r.choice(ORGANIC_CONTENT)) if r.random() < 0.6 else None)
+                if op.get("warm_d"):  # warm-up: personas post the wave's kit style about once a week for warm_d days before the wave
+                    for pi, a in enumerate(core):
+                        for _ in range(max(1, op["warm_d"] // 7)):
+                            img = self.new_image("synthetic", gen=st["gen"], chain=self.wave_chain(op, st, pi, st["kit"][pi % len(st["kit"])]), content=r.choice(ORGANIC_CONTENT))
+                            self.post(a, rand_time(r, max(o0, cw0 - wd), cw0 - timedelta(hours=12)), r.choice(ORGANIC_TEXT), img)
                 mine = []
                 for pi, a in enumerate(core):
                     acct_chain = [(t, round(r.uniform(*OPS[t][1]), 3)) for t in r.sample(list(OPS), r.randint(2, 3))]
@@ -232,6 +240,7 @@ class WaveScenario(StressScenario):
             for a in w["core"] + w["amps"]:
                 for i in r.choices(near, weights=[weights[i] for i in near], k=r.randint(4, 9)):
                     self.announces.append({"acct": a["id"], "note": pool[i]["id"], "t": max(pool[i]["t"], w["t0"] - timedelta(days=3)) + timedelta(minutes=r.uniform(5, 2880))})
+        if c["lookalike"]: self.add_lookalikes(organic, ev_claims)
         if c["leakfix"]: self.fix_leaks_waves()
         # fact-checks per claim (own streams), takedown reports per wave (own stream)
         first_seen = {}
@@ -250,6 +259,85 @@ class WaveScenario(StressScenario):
             removed = [a["id"] for a in w["core"] + w["amps"] if tr.random() < c["takedown_recall"]]
             if removed: self.takedowns.append({"wave": wi, "op": w["op"], "t": t, "accounts": removed})
         self.t_first = min(n["t"] for w in self.waves for n in w["notes"])
+
+    def add_lookalikes(self, organic, ev_claims):
+        # benign look-alike coordination for the base-rate study, drawn from its own RNG so the rest of the world is unchanged:
+        # m extra fan groups, m brand agencies that also run cause-marketing posts at events, and m news-syndication groups whose
+        # outlets run the same wire photo or AI illustration through one CMS pipeline within hours, mostly about the event's
+        # true claim, sometimes reporting one of its false claims (part of those framed as a denial)
+        c, m = self.cfg, self.cfg["lookalike"]; lr = random.Random(f"{self.seed}:lookalike")
+        o0, o1 = dt(*c["start"]), dt(*c["end"]); weeks = (o1 - o0).days / 7
+        gens, gw = list(GENERATORS), list(GENERATORS.values())
+        def acct(role, lo, hi):
+            a = {"id": self.uid(lr, "u"), "username": f"{role}_{lr.randint(1, 99999)}", "created": rand_time(lr, dt(*lo), dt(*hi)), "role": role,
+                 "campaign": None, "wave": None, "tz": lr.choice([-8, -5, -5, 0, 1])}
+            self.accounts.append(a); return a
+        def chain():  # popular app presets (shared with organic users) or a house pipeline
+            if lr.random() < c["lookalike_preset_p"]: return list(lr.choices(self.presets, weights=[1 / (i + 1) for i in range(len(self.presets))])[0])
+            return [(t, round(lr.uniform(*OPS[t][1]), 2)) for t in lr.sample(list(OPS), 2)]
+        def image(kind, gen=None, chain=(), camera=None, pre=False, content="", derived_from=None):
+            iid = self.uid(lr, "img")
+            self.images[iid] = {"kind": kind, "gen": gen, "chain": list(chain), "camera": camera, "pre": pre, "content": content, "derived_from": derived_from}; return iid
+        def post(a, t, text, img=None, claim=None):
+            n = {"id": self.uid(lr, "n"), "acct": a["id"], "t": t, "text": text, "img": img, "claim": claim}; self.notes.append(n); return n
+        false_ids = lambda e: [cid for ids in ev_claims[e][0].values() for cid in ids]
+        groups = []
+        for _ in range(m):  # fan groups: weekly posts in a house style, a false claim passed around at events, mutual reposts
+            gen, ch = lr.choices(gens, weights=gw)[0], chain()
+            grp = [acct("fan", (2018, 1, 1), (2025, 6, 30)) for _ in range(c["fan_size"])]; groups.append(grp)
+            for a in grp:
+                for _ in range(max(2, int(weeks * lr.uniform(0.5, 1.5)))):
+                    post(a, rand_time(lr, o0, o1), "Made this one tonight.", image("synthetic", gen, ch, pre=lr.random() < 0.5, content=lr.choice(FAN_CONTENT)))
+            for e, t_ev in enumerate(self.events):
+                fc = lr.choice(false_ids(e))
+                for a in grp:
+                    if lr.random() < 0.4:
+                        post(a, t_ev + timedelta(hours=lr.uniform(6, 72)), lr.choice(BELIEVER_STYLE).format(c=self.claims[fc][0]),
+                             image("synthetic", gen, ch, pre=lr.random() < 0.5, content=lr.choice(TOPICAL)), fc)
+        for _ in range(m):  # brand agencies: monthly pushes, plus a relief message in the house style at an event
+            gen, ch = lr.choices(gens, weights=gw)[0], chain()
+            grp = [acct("brand", (2019, 1, 1), (2023, 12, 31)) for _ in range(6)]; groups.append(grp)
+            t = o0 + timedelta(days=lr.uniform(0, 20))
+            while t < o1:
+                for a in grp:
+                    for _ in range(4):
+                        post(a, t + timedelta(hours=lr.uniform(0, 36)), lr.choice(BRAND_TEXT), image("synthetic", gen, ch, content=lr.choice(["hiker in jacket", "mountain trail", "product shot"])))
+                t += timedelta(days=lr.uniform(25, 35))
+            for e, t_ev in enumerate(self.events):
+                if lr.random() >= c["brand_event_p"]: continue
+                tc, place = ev_claims[e][1], EVENTS[e % len(EVENTS)][0]
+                for a in grp:
+                    post(a, t_ev + timedelta(hours=lr.uniform(12, 60)), f"We're donating to {place} relief. {self.claims[tc][0]}", image("synthetic", gen, ch, content="relief volunteers"), tc)
+        for _ in range(m):  # news syndication: the same wire image through one CMS pipeline, copies within hours
+            gen = lr.choices(gens, weights=gw)[0]
+            cms = [("Resampling", round(lr.uniform(0.5, 0.9), 2)), (lr.choice(["Sharpening", "GaussianBlur"]), round(lr.uniform(0.4, 1.0), 2))]
+            grp = [acct("news", (2008, 1, 1), (2020, 12, 31)) for _ in range(c["news_size"])]; groups.append(grp)
+            def story(t0, text, claim, illus, deny, content):
+                src = image("synthetic", gen, content=content) if illus else image("camera", camera=lr.choice(CAMERAS), content=content)
+                for a in grp:
+                    if lr.random() < 0.85:
+                        s = self.images[src]
+                        n = post(a, t0 + timedelta(minutes=lr.uniform(5, 360)), text, image(s["kind"], s["gen"], cms, s["camera"], content=content, derived_from=src), claim)
+                        if deny: n["debunk"] = True
+            for _ in range(int(weeks)):
+                story(rand_time(lr, o0, o1), "Latest from the wire.", None, lr.random() < c["news_illus_p"], False, lr.choice(ORGANIC_CONTENT))
+            for e, t_ev in enumerate(self.events):
+                for _ in range(lr.randint(1, 3)):
+                    rumor = lr.random() < c["news_rumor_p"]; claim = lr.choice(false_ids(e)) if rumor else ev_claims[e][1]
+                    deny = rumor and lr.random() < c["news_deny_p"]; txt = self.claims[claim][0]
+                    text = (f"Officials deny claims that {txt[0].lower() + txt[1:]}" if deny else f"Claims are circulating online: {txt}") if rumor else txt
+                    story(t_ev + timedelta(hours=lr.uniform(2, 72)), text, claim, lr.random() < c["news_illus_p"], deny, lr.choice(TOPICAL))
+        ids = {a["id"] for g in groups for a in g}; la = [n for n in self.notes if n["acct"] in ids]
+        by = {}
+        for n in la: by.setdefault(n["acct"], []).append(n)
+        for grp in groups:  # mutual reposts within each group
+            for a in grp:
+                peers = [n for b in grp if b is not a for n in by.get(b["id"], [])]
+                for n in lr.sample(peers, min(len(peers), int(len(peers) * 0.3))):
+                    self.announces.append({"acct": a["id"], "note": n["id"], "t": n["t"] + timedelta(minutes=lr.uniform(5, 1440))})
+        for a in organic:  # organic users repost some look-alike posts
+            for n in lr.sample(la, min(len(la), lr.choice([0, 0, 1, 2, 3]))):
+                if n["acct"] != a["id"]: self.announces.append({"acct": a["id"], "note": n["id"], "t": n["t"] + timedelta(minutes=lr.uniform(5, 2880))})
 
     def fix_leaks_waves(self):  # same leak fixes as StressScenario.fix_leaks, for event claims
         lr = random.Random(f"{self.seed}:leakfix"); role = {a["id"]: a["role"] for a in self.accounts}

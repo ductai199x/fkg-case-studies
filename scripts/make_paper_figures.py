@@ -69,4 +69,59 @@ def agents():
     ax.set_ylim(0.88, 0.985); ax.set_ylabel("mean score, 12 questions"); ax.set_xlabel("query set (hand-written, then agents)"); ax.grid(axis="y", alpha=.3)
     fig.tight_layout(); fig.savefig(OUT / "agents_heldout.pdf"); plt.close(fig)
 
-for f in (headline, sweep, campaign, agents): f(); print("ok", f.__name__)
+CC = ROOT / "coordinated-campaign/results"; WRONG = "#c8553d"
+jl = lambda f: [json.loads(l) for l in open(f)] if Path(f).exists() else []
+
+def waves_links():  # cross-wave link outcomes per attack world, events 1+ pooled over seeds and noise levels
+    worlds = [("w_base", "base"), ("w_shared_narrative", "shared narrative"), ("w_scheduler", "scheduling tool"), ("w_drift_high", "fast preset drift"), ("w_gen_switch", "generator switch"),
+              ("w_slow_takedown", "slow takedowns"), ("w_mimic", "mimics app preset"), ("w_shared_kit", "shared toolkit"), ("w_per_persona", "per-persona pipeline")]
+    meth = [("fkg_chained_any_gen", "FKG"), ("narrative", "narrative"), ("timing", "timing")]
+    fig, ax = plt.subplots(figsize=(W, 4.1)); y, ticks, labs = 0, [], []
+    for exp, name in worlds:
+        R = [r for r in jl(CC / f"waves/{exp}.jsonl") if r["kind"] == "attribution" and r["event"] >= 1]
+        for k, (m, ml) in enumerate(meth):
+            M = [r for r in R if r["method"] == m]; c, w, n = (sum(r[x] for r in M) for x in ("link_correct", "link_wrong", "link_none")); t = max(1, c + w + n)
+            col = ACC if m.startswith("fkg") else GREY
+            ax.barh(y, c / t, color=col, height=0.78); ax.barh(y, w / t, left=c / t, color=WRONG, height=0.78); ax.barh(y, n / t, left=(c + w) / t, color="#e6e6e6", height=0.78)
+            ax.text(1.01, y, f"{c / t:.0%} / {w / t:.0%}", va="center", fontsize=7.5, color=col)
+            ticks.append(y); labs.append(ml); y -= 1
+        ax.text(-0.155, y + 2, name, transform=ax.get_yaxis_transform(), ha="right", va="center", fontsize=8, fontweight="bold")
+        y -= 0.6
+    ax.set_yticks(ticks); ax.set_yticklabels(labs, fontsize=7.5); ax.tick_params(axis="y", length=0); ax.spines["left"].set_visible(False)
+    ax.set_xlim(0, 1.13); ax.set_xticks([0, .25, .5, .75, 1]); ax.set_xticklabels(["0", "25%", "50%", "75%", "100%"]); ax.set_xlabel("share of operator waves (correct / wrong shown at right)")
+    h = [plt.Rectangle((0, 0), 1, 1, color=c) for c in (ACC, GREY, WRONG, "#e6e6e6")]
+    ax.legend(h, ["FKG chained: right operator", "baseline: right operator", "wrong operator", "no link"], frameon=False, ncol=4, loc="lower center", bbox_to_anchor=(0.36, 1.0), fontsize=7, handlelength=1, columnspacing=1)
+    fig.subplots_adjust(left=0.33, right=0.92, top=0.93, bottom=0.11); fig.savefig(OUT / "waves_links.pdf"); plt.close(fig)
+
+def waves_scale():  # (a) query time against graph size over a year of events; (b) precision against the benign look-alike base rate
+    fig, (a, b) = plt.subplots(1, 2, figsize=(W, 3.6))
+    for exp, mk in (("w_long", "o"), ("w_long_scale10", "s")):
+        S = [r for r in jl(CC / f"waves_growth/{exp}.jsonl") if r["kind"] == "attribution" and r["method"] == "overlap"]
+        q = [r["quads"] / 1e6 for r in S]; sec = lambda k: [r["seconds"].get(k) if isinstance(r["seconds"].get(k), (int, float)) else float("nan") for r in S]
+        for k, lab, col, ls in (("tie_open_w", "repost tie, event-scoped", ACC, "--"), ("open_stance_w", "joined query, event-scoped", ACC, "-"),
+                                ("naive_open_stance_full", "joined query, unscoped", "black", ":"), ("sig_edges_any_gen", "cross-wave edges", GREY, "-"), ("window_open_stance", "window-only store", LIGHT, "-")):
+            a.plot(q, sec(k), color=col, ls=ls, marker=mk, ms=3, lw=1.4, label=lab if exp == "w_long" else None)
+    a.set_xscale("log"); a.set_yscale("log"); a.set_xlabel("graph size (million quads)"); a.set_ylabel("query time (s)"); a.axhline(1800, color=LIGHT, lw=0.8)
+    a.text(0.08, 1800 * 1.15, "30-min timeout", fontsize=7, color=GREY); a.set_title("(a) query time as the graph grows")
+    h, l = a.get_legend_handles_labels(); h += [plt.Line2D([], [], color=GREY, marker=m, ls="none", ms=4) for m in "os"]; l += ["1x population", "10x population"]
+    a.legend(h, l, frameon=False, fontsize=6.8, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2)
+    C = json.load(open(CC / "waves_baserate/curve.json")); C = sorted(C, key=lambda d: d["x"]); x = [d["x"] for d in C if d["exp"] != "w_base_noise"]
+    pick = lambda f: [f(d) for d in C if d["exp"] != "w_base_noise"]
+    b.plot(x, pick(lambda d: d["U_prec"]), color=ACC, marker="o", ms=3.5, lw=2, label="within-wave detection")
+    b.plot(x, pick(lambda d: d["attr_prec"]["fkg_chained_same_gen"][0]), color=GREY, marker="o", ms=3, lw=1.4, label="attribution, FKG same generator")
+    b.plot(x, pick(lambda d: d["attr_prec"]["fkg_chained_any_gen"][0]), color=GREY, ls="--", marker="o", ms=3, lw=1.2, label="attribution, FKG any generator")
+    b.plot(x, pick(lambda d: d["attr_prec"]["narrative"][0]), color=LIGHT, marker="o", ms=3, lw=1.2, label="attribution, narrative")
+    T = json.load(open(CC / "waves_baserate_t/curve.json")) if (CC / "waves_baserate_t/curve.json").exists() else []
+    T = sorted([d for d in T if "tenure" in d and "warm" not in d["exp"]], key=lambda d: d["x"])
+    if T: b.plot([d["x"] for d in T], [d["tenure"]["U_prec"] for d in T], color=ACC, ls="-.", marker="^", ms=4.5, lw=1.4, label="detection with style tenure")
+    Wm = [d for d in json.load(open(CC / "waves_baserate_t/curve.json")) if "warm" in d["exp"]] if T else []
+    if Wm: b.scatter([Wm[0]["x"]], [Wm[0]["tenure"]["U_prec"]], marker="v", s=36, color=WRONG, zorder=5, label="with tenure, personas warmed up 60 days")
+    nz = next(d for d in C if d["exp"] == "w_base_noise"); b0 = next(d for d in C if d["exp"] == "w_base")
+    b.errorbar([1.0], [(b0["U_prec"] + nz["U_prec"]) / 2], yerr=[abs(b0["U_prec"] - nz["U_prec"]) / 2], fmt="none", ecolor=ACC, capsize=3, elinewidth=1)
+    b.text(1.08, nz["U_prec"] - 0.07, "noise", fontsize=6.5, color=ACC)
+    b.set_xscale("log"); b.set_xticks([1, 2, 5, 10, 20]); b.set_xticklabels(["1", "2", "5", "10", "20"]); b.set_ylim(0, 1); b.grid(axis="y", alpha=.3)
+    b.set_xlabel("look-alikes per campaign account"); b.set_ylabel("precision"); b.set_title("(b) precision against benign look-alikes")
+    b.legend(frameon=False, fontsize=6.8, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=1)
+    fig.tight_layout(); fig.subplots_adjust(bottom=0.36, right=0.97, wspace=0.32); fig.savefig(OUT / "waves_scale.pdf"); plt.close(fig)
+
+for f in (headline, sweep, campaign, agents, waves_links, waves_scale): f(); print("ok", f.__name__)

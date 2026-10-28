@@ -5,18 +5,21 @@ Events 1+ pooled over seeds and noise levels. Link: an operator's wave is linked
 | exp | overlap | corepost | narrative | timing | fkg_direct_same_gen | fkg_chained_same_gen | fkg_direct_any_gen | fkg_chained_any_gen | fused_vote | fkg_confirmed |
 |---|---|---|---|---|---|---|---|---|---|---|
 | w_long | 0.00 / 0.00 / 1.00 | 0.00 / 0.00 / 1.00 | 0.73 / 0.18 / 0.09 | 0.77 / 0.14 / 0.09 | 0.82 / 0.00 / 0.18 | 0.82 / 0.00 / 0.18 | 0.82 / 0.00 / 0.18 | 0.82 / 0.00 / 0.18 | 0.86 / 0.05 / 0.09 | 0.82 / 0.00 / 0.18 |
+| w_long_scale10 | 0.00 / 0.00 / 1.00 | 0.00 / 0.00 / 1.00 | 0.82 / 0.09 / 0.09 | 0.86 / 0.05 / 0.09 | 0.86 / 0.00 / 0.14 | 0.86 / 0.00 / 0.14 | 0.86 / 0.00 / 0.14 | 0.86 / 0.05 / 0.09 | 0.86 / 0.05 / 0.09 | 0.86 / 0.05 / 0.09 |
 
 ### Account attribution of the within-wave flagged set: accuracy over campaign accounts / precision over labelled accounts
 
 | exp | overlap | corepost | narrative | timing | fkg_direct_same_gen | fkg_chained_same_gen | fkg_direct_any_gen | fkg_chained_any_gen | fused_vote | fkg_confirmed |
 |---|---|---|---|---|---|---|---|---|---|---|
 | w_long | 0.00 / 0.00 | 0.00 / 0.00 | 0.74 / 0.65 | 0.63 / 0.55 | 0.84 / 0.85 | 0.84 / 0.81 | 0.84 / 0.84 | 0.84 / 0.80 | 0.81 / 0.72 | 0.80 / 0.80 |
+| w_long_scale10 | 0.00 / 0.00 | 0.00 / 0.00 | 0.76 / 0.24 | 0.70 / 0.22 | 0.85 / 0.48 | 0.85 / 0.38 | 0.85 / 0.47 | 0.86 / 0.35 | 0.84 / 0.29 | 0.84 / 0.45 |
 
 ### Detection of the current wave's accounts: F1 (precision, recall), mean over worlds x events
 
 | exp | U | fkg_chained_same_gen | U+fkg_chained_same_gen | U+fkg_chained_any_gen |
 |---|---|---|---|---|
 | w_long | 0.78 (0.80, 0.78) | 0.50 (0.72, 0.41) | 0.79 (0.78, 0.82) | 0.77 (0.72, 0.83) |
+| w_long_scale10 | 0.55 (0.45, 0.82) | 0.42 (0.46, 0.46) | 0.51 (0.39, 0.86) | 0.48 (0.35, 0.87) |
 
 ### Graph size and query time by event (mean seconds; all events)
 

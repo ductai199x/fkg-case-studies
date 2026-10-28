@@ -78,7 +78,7 @@ def run_world(exp, seed, eta, timeout, scaling, min_hits, max_hops, naive_timeou
     t0 = time.time(); sc = WaveScenario(cfg, seed, eta); sc.build_world(); info = sc.build_lines(); t_gen = time.time() - t0
     tr = sc.truth(); roles, opof = tr["roles"], tr["op"]; iri2op = {v: k for k, v in sc.op_iri.items()}
     flagged_hist, adj, out = {}, defaultdict(set), []
-    base0 = {"exp": exp, "seed": seed, "eta": eta, "gen_s": t_gen, **{f"world_{k}": v for k, v in info.items()}}
+    base0 = {"exp": exp, "seed": seed, "eta": eta, "gen_s": t_gen, "n_lookalike": sum(1 for a in sc.accounts if a["role"] in ("fan", "brand", "news")), **{f"world_{k}": v for k, v in info.items()}}
     for e, t_ev in enumerate(sc.events):
         T = t_ev + timedelta(hours=cfg["eval_after_h"]); W0 = t_ev - timedelta(days=1); w0 = W0.strftime("%Y-%m-%dT%H:%M:%SZ")
         waves_e = [w for w in sc.waves if w["event"] == e]
@@ -99,6 +99,10 @@ def run_world(exp, seed, eta, timeout, scaling, min_hits, max_hops, naive_timeou
         for v, hg in (("same_gen", "gen"), ("any_gen", "hgen")):
             rows = ask(f"sig_edges_{v}", tmpl("sig_edges.rq.tmpl", W0=w0, HGEN=hg), "*") if (flagged_hist or e) else []
             edges[v] = [(a, h, int(n)) for a, h, n in (rows or [])]
+        # style tenure of every candidate (within-wave flagged or cross-wave linked): matches to its own images from > tenure_d days back
+        cand = U | {a for v in edges for a, h, n in edges[v] if n >= min_hits}; old = (W0 - timedelta(days=cfg.get("tenure_d", 30))).strftime("%Y-%m-%dT%H:%M:%SZ")
+        trows = ask("style_tenure", tmpl("style_tenure.rq.tmpl", W0=w0, OLD=old, ACCTS=" ".join(f"<{a}>" for a in sorted(cand))), "*") if cand else []
+        tenured = {a for a, n in (trows or []) if int(n) >= 2}; Ut = U - tenured
         lab = {a: iri2op[o] for a, o in (ask("rows_takedown", PFX + (QW / "rows_takedown.rq").read_text(), "*") or [])}
         ann = ask("rows_announce", PFX + (QW / "rows_announce.rq").read_text(), "*") or []
         notes = ask("rows_time", PFX + (QW / "rows_time.rq").read_text(), "*") or []
@@ -182,9 +186,11 @@ def run_world(exp, seed, eta, timeout, scaling, min_hits, max_hops, naive_timeou
         for (a, h), n in hits["any_gen"].items():
             if n < min_hits: continue
             lin["same_op" if a in allop and h in allop and allop[a] == allop[h] else "cross_op" if a in allop and h in allop else "benign"] += 1
-        common = {**base, "lineage": dict(lin), "seconds": secs, "n_pos": len(pos), "n_takedown_labelled": len(lab), "n_hist_flagged": len(flagged_hist)}
+        common = {**base, "lineage": dict(lin), "seconds": secs, "n_pos": len(pos), "n_takedown_labelled": len(lab), "n_hist_flagged": len(flagged_hist), "n_tenured": len(tenured), "n_tenured_camp": len(tenured & set(pos))}
         for m, pred in P.items(): out.append({**common, "kind": "attribution", **attr_rows(m, pred, U)})
-        sets["U"] = U
+        sets["U"] = U; sets["U_tenure"] = Ut
+        for m in ("fkg_chained_same_gen", "fkg_chained_any_gen", "fkg_confirmed", "narrative", "timing"):
+            out.append({**common, "kind": "attribution_tenure", **attr_rows(m, P[m], Ut)})
         for name, s in sets.items(): out.append({**common, "kind": "detection", "method": name, **prf(s, set(pos)), "fp_roles": sorted(Counter(roles.get(a, "?") for a in s - set(pos)).items())})
         for v, (direct, chained, linked, g) in res.items():
             for m, pred in ((f"fkg_direct_{v}", direct), (f"fkg_chained_{v}", chained)):
@@ -192,6 +198,8 @@ def run_world(exp, seed, eta, timeout, scaling, min_hits, max_hops, naive_timeou
                 out.append({**common, "kind": "detection", "method": m, **prf(D, set(pos)), "fp_roles": sorted(Counter(roles.get(a, "?") for a in D - set(pos)).items())})
                 out.append({**common, "kind": "attribution_own", **attr_rows(m, pred, D)})
                 out.append({**common, "kind": "detection", "method": f"U+{m}", **prf(U | D, set(pos)), "fp_roles": sorted(Counter(roles.get(a, "?") for a in (U | D) - set(pos)).items())})
+                Dt = Ut | (D - tenured)
+                out.append({**common, "kind": "detection", "method": f"U_tenure+{m}", **prf(Dt, set(pos)), "fp_roles": sorted(Counter(roles.get(a, "?") for a in Dt - set(pos)).items())})
             out.append({**common, "kind": "detection", "method": f"linked_{v}", **prf(linked, set(pos))})
         # chained memory for the next events: flagged accounts and the cross-wave edges seen so far (same-generator edges)
         for a in U | res["same_gen"][2]: flagged_hist.setdefault(a, e)

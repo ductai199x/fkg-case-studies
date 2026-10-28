@@ -1,0 +1,25 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+done w_br0 s1 eta0.0: 234 rows
+done w_br0 s2 eta0.0: 234 rows
+done w_br0 s3 eta0.0: 234 rows
+done w_br0 s1 eta0.3: 234 rows
+done w_br0 s2 eta0.3: 234 rows
+done w_br0 s3 eta0.3: 234 rows
+done w_br30 s1 eta0.0: 234 rows
+done w_br30 s2 eta0.0: 234 rows
+done w_br30 s3 eta0.0: 234 rows
+done w_br30 s1 eta0.3: 234 rows
+done w_br30 s2 eta0.3: 234 rows
+done w_br30 s3 eta0.3: 234 rows
+done w_br30_warm s1 eta0.0: 234 rows
+done w_br30_warm s2 eta0.0: 234 rows
+done w_br30_warm s3 eta0.0: 234 rows
+done w_br30_warm s1 eta0.3: 234 rows
+done w_br30_warm s2 eta0.3: 234 rows
+done w_br30_warm s3 eta0.3: 234 rows
+done w_br10 s1 eta0.0: 234 rows
+done w_br10 s2 eta0.0: 234 rows
+done w_br10 s3 eta0.0: 234 rows
+done w_br10 s1 eta0.3: 234 rows
+done w_br10 s2 eta0.3: 234 rows
+done w_br10 s3 eta0.3: 234 rows

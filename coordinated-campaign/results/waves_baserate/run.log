@@ -1,0 +1,25 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+done w_look1 s1 eta0.0: 174 rows
+done w_look1 s2 eta0.0: 174 rows
+done w_look1 s3 eta0.0: 174 rows
+done w_look1 s1 eta0.3: 174 rows
+done w_look1 s2 eta0.3: 174 rows
+done w_look1 s3 eta0.3: 174 rows
+done w_look3 s1 eta0.0: 174 rows
+done w_look3 s2 eta0.0: 174 rows
+done w_look3 s3 eta0.0: 174 rows
+done w_look3 s1 eta0.3: 174 rows
+done w_look3 s2 eta0.3: 174 rows
+done w_look3 s3 eta0.3: 174 rows
+done w_look10 s1 eta0.0: 174 rows
+done w_look10 s2 eta0.0: 174 rows
+done w_look10 s3 eta0.0: 174 rows
+done w_look10 s1 eta0.3: 174 rows
+done w_look10 s2 eta0.3: 174 rows
+done w_look10 s3 eta0.3: 174 rows
+done w_look30 s1 eta0.0: 174 rows
+done w_look30 s2 eta0.0: 174 rows
+done w_look30 s3 eta0.0: 174 rows
+done w_look30 s1 eta0.3: 174 rows
+done w_look30 s2 eta0.3: 174 rows
+done w_look30 s3 eta0.3: 174 rows

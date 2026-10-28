@@ -53,6 +53,7 @@ Scripts write under `$OUT_ROOT` (default `repro/`), so `results/` stays as publi
 | `15_stress_iter5.sh` | Iteration 5 (Table 7.6): stance-aware and one-operation detectors, ensembles, held-out seeds 4 to 6 | `stress/i5f_*.md`, `stress_fresh/*.md` |
 | `16_stress_iter6.sh` | Iteration 6: repost ties, age-free amplifier hop, operator without ties, early detection vs active accounts, unions | `stress6/*.md` |
 | `20_waves.sh` | Long horizon (7.8): months of events, one wave per event with full persona turnover, preset drift, takedown reports; cross-wave attribution vs baselines; growth runs | `waves/`, `waves_heldout/`, `waves_growth/` |
+| `21_baserate.sh` | Base rate (7.8): benign look-alike coordination (fan groups, brand cause-marketing, news syndication) at 1.7x to 23x the campaign, noise-only control, style-tenure filter and a 60-day persona warm-up | `waves_baserate/`, `waves_baserate_t/` |
 | `run_all.sh` | All of the above in order | |
 
 Notes. The agent-written detectors are frozen outputs of the agent runs; the scripts score them but do not re-run the agent.
@@ -69,3 +70,14 @@ when the generator matches (or, in the `any_gen` form, regardless of generator) 
 A direct label takes the takedown operator one hop away; a chained label follows these edges back through earlier flagged accounts.
 Query plans matter here: building per-side (image, generator, operation, value) tables in subqueries and joining them took the
 windowed TTP join from 234 s to 1.7 s on a 204K-quad snapshot with the same rows.
+
+### Base-rate study (`21_baserate.sh`)
+
+`lookalike=m` in `sim/waves.py` adds m groups each of fans (house style or the popular app preset, a false claim at events with
+p 0.4), brand agencies (monthly pushes, a cause-marketing true-claim post at events) and news outlets (one wire photo or AI
+illustration copied through a shared CMS chain, `prov:wasDerivedFrom` an unposted source; 30 % of event stories report a false
+claim, half as a denial). The look-alikes draw from their own RNG, so the base world is unchanged; `obs_salt` reseeds only the
+observation noise and gives the noise-only control. `queries/waves/style_tenure.rq.tmpl` drops a candidate whose window images match
+two or more of its own images posted more than 30 days before the window; the `U_tenure` rows report detection and attribution
+with it. `op.warm_d` makes personas post the kit style weekly for that many days before their wave. `eval/summarize_baserate.py`
+writes the tables and `curve.json` for the chart.

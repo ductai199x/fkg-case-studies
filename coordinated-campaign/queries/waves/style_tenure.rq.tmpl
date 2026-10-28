@@ -1,0 +1,23 @@
+# style tenure: candidate accounts whose window images (posted at or after %W0%) match their own images posted before %OLD%
+# (same generator, >= 2 operations with parameters within 15 %): a house style the account used for weeks before the event.
+# Returns (?account, number of its old images matched).
+SELECT ?account (COUNT(DISTINCT ?hi) AS ?old) WHERE {
+  { SELECT ?account ?i ?hi WHERE {
+    { SELECT ?account ?i ?gen ?ot ?v1 WHERE {
+      VALUES ?account { %ACCTS% }
+      GRAPH g:platform { ?n as:attributedTo ?account ; as:published ?t ; as:attachment ?i . }
+      FILTER(?t >= "%W0%"^^xsd:dateTime)
+      GRAPH g:forensics { ?r fkg:contained_in ?i ; fkg:produced_by ?s . ?s a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+                          ?r fkg:modified_by ?o1 . ?o1 a ?ot ; fkg:hasParameter ?p1 . ?p1 fkg:hasParameterValue ?v1 . }
+    } }
+    { SELECT ?account ?hi ?gen ?ot ?v2 WHERE {
+      VALUES ?account { %ACCTS% }
+      GRAPH g:platform { ?hn as:attributedTo ?account ; as:published ?ht ; as:attachment ?hi . }
+      FILTER(?ht < "%OLD%"^^xsd:dateTime)
+      GRAPH g:forensics { ?hr fkg:contained_in ?hi ; fkg:produced_by ?hs . ?hs a fkg:AIGenerator ; fkg:hasGeneratorModel ?gen .
+                          ?hr fkg:modified_by ?o2 . ?o2 a ?ot ; fkg:hasParameter ?p2 . ?p2 fkg:hasParameterValue ?v2 . }
+    } }
+    FILTER(?hi != ?i && ABS(?v1 - ?v2) <= 0.15 * ?v2)
+  } GROUP BY ?account ?i ?hi HAVING (COUNT(DISTINCT ?ot) >= 2) }
+}
+GROUP BY ?account

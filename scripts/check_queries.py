@@ -45,7 +45,8 @@ def discover():
         for p in sorted(glob.glob(f"{ROOT}/{d}/*.rq")):
             qs.append(dict(path=p, study="cs13", kind=kind, world={"Q1": "cs1", "Q2": "cs2", "Q3": "cs3"}[Path(p).name[:2]]))
     for p in sorted(glob.glob(f"{CS4_DIR}/queries/**/*.rq", recursive=True) + glob.glob(f"{CS4_DIR}/queries/**/*.rq.tmpl", recursive=True)):
-        qs.append(dict(path=p, study="cs4", kind="hand", world="cs4stress" if "/queries/stress" in p else "cs4"))
+        if p.endswith("/_prefix.rq"): continue   # the prefix block eval/run_waves.py prepends, not a query
+        qs.append(dict(path=p, study="cs4", kind="hand", world="cs4stress" if "/queries/stress" in p else "cs4waves" if "/queries/waves" in p else "cs4"))
     for p in sorted(glob.glob(f"{CS4_DIR}/agent/**/*.rq", recursive=True)):
         qs.append(dict(path=p, study="cs4", kind="agent", world="cs4"))
     return qs
@@ -53,11 +54,15 @@ def discover():
 def query_text(q):
     t = open(q["path"]).read()
     if q["path"].endswith(".tmpl"):   # rendered as eval/run_eval.py does, seeded with the campaign core accounts of the world it runs on
-        truth = WORLDS / ("stress/truth.json" if q["world"] == "cs4stress" else "truth/eta_0.0/seed_0.json")
-        core = json.load(open(truth))["core"]
+        truth = WORLDS / {"cs4stress": "stress/truth.json", "cs4waves": "waves/truth.json"}.get(q["world"], "truth/eta_0.0/seed_0.json")
+        tj = json.load(open(truth)); core = tj["core"]
         iris = [f"<{a}>" for a in sorted(core)]
         t = t.replace("NOT IN (%CORE%)", "NOT IN (" + ", ".join(iris) + ")").replace("%CORE%", " ".join(iris))
-        t = t.replace("%A%", iris[0]).replace("%B%", iris[1])
+        t = t.replace("%A%", iris[0]).replace("%B%", iris[1]).replace("%ACCTS%", " ".join(iris))
+        # long-horizon queries (eval/run_waves.py): the last event's window, tenure look-back 30 days, same-generator edge
+        t = t.replace("%W0%", tj.get("w0", "2000-01-01T00:00:00Z")).replace("%OLD%", tj.get("old", "2000-01-01T00:00:00Z")).replace("%HGEN%", "gen")
+    if "/queries/waves/" in q["path"]:
+        t = (Path(q["path"]).parent / "_prefix.rq").read_text() + t   # run_waves.tmpl prepends the same block
     if q["study"] == "cs13" and not re.search(r"(?im)^\s*PREFIX\s+fkg:", t):
         t = CS13_PREFIXES + t   # sparql_runner.run prepends the same block
     return t
@@ -150,7 +155,20 @@ def ensure_cs4_worlds():
                 f"sc = StressScenario(cfg, 1, 0.0); sc.build_world(); sc.write_nquads('{stress}'); t = sc.truth(); "
                 f"json.dump(dict(core=sorted(a for a, r in t['accounts'].items() if r == 'campaign_core')), open('{stress.parent / 'truth.json'}', 'w'))")
         subprocess.run([sys.executable, "-c", code], cwd=CS4_DIR, check=True, capture_output=True)
-    return dict(cs4=[base, ev], cs4stress=[stress])
+    waves = WORLDS / "waves/w.nq"
+    if not waves.exists():   # a long-horizon base world (w_base, seed 1, three events) as of the last event + 96 h, wave-0 accounts flagged
+        waves.parent.mkdir(parents=True, exist_ok=True)
+        code = ("import sys, json; from datetime import timedelta; sys.path[:0] = ['sim', 'eval']; from waves import WaveScenario, make_wave_cfg; "
+                "from waves_grid import WEXPS; from generate import BASE; cfg = make_wave_cfg(**{**WEXPS['w_base'], 'n_events': 3}); "
+                "sc = WaveScenario(cfg, 1, 0.0); sc.build_world(); sc.build_lines(); T = sc.events[-1] + timedelta(hours=cfg['eval_after_h']); "
+                "old = [BASE + 'actor/' + a['id'] for w in sc.waves if w['event'] == 0 for a in w['core']]; "
+                "flag = [f'<{a}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <{BASE}FlaggedAccount> <{BASE}graph/inferred> .\\n' for a in old]; "
+                f"sc.write_snapshot('{waves}', T, flag); "
+                "core = sorted(BASE + 'actor/' + a['id'] for w in sc.waves if w['event'] == len(sc.events) - 1 for a in w['core']); "
+                "W0 = sc.events[-1] - timedelta(days=1); fmt = '%Y-%m-%dT%H:%M:%SZ'; "
+                f"json.dump(dict(core=core, w0=W0.strftime(fmt), old=(W0 - timedelta(days=30)).strftime(fmt)), open('{waves.parent / 'truth.json'}', 'w'))")
+        subprocess.run([sys.executable, "-c", code], cwd=CS4_DIR, check=True, capture_output=True)
+    return dict(cs4=[base, ev], cs4stress=[stress], cs4waves=[waves])
 
 WORLD_FILES = {}
 def world_files():
@@ -182,8 +200,8 @@ def audit(run=True, hand_timeout=300, agent_timeout=30, run_agents=True):
     onto = {"cs13": declared([ROOT / "_shared/fkg-core.ttl", ROOT / "_shared/fkg-context.ttl"]), "cs4": declared([CS4_DIR / "ontology/fkg-core.ttl"])}
     shapes = {"cs13": shaped([ROOT / "_shared/fkg-shapes.ttl"]), "cs4": shaped([CS4_DIR / "ontology/fkg-shapes.ttl"])}
     wv = {k: world_vocab(v) for k, v in WORLD_FILES.items()}
-    vocab = {"cs13": set().union(*(wv[k][0] for k in CS13)), "cs4": wv["cs4"][0] | wv["cs4stress"][0]}
-    graphs = {"cs13": set().union(*(wv[k][1] for k in CS13)), "cs4": wv["cs4"][1] | wv["cs4stress"][1]}
+    vocab = {"cs13": set().union(*(wv[k][0] for k in CS13)), "cs4": wv["cs4"][0] | wv["cs4stress"][0] | wv["cs4waves"][0]}
+    graphs = {"cs13": set().union(*(wv[k][1] for k in CS13)), "cs4": wv["cs4"][1] | wv["cs4stress"][1] | wv["cs4waves"][1]}
     queries = discover(); parsed = {}
     for q in queries:
         text = query_text(q)
